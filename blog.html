@@ -92,7 +92,11 @@
             .nav-links { display: none; }
         }
         @media (max-width: 768px) {
-            nav { padding: 1rem 1.5rem; }
+            body { overflow-x: hidden; }
+            .hamburger { display: flex !important; }
+            .nav-links { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: #fff; flex-direction: column; align-items: center; justify-content: center; gap: 24px; z-index: 9998; padding: 80px 24px 40px; }
+            .nav-links.open { display: flex !important; }
+            .nav-links a { font-size: 1.3rem; }
             .hero { padding: 120px 1.5rem 60px; }
             .hero h1 { font-size: 1.8rem; }
             .blog-section { padding: 60px 1.5rem; }
