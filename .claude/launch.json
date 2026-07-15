@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "wooshbiz",
+      "runtimeExecutable": "C:\\Users\\ATUL\\AppData\\Local\\ms-playwright-go\\1.57.0\\node.exe",
+      "runtimeArgs": ["-e", "require('http').createServer((req, res) => { const fs = require('fs'); const path = require('path'); let file = req.url === '/' ? '/index.html' : req.url; const fullPath = __dirname + file; try { const content = fs.readFileSync(fullPath, 'utf8'); res.writeHead(200, {'Content-Type': file.endsWith('.html') ? 'text/html' : 'text/plain'}); res.end(content); } catch(e) { res.writeHead(404); res.end('Not found'); } }).listen(8000, () => console.log('Server running on http://localhost:8000'))"],
+      "port": 8000
+    }
+  ]
+}

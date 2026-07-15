@@ -12,29 +12,72 @@
         }
 
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
 
         body {
             font-family: 'Gilroy', sans-serif;
+            color: #1a1a1a;
+            overflow-x: hidden;
             line-height: 1.6;
-            color: #333;
+        }
+
+        /* Scroll Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal:nth-child(2) { transition-delay: 0.1s; }
+        .reveal:nth-child(3) { transition-delay: 0.2s; }
+        .reveal:nth-child(4) { transition-delay: 0.3s; }
+        .reveal:nth-child(5) { transition-delay: 0.4s; }
+        .reveal:nth-child(6) { transition-delay: 0.5s; }
+
+        /* Custom Cursor */
+        .cursor-trail {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(135, 30, 108, 0.5);
+            pointer-events: none;
+            z-index: 9998;
+            display: none;
+        }
+
+        @media (min-width: 1025px) {
+            .cursor-trail {
+                display: block;
+            }
         }
 
         /* Navbar */
         nav {
-            background: #ffffff;
-            padding: 1.25rem 3rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 1.5rem 3rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
-            top: 0;
             z-index: 1000;
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
             transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
         }
 
         .logo img {
@@ -51,19 +94,39 @@
 
         .nav-links a {
             text-decoration: none;
-            color: #871e6c;
-            font-weight: 600;
-            font-size: 0.95rem;
+            color: #1a1a1a;
+            font-weight: 700;
+            font-size: 15px;
             letter-spacing: 0.3px;
+            position: relative;
             transition: color 0.3s ease;
         }
 
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #871e6c;
+            transition: width 0.3s ease;
+        }
+
         .nav-links a:hover {
-            color: #e8642c;
+            color: #871e6c;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
         }
 
         .dropdown {
             position: relative;
+        }
+
+        .dropdown > a::after {
+            content: ' ▾';
         }
 
         .dropdown-menu {
@@ -73,10 +136,10 @@
             left: 0;
             background: white;
             border-radius: 12px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
+            padding: 8px;
             min-width: 220px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-            margin-top: 0.8rem;
-            overflow: hidden;
+            margin-top: 10px;
         }
 
         .dropdown:hover .dropdown-menu {
@@ -85,62 +148,79 @@
 
         .dropdown-menu a {
             display: block;
-            padding: 1rem 1.5rem;
-            color: #871e6c;
+            padding: 12px 16px;
+            color: #1a1a1a;
             text-decoration: none;
-            font-size: 0.9rem;
-            border-left: 3px solid transparent;
-            transition: all 0.3s ease;
+            border-radius: 8px;
+            transition: all 0.2s ease;
         }
 
         .dropdown-menu a:hover {
-            background: #f8f8f8;
-            color: #e8642c;
-            border-left-color: #e8642c;
+            background: #fdf0f9;
+            color: #871e6c;
         }
 
         .hamburger {
             display: none;
             flex-direction: column;
             cursor: pointer;
+            gap: 6px;
         }
 
         .hamburger span {
             width: 25px;
             height: 3px;
-            background: #871e6c;
-            margin: 5px 0;
-            transition: 0.3s;
+            background: #1a1a1a;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(10px, 10px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -8px);
         }
 
         /* Hero Section */
         .hero {
-            background: #ffffff;
-            padding: 0;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .hero-container {
+            min-height: 100vh;
+            background: white;
             display: grid;
             grid-template-columns: 55% 45%;
             gap: 3rem;
-            max-width: 1400px;
-            width: 100%;
-            padding: 0 3rem;
             align-items: center;
+            padding: 100px 3rem 2rem;
+            max-width: 1600px;
+            margin: 0 auto;
         }
 
-        .hero-text {
-            animation: fadeInUp 0.8s ease 0.2s both;
+        .hero-left {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
         }
 
-        @keyframes fadeInUp {
+        .badge {
+            background: #fdf0f9;
+            color: #871e6c;
+            width: fit-content;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 700;
+            animation: slideDownFade 0.5s ease 0.3s both;
+        }
+
+        @keyframes slideDownFade {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(-20px);
             }
             to {
                 opacity: 1;
@@ -149,399 +229,525 @@
         }
 
         .hero h1 {
-            font-size: 3.5rem;
-            color: #871e6c;
-            margin-bottom: 1.5rem;
+            font-size: clamp(2.2rem, 4vw, 3.8rem);
             font-weight: 800;
-            line-height: 1.2;
-            letter-spacing: -0.5px;
+            color: #1a1a1a;
+            line-height: 1.15;
+            animation: fadeUpAnimation 0.6s ease 0.3s both;
+        }
+
+        .hero h1 .highlight {
+            color: #871e6c;
+        }
+
+        @keyframes fadeUpAnimation {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .hero p {
-            font-size: 1.2rem;
             color: #555;
-            margin-bottom: 2.5rem;
-            line-height: 1.7;
+            font-size: 1.15rem;
+            line-height: 1.8;
+            animation: fadeUpAnimation 0.6s ease 0.5s both;
         }
 
-        .hero-images {
+        .hero-cta {
             display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            animation: fadeInUp 0.8s ease 0.4s both;
-        }
-
-        .hero-images img {
-            width: 100%;
-            height: auto;
-            border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
-            object-fit: cover;
+            gap: 1rem;
+            align-items: center;
+            animation: fadeUpAnimation 0.6s ease 0.7s both;
         }
 
         .cta-button {
-            background: #e8642c;
+            background: #f47920;
             color: white;
-            border: none;
-            padding: 1rem 2.25rem;
-            font-size: 1rem;
+            padding: 18px 40px;
             border-radius: 50px;
+            font-weight: 800;
+            font-size: 1rem;
+            border: none;
             cursor: pointer;
-            font-weight: 700;
             transition: all 0.3s ease;
             text-decoration: none;
             display: inline-block;
-            box-shadow: 0 4px 15px rgba(232, 100, 44, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+        }
+
+        .cta-button:active::before {
+            animation: ripple 0.6s ease-out;
+        }
+
+        @keyframes ripple {
+            to {
+                width: 300px;
+                height: 300px;
+            }
         }
 
         .cta-button:hover {
-            background: #d4521a;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(232, 100, 44, 0.5);
+            background: #d96a10;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(244, 121, 32, 0.4);
         }
 
-        /* Sections */
-        section {
-            padding: 80px 3rem;
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            font-size: 0.85rem;
+            color: #777;
         }
 
-        section h2 {
-            font-size: 2.5rem;
+        .hero-stat {
+            padding-right: 2rem;
+            border-right: 2px solid #e0e0e0;
+        }
+
+        .hero-stat:last-child {
+            border-right: none;
+        }
+
+        .hero-stat strong {
+            color: #1a1a1a;
             font-weight: 800;
-            color: #871e6c;
-            margin-bottom: 1rem;
         }
 
-        .section-subtitle {
-            font-size: 1.1rem;
-            color: #666;
-            margin-bottom: 3rem;
+        .hero-right {
+            position: relative;
+            height: 500px;
+        }
+
+        .hero-phone {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 55%;
+            filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.15));
+            animation: slideInRight 0.8s ease 0.4s both;
+        }
+
+        .hero-team {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 70%;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            animation: slideInRight 0.8s ease 0.6s both;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .rating-badge {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: white;
+            padding: 12px 16px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            font-size: 0.85rem;
+            font-weight: 700;
+            z-index: 10;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background: #871e6c;
+            color: white;
+            padding: 60px 3rem;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
             text-align: center;
+        }
+
+        .stat-item {
+            transition: transform 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: scale(1.05);
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            counter-increment: stat-counter;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.85;
         }
 
         /* Brand Logos Section */
         .brands-section {
-            background: #f8f8f8;
+            background: white;
+            padding: 60px 3rem;
             text-align: center;
         }
 
-        .brands-section h2 {
-            margin-bottom: 3rem;
+        .section-label {
+            color: #871e6c;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+        }
+
+        .marquee-container {
+            overflow: hidden;
+            margin: 20px 0;
         }
 
         .marquee {
-            overflow: hidden;
-            background: #f8f8f8;
-            padding: 2.5rem 0;
-        }
-
-        .marquee-content {
             display: flex;
-            gap: 4rem;
-            animation: scroll 40s linear infinite;
+            gap: 2rem;
+            animation: marqueeLeft 35s linear infinite;
         }
 
-        .marquee-content:hover {
+        .marquee.reverse {
+            animation: marqueeRight 40s linear infinite;
+        }
+
+        .marquee:hover {
             animation-play-state: paused;
         }
 
-        .marquee-item {
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        @keyframes marqueeLeft {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
 
-        .marquee-item img {
-            height: 50px;
+        @keyframes marqueeRight {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0); }
+        }
+
+        .logo-item {
+            flex-shrink: 0;
+            height: 45px;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-item img {
+            max-height: 45px;
             width: auto;
+            object-fit: contain;
             filter: grayscale(100%);
             opacity: 0.7;
             transition: all 0.3s ease;
-            object-fit: contain;
         }
 
-        .marquee-item:hover img {
+        .logo-item:hover img {
             filter: grayscale(0%);
             opacity: 1;
         }
 
-        @keyframes scroll {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(-50%);
-            }
-        }
-
-        /* Video Gallery */
-        .video-gallery {
-            background: #871e6c;
+        /* Video Section */
+        .video-section {
+            background: #1a1a1a;
             color: white;
+            padding: 80px 3rem;
             text-align: center;
         }
 
-        .video-gallery h2 {
-            color: white;
-            margin-bottom: 3rem;
+        .section-heading {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .section-subheading {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 50px;
         }
 
         .videos-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            max-width: 1200px;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 1.5rem;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
         .video-card {
-            position: relative;
-            cursor: pointer;
-            border-radius: 12px;
+            border-radius: 16px;
             overflow: hidden;
-            aspect-ratio: 16/9;
-            transition: transform 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            height: 400px;
+            grid-row: span 2;
         }
 
-        .video-card:hover {
-            transform: scale(1.03);
+        .video-card:not(:first-child) {
+            height: auto;
+            aspect-ratio: 16 / 9;
+            grid-row: auto;
         }
 
         .video-card img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            display: block;
+            transition: transform 0.4s ease;
         }
 
-        .play-icon {
+        .video-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 60%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 24px;
+            transition: background 0.3s ease;
+        }
+
+        .video-card:hover img {
+            transform: scale(1.02);
+        }
+
+        .video-card:hover .video-overlay {
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, transparent 50%);
+        }
+
+        .play-button {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 60px;
-            height: 60px;
-            background: rgba(220, 38, 38, 0.9);
+            width: 64px;
+            height: 64px;
+            background: white;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 30px;
-            color: white;
-            opacity: 0;
+            font-size: 24px;
             transition: all 0.3s ease;
+            box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+            animation: pulse 2s infinite;
         }
 
-        .video-card:hover .play-icon {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1.1);
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
+            50% { box-shadow: 0 0 0 20px rgba(255, 255, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+        }
+
+        .video-card:hover .play-button {
+            transform: translate(-50%, -50%) scale(1.15);
         }
 
         .video-title {
-            padding: 1.25rem;
-            background: rgba(255, 255, 255, 0.05);
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #aaa;
-            min-height: 60px;
-            display: flex;
-            align-items: center;
-            backdrop-filter: blur(10px);
+            color: white;
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-top: auto;
+        }
+
+        .video-duration {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
         }
 
         /* Programs Section */
-        .programs {
+        .programs-section {
+            background: white;
+            padding: 80px 3rem;
             text-align: center;
-        }
-
-        .programs h2 {
-            margin-bottom: 3rem;
         }
 
         .programs-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2.5rem;
-            max-width: 1000px;
-            margin: 0 auto;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            max-width: 1200px;
+            margin: 50px auto;
         }
 
         .program-card {
-            cursor: pointer;
-            border-radius: 16px;
+            height: 450px;
+            border-radius: 20px;
             overflow: hidden;
-            transition: transform 0.3s ease;
             position: relative;
-            height: 400px;
-        }
-
-        .program-card:hover {
-            transform: scale(1.02);
+            cursor: pointer;
         }
 
         .program-card img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .program-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(135, 30, 108, 0.85) 0%, transparent 50%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 32px;
+            transition: background 0.3s ease;
+        }
+
+        .program-card:hover img {
+            transform: scale(1.08);
+        }
+
+        .program-card:hover .program-overlay {
+            background: linear-gradient(to top, rgba(135, 30, 108, 0.95) 0%, transparent 40%);
         }
 
         .program-label {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 2rem;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
-            font-size: 1.4rem;
-            font-weight: 700;
             color: white;
-            text-align: left;
-        }
-
-        /* Featured In Section */
-        .featured-section {
-            background: white;
-            text-align: center;
-        }
-
-        .featured-label {
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 1.5px;
-            color: #999;
-            margin-bottom: 1.5rem;
-            font-weight: 700;
-        }
-
-        .featured-section h2 {
-            display: none;
-        }
-
-        .featured-marquee {
-            overflow: hidden;
-            background: white;
-            padding: 2.5rem 0;
-        }
-
-        .featured-content {
+            font-size: 1.6rem;
+            font-weight: 800;
             display: flex;
-            gap: 5rem;
-            animation: scroll 50s linear infinite;
-        }
-
-        .featured-content:hover {
-            animation-play-state: paused;
-        }
-
-        .featured-item {
-            flex-shrink: 0;
-            display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
+            transition: transform 0.3s ease;
         }
 
-        .featured-item img {
-            height: 40px;
-            width: auto;
-            opacity: 0.6;
-            transition: opacity 0.3s ease;
-            object-fit: contain;
+        .program-card:hover .program-label {
+            transform: translateY(-8px);
         }
 
-        .featured-item:hover img {
-            opacity: 1;
+        /* Featured Section */
+        .featured-section {
+            background: #fdf0f9;
+            padding: 60px 3rem;
         }
 
-        /* Duration Selector */
+        /* Duration Section */
         .duration-section {
-            background: #fdf8f3;
+            background: white;
+            padding: 80px 3rem;
             text-align: center;
-        }
-
-        .duration-section h2 {
-            margin-bottom: 3rem;
         }
 
         .duration-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto 2.5rem;
+            gap: 1.5rem;
+            max-width: 1400px;
+            margin: 50px auto;
         }
 
         .duration-card {
-            cursor: pointer;
-            border-radius: 12px;
+            background: white;
+            border-radius: 16px;
             overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
 
         .duration-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+            transform: translateY(-12px);
+            box-shadow: 0 20px 40px rgba(135, 30, 108, 0.15);
+            border: 2px solid #871e6c;
         }
 
-        .duration-card img {
+        .duration-image {
             width: 100%;
-            height: 250px;
+            height: 280px;
             object-fit: cover;
         }
 
         .duration-label {
-            padding: 1.25rem;
-            background: white;
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: #871e6c;
+            padding: 20px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #1a1a1a;
         }
 
-        /* Photo Gallery */
-        .photo-gallery {
-            background: #f8f8f8;
+        .duration-tag {
+            font-size: 0.85rem;
+            color: #f47920;
         }
 
-        .photo-gallery h2 {
-            text-align: center;
-            margin-bottom: 3rem;
+        /* Gallery Section */
+        .gallery-section {
+            background: #1a1a1a;
+            color: white;
+            padding: 80px 3rem;
         }
 
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 1.5rem;
-            max-width: 1200px;
-            margin: 0 auto;
+            max-width: 1400px;
+            margin: 50px auto;
         }
 
         .gallery-item {
-            cursor: pointer;
-            border-radius: 8px;
+            border-radius: 12px;
             overflow: hidden;
-            aspect-ratio: 1;
-            transition: transform 0.3s ease;
-        }
-
-        .gallery-item:hover {
-            transform: scale(1.02);
+            cursor: pointer;
+            height: 250px;
         }
 
         .gallery-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover img {
+            brightness: 1.1;
+            transform: scale(1.04);
         }
 
         /* Lightbox */
         .lightbox {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             background: rgba(0, 0, 0, 0.95);
             z-index: 2000;
             align-items: center;
@@ -553,15 +759,15 @@
         }
 
         .lightbox-content {
-            max-width: 85%;
-            max-height: 85%;
             position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
         }
 
         .lightbox-content img {
             width: 100%;
             height: auto;
-            border-radius: 8px;
+            border-radius: 12px;
         }
 
         .lightbox-close {
@@ -571,66 +777,61 @@
             color: white;
             font-size: 2.5rem;
             cursor: pointer;
-            font-weight: 300;
+            background: none;
+            border: none;
         }
 
         /* Testimonials Section */
-        .testimonials {
-            background: #f8f8f8;
+        .testimonials-section {
+            background: white;
+            padding: 80px 3rem;
         }
 
-        .testimonials h2 {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .testimonials-carousel {
+        .testimonials-container {
             display: flex;
             gap: 1.5rem;
             overflow-x: auto;
-            padding: 1rem 0;
-            scroll-behavior: smooth;
+            padding: 30px 0;
             max-width: 1400px;
             margin: 0 auto;
+            scrollbar-width: none;
         }
 
-        .testimonials-carousel::-webkit-scrollbar {
-            height: 6px;
-        }
-
-        .testimonials-carousel::-webkit-scrollbar-track {
-            background: #e0e0e0;
-            border-radius: 10px;
-        }
-
-        .testimonials-carousel::-webkit-scrollbar-thumb {
-            background: #e8642c;
-            border-radius: 10px;
+        .testimonials-container::-webkit-scrollbar {
+            display: none;
         }
 
         .testimonial-card {
             flex-shrink: 0;
-            width: 280px;
-            text-align: center;
+            width: 300px;
             background: white;
-            padding: 2rem;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s ease;
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid #871e6c;
+            transition: all 0.3s ease;
         }
 
         .testimonial-card:hover {
-            transform: translateY(-4px);
+            transform: translateY(-6px);
+            border-left-color: #f47920;
+        }
+
+        .testimonial-header {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 16px;
+            align-items: flex-start;
         }
 
         .testimonial-photo {
+            position: relative;
             width: 80px;
             height: 100px;
-            margin: 0 auto 1.5rem;
-            cursor: pointer;
-            border-radius: 8px;
+            border-radius: 10px;
             overflow: hidden;
-            position: relative;
+            cursor: pointer;
+            flex-shrink: 0;
         }
 
         .testimonial-photo img {
@@ -642,18 +843,13 @@
         .testimonial-photo::after {
             content: '▶';
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(220, 38, 38, 0.9);
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
+            inset: 0;
+            background: rgba(220, 38, 38, 0.8);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
+            color: white;
+            font-size: 18px;
             opacity: 0;
             transition: opacity 0.3s ease;
         }
@@ -662,238 +858,273 @@
             opacity: 1;
         }
 
-        .testimonial-name {
-            font-weight: 700;
-            color: #871e6c;
-            margin-bottom: 0.5rem;
-            font-size: 1rem;
+        .testimonial-info h3 {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 4px;
         }
 
-        .testimonial-company {
+        .testimonial-info p {
             font-size: 0.8rem;
-            color: #777;
-            margin-bottom: 1rem;
-            min-height: 30px;
+            color: #999;
         }
 
         .testimonial-logo {
-            height: 30px;
-            width: auto;
-            display: inline-block;
-            filter: grayscale(100%);
-            opacity: 0.7;
-            transition: all 0.3s ease;
+            margin-top: 16px;
+            height: 35px;
+            display: flex;
+            align-items: center;
         }
 
-        .testimonial-card:hover .testimonial-logo {
-            filter: grayscale(0%);
-            opacity: 1;
+        .testimonial-logo img {
+            max-height: 35px;
+            width: auto;
+            filter: grayscale(100%);
+            opacity: 0.7;
+        }
+
+        .carousel-nav {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .carousel-nav button {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid #f47920;
+            color: #f47920;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(244, 121, 32, 0.2);
+        }
+
+        .carousel-nav button:hover {
+            background: #f47920;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        /* CTA Strip */
+        .cta-strip {
+            background: linear-gradient(135deg, #871e6c 0%, #5c1349 100%);
+            color: white;
+            padding: 60px 3rem;
+            text-align: center;
+        }
+
+        .cta-strip h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .cta-strip p {
+            font-size: 1.05rem;
+            opacity: 0.85;
+            margin-bottom: 30px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-secondary {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+
+        .cta-secondary:hover {
+            background: white;
+            color: #871e6c;
+            border-color: white;
         }
 
         /* Footer */
         footer {
             background: #871e6c;
             color: white;
-            padding: 4rem 3rem;
+            padding: 60px 3rem 30px;
         }
 
-        .footer-content {
+        .footer-grid {
             display: grid;
             grid-template-columns: 1.2fr 1fr 1fr 1fr;
             gap: 3rem;
             max-width: 1400px;
-            margin: 0 auto 2.5rem;
+            margin: 0 auto 40px;
         }
 
-        .footer-column h3 {
-            margin-bottom: 1.5rem;
-            font-size: 0.95rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .footer-column a {
-            display: block;
-            color: #aaa;
-            text-decoration: none;
-            margin-bottom: 0.75rem;
-            transition: color 0.3s ease;
-            font-size: 0.9rem;
-        }
-
-        .footer-column a:hover {
-            color: #e8642c;
+        .footer-logo {
+            margin-bottom: 16px;
         }
 
         .footer-logo img {
-            height: 44px;
+            height: 40px;
             width: auto;
-            margin-bottom: 1.5rem;
         }
 
         .footer-tagline {
-            font-size: 0.85rem;
-            color: #aaa;
-            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 20px;
             line-height: 1.6;
         }
 
-        .social-icons {
+        .footer-socials {
             display: flex;
-            gap: 0.75rem;
-            margin-top: 1.5rem;
+            gap: 1rem;
         }
 
-        .social-icons a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 44px;
-            height: 44px;
-            background: rgba(255, 255, 255, 0.1);
+        .social-icon {
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
-            text-decoration: none;
-            color: #e8642c;
-            transition: all 0.3s ease;
-        }
-
-        .social-icons a:hover {
-            background: #e8642c;
-            color: white;
-            transform: translateY(-3px);
-        }
-
-        .social-icons img {
-            width: 24px;
-            height: 24px;
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 2.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #777;
-            font-size: 0.85rem;
-        }
-
-        .footer-contact {
-            margin-top: 1rem;
-        }
-
-        .footer-rating {
-            color: #e8642c;
-            margin-top: 0.75rem;
-            font-size: 0.9rem;
-        }
-
-        /* Floating WhatsApp Button */
-        .whatsapp-button {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 60px;
-            height: 60px;
-            background: #25d366;
-            border-radius: 50%;
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            z-index: 998;
-            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            transition: transform 0.2s ease;
+        }
+
+        .social-icon:hover {
+            transform: scale(1.2);
+        }
+
+        .social-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .footer-column h4 {
+            font-size: 0.85rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            opacity: 0.9;
+        }
+
+        .footer-column a {
+            display: block;
+            color: rgba(255, 255, 255, 0.75);
             text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .footer-column a:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        .footer-contact {
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
+
+        .footer-rating {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            margin-top: 12px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 20px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+        }
+
+        /* Floating Buttons */
+        .whatsapp-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #25d366;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            text-decoration: none;
+            z-index: 9999;
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
             transition: all 0.3s ease;
         }
 
         .whatsapp-button:hover {
-            background: #20ba5a;
             transform: scale(1.1);
-            box-shadow: 0 6px 25px rgba(37, 211, 102, 0.5);
+            box-shadow: 0 12px 35px rgba(37, 211, 102, 0.5);
         }
 
-        .whatsapp-button span {
-            font-size: 1.8rem;
+        .scroll-to-top {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #871e6c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 9998;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            border: none;
         }
 
-        /* Mobile Responsive */
+        .scroll-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-to-top:hover {
+            background: #6b1857;
+            transform: scale(1.1);
+        }
+
+        /* Responsive */
         @media (max-width: 1024px) {
-            .videos-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .duration-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .gallery-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .footer-content {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 768px) {
-            nav {
-                padding: 1rem 1.5rem;
-            }
-
-            .hamburger {
-                display: flex;
-            }
-
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 60px;
-                left: 0;
-                right: 0;
-                flex-direction: column;
-                background: white;
-                gap: 0;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            }
-
-            .nav-links.active {
-                display: flex;
-            }
-
-            .nav-links a {
-                padding: 1rem 1.5rem;
-                border-bottom: 1px solid #eee;
-            }
-
             .hero {
-                height: auto;
-                padding: 2rem 0;
-            }
-
-            .hero-container {
                 grid-template-columns: 1fr;
-                gap: 2rem;
-                padding: 2rem 1.5rem;
+                padding: 120px 1.5rem 2rem;
             }
 
-            .hero h1 {
-                font-size: 2.2rem;
+            .hero-right {
+                display: none;
             }
 
-            .hero p {
-                font-size: 1rem;
-            }
-
-            section {
-                padding: 50px 1.5rem;
-            }
-
-            section h2 {
-                font-size: 1.8rem;
+            .stats-section {
+                grid-template-columns: repeat(2, 1fr);
             }
 
             .videos-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr 1fr;
             }
 
             .programs-grid {
@@ -908,21 +1139,67 @@
                 grid-template-columns: repeat(2, 1fr);
             }
 
-            .footer-content {
-                grid-template-columns: 1fr;
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
             }
 
-            .whatsapp-button {
-                bottom: 1.5rem;
-                right: 1.5rem;
-                width: 55px;
-                height: 55px;
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links {
+                display: none;
             }
         }
 
-        @media (max-width: 480px) {
-            .hero h1 {
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem 1.5rem;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+                padding: 100px 1.5rem 2rem;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .hero-stat {
+                padding-right: 0;
+                border-right: none;
+                border-bottom: 2px solid #e0e0e0;
+                padding-bottom: 1rem;
+            }
+
+            .hero-stat:last-child {
+                border-bottom: none;
+                padding-bottom: 0;
+            }
+
+            .stats-section {
+                grid-template-columns: repeat(2, 1fr);
+                padding: 40px 1.5rem;
+            }
+
+            .section-heading {
                 font-size: 1.8rem;
+            }
+
+            .videos-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .video-card {
+                height: auto;
+                aspect-ratio: 16 / 9;
+                grid-row: auto;
+            }
+
+            .programs-grid {
+                grid-template-columns: 1fr;
             }
 
             .duration-grid {
@@ -930,11 +1207,71 @@
             }
 
             .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-grid {
                 grid-template-columns: 1fr;
             }
 
-            .marquee-content {
-                gap: 2rem;
+            .marquee {
+                gap: 1rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .cta-button {
+                width: 100%;
+            }
+
+            .cursor-trail {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav {
+                padding: 1rem;
+            }
+
+            .logo img {
+                height: 35px;
+            }
+
+            .hero {
+                padding: 80px 1rem 2rem;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .stats-section {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .testimonial-card {
+                width: calc(100vw - 3rem);
+            }
+
+            .whatsapp-button {
+                width: 56px;
+                height: 56px;
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .scroll-to-top {
+                width: 44px;
+                height: 44px;
+                bottom: 90px;
+                right: 20px;
             }
         }
     </style>
@@ -943,9 +1280,9 @@
     <!-- Navbar -->
     <nav id="navbar">
         <div class="logo">
-            <img src="https://static.wixstatic.com/media/fe3583_2f36ed41d71a4ed3ba3db03baf388f14~mv2.png/v1/fill/w_104,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/2209_Woosh%20Biz%20update%20final%20logo_PNG.png" alt="Woosh Biz Logo">
+            <img src="https://static.wixstatic.com/media/fe3583_2f36ed41d71a4ed3ba3db03baf388f14~mv2.png/v1/fill/w_104,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/2209_Woosh%20Biz%20update%20final%20logo_PNG.png" alt="Woosh Biz">
         </div>
-        <ul class="nav-links" id="navLinks">
+        <ul class="nav-links">
             <li><a href="high-octane.html">In-Office</a></li>
             <li><a href="outbound.html">Outbound</a></li>
             <li><a href="virtual.html">Virtual</a></li>
@@ -968,158 +1305,212 @@
 
     <!-- Hero Section -->
     <section class="hero">
-        <div class="hero-container">
-            <div class="hero-text">
-                <h1>Want to host the most epic team-building program ever? Let us!</h1>
-                <p>We host events for in-person & remote teams. 30+ unique events intentionally designed to build happier teams.</p>
-                <a href="https://wa.me/919920389760" class="cta-button">Get a Quote in 90 mins</a>
+        <div class="hero-left">
+            <div class="badge reveal">🎉 India's #1 Team Building Company</div>
+            <h1 class="reveal">Want to host the most epic team-building program ever?<br><span class="highlight">Let us!</span></h1>
+            <p class="reveal">We host events for in-person & remote teams. 30+ unique events intentionally designed to build happier teams.</p>
+            <div class="hero-cta reveal">
+                <a href="https://wa.me/919920389760" class="cta-button">Get a Quote in 90 mins 🚀</a>
             </div>
-            <div class="hero-images">
-                <img src="https://static.wixstatic.com/media/9e0902_a33d262be451496caa3bbdd81f7b8256~mv2.png/v1/crop/x_51,y_0,w_522,h_303/fill/w_730,h_424,al_c,lg_1,q_85,enc_avif,quality_auto/Mobile%20play.png" alt="Hero Image 1">
-                <img src="https://static.wixstatic.com/media/9e0902_c118ebb3e9a34d2fade04c0affbeb134f000.jpg/v1/fill/w_529,h_243,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/9e0902_c118ebb3e9a34d2fade04c0affbeb134f000.jpg" alt="Hero Image 2">
+            <div class="hero-stats reveal">
+                <div class="hero-stat"><strong>30+</strong> Events</div>
+                <div class="hero-stat"><strong>60+</strong> Brands</div>
+                <div class="hero-stat"><strong>150+</strong> Happy Teams</div>
             </div>
+        </div>
+        <div class="hero-right">
+            <img class="hero-phone reveal" src="https://static.wixstatic.com/media/9e0902_a33d262be451496caa3bbdd81f7b8256~mv2.png/v1/crop/x_51,y_0,w_522,h_303/fill/w_730,h_424,al_c,lg_1,q_85,enc_avif,quality_auto/Mobile%20play.png" alt="Mobile">
+            <img class="hero-team reveal" src="https://static.wixstatic.com/media/9e0902_c118ebb3e9a34d2fade04c0affbeb134f000.jpg/v1/fill/w_529,h_243,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/9e0902_c118ebb3e9a34d2fade04c0affbeb134f000.jpg" alt="Team">
+            <div class="rating-badge">⭐ 4.5 | 150 Reviews</div>
         </div>
     </section>
 
-    <!-- Brand Logos Section -->
+    <!-- Stats Section -->
+    <section class="stats-section reveal">
+        <div class="stat-item">
+            <div class="stat-number" data-target="30">0</div>
+            <div class="stat-label">Unique Events</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number" data-target="60">0</div>
+            <div class="stat-label">Legendary Brands</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number" data-target="150">0</div>
+            <div class="stat-label">Happy Teams</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number" data-target="10">0</div>
+            <div class="stat-label">Years Experience</div>
+        </div>
+    </section>
+
+    <!-- Brands Section -->
     <section class="brands-section">
-        <h2>We've rocked the Team Building scene, serving 60+ legendary brands</h2>
-        <div class="marquee">
-            <div class="marquee-content">
-                <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_9a1d5c82b4b443e1bfe560f70afdfcff~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/21_%20Azure%20Hospitality.png" alt="Azure Hospitality"></div>
-                <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_62f68fef408d4e91840ccdd1f2bb9d50~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/22_%20Ginger%20Hotels.png" alt="Ginger Hotels"></div>
-                <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_2c317fb4db7e44beb9d1ec412e9fdeb6~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/23_%20Swastik%20Tins.png" alt="Swastik Tins"></div>
-                <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_950c2ae7bd274dc781ee9af9da2d1ef3~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/24_%20Jio%20Studio.png" alt="Jio Studio"></div>
-                <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_13898748420e4fdea8df56447596810c~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/25_%20BBT.png" alt="BBT"></div>
-                <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_1fbe05b60d4840568978bc6bddc96045~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/26_%20KBT.png" alt="KBT"></div>
-                <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_40256a2ac2b34d02ad7f623e2a04c809~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/27_%20Valmet.png" alt="Valmet"></div>
-                <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_418cf1d301c84ff8bb8145b78ca2e880~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/28_%20Arete.png" alt="Arete"></div>
-                <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_572678def7084fefbfc664709f737e0d~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/31_%20Air%20India.png" alt="Air India"></div>
-                <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_fde7f810b8dd401a80aa9c02f919e96b~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/1_%20EY.png" alt="EY"></div>
-                <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_9093a13813bd489780094e1adb97bc67~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/4_%20Club%20Mahindra%20Resorts.png" alt="Club Mahindra Resorts"></div>
-                <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_8144f80fa1dc4df18e39de7825df1ffc~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/18_%20Accor%20Hotels.png" alt="Accor Hotels"></div>
-                <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_9a1d5c82b4b443e1bfe560f70afdfcff~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/21_%20Azure%20Hospitality.png" alt="Azure Hospitality"></div>
-                <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_62f68fef408d4e91840ccdd1f2bb9d50~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/22_%20Ginger%20Hotels.png" alt="Ginger Hotels"></div>
-                <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_2c317fb4db7e44beb9d1ec412e9fdeb6~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/23_%20Swastik%20Tins.png" alt="Swastik Tins"></div>
-                <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_950c2ae7bd274dc781ee9af9da2d1ef3~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/24_%20Jio%20Studio.png" alt="Jio Studio"></div>
-                <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_13898748420e4fdea8df56447596810c~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/25_%20BBT.png" alt="BBT"></div>
-                <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_1fbe05b60d4840568978bc6bddc96045~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/26_%20KBT.png" alt="KBT"></div>
+        <div class="section-label">Trusted by 60+ legendary brands</div>
+        <div class="marquee-container">
+            <div class="marquee">
+                <div class="logo-item"><img src="https://static.wixstatic.com/media/9e0902_9a1d5c82b4b443e1bfe560f70afdfcff~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/21_%20Azure%20Hospitality.png" alt="Azure"></div>
+                <div class="logo-item"><img src="https://static.wixstatic.com/media/9e0902_62f68fef408d4e91840ccdd1f2bb9d50~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/22_%20Ginger%20Hotels.png" alt="Ginger"></div>
+                <div class="logo-item"><img src="https://static.wixstatic.com/media/9e0902_2c317fb4db7e44beb9d1ec412e9fdeb6~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/23_%20Swastik%20Tins.png" alt="Swastik"></div>
+                <div class="logo-item"><img src="https://static.wixstatic.com/media/9e0902_950c2ae7bd274dc781ee9af9da2d1ef3~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/24_%20Jio%20Studio.png" alt="Jio"></div>
+                <div class="logo-item"><img src="https://static.wixstatic.com/media/9e0902_13898748420e4fdea8df56447596810c~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/25_%20BBT.png" alt="BBT"></div>
+                <div class="logo-item"><img src="https://static.wixstatic.com/media/9e0902_1fbe05b60d4840568978bc6bddc96045~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/26_%20KBT.png" alt="KBT"></div>
+                <div class="logo-item"><img src="https://static.wixstatic.com/media/9e0902_40256a2ac2b34d02ad7f623e2a04c809~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/27_%20Valmet.png" alt="Valmet"></div>
+                <div class="logo-item"><img src="https://static.wixstatic.com/media/9e0902_418cf1d301c84ff8bb8145b78ca2e880~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/28_%20Arete.png" alt="Arete"></div>
+                <div class="logo-item"><img src="https://static.wixstatic.com/media/9e0902_572678def7084fefbfc664709f737e0d~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/31_%20Air%20India.png" alt="Air India"></div>
+                <div class="logo-item"><img src="https://static.wixstatic.com/media/9e0902_fde7f810b8dd401a80aa9c02f919e96b~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/1_%20EY.png" alt="EY"></div>
+                <div class="logo-item"><img src="https://static.wixstatic.com/media/9e0902_9093a13813bd489780094e1adb97bc67~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/4_%20Club%20Mahindra%20Resorts.png" alt="Mahindra"></div>
+                <div class="logo-item"><img src="https://static.wixstatic.com/media/9e0902_8144f80fa1dc4df18e39de7825df1ffc~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/18_%20Accor%20Hotels.png" alt="Accor"></div>
+                <!-- Duplicate for infinite loop -->
+                <div class="logo-item"><img src="https://static.wixstatic.com/media/9e0902_9a1d5c82b4b443e1bfe560f70afdfcff~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/21_%20Azure%20Hospitality.png" alt="Azure"></div>
+                <div class="logo-item"><img src="https://static.wixstatic.com/media/9e0902_62f68fef408d4e91840ccdd1f2bb9d50~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/22_%20Ginger%20Hotels.png" alt="Ginger"></div>
+                <div class="logo-item"><img src="https://static.wixstatic.com/media/9e0902_2c317fb4db7e44beb9d1ec412e9fdeb6~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/23_%20Swastik%20Tins.png" alt="Swastik"></div>
             </div>
         </div>
     </section>
 
-    <!-- Video Gallery -->
-    <section class="video-gallery">
-        <h2>Corporate Team Building Activities in Action | Woosh Biz Programs</h2>
+    <!-- Video Section -->
+    <section class="video-section">
+        <h2 class="section-heading reveal">See Us In Action</h2>
+        <p class="section-subheading reveal">Real teams. Real results. Real fun.</p>
         <div class="videos-grid">
-            <a href="https://www.youtube.com/watch?v=5CMOe_3UPhk" target="_blank" class="video-card">
-                <img src="https://i.ytimg.com/vi/5CMOe_3UPhk/maxresdefault.jpg" alt="The ultimate team building challenge: can your team do it?">
-                <div class="play-icon">▶</div>
+            <a href="https://youtube.com/watch?v=5CMOe_3UPhk" target="_blank" class="video-card reveal">
+                <img src="https://i.ytimg.com/vi/5CMOe_3UPhk/maxresdefault.jpg" alt="Video 1">
+                <div class="video-overlay">
+                    <div class="play-button">▶</div>
+                    <div class="video-title">The ultimate team building challenge</div>
+                </div>
+                <div class="video-duration">02:57</div>
             </a>
-            <a href="https://www.youtube.com/watch?v=aRa3-lk0ss0" target="_blank" class="video-card">
-                <img src="https://i.ytimg.com/vi/aRa3-lk0ss0/maxresdefault.jpg" alt="The team that plays together fights together stays together">
-                <div class="play-icon">▶</div>
+            <a href="https://youtube.com/watch?v=aRa3-lk0ss0" target="_blank" class="video-card reveal">
+                <img src="https://i.ytimg.com/vi/aRa3-lk0ss0/maxresdefault.jpg" alt="Video 2">
+                <div class="video-overlay">
+                    <div class="play-button">▶</div>
+                    <div class="video-title">The team that plays together</div>
+                </div>
+                <div class="video-duration">02:01</div>
             </a>
-            <a href="https://www.youtube.com/watch?v=d7hAV96jBg0" target="_blank" class="video-card">
-                <img src="https://i.ytimg.com/vi/d7hAV96jBg0/maxresdefault.jpg" alt="Offsite Team Building for Swastik Tins">
-                <div class="play-icon">▶</div>
+            <a href="https://youtube.com/watch?v=d7hAV96jBg0" target="_blank" class="video-card reveal">
+                <img src="https://i.ytimg.com/vi/d7hAV96jBg0/maxresdefault.jpg" alt="Video 3">
+                <div class="video-overlay">
+                    <div class="play-button">▶</div>
+                    <div class="video-title">Offsite for Swastik Tins</div>
+                </div>
+                <div class="video-duration">01:52</div>
             </a>
-            <a href="https://www.youtube.com/watch?v=KPirBZoTSPA" target="_blank" class="video-card">
-                <img src="https://i.ytimg.com/vi/KPirBZoTSPA/maxresdefault.jpg" alt="Corporate Team Building for Arete Services">
-                <div class="play-icon">▶</div>
+            <a href="https://youtube.com/watch?v=KPirBZoTSPA" target="_blank" class="video-card reveal">
+                <img src="https://i.ytimg.com/vi/KPirBZoTSPA/maxresdefault.jpg" alt="Video 4">
+                <div class="video-overlay">
+                    <div class="play-button">▶</div>
+                    <div class="video-title">Corporate Team Building for Arete</div>
+                </div>
+                <div class="video-duration">02:07</div>
             </a>
-            <a href="https://www.youtube.com/watch?v=2cJditUwJCY" target="_blank" class="video-card">
-                <img src="https://i.ytimg.com/vi/2cJditUwJCY/maxresdefault.jpg" alt="Team Building for Club Jolie's Team">
-                <div class="play-icon">▶</div>
+            <a href="https://youtube.com/watch?v=2cJditUwJCY" target="_blank" class="video-card reveal">
+                <img src="https://i.ytimg.com/vi/2cJditUwJCY/maxresdefault.jpg" alt="Video 5">
+                <div class="video-overlay">
+                    <div class="play-button">▶</div>
+                    <div class="video-title">Team Building for Club Jolies</div>
+                </div>
+                <div class="video-duration">05:03</div>
             </a>
         </div>
     </section>
 
     <!-- Programs Section -->
-    <section class="programs">
-        <h2>We conduct Team Building programs...</h2>
+    <section class="programs-section">
+        <h2 class="section-heading reveal">We Conduct Team Building Programs...</h2>
         <div class="programs-grid">
-            <a href="high-octane.html" class="program-card">
-                <img src="https://static.wixstatic.com/media/9e0902_8d3d0381f7ba42059e3b4d31262bbf76~mv2.webp" alt="In-Person Teams">
-                <div class="program-label">In-Person Teams</div>
+            <a href="high-octane.html" class="program-card reveal">
+                <img src="https://static.wixstatic.com/media/9e0902_8d3d0381f7ba42059e3b4d31262bbf76~mv2.webp" alt="In-Person">
+                <div class="program-overlay">
+                    <div class="program-label">In-Person Teams <span>→</span></div>
+                </div>
             </a>
-            <a href="outbound.html" class="program-card">
-                <img src="https://static.wixstatic.com/media/9e0902_5900279ea35a4bd4b477ee405c99c974~mv2.webp" alt="Remote Teams">
-                <div class="program-label">Remote Teams</div>
+            <a href="outbound.html" class="program-card reveal">
+                <img src="https://static.wixstatic.com/media/9e0902_5900279ea35a4bd4b477ee405c99c974~mv2.webp" alt="Remote">
+                <div class="program-overlay">
+                    <div class="program-label">Remote Teams <span>→</span></div>
+                </div>
             </a>
         </div>
     </section>
 
-    <!-- Featured In Section -->
+    <!-- Featured Section -->
     <section class="featured-section">
-        <div class="featured-label">As Featured In</div>
-        <div class="featured-marquee">
-            <div class="featured-content">
-                <div class="featured-item"><img src="https://static.wixstatic.com/media/9e0902_948917f015634f51a3a9906399455ddc~mv2.png/v1/fill/w_127,h_29,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Business_Standard_Logo.png" alt="Business Standard"></div>
-                <div class="featured-item"><img src="https://static.wixstatic.com/media/9e0902_ade98c7a43e54cc7a129ce91c79d3be6~mv2.png/v1/fill/w_127,h_38,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/et-hospitality.png" alt="ET Hospitality"></div>
-                <div class="featured-item"><img src="https://static.wixstatic.com/media/9e0902_4a24a4b8ce4e4700acafd53cd481d6a4~mv2.png/v1/fill/w_127,h_26,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Free%20Press.png" alt="Free Press"></div>
-                <div class="featured-item"><img src="https://static.wixstatic.com/media/9e0902_d89495a5b1e94780a322d1f4066f7785~mv2.png/v1/fill/w_127,h_24,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/The%20Print.png" alt="The Print"></div>
-                <div class="featured-item"><img src="https://static.wixstatic.com/media/9e0902_290c424799334208b8e70ca51af4a18d~mv2.png/v1/fill/w_127,h_36,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/THE_WEEK_logo1.png" alt="The Week"></div>
-                <div class="featured-item"><img src="https://static.wixstatic.com/media/9e0902_97aea2775dc745e09b271a271364abe9~mv2.png/v1/fill/w_127,h_71,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/the-financial-express-vector-logo.png" alt="Financial Express"></div>
-                <div class="featured-item"><img src="https://static.wixstatic.com/media/9e0902_9e0a91025eaf4de0accdcda657333d29~mv2.png/v1/fill/w_127,h_59,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Daily_News__Analysis_Logo.png" alt="Daily News"></div>
-                <div class="featured-item"><img src="https://static.wixstatic.com/media/9e0902_e03da0b96e004cb1be899cba8daaea37~mv2.png/v1/fill/w_163,h_65,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/times-of-india-newspaper-logo-hd-png-download.png" alt="Times of India"></div>
-                <div class="featured-item"><img src="https://static.wixstatic.com/media/9e0902_948917f015634f51a3a9906399455ddc~mv2.png/v1/fill/w_127,h_29,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Business_Standard_Logo.png" alt="Business Standard"></div>
-                <div class="featured-item"><img src="https://static.wixstatic.com/media/9e0902_ade98c7a43e54cc7a129ce91c79d3be6~mv2.png/v1/fill/w_127,h_38,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/et-hospitality.png" alt="ET Hospitality"></div>
+        <div class="section-label">As seen in</div>
+        <div class="marquee-container">
+            <div class="marquee reverse">
+                <div class="logo-item"><img src="https://static.wixstatic.com/media/9e0902_948917f015634f51a3a9906399455ddc~mv2.png/v1/fill/w_127,h_29,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Business_Standard_Logo.png" alt="BS"></div>
+                <div class="logo-item"><img src="https://static.wixstatic.com/media/9e0902_ade98c7a43e54cc7a129ce91c79d3be6~mv2.png/v1/fill/w_127,h_38,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/et-hospitality.png" alt="ETH"></div>
+                <div class="logo-item"><img src="https://static.wixstatic.com/media/9e0902_4a24a4b8ce4e4700acafd53cd481d6a4~mv2.png/v1/fill/w_127,h_26,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Free%20Press.png" alt="FP"></div>
+                <div class="logo-item"><img src="https://static.wixstatic.com/media/9e0902_d89495a5b1e94780a322d1f4066f7785~mv2.png/v1/fill/w_127,h_24,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/The%20Print.png" alt="TP"></div>
+                <div class="logo-item"><img src="https://static.wixstatic.com/media/9e0902_290c424799334208b8e70ca51af4a18d~mv2.png/v1/fill/w_127,h_36,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/THE_WEEK_logo1.png" alt="TW"></div>
+                <div class="logo-item"><img src="https://static.wixstatic.com/media/9e0902_97aea2775dc745e09b271a271364abe9~mv2.png/v1/fill/w_127,h_71,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/the-financial-express-vector-logo.png" alt="FE"></div>
+                <div class="logo-item"><img src="https://static.wixstatic.com/media/9e0902_9e0a91025eaf4de0accdcda657333d29~mv2.png/v1/fill/w_127,h_59,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Daily_News__Analysis_Logo.png" alt="DNA"></div>
+                <div class="logo-item"><img src="https://static.wixstatic.com/media/9e0902_e03da0b96e004cb1be899cba8daaea37~mv2.png/v1/fill/w_163,h_65,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/times-of-india-newspaper-logo-hd-png-download.png" alt="TOI"></div>
+                <!-- Duplicate for infinite loop -->
+                <div class="logo-item"><img src="https://static.wixstatic.com/media/9e0902_948917f015634f51a3a9906399455ddc~mv2.png/v1/fill/w_127,h_29,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Business_Standard_Logo.png" alt="BS"></div>
+                <div class="logo-item"><img src="https://static.wixstatic.com/media/9e0902_ade98c7a43e54cc7a129ce91c79d3be6~mv2.png/v1/fill/w_127,h_38,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/et-hospitality.png" alt="ETH"></div>
             </div>
         </div>
     </section>
 
-    <!-- Duration Selector -->
+    <!-- Duration Section -->
     <section class="duration-section">
-        <h2>Select number of hours you have for a Team Building program</h2>
+        <h2 class="section-heading reveal">How Long Do You Have?</h2>
+        <p class="section-subheading reveal">Pick your time slot — we'll make it epic.</p>
         <div class="duration-grid">
-            <a href="contact.html" class="duration-card">
-                <img src="https://static.wixstatic.com/media/9e0902_26565211168c463683ff8bcc577cb244~mv2.png/v1/fill/w_237,h_323,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/2-4%20Hours.png" alt="2-4 Hours">
-                <div class="duration-label">2-4 Hours</div>
+            <a href="contact.html" class="duration-card reveal">
+                <img class="duration-image" src="https://static.wixstatic.com/media/9e0902_26565211168c463683ff8bcc577cb244~mv2.png/v1/fill/w_237,h_323,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/2-4%20Hours.png" alt="2-4 Hours">
+                <div class="duration-label">2-4 Hours<br><span class="duration-tag">→ Book Now</span></div>
             </a>
-            <a href="contact.html" class="duration-card">
-                <img src="https://static.wixstatic.com/media/9e0902_19ec80d2579d45338253f111b9e43ce7~mv2.png/v1/fill/w_237,h_323,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/4-6%20Hours.png" alt="4-6 Hours">
-                <div class="duration-label">4-6 Hours</div>
+            <a href="contact.html" class="duration-card reveal">
+                <img class="duration-image" src="https://static.wixstatic.com/media/9e0902_19ec80d2579d45338253f111b9e43ce7~mv2.png/v1/fill/w_237,h_323,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/4-6%20Hours.png" alt="4-6 Hours">
+                <div class="duration-label">4-6 Hours<br><span class="duration-tag">→ Book Now</span></div>
             </a>
-            <a href="contact.html" class="duration-card">
-                <img src="https://static.wixstatic.com/media/9e0902_354828c768164eb6b421bc654f83301d~mv2.png/v1/fill/w_237,h_323,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/1-Day.png" alt="1-Day (On Site - Off Site)">
-                <div class="duration-label">1-Day (On Site - Off Site)</div>
+            <a href="contact.html" class="duration-card reveal">
+                <img class="duration-image" src="https://static.wixstatic.com/media/9e0902_354828c768164eb6b421bc654f83301d~mv2.png/v1/fill/w_237,h_323,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/1-Day.png" alt="1-Day">
+                <div class="duration-label">1-Day On/Off-Site<br><span class="duration-tag">→ Book Now</span></div>
             </a>
-            <a href="contact.html" class="duration-card">
-                <img src="https://static.wixstatic.com/media/9e0902_914f701261db4b50baad31990cbef38b~mv2.png/v1/fill/w_237,h_323,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/9e0902_914f701261db4b50baad31990cbef38b~mv2.png" alt="2-Day (On Site - Off Site)">
-                <div class="duration-label">2-Day (On Site - Off Site)</div>
+            <a href="contact.html" class="duration-card reveal">
+                <img class="duration-image" src="https://static.wixstatic.com/media/9e0902_914f701261db4b50baad31990cbef38b~mv2.png/v1/fill/w_237,h_323,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/9e0902_914f701261db4b50baad31990cbef38b~mv2.png" alt="2-Day">
+                <div class="duration-label">2-Day On/Off-Site<br><span class="duration-tag">→ Book Now</span></div>
             </a>
         </div>
-        <a href="https://wa.me/919920389760" class="cta-button">Get a Quote in 90 mins</a>
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="https://wa.me/919920389760" class="cta-button">Get a Quote in 90 mins 🚀</a>
+        </div>
     </section>
 
-    <!-- Photo Gallery -->
-    <section class="photo-gallery">
-        <h2>No Gyaan; Just Fun With Learning!</h2>
+    <!-- Gallery Section -->
+    <section class="gallery-section">
+        <h2 class="section-heading reveal" style="color: white;">No Gyaan; Just Fun With Learning!</h2>
         <div class="gallery-grid">
-            <div class="gallery-item" onclick="openLightbox('https://static.wixstatic.com/media/9e0902_98d6b846983649f3bce8bf7cb16aca49~mv2.jpg')">
-                <img src="https://static.wixstatic.com/media/9e0902_98d6b846983649f3bce8bf7cb16aca49~mv2.jpg" alt="Gallery Image 1">
+            <div class="gallery-item reveal" onclick="openLightbox('https://static.wixstatic.com/media/9e0902_98d6b846983649f3bce8bf7cb16aca49~mv2.jpg')">
+                <img src="https://static.wixstatic.com/media/9e0902_98d6b846983649f3bce8bf7cb16aca49~mv2.jpg" alt="Gallery 1">
             </div>
-            <div class="gallery-item" onclick="openLightbox('https://static.wixstatic.com/media/9e0902_591876af916248de88885dc7da6d3e34~mv2.jpg')">
-                <img src="https://static.wixstatic.com/media/9e0902_591876af916248de88885dc7da6d3e34~mv2.jpg" alt="Gallery Image 2">
+            <div class="gallery-item reveal" onclick="openLightbox('https://static.wixstatic.com/media/9e0902_591876af916248de88885dc7da6d3e34~mv2.jpg')">
+                <img src="https://static.wixstatic.com/media/9e0902_591876af916248de88885dc7da6d3e34~mv2.jpg" alt="Gallery 2">
             </div>
-            <div class="gallery-item" onclick="openLightbox('https://static.wixstatic.com/media/9e0902_ecc67c2a55994427ac11164a3f128e23~mv2.jpg')">
-                <img src="https://static.wixstatic.com/media/9e0902_ecc67c2a55994427ac11164a3f128e23~mv2.jpg" alt="Gallery Image 3">
+            <div class="gallery-item reveal" onclick="openLightbox('https://static.wixstatic.com/media/9e0902_ecc67c2a55994427ac11164a3f128e23~mv2.jpg')">
+                <img src="https://static.wixstatic.com/media/9e0902_ecc67c2a55994427ac11164a3f128e23~mv2.jpg" alt="Gallery 3">
             </div>
-            <div class="gallery-item" onclick="openLightbox('https://static.wixstatic.com/media/9e0902_6102aff5df5d4384a8d942949bf7ccaf~mv2.jpg')">
-                <img src="https://static.wixstatic.com/media/9e0902_6102aff5df5d4384a8d942949bf7ccaf~mv2.jpg" alt="Gallery Image 4">
+            <div class="gallery-item reveal" onclick="openLightbox('https://static.wixstatic.com/media/9e0902_6102aff5df5d4384a8d942949bf7ccaf~mv2.jpg')">
+                <img src="https://static.wixstatic.com/media/9e0902_6102aff5df5d4384a8d942949bf7ccaf~mv2.jpg" alt="Gallery 4">
             </div>
-            <div class="gallery-item" onclick="openLightbox('https://static.wixstatic.com/media/9e0902_16413d55ee1845faac073cc84d5cc4d2~mv2.jpg')">
-                <img src="https://static.wixstatic.com/media/9e0902_16413d55ee1845faac073cc84d5cc4d2~mv2.jpg" alt="Gallery Image 5">
+            <div class="gallery-item reveal" onclick="openLightbox('https://static.wixstatic.com/media/9e0902_16413d55ee1845faac073cc84d5cc4d2~mv2.jpg')">
+                <img src="https://static.wixstatic.com/media/9e0902_16413d55ee1845faac073cc84d5cc4d2~mv2.jpg" alt="Gallery 5">
             </div>
-            <div class="gallery-item" onclick="openLightbox('https://static.wixstatic.com/media/9e0902_6ad6f4a09cfe4137849238faf8242c42~mv2.jpg')">
-                <img src="https://static.wixstatic.com/media/9e0902_6ad6f4a09cfe4137849238faf8242c42~mv2.jpg" alt="Gallery Image 6">
+            <div class="gallery-item reveal" onclick="openLightbox('https://static.wixstatic.com/media/9e0902_6ad6f4a09cfe4137849238faf8242c42~mv2.jpg')">
+                <img src="https://static.wixstatic.com/media/9e0902_6ad6f4a09cfe4137849238faf8242c42~mv2.jpg" alt="Gallery 6">
             </div>
-            <div class="gallery-item" onclick="openLightbox('https://static.wixstatic.com/media/9e0902_bd532f2cc2934ab5a4bcecc454b820c2~mv2.jpg')">
-                <img src="https://static.wixstatic.com/media/9e0902_bd532f2cc2934ab5a4bcecc454b820c2~mv2.jpg" alt="Gallery Image 7">
+            <div class="gallery-item reveal" onclick="openLightbox('https://static.wixstatic.com/media/9e0902_bd532f2cc2934ab5a4bcecc454b820c2~mv2.jpg')">
+                <img src="https://static.wixstatic.com/media/9e0902_bd532f2cc2934ab5a4bcecc454b820c2~mv2.jpg" alt="Gallery 7">
             </div>
-            <div class="gallery-item" onclick="openLightbox('https://static.wixstatic.com/media/9e0902_a42524b3202f489ea50b0ea22bf6c637~mv2.jpg')">
-                <img src="https://static.wixstatic.com/media/9e0902_a42524b3202f489ea50b0ea22bf6c637~mv2.jpg" alt="Gallery Image 8">
+            <div class="gallery-item reveal" onclick="openLightbox('https://static.wixstatic.com/media/9e0902_a42524b3202f489ea50b0ea22bf6c637~mv2.jpg')">
+                <img src="https://static.wixstatic.com/media/9e0902_a42524b3202f489ea50b0ea22bf6c637~mv2.jpg" alt="Gallery 8">
             </div>
         </div>
     </section>
@@ -1127,164 +1518,276 @@
     <!-- Lightbox -->
     <div class="lightbox" id="lightbox">
         <div class="lightbox-content">
-            <div class="lightbox-close" onclick="closeLightbox()">×</div>
+            <button class="lightbox-close" onclick="closeLightbox()">✕</button>
             <img id="lightbox-img" src="" alt="">
         </div>
     </div>
 
-    <!-- Testimonials -->
-    <section class="testimonials">
-        <h2>What our happy alumni say about the experience!</h2>
-        <div class="testimonials-carousel">
-            <div class="testimonial-card">
-                <div class="testimonial-photo" onclick="window.open('https://youtube.com/watch?v=0LXwBcbDXO8', '_blank')">
-                    <img src="https://static.wixstatic.com/media/9e0902_9bbb420bd9e341d9a70285c815652550~mv2.png/v1/fill/w_100,h_120,al_c,q_85,enc_avif,quality_auto/1.png" alt="Vijay Rajput">
+    <!-- Testimonials Section -->
+    <section class="testimonials-section">
+        <h2 class="section-heading reveal">What Our Happy Alumni Say</h2>
+        <div class="testimonials-container">
+            <div class="testimonial-card reveal">
+                <div class="testimonial-header">
+                    <div class="testimonial-photo" onclick="window.open('https://youtube.com/watch?v=0LXwBcbDXO8', '_blank')">
+                        <img src="https://static.wixstatic.com/media/9e0902_9bbb420bd9e341d9a70285c815652550~mv2.png/v1/fill/w_100,h_120,al_c,q_85,enc_avif,quality_auto/1.png" alt="Vijay">
+                    </div>
+                    <div class="testimonial-info">
+                        <h3>Vijay Rajput</h3>
+                        <p>IP Services</p>
+                    </div>
                 </div>
-                <div class="testimonial-name">Vijay Rajput</div>
-                <div class="testimonial-company">IP Services</div>
-                <img class="testimonial-logo" src="https://static.wixstatic.com/media/fe3583_e7877f2020724c448c11dfdafbf62681~mv2.png/v1/fill/w_85,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/33.png" alt="IP Services Logo">
+                <img class="testimonial-logo" src="https://static.wixstatic.com/media/fe3583_e7877f2020724c448c11dfdafbf62681~mv2.png/v1/fill/w_85,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/33.png" alt="Logo">
             </div>
-            <div class="testimonial-card">
-                <div class="testimonial-photo" onclick="window.open('https://youtube.com/watch?v=24UVuhVgcGk', '_blank')">
-                    <img src="https://static.wixstatic.com/media/9e0902_26ddb95f6a74461c9578699a7b0e4f69~mv2.png/v1/fill/w_100,h_120,al_c,q_85,enc_avif,quality_auto/3.png" alt="Aditi Khanna">
+
+            <div class="testimonial-card reveal">
+                <div class="testimonial-header">
+                    <div class="testimonial-photo" onclick="window.open('https://youtube.com/watch?v=24UVuhVgcGk', '_blank')">
+                        <img src="https://static.wixstatic.com/media/9e0902_26ddb95f6a74461c9578699a7b0e4f69~mv2.png/v1/fill/w_100,h_120,al_c,q_85,enc_avif,quality_auto/3.png" alt="Aditi">
+                    </div>
+                    <div class="testimonial-info">
+                        <h3>Aditi Khanna</h3>
+                        <p>Partner at FutureSkomp</p>
+                    </div>
                 </div>
-                <div class="testimonial-name">Aditi Khanna</div>
-                <div class="testimonial-company">Partner at FutureSkomp LLP</div>
-                <img class="testimonial-logo" src="https://static.wixstatic.com/media/fe3583_cc6177f206fd489bb8c184e95ab24018~mv2.png/v1/fill/w_85,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/10.png" alt="FutureSkomp Logo">
+                <img class="testimonial-logo" src="https://static.wixstatic.com/media/fe3583_cc6177f206fd489bb8c184e95ab24018~mv2.png/v1/fill/w_85,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/10.png" alt="Logo">
             </div>
-            <div class="testimonial-card">
-                <div class="testimonial-photo" onclick="window.open('https://youtube.com/watch?v=dnEX3EFsFWU', '_blank')">
-                    <img src="https://static.wixstatic.com/media/9e0902_cf7e26a57628432a9b21d13310c736da~mv2.png/v1/fill/w_100,h_120,al_c,q_85,enc_avif,quality_auto/6.png" alt="Saloni Thakkar">
+
+            <div class="testimonial-card reveal">
+                <div class="testimonial-header">
+                    <div class="testimonial-photo" onclick="window.open('https://youtube.com/watch?v=dnEX3EFsFWU', '_blank')">
+                        <img src="https://static.wixstatic.com/media/9e0902_cf7e26a57628432a9b21d13310c736da~mv2.png/v1/fill/w_100,h_120,al_c,q_85,enc_avif,quality_auto/6.png" alt="Saloni">
+                    </div>
+                    <div class="testimonial-info">
+                        <h3>Saloni Thakkar</h3>
+                        <p>Senior Manager Training</p>
+                    </div>
                 </div>
-                <div class="testimonial-name">Saloni Thakkar</div>
-                <div class="testimonial-company">Senior Manager Training</div>
-                <img class="testimonial-logo" src="https://static.wixstatic.com/media/fe3583_72cbf69aff6c4a2ca4af6bee6a1bf042~mv2.png/v1/fill/w_85,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/51.png" alt="Company Logo">
+                <img class="testimonial-logo" src="https://static.wixstatic.com/media/fe3583_72cbf69aff6c4a2ca4af6bee6a1bf042~mv2.png/v1/fill/w_85,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/51.png" alt="Logo">
             </div>
-            <div class="testimonial-card">
-                <div class="testimonial-photo" onclick="window.open('https://youtube.com/watch?v=ezc0rHC3qls', '_blank')">
-                    <img src="https://static.wixstatic.com/media/9e0902_46772eef354f4006ad3f2fd527fafd97~mv2.png/v1/fill/w_100,h_120,al_c,q_85,enc_avif,quality_auto/2.png" alt="Dr R. Chandran">
+
+            <div class="testimonial-card reveal">
+                <div class="testimonial-header">
+                    <div class="testimonial-photo" onclick="window.open('https://youtube.com/watch?v=ezc0rHC3qls', '_blank')">
+                        <img src="https://static.wixstatic.com/media/9e0902_46772eef354f4006ad3f2fd527fafd97~mv2.png/v1/fill/w_100,h_120,al_c,q_85,enc_avif,quality_auto/2.png" alt="Dr Chandran">
+                    </div>
+                    <div class="testimonial-info">
+                        <h3>Dr R. Chandran</h3>
+                        <p>Director</p>
+                    </div>
                 </div>
-                <div class="testimonial-name">Dr R. Chandran</div>
-                <div class="testimonial-company">Director</div>
-                <img class="testimonial-logo" src="https://static.wixstatic.com/media/9e0902_ac47178e223341f78417b9e6a4d68083~mv2.png/v1/fill/w_85,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/64.png" alt="Company Logo">
+                <img class="testimonial-logo" src="https://static.wixstatic.com/media/9e0902_ac47178e223341f78417b9e6a4d68083~mv2.png/v1/fill/w_85,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/64.png" alt="Logo">
             </div>
-            <div class="testimonial-card">
-                <div class="testimonial-photo" onclick="window.open('https://youtube.com/watch?v=geojIntTGiA', '_blank')">
-                    <img src="https://static.wixstatic.com/media/9e0902_1c049d655ce24665a5c860b846f9a96d~mv2.png/v1/fill/w_100,h_120,al_c,q_85,enc_avif,quality_auto/4.png" alt="Sanjay">
+
+            <div class="testimonial-card reveal">
+                <div class="testimonial-header">
+                    <div class="testimonial-photo" onclick="window.open('https://youtube.com/watch?v=geojIntTGiA', '_blank')">
+                        <img src="https://static.wixstatic.com/media/9e0902_1c049d655ce24665a5c860b846f9a96d~mv2.png/v1/fill/w_100,h_120,al_c,q_85,enc_avif,quality_auto/4.png" alt="Sanjay">
+                    </div>
+                    <div class="testimonial-info">
+                        <h3>Sanjay</h3>
+                        <p>Creative Director</p>
+                    </div>
                 </div>
-                <div class="testimonial-name">Sanjay</div>
-                <div class="testimonial-company">Creative Director for Films</div>
-                <img class="testimonial-logo" src="https://static.wixstatic.com/media/9e0902_12d557bdea5a4b29830c4d8e33cffad1~mv2.png/v1/fill/w_85,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/65.png" alt="Company Logo">
+                <img class="testimonial-logo" src="https://static.wixstatic.com/media/9e0902_12d557bdea5a4b29830c4d8e33cffad1~mv2.png/v1/fill/w_85,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/65.png" alt="Logo">
             </div>
+        </div>
+        <div class="carousel-nav">
+            <button onclick="scrollTestimonials('left')">←</button>
+            <button onclick="scrollTestimonials('right')">→</button>
+        </div>
+    </section>
+
+    <!-- CTA Strip -->
+    <section class="cta-strip">
+        <h2 class="reveal">Ready to Build an Epic Team?</h2>
+        <p class="reveal">Get a quote in 90 minutes. No commitment.</p>
+        <div class="cta-buttons reveal">
+            <a href="https://wa.me/919920389760" class="cta-button">Get a Quote on WhatsApp 🚀</a>
+            <a href="contact.html" class="cta-button cta-secondary">Free Consultation Call</a>
         </div>
     </section>
 
     <!-- Footer -->
     <footer>
-        <div class="footer-content">
-            <div class="footer-column">
+        <div class="footer-grid">
+            <div>
                 <div class="footer-logo">
-                    <img src="https://static.wixstatic.com/media/9e0902_b8e2795e4f484602a2294b7410e3f4e5~mv2.png/v1/fill/w_112,h_44,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/2209_Woosh%20Biz%20update%20final%20white%20logo_PNG.png" alt="Woosh Biz White Logo">
+                    <img src="https://static.wixstatic.com/media/9e0902_b8e2795e4f484602a2294b7410e3f4e5~mv2.png/v1/fill/w_112,h_44,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/2209_Woosh%20Biz%20update%20final%20white%20logo_PNG.png" alt="Woosh Biz">
                 </div>
-                <div class="footer-tagline">What's up? Get updates on new programs, workshops, the latest developments, and community activities straight to your inbox.</div>
-                <div class="social-icons">
-                    <a href="https://www.facebook.com/people/Woosh-Biz-by-HTI/100083456102229/" target="_blank">
-                        <img src="https://static.wixstatic.com/media/11062b_ef6a6ac194704911951645990055c2ce~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_ef6a6ac194704911951645990055c2ce~mv2.png" alt="Facebook">
+                <p class="footer-tagline">No Gyaan. Just Fun With Learning.</p>
+                <div class="footer-socials">
+                    <a href="https://www.facebook.com/people/Woosh-Biz-by-HTI/100083456102229/" class="social-icon" title="Facebook">
+                        <img src="https://static.wixstatic.com/media/11062b_ef6a6ac194704911951645990055c2ce~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_ef6a6ac194704911951645990055c2ce~mv2.png" alt="FB">
                     </a>
-                    <a href="https://www.instagram.com/wooshbiz/" target="_blank">
-                        <img src="https://static.wixstatic.com/media/11062b_cef3b719166a4815b446d4dcfcb6120d~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_cef3b719166a4815b446d4dcfcb6120d~mv2.png" alt="Instagram">
+                    <a href="https://www.instagram.com/wooshbiz/" class="social-icon" title="Instagram">
+                        <img src="https://static.wixstatic.com/media/11062b_cef3b719166a4815b446d4dcfcb6120d~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_cef3b719166a4815b446d4dcfcb6120d~mv2.png" alt="IG">
                     </a>
-                    <a href="https://www.linkedin.com/company/woosh-biz-by-hti/" target="_blank">
-                        <img src="https://static.wixstatic.com/media/11062b_b5690303a8ff470e9b1c03a24aff140b~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_b5690303a8ff470e9b1c03a24aff140b~mv2.png" alt="LinkedIn">
+                    <a href="https://www.linkedin.com/company/woosh-biz-by-hti/" class="social-icon" title="LinkedIn">
+                        <img src="https://static.wixstatic.com/media/11062b_b5690303a8ff470e9b1c03a24aff140b~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_b5690303a8ff470e9b1c03a24aff140b~mv2.png" alt="LI">
                     </a>
-                    <a href="https://www.youtube.com/channel/UC9BdT9tzf4841P1B-R7P-Qg" target="_blank">
-                        <img src="https://static.wixstatic.com/media/11062b_fe985b889c144b348eefc7bbc67018b4~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_fe985b889c144b348eefc7bbc67018b4~mv2.png" alt="YouTube">
+                    <a href="https://www.youtube.com/channel/UC9BdT9tzf4841P1B-R7P-Qg" class="social-icon" title="YouTube">
+                        <img src="https://static.wixstatic.com/media/11062b_fe985b889c144b348eefc7bbc67018b4~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_fe985b889c144b348eefc7bbc67018b4~mv2.png" alt="YT">
                     </a>
                 </div>
             </div>
-            <div class="footer-column">
-                <h3>Quick Links</h3>
-                <a href="contact.html">Get In Touch</a>
+            <div>
+                <h4>Quick Links</h4>
                 <a href="about.html">About Us</a>
+                <a href="contact.html">Get In Touch</a>
                 <a href="contact.html">Free Consultation Call</a>
                 <a href="blog.html">Blogs</a>
             </div>
-            <div class="footer-column">
-                <h3>Programs</h3>
+            <div>
+                <h4>Programs</h4>
                 <a href="high-octane.html">In-Office</a>
                 <a href="outbound.html">Outbound</a>
                 <a href="virtual.html">Virtual</a>
             </div>
-            <div class="footer-column">
-                <h3>Contact</h3>
-                <a href="tel:+919920389760">+91 9920389760</a>
-                <div class="footer-contact">
-                    <div class="footer-rating">⭐ 4.5 | 150 Ratings</div>
-                </div>
+            <div>
+                <h4>Contact</h4>
+                <div class="footer-contact">+91 9920389760</div>
+                <div class="footer-rating">⭐ 4.5 | 150 Ratings</div>
             </div>
         </div>
-        <div class="footer-bottom">
-            © 2024 Woosh Biz by HTI India Pvt Ltd
-        </div>
+        <div class="footer-bottom">© 2024 Woosh Biz by HTI India Pvt Ltd. All rights reserved.</div>
     </footer>
 
-    <!-- Floating WhatsApp Button -->
-    <a href="https://wa.me/919920389760" class="whatsapp-button" title="Chat with us on WhatsApp">
-        <span>💬</span>
-    </a>
+    <!-- Floating Buttons -->
+    <a href="https://wa.me/919920389760" class="whatsapp-button" title="Chat with us on WhatsApp">💬</a>
+    <button class="scroll-to-top" id="scrollToTop" title="Scroll to top">↑</button>
 
     <script>
+        // Custom cursor trail
+        const cursorTrail = document.createElement('div');
+        cursorTrail.className = 'cursor-trail';
+        document.body.appendChild(cursorTrail);
+
+        let cursorX = 0, cursorY = 0;
+        let trailX = 0, trailY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            cursorX = e.clientX;
+            cursorY = e.clientY;
+        });
+
+        function animateCursorTrail() {
+            trailX += (cursorX - trailX) * 0.15;
+            trailY += (cursorY - trailY) * 0.15;
+            cursorTrail.style.left = trailX + 'px';
+            cursorTrail.style.top = trailY + 'px';
+            requestAnimationFrame(animateCursorTrail);
+        }
+        animateCursorTrail();
+
         // Navbar scroll effect
-        window.addEventListener('scroll', function() {
-            const navbar = document.getElementById('navbar');
-            if (window.scrollY > 0) {
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 80) {
                 navbar.classList.add('scrolled');
             } else {
                 navbar.classList.remove('scrolled');
             }
         });
 
-        // Mobile menu toggle
+        // Hamburger menu
         const hamburger = document.getElementById('hamburger');
-        const navLinks = document.getElementById('navLinks');
+        const navLinks = document.querySelector('.nav-links');
 
-        hamburger.addEventListener('click', function() {
-            navLinks.classList.toggle('active');
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
         });
 
-        // Close menu when link is clicked
-        const navItems = navLinks.querySelectorAll('a');
-        navItems.forEach(item => {
-            item.addEventListener('click', function() {
-                navLinks.classList.remove('active');
+        // IntersectionObserver for reveal animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
             });
-        });
+        }, observerOptions);
 
-        // Lightbox functions
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Stats counter
+        const statsSection = document.querySelector('.stats-section');
+        let countersStarted = false;
+
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !countersStarted) {
+                    countersStarted = true;
+                    document.querySelectorAll('.stat-number').forEach(el => {
+                        const target = parseInt(el.dataset.target);
+                        let current = 0;
+                        const increment = target / 20;
+                        const interval = setInterval(() => {
+                            current += increment;
+                            if (current >= target) {
+                                el.textContent = target + '+';
+                                clearInterval(interval);
+                            } else {
+                                el.textContent = Math.floor(current) + '+';
+                            }
+                        }, 100);
+                    });
+                }
+            });
+        }, { threshold: 0.5 });
+
+        if (statsSection) statsObserver.observe(statsSection);
+
+        // Lightbox
         function openLightbox(src) {
             const lightbox = document.getElementById('lightbox');
-            const lightboxImg = document.getElementById('lightbox-img');
-            lightboxImg.src = src;
+            document.getElementById('lightbox-img').src = src;
             lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
 
         function closeLightbox() {
             const lightbox = document.getElementById('lightbox');
             lightbox.classList.remove('active');
+            document.body.style.overflow = 'auto';
         }
 
-        // Close lightbox when clicking outside image
-        document.getElementById('lightbox').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeLightbox();
+        document.getElementById('lightbox')?.addEventListener('click', (e) => {
+            if (e.target.id === 'lightbox') closeLightbox();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeLightbox();
+        });
+
+        // Testimonials carousel
+        function scrollTestimonials(direction) {
+            const container = document.querySelector('.testimonials-container');
+            const scrollAmount = 320;
+            if (direction === 'left') {
+                container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            } else {
+                container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            }
+        }
+
+        // Scroll to top button
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollToTopBtn.classList.add('visible');
+            } else {
+                scrollToTopBtn.classList.remove('visible');
             }
         });
 
-        // Keyboard navigation for lightbox
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeLightbox();
-            }
+        scrollToTopBtn?.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     </script>
 </body>
