@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Woosh Biz - Corporate Team Building Events</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Navbar */
+        nav {
+            background: #ffffff;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: none;
+            transition: box-shadow 0.3s;
+        }
+
+        nav.scrolled {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo img {
+            height: 41px;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #1a1a2e;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #e8642c;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            min-width: 200px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-top: 0.5rem;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: #1a1a2e;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .dropdown-menu a:hover {
+            background: #f8f8f8;
+            color: #e8642c;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #1a1a2e;
+            margin: 5px 0;
+            transition: 0.3s;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: #f8f8f8;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            color: #1a1a2e;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-images {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .hero-images img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .cta-button {
+            background: #e8642c;
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            background: #d45a20;
+        }
+
+        /* Brand Logos Section */
+        .brands-section {
+            padding: 3rem 2rem;
+            background: white;
+            text-align: center;
+        }
+
+        .brands-section h2 {
+            font-size: 1.8rem;
+            color: #1a1a2e;
+            margin-bottom: 2rem;
+            font-weight: 700;
+        }
+
+        .marquee {
+            overflow: hidden;
+            background: white;
+        }
+
+        .marquee-content {
+            display: flex;
+            gap: 2rem;
+            animation: scroll 30s linear infinite;
+        }
+
+        .marquee-content:hover {
+            animation-play-state: paused;
+        }
+
+        .marquee-item {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .marquee-item img {
+            height: 62px;
+            width: auto;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .marquee-item:hover img {
+            opacity: 1;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* Video Gallery */
+        .video-gallery {
+            padding: 3rem 2rem;
+            background: #f8f8f8;
+        }
+
+        .video-gallery h2 {
+            font-size: 1.8rem;
+            color: #1a1a2e;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: 700;
+        }
+
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .video-card {
+            position: relative;
+            cursor: pointer;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .video-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(232, 100, 44, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .video-card:hover .play-icon {
+            opacity: 1;
+        }
+
+        .video-title {
+            padding: 1rem;
+            background: white;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #1a1a2e;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Programs Section */
+        .programs {
+            padding: 3rem 2rem;
+            background: white;
+            text-align: center;
+        }
+
+        .programs h2 {
+            font-size: 1.8rem;
+            color: #1a1a2e;
+            margin-bottom: 2rem;
+            font-weight: 700;
+        }
+
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .program-card {
+            cursor: pointer;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .program-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .program-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .program-label {
+            padding: 1.5rem;
+            background: #f8f8f8;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1a1a2e;
+        }
+
+        /* Featured In Section */
+        .featured-section {
+            padding: 3rem 2rem;
+            background: #f8f8f8;
+            text-align: center;
+        }
+
+        .featured-section h2 {
+            font-size: 1.8rem;
+            color: #1a1a2e;
+            margin-bottom: 2rem;
+            font-weight: 700;
+        }
+
+        .featured-marquee {
+            overflow: hidden;
+        }
+
+        .featured-content {
+            display: flex;
+            gap: 3rem;
+            animation: scroll 25s linear infinite;
+        }
+
+        .featured-content:hover {
+            animation-play-state: paused;
+        }
+
+        .featured-item {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .featured-item img {
+            height: 50px;
+            width: auto;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        .featured-item:hover img {
+            opacity: 1;
+        }
+
+        /* Duration Selector */
+        .duration-section {
+            padding: 3rem 2rem;
+            background: white;
+            text-align: center;
+        }
+
+        .duration-section h2 {
+            font-size: 1.8rem;
+            color: #1a1a2e;
+            margin-bottom: 2rem;
+            font-weight: 700;
+        }
+
+        .duration-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto 2rem;
+        }
+
+        .duration-card {
+            cursor: pointer;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .duration-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .duration-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .duration-label {
+            padding: 1rem;
+            background: #f8f8f8;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #1a1a2e;
+        }
+
+        /* Photo Gallery */
+        .photo-gallery {
+            padding: 3rem 2rem;
+            background: #f8f8f8;
+        }
+
+        .photo-gallery h2 {
+            font-size: 1.8rem;
+            color: #1a1a2e;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: 700;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            cursor: pointer;
+            border-radius: 8px;
+            overflow: hidden;
+            aspect-ratio: 1;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+
+        .lightbox-content img {
+            width: 100%;
+            height: auto;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -30px;
+            right: 0;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            padding: 3rem 2rem;
+            background: white;
+        }
+
+        .testimonials h2 {
+            font-size: 1.8rem;
+            color: #1a1a2e;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-weight: 700;
+        }
+
+        .testimonials-carousel {
+            display: flex;
+            gap: 1.5rem;
+            overflow-x: auto;
+            padding: 1rem 0;
+            scroll-behavior: smooth;
+        }
+
+        .testimonials-carousel::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .testimonials-carousel::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .testimonials-carousel::-webkit-scrollbar-thumb {
+            background: #e8642c;
+            border-radius: 4px;
+        }
+
+        .testimonial-card {
+            flex-shrink: 0;
+            width: 280px;
+            text-align: center;
+            background: #f8f8f8;
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+
+        .testimonial-photo {
+            width: 100px;
+            height: 120px;
+            margin: 0 auto 1rem;
+            cursor: pointer;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .testimonial-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .testimonial-name {
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 0.5rem;
+        }
+
+        .testimonial-company {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-logo {
+            height: 30px;
+            width: auto;
+            display: inline-block;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a2e;
+            color: white;
+            padding: 3rem 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto 2rem;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .footer-column a {
+            display: block;
+            color: #ccc;
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .footer-column a:hover {
+            color: #e8642c;
+        }
+
+        .footer-logo img {
+            height: 44px;
+            width: auto;
+            margin-bottom: 1rem;
+        }
+
+        .footer-tagline {
+            font-size: 0.9rem;
+            color: #ccc;
+            margin-bottom: 1rem;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-icons a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: rgba(232, 100, 44, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #e8642c;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: background 0.3s;
+        }
+
+        .social-icons a:hover {
+            background: #e8642c;
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+
+        .footer-contact {
+            margin-top: 1rem;
+        }
+
+        .footer-rating {
+            color: #e8642c;
+            margin-top: 0.5rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                background: white;
+                gap: 0;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links a {
+                padding: 1rem;
+                border-bottom: 1px solid #eee;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .videos-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .programs-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .duration-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .testimonials-carousel {
+                padding-bottom: 1rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav {
+                padding: 1rem;
+            }
+
+            .logo img {
+                height: 35px;
+            }
+
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+
+            .duration-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav id="navbar">
+        <div class="logo">
+            <img src="https://static.wixstatic.com/media/fe3583_2f36ed41d71a4ed3ba3db03baf388f14~mv2.png/v1/fill/w_104,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/2209_Woosh%20Biz%20update%20final%20logo_PNG.png" alt="Woosh Biz Logo">
+        </div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="high-octane.html">In-Office</a></li>
+            <li><a href="outbound.html">Outbound</a></li>
+            <li><a href="virtual.html">Virtual</a></li>
+            <li class="dropdown">
+                <a href="#">Get In Touch</a>
+                <div class="dropdown-menu">
+                    <a href="about.html">About Us</a>
+                    <a href="blog.html">Blogs</a>
+                    <a href="contact.html">Free Consultation Call</a>
+                    <a href="resorts.html">Resorts Recommended</a>
+                </div>
+            </li>
+        </ul>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Want to host the most epic team-building program ever? Let us!</h1>
+        <p>We host events for in-person & remote teams. 30+ unique events intentionally designed to build happier teams.</p>
+        <div class="hero-images">
+            <img src="https://static.wixstatic.com/media/9e0902_a33d262be451496caa3bbdd81f7b8256~mv2.png/v1/crop/x_51,y_0,w_522,h_303/fill/w_730,h_424,al_c,lg_1,q_85,enc_avif,quality_auto/Mobile%20play.png" alt="Hero Image 1">
+            <img src="https://static.wixstatic.com/media/9e0902_c118ebb3e9a34d2fade04c0affbeb134f000.jpg/v1/fill/w_529,h_243,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/9e0902_c118ebb3e9a34d2fade04c0affbeb134f000.jpg" alt="Hero Image 2">
+        </div>
+        <a href="https://wa.me/919920389760" class="cta-button">Get a Quote in 90 mins</a>
+    </section>
+
+    <!-- Brand Logos Section -->
+    <section class="brands-section">
+        <h2>We've rocked the Team Building scene, serving 60+ legendary brands</h2>
+        <div class="marquee">
+            <div class="marquee-content">
+                <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_9a1d5c82b4b443e1bfe560f70afdfcff~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/21_%20Azure%20Hospitality.png" alt="Azure Hospitality"></div>
+                <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_62f68fef408d4e91840ccdd1f2bb9d50~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/22_%20Ginger%20Hotels.png" alt="Ginger Hotels"></div>
+                <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_2c317fb4db7e44beb9d1ec412e9fdeb6~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/23_%20Swastik%20Tins.png" alt="Swastik Tins"></div>
+                <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_950c2ae7bd274dc781ee9af9da2d1ef3~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/24_%20Jio%20Studio.png" alt="Jio Studio"></div>
+                <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_13898748420e4fdea8df56447596810c~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/25_%20BBT.png" alt="BBT"></div>
+                <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_1fbe05b60d4840568978bc6bddc96045~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/26_%20KBT.png" alt="KBT"></div>
+                <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_40256a2ac2b34d02ad7f623e2a04c809~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/27_%20Valmet.png" alt="Valmet"></div>
+                <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_418cf1d301c84ff8bb8145b78ca2e880~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/28_%20Arete.png" alt="Arete"></div>
+                <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_572678def7084fefbfc664709f737e0d~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/31_%20Air%20India.png" alt="Air India"></div>
+                <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_fde7f810b8dd401a80aa9c02f919e96b~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/1_%20EY.png" alt="EY"></div>
+                <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_9093a13813bd489780094e1adb97bc67~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/4_%20Club%20Mahindra%20Resorts.png" alt="Club Mahindra Resorts"></div>
+                <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_8144f80fa1dc4df18e39de7825df1ffc~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/18_%20Accor%20Hotels.png" alt="Accor Hotels"></div>
+                <!-- Duplicate for infinite scroll -->
+                <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_9a1d5c82b4b443e1bfe560f70afdfcff~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/21_%20Azure%20Hospitality.png" alt="Azure Hospitality"></div>
+                <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_62f68fef408d4e91840ccdd1f2bb9d50~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/22_%20Ginger%20Hotels.png" alt="Ginger Hotels"></div>
+                <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_2c317fb4db7e44beb9d1ec412e9fdeb6~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/23_%20Swastik%20Tins.png" alt="Swastik Tins"></div>
+                <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_950c2ae7bd274dc781ee9af9da2d1ef3~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/24_%20Jio%20Studio.png" alt="Jio Studio"></div>
+                <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_13898748420e4fdea8df56447596810c~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/25_%20BBT.png" alt="BBT"></div>
+                <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_1fbe05b60d4840568978bc6bddc96045~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/26_%20KBT.png" alt="KBT"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Gallery -->
+    <section class="video-gallery">
+        <h2>Corporate Team Building Activities in Action | Woosh Biz Programs</h2>
+        <div class="videos-grid">
+            <a href="https://www.youtube.com/watch?v=5CMOe_3UPhk" target="_blank" class="video-card">
+                <img src="https://i.ytimg.com/vi/5CMOe_3UPhk/maxresdefault.jpg" alt="The ultimate team building challenge: can your team do it?">
+                <div class="play-icon">▶</div>
+                <div class="video-title">The ultimate team building challenge: can your team do it?</div>
+            </a>
+            <a href="https://www.youtube.com/watch?v=aRa3-lk0ss0" target="_blank" class="video-card">
+                <img src="https://i.ytimg.com/vi/aRa3-lk0ss0/maxresdefault.jpg" alt="The team that plays together fights together stays together">
+                <div class="play-icon">▶</div>
+                <div class="video-title">The team that plays together fights together stays together</div>
+            </a>
+            <a href="https://www.youtube.com/watch?v=d7hAV96jBg0" target="_blank" class="video-card">
+                <img src="https://i.ytimg.com/vi/d7hAV96jBg0/maxresdefault.jpg" alt="Offsite Team Building for Swastik Tins">
+                <div class="play-icon">▶</div>
+                <div class="video-title">Offsite Team Building for Swastik Tins</div>
+            </a>
+            <a href="https://www.youtube.com/watch?v=KPirBZoTSPA" target="_blank" class="video-card">
+                <img src="https://i.ytimg.com/vi/KPirBZoTSPA/maxresdefault.jpg" alt="Corporate Team Building for Arete Services">
+                <div class="play-icon">▶</div>
+                <div class="video-title">Corporate Team Building for Arete Services</div>
+            </a>
+            <a href="https://www.youtube.com/watch?v=2cJditUwJCY" target="_blank" class="video-card">
+                <img src="https://i.ytimg.com/vi/2cJditUwJCY/maxresdefault.jpg" alt="Team Building for Club Jolie's Team">
+                <div class="play-icon">▶</div>
+                <div class="video-title">Team Building for Club Jolie's Team</div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Programs Section -->
+    <section class="programs">
+        <h2>We conduct Team Building programs...</h2>
+        <div class="programs-grid">
+            <a href="high-octane.html" class="program-card">
+                <img src="https://static.wixstatic.com/media/9e0902_8d3d0381f7ba42059e3b4d31262bbf76~mv2.webp" alt="In-Person Teams">
+                <div class="program-label">In-Person Teams</div>
+            </a>
+            <a href="outbound.html" class="program-card">
+                <img src="https://static.wixstatic.com/media/9e0902_5900279ea35a4bd4b477ee405c99c974~mv2.webp" alt="Remote Teams">
+                <div class="program-label">Remote Teams</div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Featured In Section -->
+    <section class="featured-section">
+        <h2>Featured in</h2>
+        <div class="featured-marquee">
+            <div class="featured-content">
+                <div class="featured-item"><img src="https://static.wixstatic.com/media/9e0902_948917f015634f51a3a9906399455ddc~mv2.png/v1/fill/w_127,h_29,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Business_Standard_Logo.png" alt="Business Standard"></div>
+                <div class="featured-item"><img src="https://static.wixstatic.com/media/9e0902_ade98c7a43e54cc7a129ce91c79d3be6~mv2.png/v1/fill/w_127,h_38,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/et-hospitality.png" alt="ET Hospitality"></div>
+                <div class="featured-item"><img src="https://static.wixstatic.com/media/9e0902_4a24a4b8ce4e4700acafd53cd481d6a4~mv2.png/v1/fill/w_127,h_26,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Free%20Press.png" alt="Free Press"></div>
+                <div class="featured-item"><img src="https://static.wixstatic.com/media/9e0902_d89495a5b1e94780a322d1f4066f7785~mv2.png/v1/fill/w_127,h_24,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/The%20Print.png" alt="The Print"></div>
+                <div class="featured-item"><img src="https://static.wixstatic.com/media/9e0902_290c424799334208b8e70ca51af4a18d~mv2.png/v1/fill/w_127,h_36,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/THE_WEEK_logo1.png" alt="The Week"></div>
+                <div class="featured-item"><img src="https://static.wixstatic.com/media/9e0902_97aea2775dc745e09b271a271364abe9~mv2.png/v1/fill/w_127,h_71,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/the-financial-express-vector-logo.png" alt="Financial Express"></div>
+                <div class="featured-item"><img src="https://static.wixstatic.com/media/9e0902_9e0a91025eaf4de0accdcda657333d29~mv2.png/v1/fill/w_127,h_59,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Daily_News__Analysis_Logo.png" alt="Daily News"></div>
+                <div class="featured-item"><img src="https://static.wixstatic.com/media/9e0902_e03da0b96e004cb1be899cba8daaea37~mv2.png/v1/fill/w_163,h_65,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/times-of-india-newspaper-logo-hd-png-download.png" alt="Times of India"></div>
+                <!-- Duplicate for infinite scroll -->
+                <div class="featured-item"><img src="https://static.wixstatic.com/media/9e0902_948917f015634f51a3a9906399455ddc~mv2.png/v1/fill/w_127,h_29,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Business_Standard_Logo.png" alt="Business Standard"></div>
+                <div class="featured-item"><img src="https://static.wixstatic.com/media/9e0902_ade98c7a43e54cc7a129ce91c79d3be6~mv2.png/v1/fill/w_127,h_38,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/et-hospitality.png" alt="ET Hospitality"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Duration Selector -->
+    <section class="duration-section">
+        <h2>Select number of hours you have for a Team Building program</h2>
+        <div class="duration-grid">
+            <a href="contact.html" class="duration-card">
+                <img src="https://static.wixstatic.com/media/9e0902_26565211168c463683ff8bcc577cb244~mv2.png/v1/fill/w_237,h_323,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/2-4%20Hours.png" alt="2-4 Hours">
+                <div class="duration-label">2-4 Hours</div>
+            </a>
+            <a href="contact.html" class="duration-card">
+                <img src="https://static.wixstatic.com/media/9e0902_19ec80d2579d45338253f111b9e43ce7~mv2.png/v1/fill/w_237,h_323,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/4-6%20Hours.png" alt="4-6 Hours">
+                <div class="duration-label">4-6 Hours</div>
+            </a>
+            <a href="contact.html" class="duration-card">
+                <img src="https://static.wixstatic.com/media/9e0902_354828c768164eb6b421bc654f83301d~mv2.png/v1/fill/w_237,h_323,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/1-Day.png" alt="1-Day (On Site - Off Site)">
+                <div class="duration-label">1-Day (On Site - Off Site)</div>
+            </a>
+            <a href="contact.html" class="duration-card">
+                <img src="https://static.wixstatic.com/media/9e0902_914f701261db4b50baad31990cbef38b~mv2.png/v1/fill/w_237,h_323,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/9e0902_914f701261db4b50baad31990cbef38b~mv2.png" alt="2-Day (On Site - Off Site)">
+                <div class="duration-label">2-Day (On Site - Off Site)</div>
+            </a>
+        </div>
+        <a href="https://wa.me/919920389760" class="cta-button">Get a Quote in 90 mins</a>
+    </section>
+
+    <!-- Photo Gallery -->
+    <section class="photo-gallery">
+        <h2>No Gyaan; Just Fun With Learning!</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item" onclick="openLightbox('https://static.wixstatic.com/media/9e0902_98d6b846983649f3bce8bf7cb16aca49~mv2.jpg')">
+                <img src="https://static.wixstatic.com/media/9e0902_98d6b846983649f3bce8bf7cb16aca49~mv2.jpg" alt="Gallery Image 1">
+            </div>
+            <div class="gallery-item" onclick="openLightbox('https://static.wixstatic.com/media/9e0902_591876af916248de88885dc7da6d3e34~mv2.jpg')">
+                <img src="https://static.wixstatic.com/media/9e0902_591876af916248de88885dc7da6d3e34~mv2.jpg" alt="Gallery Image 2">
+            </div>
+            <div class="gallery-item" onclick="openLightbox('https://static.wixstatic.com/media/9e0902_ecc67c2a55994427ac11164a3f128e23~mv2.jpg')">
+                <img src="https://static.wixstatic.com/media/9e0902_ecc67c2a55994427ac11164a3f128e23~mv2.jpg" alt="Gallery Image 3">
+            </div>
+            <div class="gallery-item" onclick="openLightbox('https://static.wixstatic.com/media/9e0902_6102aff5df5d4384a8d942949bf7ccaf~mv2.jpg')">
+                <img src="https://static.wixstatic.com/media/9e0902_6102aff5df5d4384a8d942949bf7ccaf~mv2.jpg" alt="Gallery Image 4">
+            </div>
+            <div class="gallery-item" onclick="openLightbox('https://static.wixstatic.com/media/9e0902_16413d55ee1845faac073cc84d5cc4d2~mv2.jpg')">
+                <img src="https://static.wixstatic.com/media/9e0902_16413d55ee1845faac073cc84d5cc4d2~mv2.jpg" alt="Gallery Image 5">
+            </div>
+            <div class="gallery-item" onclick="openLightbox('https://static.wixstatic.com/media/9e0902_6ad6f4a09cfe4137849238faf8242c42~mv2.jpg')">
+                <img src="https://static.wixstatic.com/media/9e0902_6ad6f4a09cfe4137849238faf8242c42~mv2.jpg" alt="Gallery Image 6">
+            </div>
+            <div class="gallery-item" onclick="openLightbox('https://static.wixstatic.com/media/9e0902_bd532f2cc2934ab5a4bcecc454b820c2~mv2.jpg')">
+                <img src="https://static.wixstatic.com/media/9e0902_bd532f2cc2934ab5a4bcecc454b820c2~mv2.jpg" alt="Gallery Image 7">
+            </div>
+            <div class="gallery-item" onclick="openLightbox('https://static.wixstatic.com/media/9e0902_a42524b3202f489ea50b0ea22bf6c637~mv2.jpg')">
+                <img src="https://static.wixstatic.com/media/9e0902_a42524b3202f489ea50b0ea22bf6c637~mv2.jpg" alt="Gallery Image 8">
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <div class="lightbox-close" onclick="closeLightbox()">×</div>
+            <img id="lightbox-img" src="" alt="">
+        </div>
+    </div>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <h2>What our happy alumni say about the experience!</h2>
+        <div class="testimonials-carousel">
+            <div class="testimonial-card">
+                <div class="testimonial-photo" onclick="window.open('https://youtube.com/watch?v=0LXwBcbDXO8', '_blank')">
+                    <img src="https://static.wixstatic.com/media/9e0902_9bbb420bd9e341d9a70285c815652550~mv2.png/v1/fill/w_100,h_120,al_c,q_85,enc_avif,quality_auto/1.png" alt="Vijay Rajput">
+                </div>
+                <div class="testimonial-name">Vijay Rajput</div>
+                <div class="testimonial-company">IP Services</div>
+                <img class="testimonial-logo" src="https://static.wixstatic.com/media/fe3583_e7877f2020724c448c11dfdafbf62681~mv2.png/v1/fill/w_85,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/33.png" alt="IP Services Logo">
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-photo" onclick="window.open('https://youtube.com/watch?v=24UVuhVgcGk', '_blank')">
+                    <img src="https://static.wixstatic.com/media/9e0902_26ddb95f6a74461c9578699a7b0e4f69~mv2.png/v1/fill/w_100,h_120,al_c,q_85,enc_avif,quality_auto/3.png" alt="Aditi Khanna">
+                </div>
+                <div class="testimonial-name">Aditi Khanna</div>
+                <div class="testimonial-company">Partner at FutureSkomp LLP</div>
+                <img class="testimonial-logo" src="https://static.wixstatic.com/media/fe3583_cc6177f206fd489bb8c184e95ab24018~mv2.png/v1/fill/w_85,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/10.png" alt="FutureSkomp Logo">
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-photo" onclick="window.open('https://youtube.com/watch?v=dnEX3EFsFWU', '_blank')">
+                    <img src="https://static.wixstatic.com/media/9e0902_cf7e26a57628432a9b21d13310c736da~mv2.png/v1/fill/w_100,h_120,al_c,q_85,enc_avif,quality_auto/6.png" alt="Saloni Thakkar">
+                </div>
+                <div class="testimonial-name">Saloni Thakkar</div>
+                <div class="testimonial-company">Senior Manager Training</div>
+                <img class="testimonial-logo" src="https://static.wixstatic.com/media/fe3583_72cbf69aff6c4a2ca4af6bee6a1bf042~mv2.png/v1/fill/w_85,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/51.png" alt="Company Logo">
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-photo" onclick="window.open('https://youtube.com/watch?v=ezc0rHC3qls', '_blank')">
+                    <img src="https://static.wixstatic.com/media/9e0902_46772eef354f4006ad3f2fd527fafd97~mv2.png/v1/fill/w_100,h_120,al_c,q_85,enc_avif,quality_auto/2.png" alt="Dr R. Chandran">
+                </div>
+                <div class="testimonial-name">Dr R. Chandran</div>
+                <div class="testimonial-company">Director</div>
+                <img class="testimonial-logo" src="https://static.wixstatic.com/media/9e0902_ac47178e223341f78417b9e6a4d68083~mv2.png/v1/fill/w_85,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/64.png" alt="Company Logo">
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-photo" onclick="window.open('https://youtube.com/watch?v=geojIntTGiA', '_blank')">
+                    <img src="https://static.wixstatic.com/media/9e0902_1c049d655ce24665a5c860b846f9a96d~mv2.png/v1/fill/w_100,h_120,al_c,q_85,enc_avif,quality_auto/4.png" alt="Sanjay">
+                </div>
+                <div class="testimonial-name">Sanjay</div>
+                <div class="testimonial-company">Creative Director for Films</div>
+                <img class="testimonial-logo" src="https://static.wixstatic.com/media/9e0902_12d557bdea5a4b29830c4d8e33cffad1~mv2.png/v1/fill/w_85,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/65.png" alt="Company Logo">
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <div class="footer-logo">
+                    <img src="https://static.wixstatic.com/media/9e0902_b8e2795e4f484602a2294b7410e3f4e5~mv2.png/v1/fill/w_112,h_44,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/2209_Woosh%20Biz%20update%20final%20white%20logo_PNG.png" alt="Woosh Biz White Logo">
+                </div>
+                <div class="footer-tagline">What's up? Get updates on new programs, workshops, the latest developments, and community activities straight to your inbox.</div>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/people/Woosh-Biz-by-HTI/100083456102229/" target="_blank">f</a>
+                    <a href="https://www.instagram.com/wooshbiz/" target="_blank">📸</a>
+                    <a href="https://www.linkedin.com/company/woosh-biz-by-hti/" target="_blank">in</a>
+                    <a href="https://www.youtube.com/channel/UC9BdT9tzf4841P1B-R7P-Qg" target="_blank">▶</a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <a href="contact.html">Get In Touch</a>
+                <a href="about.html">About Us</a>
+                <a href="contact.html">Free Consultation Call</a>
+                <a href="blog.html">Blogs</a>
+            </div>
+            <div class="footer-column">
+                <h3>Programs</h3>
+                <a href="high-octane.html">In-Office</a>
+                <a href="outbound.html">Outbound</a>
+                <a href="virtual.html">Virtual</a>
+            </div>
+            <div class="footer-column">
+                <h3>Contact</h3>
+                <a href="tel:+919920389760">+91 9920389760</a>
+                <div class="footer-contact">
+                    <div class="footer-rating">⭐ 4.5 / 150 Ratings</div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2024 Woosh Biz by HTI India Pvt Ltd
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 0) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+
+        hamburger.addEventListener('click', function() {
+            navLinks.classList.toggle('active');
+        });
+
+        // Close menu when link is clicked
+        const navItems = navLinks.querySelectorAll('a');
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Lightbox functions
+        function openLightbox(src) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            lightboxImg.src = src;
+            lightbox.classList.add('active');
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('active');
+        }
+
+        // Close lightbox when clicking outside image
+        document.getElementById('lightbox').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLightbox();
+            }
+        });
+
+        // Keyboard navigation for lightbox
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeLightbox();
+            }
+        });
+    </script>
+</body>
+</html>
