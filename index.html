@@ -61,130 +61,95 @@
         }
 
         /* Navbar */
-        nav {
+        .navbar {
             position: fixed;
             top: 0;
             left: 0;
-            right: 0;
-            background: white;
-            padding: 1.5rem 3rem;
+            width: 100%;
+            background: #fff;
+            z-index: 9999;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 70px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            z-index: 1000;
-            transition: all 0.3s ease;
+            justify-content: space-between;
         }
-
-        nav.scrolled {
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-        }
-
-        .logo img {
-            height: 41px;
-            width: auto;
-        }
-
+        .nav-logo img { height: 40px; width: auto; display: block; }
         .nav-links {
             display: flex;
-            list-style: none;
-            gap: 2.5rem;
             align-items: center;
+            gap: 32px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
         }
-
         .nav-links a {
-            text-decoration: none;
             color: #1a1a1a;
+            text-decoration: none;
             font-weight: 700;
             font-size: 15px;
-            letter-spacing: 0.3px;
-            position: relative;
-            transition: color 0.3s ease;
+            font-family: 'Gilroy', sans-serif;
+            transition: color 0.2s;
+            white-space: nowrap;
         }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #871e6c;
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: #871e6c;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .dropdown {
-            position: relative;
-        }
-
-        .dropdown > a::after {
-            content: ' ▾';
-        }
-
+        .nav-links a:hover { color: #871e6c; }
+        .dropdown { position: relative; }
         .dropdown-menu {
             display: none;
             position: absolute;
             top: 100%;
-            left: 0;
+            right: 0;
             background: white;
             border-radius: 12px;
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.12);
             padding: 8px;
             min-width: 220px;
-            margin-top: 10px;
+            list-style: none;
+            z-index: 10000;
         }
-
-        .dropdown:hover .dropdown-menu {
-            display: block;
-        }
-
-        .dropdown-menu a {
+        .dropdown:hover .dropdown-menu { display: block; }
+        .dropdown-menu li a {
             display: block;
             padding: 12px 16px;
             color: #1a1a1a;
-            text-decoration: none;
             border-radius: 8px;
-            transition: all 0.2s ease;
+            font-size: 14px;
         }
-
-        .dropdown-menu a:hover {
+        .dropdown-menu li a:hover {
             background: #fdf0f9;
             color: #871e6c;
         }
-
         .hamburger {
             display: none;
             flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
             cursor: pointer;
-            gap: 6px;
+            padding: 8px;
+            z-index: 10001;
         }
-
         .hamburger span {
-            width: 25px;
+            display: block;
+            width: 26px;
             height: 3px;
             background: #1a1a1a;
+            border-radius: 3px;
             transition: all 0.3s ease;
-            border-radius: 2px;
         }
-
         .hamburger.active span:nth-child(1) {
-            transform: rotate(45deg) translate(10px, 10px);
+            transform: translateY(8px) rotate(45deg);
         }
-
         .hamburger.active span:nth-child(2) {
             opacity: 0;
         }
-
         .hamburger.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(7px, -8px);
+            transform: translateY(-8px) rotate(-45deg);
         }
 
         /* Hero Section */
@@ -1153,20 +1118,171 @@
         }
 
         @media (max-width: 768px) {
-            nav {
-                padding: 1rem 1.5rem;
-            }
+            /* Global */
+            body { overflow-x: hidden; }
 
-            .hero {
-                grid-template-columns: 1fr;
-                padding: 100px 1.5rem 2rem;
-            }
-
-            .hero-stats {
+            /* Navbar */
+            .hamburger { display: flex !important; }
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background: #fff;
                 flex-direction: column;
-                gap: 1rem;
+                align-items: center;
+                justify-content: center;
+                gap: 24px;
+                z-index: 9998;
+                padding: 80px 24px 40px;
+            }
+            .nav-links.open { display: flex !important; }
+            .nav-links a { font-size: 1.3rem; }
+            .dropdown-menu {
+                position: static !important;
+                display: none;
+                box-shadow: none;
+                background: #fdf0f9;
+                border-radius: 12px;
+                padding: 8px;
+                margin-top: 8px;
+                width: 100%;
+            }
+            .dropdown.open .dropdown-menu { display: block; }
+            .dropdown-menu li a { font-size: 1rem; text-align: center; }
+
+            /* Hero */
+            .hero, [class*="hero"] {
+                padding: 100px 20px 60px !important;
+                min-height: auto !important;
+            }
+            .hero-grid, .hero-content, [class*="hero-grid"] {
+                grid-template-columns: 1fr !important;
+                gap: 32px !important;
+            }
+            .hero h1, .hero-title {
+                font-size: clamp(1.8rem, 6vw, 2.4rem) !important;
+                text-align: center !important;
+            }
+            .hero p, .hero-sub {
+                font-size: 1rem !important;
+                text-align: center !important;
+            }
+            .hero-badge { margin: 0 auto !important; }
+            .hero-stats { justify-content: center !important; flex-wrap: wrap !important; }
+            .hero-cta, .cta-btn, [class*="cta"] {
+                width: 100% !important;
+                text-align: center !important;
+                justify-content: center !important;
+            }
+            .hero-images, .hero-right {
+                display: none !important;
             }
 
+            /* Sections */
+            section, [class*="section"] {
+                padding: 60px 20px !important;
+            }
+
+            /* Grids */
+            .grid-3, .cards-grid, .features-grid,
+            .blog-grid, .resort-grid, [class*="grid"] {
+                grid-template-columns: 1fr !important;
+                gap: 20px !important;
+            }
+            .grid-2, .programs-grid, .two-col {
+                grid-template-columns: 1fr !important;
+                gap: 20px !important;
+            }
+
+            /* Stats strip */
+            .stats-strip, .stats-grid, [class*="stats"] {
+                grid-template-columns: 1fr 1fr !important;
+                gap: 24px !important;
+                padding: 40px 20px !important;
+            }
+            .stat-number { font-size: 2.5rem !important; }
+
+            /* Video grid */
+            .video-grid, [class*="video-grid"] {
+                grid-template-columns: 1fr !important;
+            }
+            .video-featured { grid-column: span 1 !important; }
+
+            /* Program cards */
+            .program-card, [class*="program"] {
+                height: 280px !important;
+            }
+
+            /* Duration cards */
+            .duration-grid, [class*="duration"] {
+                grid-template-columns: 1fr 1fr !important;
+                gap: 16px !important;
+            }
+
+            /* Testimonials */
+            .testimonials-row, [class*="testimonials"] {
+                gap: 16px !important;
+            }
+            .testimonial-card { width: 260px !important; }
+
+            /* Buttons */
+            .btn, button, [class*="btn"] {
+                padding: 14px 28px !important;
+                font-size: 0.95rem !important;
+            }
+
+            /* FAQ */
+            .faq-item { padding: 16px !important; }
+
+            /* How it works steps */
+            .steps-grid, [class*="steps"] {
+                grid-template-columns: 1fr !important;
+                gap: 32px !important;
+            }
+            .step-line { display: none !important; }
+
+            /* Contact */
+            .contact-grid, [class*="contact-grid"] {
+                grid-template-columns: 1fr !important;
+            }
+
+            /* Footer */
+            .footer-grid, [class*="footer-grid"] {
+                grid-template-columns: 1fr 1fr !important;
+                gap: 32px !important;
+            }
+
+            /* Floating buttons */
+            .whatsapp-float { bottom: 20px !important; right: 16px !important; }
+            .scroll-top { bottom: 90px !important; right: 16px !important; }
+
+            /* Gallery */
+            .gallery-grid, [class*="gallery"] {
+                columns: 2 !important;
+            }
+
+            /* CTA strip */
+            .cta-strip, [class*="cta-strip"] {
+                padding: 60px 24px !important;
+                text-align: center !important;
+            }
+            .cta-strip h2 { font-size: 1.8rem !important; }
+            .cta-buttons {
+                flex-direction: column !important;
+                align-items: center !important;
+                gap: 12px !important;
+            }
+            .cta-buttons a { width: 100% !important; text-align: center !important; }
+
+            /* About page */
+            .philosophy-grid { grid-template-columns: 1fr !important; }
+            .team-card { padding: 32px 24px !important; }
+            .why-grid { grid-template-columns: 1fr !important; }
+
+            /* Existing fixes */
             .hero-stat {
                 padding-right: 0;
                 border-right: none;
@@ -1177,11 +1293,6 @@
             .hero-stat:last-child {
                 border-bottom: none;
                 padding-bottom: 0;
-            }
-
-            .stats-section {
-                grid-template-columns: repeat(2, 1fr);
-                padding: 40px 1.5rem;
             }
 
             .section-heading {
@@ -1198,32 +1309,8 @@
                 grid-row: auto;
             }
 
-            .programs-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .duration-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .gallery-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .footer-grid {
-                grid-template-columns: 1fr;
-            }
-
             .marquee {
                 gap: 1rem;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-            }
-
-            .cta-button {
-                width: 100%;
             }
 
             .cursor-trail {
@@ -1278,28 +1365,31 @@
 </head>
 <body>
     <!-- Navbar -->
-    <nav id="navbar">
-        <div class="logo">
-            <img src="https://static.wixstatic.com/media/fe3583_2f36ed41d71a4ed3ba3db03baf388f14~mv2.png/v1/fill/w_104,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/2209_Woosh%20Biz%20update%20final%20logo_PNG.png" alt="Woosh Biz">
-        </div>
-        <ul class="nav-links">
-            <li><a href="high-octane.html">In-Office</a></li>
-            <li><a href="outbound.html">Outbound</a></li>
-            <li><a href="virtual.html">Virtual</a></li>
-            <li class="dropdown">
-                <a href="#">Get In Touch</a>
-                <div class="dropdown-menu">
-                    <a href="about.html">About Us</a>
-                    <a href="blog.html">Blogs</a>
-                    <a href="contact.html">Free Consultation Call</a>
-                    <a href="resorts.html">Resorts Recommended</a>
-                </div>
-            </li>
-        </ul>
-        <div class="hamburger" id="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <img src="https://static.wixstatic.com/media/fe3583_2f36ed41d71a4ed3ba3db03baf388f14~mv2.png/v1/fill/w_104,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/2209_Woosh%20Biz%20update%20final%20logo_PNG.png" alt="Woosh Biz" height="40">
+            </a>
+            <button class="hamburger" id="hamburger" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="high-octane.html">In-Office</a></li>
+                <li><a href="outbound.html">Outbound</a></li>
+                <li><a href="virtual.html">Virtual</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">Get In Touch ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="blog.html">Blogs</a></li>
+                        <li><a href="contact.html">Free Consultation</a></li>
+                        <li><a href="resorts.html">Resorts Recommended</a></li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </nav>
 
@@ -1679,23 +1769,44 @@
         }
         animateCursorTrail();
 
-        // Navbar scroll effect
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 80) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-
-        // Hamburger menu
+        // Hamburger menu & mobile nav
         const hamburger = document.getElementById('hamburger');
-        const navLinks = document.querySelector('.nav-links');
+        const navLinks = document.getElementById('navLinks');
+        const dropdownToggle = document.querySelector('.dropdown-toggle');
+        const dropdown = document.querySelector('.dropdown');
 
         hamburger.addEventListener('click', () => {
             hamburger.classList.toggle('active');
-            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+            navLinks.classList.toggle('open');
+            document.body.style.overflow = navLinks.classList.contains('open') ? 'hidden' : '';
+        });
+
+        // Close menu when a link is clicked
+        navLinks.querySelectorAll('a:not(.dropdown-toggle)').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('open');
+                document.body.style.overflow = '';
+            });
+        });
+
+        // Mobile dropdown toggle
+        if (dropdownToggle) {
+            dropdownToggle.addEventListener('click', (e) => {
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                    dropdown.classList.toggle('open');
+                }
+            });
+        }
+
+        // Close menu on outside click
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.navbar')) {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('open');
+                document.body.style.overflow = '';
+            }
         });
 
         // IntersectionObserver for reveal animations
