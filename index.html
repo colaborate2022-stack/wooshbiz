@@ -6,8 +6,12 @@
     <title>Woosh Biz - Corporate Team Building Events</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -23,19 +27,15 @@
         /* Navbar */
         nav {
             background: #ffffff;
-            padding: 1rem 2rem;
+            padding: 1.25rem 3rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: none;
-            transition: box-shadow 0.3s;
-        }
-
-        nav.scrolled {
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
         }
 
         .logo img {
@@ -46,16 +46,17 @@
         .nav-links {
             display: flex;
             list-style: none;
-            gap: 2rem;
+            gap: 2.5rem;
             align-items: center;
         }
 
         .nav-links a {
             text-decoration: none;
             color: #1a1a2e;
-            font-weight: 500;
+            font-weight: 600;
             font-size: 0.95rem;
-            transition: color 0.3s;
+            letter-spacing: 0.3px;
+            transition: color 0.3s ease;
         }
 
         .nav-links a:hover {
@@ -72,11 +73,11 @@
             top: 100%;
             left: 0;
             background: white;
-            border: 1px solid #eee;
-            border-radius: 8px;
-            min-width: 200px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            margin-top: 0.5rem;
+            border-radius: 12px;
+            min-width: 220px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            margin-top: 0.8rem;
+            overflow: hidden;
         }
 
         .dropdown:hover .dropdown-menu {
@@ -85,15 +86,18 @@
 
         .dropdown-menu a {
             display: block;
-            padding: 0.75rem 1.5rem;
+            padding: 1rem 1.5rem;
             color: #1a1a2e;
             text-decoration: none;
             font-size: 0.9rem;
+            border-left: 3px solid transparent;
+            transition: all 0.3s ease;
         }
 
         .dropdown-menu a:hover {
             background: #f8f8f8;
             color: #e8642c;
+            border-left-color: #e8642c;
         }
 
         .hamburger {
@@ -112,82 +116,130 @@
 
         /* Hero Section */
         .hero {
-            background: #f8f8f8;
-            padding: 4rem 2rem;
-            text-align: center;
+            background: #ffffff;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-container {
+            display: grid;
+            grid-template-columns: 55% 45%;
+            gap: 3rem;
+            max-width: 1400px;
+            width: 100%;
+            padding: 0 3rem;
+            align-items: center;
+        }
+
+        .hero-text {
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .hero h1 {
-            font-size: 2.5rem;
+            font-size: 3.5rem;
             color: #1a1a2e;
-            margin-bottom: 1rem;
-            font-weight: 700;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: -0.5px;
         }
 
         .hero p {
-            font-size: 1.1rem;
-            color: #666;
-            margin-bottom: 2rem;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
+            font-size: 1.2rem;
+            color: #555;
+            margin-bottom: 2.5rem;
+            line-height: 1.7;
         }
 
         .hero-images {
             display: flex;
-            gap: 2rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 2rem;
+            flex-direction: column;
+            gap: 1.5rem;
+            animation: fadeInUp 0.8s ease 0.4s both;
         }
 
         .hero-images img {
-            max-width: 100%;
+            width: 100%;
             height: auto;
-            border-radius: 8px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+            object-fit: cover;
         }
 
         .cta-button {
             background: #e8642c;
             color: white;
             border: none;
-            padding: 0.75rem 2rem;
+            padding: 1rem 2.25rem;
             font-size: 1rem;
-            border-radius: 8px;
+            border-radius: 50px;
             cursor: pointer;
-            font-weight: 600;
-            transition: background 0.3s;
+            font-weight: 700;
+            transition: all 0.3s ease;
             text-decoration: none;
             display: inline-block;
+            box-shadow: 0 4px 15px rgba(232, 100, 44, 0.4);
         }
 
         .cta-button:hover {
-            background: #d45a20;
+            background: #d4521a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(232, 100, 44, 0.5);
+        }
+
+        /* Sections */
+        section {
+            padding: 80px 3rem;
+        }
+
+        section h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 3rem;
+            text-align: center;
         }
 
         /* Brand Logos Section */
         .brands-section {
-            padding: 3rem 2rem;
-            background: white;
+            background: #f8f8f8;
             text-align: center;
         }
 
         .brands-section h2 {
-            font-size: 1.8rem;
-            color: #1a1a2e;
-            margin-bottom: 2rem;
-            font-weight: 700;
+            margin-bottom: 3rem;
         }
 
         .marquee {
             overflow: hidden;
-            background: white;
+            background: #f8f8f8;
+            padding: 2.5rem 0;
         }
 
         .marquee-content {
             display: flex;
-            gap: 2rem;
-            animation: scroll 30s linear infinite;
+            gap: 4rem;
+            animation: scroll 40s linear infinite;
         }
 
         .marquee-content:hover {
@@ -202,13 +254,16 @@
         }
 
         .marquee-item img {
-            height: 62px;
+            height: 50px;
             width: auto;
-            opacity: 0.8;
-            transition: opacity 0.3s;
+            filter: grayscale(100%);
+            opacity: 0.7;
+            transition: all 0.3s ease;
+            object-fit: contain;
         }
 
         .marquee-item:hover img {
+            filter: grayscale(0%);
             opacity: 1;
         }
 
@@ -223,22 +278,20 @@
 
         /* Video Gallery */
         .video-gallery {
-            padding: 3rem 2rem;
-            background: #f8f8f8;
+            background: #1a1a2e;
+            color: white;
+            text-align: center;
         }
 
         .video-gallery h2 {
-            font-size: 1.8rem;
-            color: #1a1a2e;
-            text-align: center;
-            margin-bottom: 2rem;
-            font-weight: 700;
+            color: white;
+            margin-bottom: 3rem;
         }
 
         .videos-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
             max-width: 1200px;
             margin: 0 auto;
         }
@@ -246,13 +299,19 @@
         .video-card {
             position: relative;
             cursor: pointer;
-            border-radius: 8px;
+            border-radius: 12px;
             overflow: hidden;
+            aspect-ratio: 16/9;
+            transition: transform 0.3s ease;
+        }
+
+        .video-card:hover {
+            transform: scale(1.03);
         }
 
         .video-card img {
             width: 100%;
-            height: 200px;
+            height: 100%;
             object-fit: cover;
             display: block;
         }
@@ -264,100 +323,112 @@
             transform: translate(-50%, -50%);
             width: 60px;
             height: 60px;
-            background: rgba(232, 100, 44, 0.9);
+            background: rgba(220, 38, 38, 0.9);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 30px;
+            color: white;
             opacity: 0;
-            transition: opacity 0.3s;
+            transition: all 0.3s ease;
         }
 
         .video-card:hover .play-icon {
             opacity: 1;
+            transform: translate(-50%, -50%) scale(1.1);
         }
 
         .video-title {
-            padding: 1rem;
-            background: white;
-            font-size: 0.95rem;
-            font-weight: 500;
-            color: #1a1a2e;
+            padding: 1.25rem;
+            background: rgba(255, 255, 255, 0.05);
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #aaa;
             min-height: 60px;
             display: flex;
             align-items: center;
+            backdrop-filter: blur(10px);
         }
 
         /* Programs Section */
         .programs {
-            padding: 3rem 2rem;
-            background: white;
             text-align: center;
         }
 
         .programs h2 {
-            font-size: 1.8rem;
-            color: #1a1a2e;
-            margin-bottom: 2rem;
-            font-weight: 700;
+            margin-bottom: 3rem;
         }
 
         .programs-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            max-width: 800px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.5rem;
+            max-width: 1000px;
             margin: 0 auto;
         }
 
         .program-card {
             cursor: pointer;
-            border-radius: 8px;
+            border-radius: 16px;
             overflow: hidden;
-            transition: transform 0.3s;
+            transition: transform 0.3s ease;
+            position: relative;
+            height: 400px;
         }
 
         .program-card:hover {
-            transform: translateY(-5px);
+            transform: scale(1.02);
         }
 
         .program-card img {
             width: 100%;
-            height: 250px;
+            height: 100%;
             object-fit: cover;
         }
 
         .program-label {
-            padding: 1.5rem;
-            background: #f8f8f8;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #1a1a2e;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: white;
+            text-align: left;
         }
 
         /* Featured In Section */
         .featured-section {
-            padding: 3rem 2rem;
-            background: #f8f8f8;
+            background: white;
             text-align: center;
         }
 
-        .featured-section h2 {
-            font-size: 1.8rem;
-            color: #1a1a2e;
-            margin-bottom: 2rem;
+        .featured-label {
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 1.5px;
+            color: #999;
+            margin-bottom: 1.5rem;
             font-weight: 700;
+        }
+
+        .featured-section h2 {
+            display: none;
         }
 
         .featured-marquee {
             overflow: hidden;
+            background: white;
+            padding: 2.5rem 0;
         }
 
         .featured-content {
             display: flex;
-            gap: 3rem;
-            animation: scroll 25s linear infinite;
+            gap: 5rem;
+            animation: scroll 50s linear infinite;
         }
 
         .featured-content:hover {
@@ -372,10 +443,11 @@
         }
 
         .featured-item img {
-            height: 50px;
+            height: 40px;
             width: auto;
-            opacity: 0.7;
-            transition: opacity 0.3s;
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+            object-fit: contain;
         }
 
         .featured-item:hover img {
@@ -384,35 +456,33 @@
 
         /* Duration Selector */
         .duration-section {
-            padding: 3rem 2rem;
-            background: white;
+            background: #fdf8f3;
             text-align: center;
         }
 
         .duration-section h2 {
-            font-size: 1.8rem;
-            color: #1a1a2e;
-            margin-bottom: 2rem;
-            font-weight: 700;
+            margin-bottom: 3rem;
         }
 
         .duration-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            max-width: 1000px;
-            margin: 0 auto 2rem;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto 2.5rem;
         }
 
         .duration-card {
             cursor: pointer;
-            border-radius: 8px;
+            border-radius: 12px;
             overflow: hidden;
-            transition: transform 0.3s;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
 
         .duration-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
         }
 
         .duration-card img {
@@ -422,31 +492,27 @@
         }
 
         .duration-label {
-            padding: 1rem;
-            background: #f8f8f8;
+            padding: 1.25rem;
+            background: white;
             font-size: 0.95rem;
-            font-weight: 600;
+            font-weight: 700;
             color: #1a1a2e;
         }
 
         /* Photo Gallery */
         .photo-gallery {
-            padding: 3rem 2rem;
             background: #f8f8f8;
         }
 
         .photo-gallery h2 {
-            font-size: 1.8rem;
-            color: #1a1a2e;
             text-align: center;
-            margin-bottom: 2rem;
-            font-weight: 700;
+            margin-bottom: 3rem;
         }
 
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
             max-width: 1200px;
             margin: 0 auto;
         }
@@ -456,17 +522,17 @@
             border-radius: 8px;
             overflow: hidden;
             aspect-ratio: 1;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.02);
         }
 
         .gallery-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.3s;
-        }
-
-        .gallery-item:hover img {
-            transform: scale(1.05);
         }
 
         /* Lightbox */
@@ -477,7 +543,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.95);
             z-index: 2000;
             align-items: center;
             justify-content: center;
@@ -488,37 +554,35 @@
         }
 
         .lightbox-content {
-            max-width: 90%;
-            max-height: 90%;
+            max-width: 85%;
+            max-height: 85%;
             position: relative;
         }
 
         .lightbox-content img {
             width: 100%;
             height: auto;
+            border-radius: 8px;
         }
 
         .lightbox-close {
             position: absolute;
-            top: -30px;
+            top: -40px;
             right: 0;
             color: white;
-            font-size: 2rem;
+            font-size: 2.5rem;
             cursor: pointer;
+            font-weight: 300;
         }
 
         /* Testimonials Section */
         .testimonials {
-            padding: 3rem 2rem;
-            background: white;
+            background: #f8f8f8;
         }
 
         .testimonials h2 {
-            font-size: 1.8rem;
-            color: #1a1a2e;
             text-align: center;
-            margin-bottom: 2rem;
-            font-weight: 700;
+            margin-bottom: 3rem;
         }
 
         .testimonials-carousel {
@@ -527,37 +591,47 @@
             overflow-x: auto;
             padding: 1rem 0;
             scroll-behavior: smooth;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
         .testimonials-carousel::-webkit-scrollbar {
-            height: 8px;
+            height: 6px;
         }
 
         .testimonials-carousel::-webkit-scrollbar-track {
-            background: #f1f1f1;
+            background: #e0e0e0;
+            border-radius: 10px;
         }
 
         .testimonials-carousel::-webkit-scrollbar-thumb {
             background: #e8642c;
-            border-radius: 4px;
+            border-radius: 10px;
         }
 
         .testimonial-card {
             flex-shrink: 0;
             width: 280px;
             text-align: center;
-            background: #f8f8f8;
-            padding: 1.5rem;
-            border-radius: 8px;
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-4px);
         }
 
         .testimonial-photo {
-            width: 100px;
-            height: 120px;
-            margin: 0 auto 1rem;
+            width: 80px;
+            height: 100px;
+            margin: 0 auto 1.5rem;
             cursor: pointer;
-            border-radius: 4px;
+            border-radius: 8px;
             overflow: hidden;
+            position: relative;
         }
 
         .testimonial-photo img {
@@ -566,50 +640,87 @@
             object-fit: cover;
         }
 
+        .testimonial-photo::after {
+            content: '▶';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(220, 38, 38, 0.9);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .testimonial-photo:hover::after {
+            opacity: 1;
+        }
+
         .testimonial-name {
-            font-weight: 600;
+            font-weight: 700;
             color: #1a1a2e;
             margin-bottom: 0.5rem;
+            font-size: 1rem;
         }
 
         .testimonial-company {
-            font-size: 0.85rem;
-            color: #666;
+            font-size: 0.8rem;
+            color: #777;
             margin-bottom: 1rem;
+            min-height: 30px;
         }
 
         .testimonial-logo {
             height: 30px;
             width: auto;
             display: inline-block;
+            filter: grayscale(100%);
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+
+        .testimonial-card:hover .testimonial-logo {
+            filter: grayscale(0%);
+            opacity: 1;
         }
 
         /* Footer */
         footer {
             background: #1a1a2e;
             color: white;
-            padding: 3rem 2rem;
+            padding: 4rem 3rem;
         }
 
         .footer-content {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto 2rem;
+            grid-template-columns: 1.2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            max-width: 1400px;
+            margin: 0 auto 2.5rem;
         }
 
         .footer-column h3 {
-            margin-bottom: 1rem;
-            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .footer-column a {
             display: block;
-            color: #ccc;
+            color: #aaa;
             text-decoration: none;
-            margin-bottom: 0.5rem;
-            transition: color 0.3s;
+            margin-bottom: 0.75rem;
+            transition: color 0.3s ease;
+            font-size: 0.9rem;
         }
 
         .footer-column a:hover {
@@ -619,47 +730,52 @@
         .footer-logo img {
             height: 44px;
             width: auto;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
 
         .footer-tagline {
-            font-size: 0.9rem;
-            color: #ccc;
-            margin-bottom: 1rem;
+            font-size: 0.85rem;
+            color: #aaa;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
         }
 
         .social-icons {
             display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
         }
 
         .social-icons a {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            background: rgba(232, 100, 44, 0.2);
-            border-radius: 50%;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            color: #e8642c;
+            width: 44px;
+            height: 44px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
             text-decoration: none;
-            font-size: 1.2rem;
-            transition: background 0.3s;
+            color: #e8642c;
+            transition: all 0.3s ease;
         }
 
         .social-icons a:hover {
             background: #e8642c;
             color: white;
+            transform: translateY(-3px);
+        }
+
+        .social-icons img {
+            width: 24px;
+            height: 24px;
         }
 
         .footer-bottom {
             text-align: center;
-            padding-top: 2rem;
+            padding-top: 2.5rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #ccc;
-            font-size: 0.9rem;
+            color: #777;
+            font-size: 0.85rem;
         }
 
         .footer-contact {
@@ -668,11 +784,63 @@
 
         .footer-rating {
             color: #e8642c;
-            margin-top: 0.5rem;
+            margin-top: 0.75rem;
+            font-size: 0.9rem;
+        }
+
+        /* Floating WhatsApp Button */
+        .whatsapp-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: #25d366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 998;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .whatsapp-button:hover {
+            background: #20ba5a;
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(37, 211, 102, 0.5);
+        }
+
+        .whatsapp-button span {
+            font-size: 1.8rem;
         }
 
         /* Mobile Responsive */
+        @media (max-width: 1024px) {
+            .videos-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .duration-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
         @media (max-width: 768px) {
+            nav {
+                padding: 1rem 1.5rem;
+            }
+
             .hamburger {
                 display: flex;
             }
@@ -694,16 +862,35 @@
             }
 
             .nav-links a {
-                padding: 1rem;
+                padding: 1rem 1.5rem;
                 border-bottom: 1px solid #eee;
             }
 
+            .hero {
+                height: auto;
+                padding: 2rem 0;
+            }
+
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding: 2rem 1.5rem;
+            }
+
             .hero h1 {
-                font-size: 1.8rem;
+                font-size: 2.2rem;
             }
 
             .hero p {
                 font-size: 1rem;
+            }
+
+            section {
+                padding: 50px 1.5rem;
+            }
+
+            section h2 {
+                font-size: 1.8rem;
             }
 
             .videos-grid {
@@ -718,26 +905,25 @@
                 grid-template-columns: repeat(2, 1fr);
             }
 
-            .testimonials-carousel {
-                padding-bottom: 1rem;
-            }
-
             .gallery-grid {
                 grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .whatsapp-button {
+                bottom: 1.5rem;
+                right: 1.5rem;
+                width: 55px;
+                height: 55px;
             }
         }
 
         @media (max-width: 480px) {
-            nav {
-                padding: 1rem;
-            }
-
-            .logo img {
-                height: 35px;
-            }
-
             .hero h1 {
-                font-size: 1.5rem;
+                font-size: 1.8rem;
             }
 
             .duration-grid {
@@ -746,6 +932,10 @@
 
             .gallery-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .marquee-content {
+                gap: 2rem;
             }
         }
     </style>
@@ -779,13 +969,17 @@
 
     <!-- Hero Section -->
     <section class="hero">
-        <h1>Want to host the most epic team-building program ever? Let us!</h1>
-        <p>We host events for in-person & remote teams. 30+ unique events intentionally designed to build happier teams.</p>
-        <div class="hero-images">
-            <img src="https://static.wixstatic.com/media/9e0902_a33d262be451496caa3bbdd81f7b8256~mv2.png/v1/crop/x_51,y_0,w_522,h_303/fill/w_730,h_424,al_c,lg_1,q_85,enc_avif,quality_auto/Mobile%20play.png" alt="Hero Image 1">
-            <img src="https://static.wixstatic.com/media/9e0902_c118ebb3e9a34d2fade04c0affbeb134f000.jpg/v1/fill/w_529,h_243,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/9e0902_c118ebb3e9a34d2fade04c0affbeb134f000.jpg" alt="Hero Image 2">
+        <div class="hero-container">
+            <div class="hero-text">
+                <h1>Want to host the most epic team-building program ever? Let us!</h1>
+                <p>We host events for in-person & remote teams. 30+ unique events intentionally designed to build happier teams.</p>
+                <a href="https://wa.me/919920389760" class="cta-button">Get a Quote in 90 mins</a>
+            </div>
+            <div class="hero-images">
+                <img src="https://static.wixstatic.com/media/9e0902_a33d262be451496caa3bbdd81f7b8256~mv2.png/v1/crop/x_51,y_0,w_522,h_303/fill/w_730,h_424,al_c,lg_1,q_85,enc_avif,quality_auto/Mobile%20play.png" alt="Hero Image 1">
+                <img src="https://static.wixstatic.com/media/9e0902_c118ebb3e9a34d2fade04c0affbeb134f000.jpg/v1/fill/w_529,h_243,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/9e0902_c118ebb3e9a34d2fade04c0affbeb134f000.jpg" alt="Hero Image 2">
+            </div>
         </div>
-        <a href="https://wa.me/919920389760" class="cta-button">Get a Quote in 90 mins</a>
     </section>
 
     <!-- Brand Logos Section -->
@@ -805,7 +999,6 @@
                 <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_fde7f810b8dd401a80aa9c02f919e96b~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/1_%20EY.png" alt="EY"></div>
                 <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_9093a13813bd489780094e1adb97bc67~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/4_%20Club%20Mahindra%20Resorts.png" alt="Club Mahindra Resorts"></div>
                 <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_8144f80fa1dc4df18e39de7825df1ffc~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/18_%20Accor%20Hotels.png" alt="Accor Hotels"></div>
-                <!-- Duplicate for infinite scroll -->
                 <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_9a1d5c82b4b443e1bfe560f70afdfcff~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/21_%20Azure%20Hospitality.png" alt="Azure Hospitality"></div>
                 <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_62f68fef408d4e91840ccdd1f2bb9d50~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/22_%20Ginger%20Hotels.png" alt="Ginger Hotels"></div>
                 <div class="marquee-item"><img src="https://static.wixstatic.com/media/9e0902_2c317fb4db7e44beb9d1ec412e9fdeb6~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/23_%20Swastik%20Tins.png" alt="Swastik Tins"></div>
@@ -823,27 +1016,22 @@
             <a href="https://www.youtube.com/watch?v=5CMOe_3UPhk" target="_blank" class="video-card">
                 <img src="https://i.ytimg.com/vi/5CMOe_3UPhk/maxresdefault.jpg" alt="The ultimate team building challenge: can your team do it?">
                 <div class="play-icon">▶</div>
-                <div class="video-title">The ultimate team building challenge: can your team do it?</div>
             </a>
             <a href="https://www.youtube.com/watch?v=aRa3-lk0ss0" target="_blank" class="video-card">
                 <img src="https://i.ytimg.com/vi/aRa3-lk0ss0/maxresdefault.jpg" alt="The team that plays together fights together stays together">
                 <div class="play-icon">▶</div>
-                <div class="video-title">The team that plays together fights together stays together</div>
             </a>
             <a href="https://www.youtube.com/watch?v=d7hAV96jBg0" target="_blank" class="video-card">
                 <img src="https://i.ytimg.com/vi/d7hAV96jBg0/maxresdefault.jpg" alt="Offsite Team Building for Swastik Tins">
                 <div class="play-icon">▶</div>
-                <div class="video-title">Offsite Team Building for Swastik Tins</div>
             </a>
             <a href="https://www.youtube.com/watch?v=KPirBZoTSPA" target="_blank" class="video-card">
                 <img src="https://i.ytimg.com/vi/KPirBZoTSPA/maxresdefault.jpg" alt="Corporate Team Building for Arete Services">
                 <div class="play-icon">▶</div>
-                <div class="video-title">Corporate Team Building for Arete Services</div>
             </a>
             <a href="https://www.youtube.com/watch?v=2cJditUwJCY" target="_blank" class="video-card">
                 <img src="https://i.ytimg.com/vi/2cJditUwJCY/maxresdefault.jpg" alt="Team Building for Club Jolie's Team">
                 <div class="play-icon">▶</div>
-                <div class="video-title">Team Building for Club Jolie's Team</div>
             </a>
         </div>
     </section>
@@ -865,7 +1053,7 @@
 
     <!-- Featured In Section -->
     <section class="featured-section">
-        <h2>Featured in</h2>
+        <div class="featured-label">As Featured In</div>
         <div class="featured-marquee">
             <div class="featured-content">
                 <div class="featured-item"><img src="https://static.wixstatic.com/media/9e0902_948917f015634f51a3a9906399455ddc~mv2.png/v1/fill/w_127,h_29,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Business_Standard_Logo.png" alt="Business Standard"></div>
@@ -876,7 +1064,6 @@
                 <div class="featured-item"><img src="https://static.wixstatic.com/media/9e0902_97aea2775dc745e09b271a271364abe9~mv2.png/v1/fill/w_127,h_71,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/the-financial-express-vector-logo.png" alt="Financial Express"></div>
                 <div class="featured-item"><img src="https://static.wixstatic.com/media/9e0902_9e0a91025eaf4de0accdcda657333d29~mv2.png/v1/fill/w_127,h_59,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Daily_News__Analysis_Logo.png" alt="Daily News"></div>
                 <div class="featured-item"><img src="https://static.wixstatic.com/media/9e0902_e03da0b96e004cb1be899cba8daaea37~mv2.png/v1/fill/w_163,h_65,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/times-of-india-newspaper-logo-hd-png-download.png" alt="Times of India"></div>
-                <!-- Duplicate for infinite scroll -->
                 <div class="featured-item"><img src="https://static.wixstatic.com/media/9e0902_948917f015634f51a3a9906399455ddc~mv2.png/v1/fill/w_127,h_29,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Business_Standard_Logo.png" alt="Business Standard"></div>
                 <div class="featured-item"><img src="https://static.wixstatic.com/media/9e0902_ade98c7a43e54cc7a129ce91c79d3be6~mv2.png/v1/fill/w_127,h_38,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/et-hospitality.png" alt="ET Hospitality"></div>
             </div>
@@ -1002,10 +1189,18 @@
                 </div>
                 <div class="footer-tagline">What's up? Get updates on new programs, workshops, the latest developments, and community activities straight to your inbox.</div>
                 <div class="social-icons">
-                    <a href="https://www.facebook.com/people/Woosh-Biz-by-HTI/100083456102229/" target="_blank">f</a>
-                    <a href="https://www.instagram.com/wooshbiz/" target="_blank">📸</a>
-                    <a href="https://www.linkedin.com/company/woosh-biz-by-hti/" target="_blank">in</a>
-                    <a href="https://www.youtube.com/channel/UC9BdT9tzf4841P1B-R7P-Qg" target="_blank">▶</a>
+                    <a href="https://www.facebook.com/people/Woosh-Biz-by-HTI/100083456102229/" target="_blank">
+                        <img src="https://static.wixstatic.com/media/11062b_ef6a6ac194704911951645990055c2ce~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_ef6a6ac194704911951645990055c2ce~mv2.png" alt="Facebook">
+                    </a>
+                    <a href="https://www.instagram.com/wooshbiz/" target="_blank">
+                        <img src="https://static.wixstatic.com/media/11062b_cef3b719166a4815b446d4dcfcb6120d~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_cef3b719166a4815b446d4dcfcb6120d~mv2.png" alt="Instagram">
+                    </a>
+                    <a href="https://www.linkedin.com/company/woosh-biz-by-hti/" target="_blank">
+                        <img src="https://static.wixstatic.com/media/11062b_b5690303a8ff470e9b1c03a24aff140b~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_b5690303a8ff470e9b1c03a24aff140b~mv2.png" alt="LinkedIn">
+                    </a>
+                    <a href="https://www.youtube.com/channel/UC9BdT9tzf4841P1B-R7P-Qg" target="_blank">
+                        <img src="https://static.wixstatic.com/media/11062b_fe985b889c144b348eefc7bbc67018b4~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_fe985b889c144b348eefc7bbc67018b4~mv2.png" alt="YouTube">
+                    </a>
                 </div>
             </div>
             <div class="footer-column">
@@ -1025,7 +1220,7 @@
                 <h3>Contact</h3>
                 <a href="tel:+919920389760">+91 9920389760</a>
                 <div class="footer-contact">
-                    <div class="footer-rating">⭐ 4.5 / 150 Ratings</div>
+                    <div class="footer-rating">⭐ 4.5 | 150 Ratings</div>
                 </div>
             </div>
         </div>
@@ -1033,6 +1228,11 @@
             © 2024 Woosh Biz by HTI India Pvt Ltd
         </div>
     </footer>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/919920389760" class="whatsapp-button" title="Chat with us on WhatsApp">
+        <span>💬</span>
+    </a>
 
     <script>
         // Navbar scroll effect
