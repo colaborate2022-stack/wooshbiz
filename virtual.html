@@ -3,323 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Virtual Programs | Woosh Biz</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
-    @<style>
+    <title>Virtual Programs Coming Soon | Woosh Biz</title>
+    <style>
         @import url('https://fonts.cdnfonts.com/css/gilroy-free');
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+
+        html { scroll-behavior: smooth; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Gilroy', sans-serif; color: #1a1a1a; overflow-x: hidden; line-height: 1.6; }
+
+        .cursor-trail { position: fixed; width: 12px; height: 12px; border-radius: 50%; background: rgba(135, 30, 108, 0.5); pointer-events: none; z-index: 9998; display: none; }
+        @media (min-width: 1025px) { .cursor-trail { display: block; } }
+
+        nav { position: fixed; top: 0; left: 0; right: 0; background: white; padding: 1.5rem 3rem; display: flex; justify-content: space-between; align-items: center; z-index: 1000; transition: all 0.3s ease; }
+        nav.scrolled { box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); backdrop-filter: blur(10px); }
+        .logo img { height: 41px; width: auto; }
+        .nav-links { display: flex; list-style: none; gap: 2.5rem; align-items: center; }
+        .nav-links a { text-decoration: none; color: #1a1a1a; font-weight: 700; font-size: 15px; letter-spacing: 0.3px; position: relative; transition: color 0.3s ease; }
+        .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: #871e6c; transition: width 0.3s ease; }
+        .nav-links a:hover { color: #871e6c; }
+        .nav-links a:hover::after { width: 100%; }
+        .dropdown { position: relative; }
+        .dropdown > a::after { content: ' ▾'; }
+        .dropdown-menu { display: none; position: absolute; top: 100%; left: 0; background: white; border-radius: 12px; box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12); padding: 8px; min-width: 220px; margin-top: 10px; }
+        .dropdown:hover .dropdown-menu { display: block; }
+        .dropdown-menu a { display: block; padding: 12px 16px; color: #1a1a1a; text-decoration: none; border-radius: 8px; transition: all 0.2s ease; }
+        .dropdown-menu a:hover { background: #fdf0f9; color: #871e6c; }
+        .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 6px; }
+        .hamburger span { width: 25px; height: 3px; background: #1a1a1a; transition: all 0.3s ease; border-radius: 2px; }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(10px, 10px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -8px); }
+
+        .hero { min-height: 100vh; background: linear-gradient(135deg, #871e6c 0%, #5c1349 100%); color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 160px 3rem 100px; text-align: center; position: relative; overflow: hidden; }
+
+        .blob { position: absolute; border-radius: 50%; opacity: 0.1; }
+        .blob1 { width: 200px; height: 200px; background: white; top: 10%; left: 5%; animation: float 6s ease-in-out infinite; }
+        .blob2 { width: 150px; height: 150px; background: white; top: 50%; right: 10%; animation: float 8s ease-in-out infinite 2s; }
+        .blob3 { width: 180px; height: 180px; background: white; bottom: 10%; left: 20%; animation: float 7s ease-in-out infinite 4s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(30px); }
         }
 
-        body {
-            font-family: 'Gilroy', sans-serif;
-            line-height: 1.6;
-            color: #333;
-        }
+        .logo img { height: 60px; width: auto; margin-bottom: 32px; animation: slideDown 0.6s ease 0.2s both; }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-40px); } to { opacity: 1; transform: translateY(0); } }
 
-        nav {
-            background: #ffffff;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: none;
-            transition: box-shadow 0.3s;
-        }
+        .hero h1 { font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 800; line-height: 1.15; margin-bottom: 16px; animation: slideDown 0.6s ease 0.3s both; position: relative; z-index: 10; }
+        .hero p { font-size: 1.1rem; opacity: 0.9; margin-bottom: 32px; animation: slideDown 0.6s ease 0.4s both; position: relative; z-index: 10; }
 
-        nav.scrolled {
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
+        .dots { display: flex; gap: 12px; justify-content: center; margin-bottom: 48px; animation: slideDown 0.6s ease 0.5s both; position: relative; z-index: 10; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; background: white; animation: pulse 1.5s ease-in-out infinite; }
+        .dot:nth-child(1) { animation-delay: 0s; }
+        .dot:nth-child(2) { animation-delay: 0.3s; }
+        .dot:nth-child(3) { animation-delay: 0.6s; }
+        @keyframes pulse { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 1; transform: scale(1.2); } }
 
-        .logo img {
-            height: 41px;
-            width: auto;
-        }
+        .cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; animation: slideDown 0.6s ease 0.6s both; position: relative; z-index: 10; }
+        .cta-button { background: #f47920; color: white; padding: 18px 40px; border-radius: 50px; font-weight: 800; font-size: 1rem; border: none; cursor: pointer; transition: all 0.3s ease; text-decoration: none; display: inline-block; position: relative; overflow: hidden; }
+        .cta-button::before { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.3); transform: translate(-50%, -50%); }
+        .cta-button:active::before { animation: ripple 0.6s ease-out; }
+        @keyframes ripple { to { width: 300px; height: 300px; } }
+        .cta-button:hover { background: #d96a10; transform: translateY(-3px); box-shadow: 0 8px 25px rgba(244, 121, 32, 0.4); }
 
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-            align-items: center;
-        }
+        .back-link { color: white; text-decoration: underline; font-weight: 700; transition: opacity 0.3s ease; display: inline-block; margin-top: 32px; animation: slideDown 0.6s ease 0.7s both; position: relative; z-index: 10; }
+        .back-link:hover { opacity: 0.8; }
 
-        .nav-links a {
-            text-decoration: none;
-            color: #871e6c;
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: color 0.3s;
-        }
+        .social-icons { display: flex; gap: 16px; justify-content: center; margin-top: 48px; animation: slideDown 0.6s ease 0.8s both; position: relative; z-index: 10; }
+        .social-icons a { width: 44px; height: 44px; border-radius: 50%; background: rgba(255, 255, 255, 0.2); display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; font-size: 1.2rem; transition: all 0.3s ease; }
+        .social-icons a:hover { background: white; color: #871e6c; transform: scale(1.1); }
 
-        .nav-links a:hover {
-            color: #e8642c;
-        }
-
-        .dropdown {
-            position: relative;
-        }
-
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: white;
-            border: 1px solid #eee;
-            border-radius: 8px;
-            min-width: 200px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            margin-top: 0.5rem;
-        }
-
-        .dropdown:hover .dropdown-menu {
-            display: block;
-        }
-
-        .dropdown-menu a {
-            display: block;
-            padding: 0.75rem 1.5rem;
-            color: #871e6c;
-            text-decoration: none;
-            font-size: 0.9rem;
-        }
-
-        .dropdown-menu a:hover {
-            background: #f8f8f8;
-            color: #e8642c;
-        }
-
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-        }
-
-        .hamburger span {
-            width: 25px;
-            height: 3px;
-            background: #871e6c;
-            margin: 5px 0;
-            transition: 0.3s;
-        }
-
-        .coming-soon {
-            background: #871e6c;
-            color: white;
-            min-height: 70vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 4rem 2rem;
-        }
-
-        .coming-soon-content {
-            max-width: 600px;
-        }
-
-        .coming-soon .logo-large img {
-            height: 80px;
-            width: auto;
-            margin-bottom: 3rem;
-        }
-
-        .coming-soon h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            font-weight: 700;
-        }
-
-        .coming-soon h2 {
-            font-size: 1.8rem;
-            margin-bottom: 2rem;
-            opacity: 0.8;
-        }
-
-        .coming-soon p {
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-            line-height: 1.8;
-        }
-
-        .cta-button {
-            background: #e8642c;
-            color: white;
-            border: none;
-            padding: 0.75rem 2rem;
-            font-size: 1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: background 0.3s;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .cta-button:hover {
-            background: #d45a20;
-        }
-
-        footer {
-            background: #871e6c;
-            color: white;
-            padding: 3rem 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto 2rem;
-        }
-
-        .footer-column h3 {
-            margin-bottom: 1rem;
-            font-size: 1rem;
-        }
-
-        .footer-column a {
-            display: block;
-            color: #ccc;
-            text-decoration: none;
-            margin-bottom: 0.5rem;
-            transition: color 0.3s;
-        }
-
-        .footer-column a:hover {
-            color: #e8642c;
-        }
-
-        .footer-logo img {
-            height: 44px;
-            width: auto;
-            margin-bottom: 1rem;
-        }
-
-        .footer-tagline {
-            font-size: 0.9rem;
-            color: #ccc;
-            margin-bottom: 1rem;
-        }
-
-        .social-icons {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .social-icons a {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            background: rgba(232, 100, 44, 0.2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #e8642c;
-            text-decoration: none;
-            font-size: 1.2rem;
-            transition: background 0.3s;
-        }
-
-        .social-icons a:hover {
-            background: #e8642c;
-            color: white;
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #ccc;
-            font-size: 0.9rem;
-        }
-
-        .footer-contact {
-            margin-top: 1rem;
-        }
-
-        .footer-rating {
-            color: #e8642c;
-            margin-top: 0.5rem;
-        }
+        .whatsapp-button { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; border-radius: 50%; background: #25d366; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; text-decoration: none; z-index: 9999; box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4); transition: all 0.3s ease; }
+        .whatsapp-button:hover { transform: scale(1.1); box-shadow: 0 12px 35px rgba(37, 211, 102, 0.5); }
+        .scroll-to-top { position: fixed; bottom: 100px; right: 30px; width: 48px; height: 48px; border-radius: 50%; background: #871e6c; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem; cursor: pointer; z-index: 9998; opacity: 0; visibility: hidden; transition: all 0.3s ease; border: none; }
+        .scroll-to-top.visible { opacity: 1; visibility: visible; }
+        .scroll-to-top:hover { background: #6b1857; transform: scale(1.1); }
 
         @media (max-width: 768px) {
-            .hamburger {
-                display: flex;
-            }
-
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 60px;
-                left: 0;
-                right: 0;
-                flex-direction: column;
-                background: white;
-                gap: 0;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            }
-
-            .nav-links.active {
-                display: flex;
-            }
-
-            .nav-links a {
-                padding: 1rem;
-                border-bottom: 1px solid #eee;
-            }
-
-            .coming-soon h1 {
-                font-size: 2rem;
-            }
-
-            .coming-soon h2 {
-                font-size: 1.4rem;
-            }
-
-            .coming-soon p {
-                font-size: 1rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            nav {
-                padding: 1rem;
-            }
-
-            .logo img {
-                height: 35px;
-            }
-
-            .coming-soon h1 {
-                font-size: 1.8rem;
-            }
-
-            .coming-soon .logo-large img {
-                height: 60px;
-            }
+            nav { padding: 1rem 1.5rem; }
+            .hero { padding: 120px 1.5rem 60px; }
+            .hero h1 { font-size: 1.8rem; }
+            .cta-buttons { flex-direction: column; gap: 12px; }
+            .cta-button { width: 100%; }
         }
     </style>
 </head>
 <body>
+    <div class="cursor-trail"></div>
+
     <nav id="navbar">
         <div class="logo">
-            <img src="https://static.wixstatic.com/media/fe3583_2f36ed41d71a4ed3ba3db03baf388f14~mv2.png/v1/fill/w_104,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/2209_Woosh%20Biz%20update%20final%20logo_PNG.png" alt="Woosh Biz Logo">
+            <img src="https://static.wixstatic.com/media/fe3583_2f36ed41d71a4ed3ba3db03baf388f14~mv2.png/v1/fill/w_104,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/2209_Woosh%20Biz%20update%20final%20logo_PNG.png" alt="Woosh Biz">
         </div>
-        <ul class="nav-links" id="navLinks">
+        <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
             <li><a href="high-octane.html">In-Office</a></li>
             <li><a href="outbound.html">Outbound</a></li>
@@ -341,82 +117,69 @@
         </div>
     </nav>
 
-    <section class="coming-soon">
-        <div class="coming-soon-content">
-            <div class="logo-large">
-                <img src="https://static.wixstatic.com/media/9e0902_b8e2795e4f484602a2294b7410e3f4e5~mv2.png/v1/fill/w_112,h_44,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/2209_Woosh%20Biz%20update%20final%20white%20logo_PNG.png" alt="Woosh Biz">
-            </div>
-            <h1>Virtual Programs</h1>
-            <h2>Coming Soon!</h2>
-            <p>We're cooking up something amazing. Our virtual team building programs will be launching soon.</p>
+    <section class="hero">
+        <div class="blob blob1"></div>
+        <div class="blob blob2"></div>
+        <div class="blob blob3"></div>
+
+        <img src="https://static.wixstatic.com/media/9e0902_b8e2795e4f484602a2294b7410e3f4e5~mv2.png/v1/fill/w_112,h_44,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/2209_Woosh%20Biz%20update%20final%20white%20logo_PNG.png" alt="Woosh Biz" class="logo">
+
+        <h1>Virtual Programs</h1>
+        <p>Something Amazing is Coming Soon! 🚀</p>
+
+        <div class="dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+
+        <p style="max-width: 600px; font-size: 1rem; line-height: 1.8; opacity: 0.85; margin-bottom: 32px;">We're crafting next-level virtual team building experiences. Stay tuned — it's going to be epic.</p>
+
+        <div class="cta-buttons">
             <a href="contact.html" class="cta-button">Get Notified — Contact Us</a>
+        </div>
+
+        <a href="index.html" class="back-link">← Back to Home</a>
+
+        <div class="social-icons">
+            <a href="https://www.facebook.com/people/Woosh-Biz-by-HTI/100083456102229/" target="_blank">f</a>
+            <a href="https://www.instagram.com/wooshbiz/" target="_blank">📸</a>
+            <a href="https://www.linkedin.com/company/woosh-biz-by-hti/" target="_blank">in</a>
+            <a href="https://www.youtube.com/channel/UC9BdT9tzf4841P1B-R7P-Qg" target="_blank">▶</a>
         </div>
     </section>
 
-    <footer>
-        <div class="footer-content">
-            <div class="footer-column">
-                <div class="footer-logo">
-                    <img src="https://static.wixstatic.com/media/9e0902_b8e2795e4f484602a2294b7410e3f4e5~mv2.png/v1/fill/w_112,h_44,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/2209_Woosh%20Biz%20update%20final%20white%20logo_PNG.png" alt="Woosh Biz White Logo">
-                </div>
-                <div class="footer-tagline">What's up? Get updates on new programs, workshops, the latest developments, and community activities straight to your inbox.</div>
-                <div class="social-icons">
-                    <a href="https://www.facebook.com/people/Woosh-Biz-by-HTI/100083456102229/" target="_blank">f</a>
-                    <a href="https://www.instagram.com/wooshbiz/" target="_blank">📸</a>
-                    <a href="https://www.linkedin.com/company/woosh-biz-by-hti/" target="_blank">in</a>
-                    <a href="https://www.youtube.com/channel/UC9BdT9tzf4841P1B-R7P-Qg" target="_blank">▶</a>
-                </div>
-            </div>
-            <div class="footer-column">
-                <h3>Quick Links</h3>
-                <a href="contact.html">Get In Touch</a>
-                <a href="about.html">About Us</a>
-                <a href="contact.html">Free Consultation Call</a>
-                <a href="blog.html">Blogs</a>
-            </div>
-            <div class="footer-column">
-                <h3>Programs</h3>
-                <a href="high-octane.html">In-Office</a>
-                <a href="outbound.html">Outbound</a>
-                <a href="virtual.html">Virtual</a>
-            </div>
-            <div class="footer-column">
-                <h3>Contact</h3>
-                <a href="tel:+919920389760">+91 9920389760</a>
-                <div class="footer-contact">
-                    <div class="footer-rating">⭐ 4.5 / 150 Ratings</div>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            © 2024 Woosh Biz by HTI India Pvt Ltd
-        </div>
-    </footer>
+    <a href="https://wa.me/919920389760" class="whatsapp-button" title="Chat with us on WhatsApp">💬</a>
+    <button class="scroll-to-top" id="scrollToTop" title="Scroll to top">↑</button>
 
     <script>
-        window.addEventListener('scroll', function() {
-            const navbar = document.getElementById('navbar');
-            if (window.scrollY > 0) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
+        const cursorTrail = document.querySelector('.cursor-trail');
+        let cursorX = 0, cursorY = 0, trailX = 0, trailY = 0;
+        document.addEventListener('mousemove', (e) => { cursorX = e.clientX; cursorY = e.clientY; });
+        function animateCursorTrail() {
+            trailX += (cursorX - trailX) * 0.15; trailY += (cursorY - trailY) * 0.15;
+            cursorTrail.style.left = trailX + 'px'; cursorTrail.style.top = trailY + 'px';
+            requestAnimationFrame(animateCursorTrail);
+        }
+        animateCursorTrail();
+
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 80);
         });
 
         const hamburger = document.getElementById('hamburger');
-        const navLinks = document.getElementById('navLinks');
-
-        hamburger.addEventListener('click', function() {
-            navLinks.classList.toggle('active');
+        const navLinks = document.querySelector('.nav-links');
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
         });
 
-        const navItems = navLinks.querySelectorAll('a');
-        navItems.forEach(item => {
-            item.addEventListener('click', function() {
-                navLinks.classList.remove('active');
-            });
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+        window.addEventListener('scroll', () => {
+            scrollToTopBtn.classList.toggle('visible', window.scrollY > 300);
         });
+        scrollToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
     </script>
 </body>
 </html>
-
