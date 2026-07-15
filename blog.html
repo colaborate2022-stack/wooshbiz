@@ -6,8 +6,9 @@
     <title>Blogs - Team Building Insights | Woosh Biz</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
+    
+    @<style>
+        @import url('https://fonts.cdnfonts.com/css/gilroy-free');
         * {
             margin: 0;
             padding: 0;
@@ -15,7 +16,7 @@
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Gilroy', sans-serif;
             line-height: 1.6;
             color: #333;
         }
@@ -51,7 +52,7 @@
 
         .nav-links a {
             text-decoration: none;
-            color: #1a1a2e;
+            color: #871e6c;
             font-weight: 500;
             font-size: 0.95rem;
             transition: color 0.3s;
@@ -85,7 +86,7 @@
         .dropdown-menu a {
             display: block;
             padding: 0.75rem 1.5rem;
-            color: #1a1a2e;
+            color: #871e6c;
             text-decoration: none;
             font-size: 0.9rem;
         }
@@ -104,13 +105,13 @@
         .hamburger span {
             width: 25px;
             height: 3px;
-            background: #1a1a2e;
+            background: #871e6c;
             margin: 5px 0;
             transition: 0.3s;
         }
 
         .hero {
-            background: #1a1a2e;
+            background: #871e6c;
             color: white;
             padding: 4rem 2rem;
             text-align: center;
@@ -142,7 +143,7 @@
 
         .blog-card {
             background: white;
-            border-radius: 8px;
+            border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s;
@@ -152,16 +153,16 @@
             transform: translateY(-5px);
         }
 
+        .blog-card:hover .blog-image {
+            transform: scale(1.03);
+        }
+
         .blog-image {
             width: 100%;
-            height: 200px;
-            background: linear-gradient(135deg, #1a1a2e 0%, #e8642c 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 3rem;
-            font-weight: 600;
+            height: 220px;
+            object-fit: cover;
+            display: block;
+            border-radius: 12px 12px 0 0;
         }
 
         .blog-content {
@@ -170,7 +171,7 @@
 
         .blog-content h3 {
             font-size: 1.1rem;
-            color: #1a1a2e;
+            color: #871e6c;
             margin-bottom: 1rem;
             font-weight: 700;
             line-height: 1.4;
@@ -204,7 +205,7 @@
         }
 
         footer {
-            background: #1a1a2e;
+            background: #871e6c;
             color: white;
             padding: 3rem 2rem;
         }
@@ -374,47 +375,47 @@
     <section class="blog-section">
         <div class="blog-grid">
             <div class="blog-card">
-                <div class="blog-image">🥋</div>
+                <img class="blog-image" src="https://i.ytimg.com/vi/5CMOe_3UPhk/maxresdefault.jpg" alt="Kung Fu Panda Team Building">
                 <div class="blog-content">
                     <h3>What Kung Fu Panda Can Teach You About Team Building</h3>
                     <p class="blog-excerpt">A common misconception about teams is that members have to be homogeneous. Kung Fu Panda mirthfully busts that myth.</p>
-                    <a href="#" class="cta-button">Read More</a>
+                    <a href="https://www.wooshbiz.com/post/kung-fu-panda-team-building" class="cta-button" target="_blank">Read More</a>
                 </div>
             </div>
 
             <div class="blog-card">
-                <div class="blog-image">💼</div>
+                <img class="blog-image" src="https://i.ytimg.com/vi/KPirBZoTSPA/maxresdefault.jpg" alt="Team Building Activity Benefits">
                 <div class="blog-content">
                     <h3>A Team Building Activity for Every Benefit You Wish to Achieve</h3>
                     <p class="blog-excerpt">Effective communication is the lifeblood of any successful team. Here are specific benefits from specific activities.</p>
-                    <a href="#" class="cta-button">Read More</a>
+                    <a href="https://www.wooshbiz.com/timeline-blog-posts/team-building-activity-benefits" class="cta-button" target="_blank">Read More</a>
                 </div>
             </div>
 
             <div class="blog-card">
-                <div class="blog-image">🎯</div>
+                <img class="blog-image" src="https://i.ytimg.com/vi/aRa3-lk0ss0/maxresdefault.jpg" alt="Team Building Insights Unity">
                 <div class="blog-content">
                     <h3>Team Building Insights: Unveiling the Power and Importance of Unity</h3>
                     <p class="blog-excerpt">From unity to victory, explore why team building is the cornerstone of corporate triumph.</p>
-                    <a href="#" class="cta-button">Read More</a>
+                    <a href="https://www.wooshbiz.com/team-building-insights" class="cta-button" target="_blank">Read More</a>
                 </div>
             </div>
 
             <div class="blog-card">
-                <div class="blog-image">🌿</div>
+                <img class="blog-image" src="https://i.ytimg.com/vi/d7hAV96jBg0/maxresdefault.jpg" alt="Escape Daily Grind">
                 <div class="blog-content">
                     <h3>Escape the Daily Grind with Woosh Biz</h3>
                     <p class="blog-excerpt">Embark on a culinary adventure, build rafts, explore rural life. The Slow Down experience.</p>
-                    <a href="#" class="cta-button">Read More</a>
+                    <a href="https://www.wooshbiz.com/slow-down" class="cta-button" target="_blank">Read More</a>
                 </div>
             </div>
 
             <div class="blog-card">
-                <div class="blog-image">🚀</div>
+                <img class="blog-image" src="https://i.ytimg.com/vi/2cJditUwJCY/maxresdefault.jpg" alt="Beyond Desks and Chairs">
                 <div class="blog-content">
                     <h3>Beyond Desks and Chairs: Team Building Activities</h3>
                     <p class="blog-excerpt">Discover how getting out of the office transforms team dynamics and performance.</p>
-                    <a href="#" class="cta-button">Read More</a>
+                    <a href="https://www.wooshbiz.com/timeline-blogs/beyond-desks-and-chairs-team-building-activities" class="cta-button" target="_blank">Read More</a>
                 </div>
             </div>
         </div>
@@ -486,3 +487,4 @@
     </script>
 </body>
 </html>
+
