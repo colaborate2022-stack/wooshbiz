@@ -196,7 +196,7 @@
             position: relative;
             max-width: 1100px;
             width: 100%;
-            margin: 2rem auto 0;
+            margin: 12px auto 0;
         }
 
         .hands-img {
@@ -220,7 +220,7 @@
             display: flex;
             gap: 1rem;
             justify-content: center;
-            margin-top: 2rem;
+            margin-top: 10px;
         }
 
         .cta-button {
@@ -1032,6 +1032,12 @@
             /* Global */
             body { overflow-x: hidden; }
 
+            /* Hero — mobile video side nudge */
+            .phone-video {
+                left: 22.2% !important;
+                width: 48.6% !important;
+            }
+
             /* Navbar */
             .hamburger { display: flex !important; }
             .nav-links {
@@ -1066,7 +1072,7 @@
 
             /* Hero */
             .hero {
-                padding: 80px 20px 40px !important;
+                padding: 100px 20px 40px !important;
                 min-height: auto !important;
             }
             .hero-headline {
@@ -1074,12 +1080,13 @@
             }
             .hero-subtext {
                 font-size: clamp(0.95rem, 2.5vw, 1.125rem) !important;
+                margin-bottom: 0 !important;
             }
             .phone-hero {
-                margin: 1.5rem auto 0 !important;
+                margin: 12px auto 0 !important;
             }
             .hero-cta-container {
-                margin-top: 1.5rem !important;
+                margin-top: 10px !important;
             }
 
             /* Sections */
