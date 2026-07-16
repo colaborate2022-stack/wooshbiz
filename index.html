@@ -156,192 +156,98 @@
         .hero {
             min-height: 100vh;
             background: white;
-            display: grid;
-            grid-template-columns: 55% 45%;
-            gap: 3rem;
-            align-items: center;
-            padding: 100px 3rem 2rem;
-            max-width: 1600px;
-            margin: 0 auto;
-        }
-
-        .hero-left {
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 2rem 60px;
+            gap: 2rem;
         }
 
-        .badge {
-            background: #fdf0f9;
-            color: #871e6c;
-            width: fit-content;
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-size: 13px;
-            font-weight: 700;
-            animation: slideDownFade 0.5s ease 0.3s both;
+        .hero-headline {
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: clamp(2rem, 6vw, 3rem);
+            font-weight: bold;
+            color: #111;
+            text-align: center;
+            max-width: 800px;
+            line-height: 1.3;
+            margin: 0;
         }
 
-        @keyframes slideDownFade {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .hero-headline .highlight {
+            color: #8E2158;
         }
 
-        .hero h1 {
-            font-size: clamp(2.2rem, 4vw, 3.8rem);
-            font-weight: 800;
-            color: #1a1a1a;
-            line-height: 1.15;
-            animation: fadeUpAnimation 0.6s ease 0.3s both;
+        .hero-subtext {
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: clamp(1rem, 3vw, 1.25rem);
+            color: #222;
+            text-align: center;
+            max-width: 900px;
+            line-height: 1.6;
+            margin: 0;
         }
 
-        .hero h1 .highlight {
-            color: #871e6c;
+        .phone-hero {
+            position: relative;
+            max-width: 1100px;
+            width: 100%;
+            margin: 2rem auto 0;
         }
 
-        @keyframes fadeUpAnimation {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .hands-img {
+            display: block;
+            width: 100%;
+            height: auto;
         }
 
-        .hero p {
-            color: #555;
-            font-size: 1.15rem;
-            line-height: 1.8;
-            animation: fadeUpAnimation 0.6s ease 0.5s both;
+        .phone-video {
+            position: absolute;
+            left: 24%;
+            top: 9%;
+            width: 52%;
+            height: 52%;
+            object-fit: cover;
+            border-radius: 16px;
+            z-index: 2;
         }
 
-        .hero-cta {
+        .hero-cta-container {
             display: flex;
             gap: 1rem;
-            align-items: center;
-            animation: fadeUpAnimation 0.6s ease 0.7s both;
+            justify-content: center;
+            margin-top: 2rem;
         }
 
         .cta-button {
-            background: #f47920;
+            background: #8E2158;
             color: white;
-            padding: 18px 40px;
+            padding: 16px 36px;
             border-radius: 50px;
-            font-weight: 800;
-            font-size: 1rem;
+            font-weight: 700;
+            font-size: 1.125rem;
             border: none;
             cursor: pointer;
             transition: all 0.3s ease;
             text-decoration: none;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
             position: relative;
             overflow: hidden;
         }
 
-        .cta-button::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            transform: translate(-50%, -50%);
-        }
-
-        .cta-button:active::before {
-            animation: ripple 0.6s ease-out;
-        }
-
-        @keyframes ripple {
-            to {
-                width: 300px;
-                height: 300px;
-            }
-        }
-
         .cta-button:hover {
-            background: #d96a10;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(244, 121, 32, 0.4);
+            background: #6b1a46;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(142, 33, 88, 0.3);
         }
 
-        .hero-stats {
-            display: flex;
-            gap: 2rem;
-            font-size: 0.85rem;
-            color: #777;
-        }
-
-        .hero-stat {
-            padding-right: 2rem;
-            border-right: 2px solid #e0e0e0;
-        }
-
-        .hero-stat:last-child {
-            border-right: none;
-        }
-
-        .hero-stat strong {
-            color: #1a1a1a;
-            font-weight: 800;
-        }
-
-        .hero-right {
-            position: relative;
-            height: 500px;
-        }
-
-        .hero-phone {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 55%;
-            filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.15));
-            animation: slideInRight 0.8s ease 0.4s both;
-        }
-
-        .hero-team {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 70%;
-            border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-            animation: slideInRight 0.8s ease 0.6s both;
-        }
-
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(60px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .rating-badge {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            background: white;
-            padding: 12px 16px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            font-size: 0.85rem;
-            font-weight: 700;
-            z-index: 10;
+        .cta-button svg {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
         }
 
         /* Stats Section */
@@ -1154,31 +1060,21 @@
             .dropdown-menu li a { font-size: 1rem; text-align: center; }
 
             /* Hero */
-            .hero, [class*="hero"] {
-                padding: 100px 20px 60px !important;
+            .hero {
+                padding: 80px 20px 40px !important;
                 min-height: auto !important;
             }
-            .hero-grid, .hero-content, [class*="hero-grid"] {
-                grid-template-columns: 1fr !important;
-                gap: 32px !important;
+            .hero-headline {
+                font-size: clamp(1.5rem, 5vw, 2.2rem) !important;
             }
-            .hero h1, .hero-title {
-                font-size: clamp(1.8rem, 6vw, 2.4rem) !important;
-                text-align: center !important;
+            .hero-subtext {
+                font-size: clamp(0.95rem, 2.5vw, 1.125rem) !important;
             }
-            .hero p, .hero-sub {
-                font-size: 1rem !important;
-                text-align: center !important;
+            .phone-hero {
+                margin: 1.5rem auto 0 !important;
             }
-            .hero-badge { margin: 0 auto !important; }
-            .hero-stats { justify-content: center !important; flex-wrap: wrap !important; }
-            .hero-cta, .cta-btn, [class*="cta"] {
-                width: 100% !important;
-                text-align: center !important;
-                justify-content: center !important;
-            }
-            .hero-images, .hero-right {
-                display: none !important;
+            .hero-cta-container {
+                margin-top: 1.5rem !important;
             }
 
             /* Sections */
@@ -1395,22 +1291,23 @@
 
     <!-- Hero Section -->
     <section class="hero">
-        <div class="hero-left">
-            <div class="badge reveal">🎉 India's #1 Team Building Company</div>
-            <h1 class="reveal">Want to host the most epic team-building program ever?<br><span class="highlight">Let us!</span></h1>
-            <p class="reveal">We host events for in-person & remote teams. 30+ unique events intentionally designed to build happier teams.</p>
-            <div class="hero-cta reveal">
-                <a href="https://wa.me/919920389760" class="cta-button">Get a Quote in 90 mins 🚀</a>
-            </div>
-            <div class="hero-stats reveal">
-                <div class="hero-stat"><strong>30+</strong> Events</div>
-                <div class="hero-stat"><strong>60+</strong> Brands</div>
-                <div class="hero-stat"><strong>150+</strong> Happy Teams</div>
-            </div>
+        <h1 class="hero-headline">Want to host the most epic team-building program ever? <span class="highlight">Let us!</span></h1>
+        <p class="hero-subtext">We host events for in-person & remote teams.<br>30+ unique events intentionally designed to build happier teams.</p>
+
+        <div class="phone-hero">
+            <img src="images/hands-phone.png" class="hands-img" alt="Team building event video">
+            <video class="phone-video" autoplay muted loop playsinline>
+                <source src="videos/hero-video.mp4" type="video/mp4">
+            </video>
         </div>
-        <div class="hero-right">
-            <img class="hero-team reveal" src="https://static.wixstatic.com/media/9e0902_c118ebb3e9a34d2fade04c0affbeb134f000.jpg/v1/fill/w_529,h_243,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/9e0902_c118ebb3e9a34d2fade04c0affbeb134f000.jpg" alt="Team">
-            <div class="rating-badge">⭐ 4.5 | 150 Reviews</div>
+
+        <div class="hero-cta-container">
+            <a href="https://wa.me/919920389760" target="_blank" class="cta-button">
+                <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-4.994 1.509c-1.54.887-2.803 2.126-3.666 3.71C3.31 12.493 3 13.845 3 15.233c0 1.388.31 2.74.926 4.055.615 1.315 1.474 2.491 2.539 3.379.65.538 1.36 1.018 2.12 1.418-.082.488-.281 1.513-.46 2.34-.174.818-.24 1.126-.125 1.28.116.157.452.254.88.25.428-.002.856-.178 1.367-.334 1.06-.349 2.407-1.003 3.456-1.695 1.048.694 2.396 1.346 3.456 1.695.51.156.938.332 1.367.334.428.004.764-.093.88-.25.115-.154.049-.462-.125-1.28-.179-.827-.378-1.852-.46-2.34.76-.4 1.47-.88 2.12-1.418 1.065-.888 1.924-2.064 2.539-3.379.616-1.315.926-2.667.926-4.055 0-1.388-.31-2.74-.926-4.055-.615-1.315-1.474-2.49-2.539-3.379A9.87 9.87 0 0012 7.021"/>
+                </svg>
+                Get a Quote in 90 mins
+            </a>
         </div>
     </section>
 
