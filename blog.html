@@ -3,223 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog - Team Building Insights | Woosh Biz</title>
+    <title>Blog | Woosh Biz</title>
+    <meta name="description" content="Ideas, tips and stories on team building, corporate events and workplace culture from Woosh Biz.">
+    <link rel="icon" href="https://static.wixstatic.com/media/fe3583_2f36ed41d71a4ed3ba3db03baf388f14~mv2.png/v1/fill/w_104,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/2209_Woosh%20Biz%20update%20final%20logo_PNG.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
         @import url('https://fonts.cdnfonts.com/css/gilroy-free');
 
+        :root {
+            --wb-primary: #871e6c;
+            --wb-plum: #8E2158;
+            --wb-text: #1a1a1a;
+        }
+
         html { scroll-behavior: smooth; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Gilroy', sans-serif; color: #1a1a1a; overflow-x: hidden; line-height: 1.6; }
+        body { font-family: 'Gilroy', sans-serif; color: var(--wb-text); line-height: 1.6; }
+        a { text-decoration: none; color: inherit; }
+        img { display: block; max-width: 100%; }
 
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.7s ease; }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
-        .reveal:nth-child(2) { transition-delay: 0.1s; }
-        .reveal:nth-child(3) { transition-delay: 0.2s; }
-        .reveal:nth-child(4) { transition-delay: 0.3s; }
-        .reveal:nth-child(5) { transition-delay: 0.4s; }
-
-        .cursor-trail { position: fixed; width: 12px; height: 12px; border-radius: 50%; background: rgba(135, 30, 108, 0.5); pointer-events: none; z-index: 9998; display: none; }
-        @media (min-width: 1025px) { .cursor-trail { display: block; } }
-
-        nav { position: fixed; top: 0; left: 0; right: 0; background: white; padding: 1.5rem 3rem; display: flex; justify-content: space-between; align-items: center; z-index: 1000; transition: all 0.3s ease; }
-        nav::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(to right, transparent, #871e6c, transparent);
-        }
-        nav.scrolled { backdrop-filter: blur(10px); }
-        .logo img { height: 41px; width: auto; }
-        .nav-links { display: flex; list-style: none; gap: 1.5rem; align-items: center; }
-        .nav-links a { text-decoration: none; color: #1a1a1a; font-weight: 700; font-size: 15px; letter-spacing: 0.3px; position: relative; transition: color 0.3s ease; }
-        .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: #871e6c; transition: width 0.3s ease; }
-        .nav-links a:hover { color: #871e6c; }
-        .nav-links a:hover::after { width: 100%; }
+        /* ============ NAV ============ */
+        .navbar { position: sticky; top: 0; z-index: 999; background: #fff; box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+        .nav-container { max-width: 1200px; margin: 0 auto; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
+        .nav-logo img { height: 40px; width: auto; display: block; }
+        .nav-links { display: flex; align-items: center; gap: 30px; list-style: none; }
+        .nav-links a { font-weight: 700; font-size: 15px; color: var(--wb-text); }
+        .nav-links a:hover { color: var(--wb-primary); }
         .dropdown { position: relative; }
-        .dropdown > a::after { content: ' ▾'; }
-        .dropdown-menu { display: none; position: absolute; top: 100%; left: 0; background: white; border-radius: 12px; box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12); padding: 8px; min-width: 220px; margin-top: 10px; }
-        .dropdown:hover .dropdown-menu { display: block; }
-        .dropdown-menu a { display: block; padding: 12px 16px; color: #1a1a1a; text-decoration: none; border-radius: 8px; transition: all 0.2s ease; }
-        .dropdown-menu a:hover { background: #fdf0f9; color: #871e6c; }
-        .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 6px; }
-        .hamburger span { width: 25px; height: 3px; background: #1a1a1a; transition: all 0.3s ease; border-radius: 2px; }
-        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(10px, 10px); }
-        .hamburger.active span:nth-child(2) { opacity: 0; }
-        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -8px); }
-
-        .hero { min-height: 70vh; background: linear-gradient(135deg, #871e6c 0%, #5c1349 100%); color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 160px 3rem 100px; text-align: center; }
-        .badge { background: rgba(255, 255, 255, 0.2); color: white; width: fit-content; padding: 10px 24px; border-radius: 50px; font-size: 14px; font-weight: 700; margin-bottom: 20px; animation: slideDownFade 0.5s ease 0.2s both; }
-        @keyframes slideDownFade { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-        .hero h1 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; line-height: 1.15; margin-bottom: 16px; animation: fadeUpAnimation 0.6s ease 0.3s both; }
-        @keyframes fadeUpAnimation { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        .hero p { font-size: 1.1rem; opacity: 0.9; animation: fadeUpAnimation 0.6s ease 0.4s both; }
-
-        .blog-section { padding: 80px 3rem; background: white; }
-        .section-heading { font-size: 2.5rem; font-weight: 800; color: #1a1a1a; text-align: center; margin-bottom: 50px; }
-        .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; max-width: 1400px; margin: 0 auto; }
-
-        .blog-card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08); transition: all 0.3s ease; cursor: pointer; }
-        .blog-card:hover { transform: translateY(-8px); box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15); }
-        .blog-card:hover .blog-image { transform: scale(1.08); }
-
-        .blog-image { width: 100%; height: 220px; object-fit: cover; transition: transform 0.3s ease; display: block; border-radius: 20px 20px 0 0; }
-        .blog-content { padding: 24px; }
-
-        .blog-category { background: #fdf0f9; color: #871e6c; border-radius: 50px; padding: 4px 14px; font-size: 0.8rem; font-weight: 700; display: inline-block; margin-bottom: 12px; }
-        .blog-title { font-size: 1.15rem; font-weight: 800; color: #1a1a1a; margin-bottom: 12px; line-height: 1.4; }
-        .blog-excerpt { font-size: 0.9rem; color: #666; margin-bottom: 16px; line-height: 1.7; }
-
-        .blog-meta { display: flex; justify-content: space-between; align-items: center; padding-top: 16px; border-top: 1px solid #eee; font-size: 0.8rem; color: #999; }
-        .blog-meta-text { color: #1a1a1a; font-weight: 700; }
-
-        .read-more { color: #871e6c; font-weight: 700; text-decoration: none; display: inline-block; transition: color 0.3s ease; }
-        .read-more:hover { color: #f47920; }
-
-        footer { background: #871e6c; color: white; padding: 60px 3rem 30px; }
-        .footer-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr 1fr; gap: 3rem; max-width: 1400px; margin: 0 auto 40px; }
-        .footer-logo img { height: 40px; width: auto; }
-        .footer-column h4 { font-size: 0.85rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px; opacity: 0.9; }
-        .footer-column a { display: block; color: rgba(255, 255, 255, 0.75); text-decoration: none; font-size: 0.9rem; margin-bottom: 10px; transition: all 0.3s ease; }
-        .footer-column a:hover { opacity: 1; text-decoration: underline; }
-        .footer-contact { font-size: 1.2rem; font-weight: 800; }
-        .footer-rating { font-size: 0.85rem; opacity: 0.8; margin-top: 12px; }
-        .footer-bottom { border-top: 1px solid rgba(255, 255, 255, 0.2); padding-top: 20px; text-align: center; color: rgba(255, 255, 255, 0.6); font-size: 0.85rem; }
-
-        .whatsapp-button { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; border-radius: 50%; background: #25d366; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; text-decoration: none; z-index: 9999; box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4); transition: all 0.3s ease; }
-        .whatsapp-button:hover { transform: scale(1.1); box-shadow: 0 12px 35px rgba(37, 211, 102, 0.5); }
-        .scroll-to-top { position: fixed; bottom: 100px; right: 30px; width: 48px; height: 48px; border-radius: 50%; background: #871e6c; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem; cursor: pointer; z-index: 9998; opacity: 0; visibility: hidden; transition: all 0.3s ease; border: none; }
-        .scroll-to-top.visible { opacity: 1; visibility: visible; }
-        .scroll-to-top:hover { background: #6b1857; transform: scale(1.1); }
-
-        @media (max-width: 1024px) {
-            .blog-grid { grid-template-columns: repeat(2, 1fr); }
-            .footer-grid { grid-template-columns: 1fr 1fr; }
-            .hamburger { display: flex; }
-            .nav-links { display: none; }
+        .dropdown-menu {
+            position: absolute; top: 130%; left: 0; background: #fff;
+            box-shadow: 0 12px 30px rgba(0,0,0,.12); border-radius: 10px; padding: 10px 0;
+            min-width: 200px; opacity: 0; visibility: hidden; transform: translateY(6px);
+            transition: all .2s ease; list-style: none;
         }
-        @media (max-width: 768px) {
-            body { overflow-x: hidden; }
-            .hamburger { display: flex !important; }
-            .nav-links { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: #fff; flex-direction: column; align-items: center; justify-content: center; gap: 24px; z-index: 9998; padding: 80px 24px 40px; }
-            .nav-links.open { display: flex !important; }
-            .nav-links a { font-size: 1.3rem; }
-            .hero { padding: 120px 1.5rem 60px; }
-            .hero h1 { font-size: 1.8rem; }
-            .blog-section { padding: 60px 1.5rem; }
-            .blog-grid { grid-template-columns: 1fr; }
-            .section-heading { font-size: 1.8rem; margin-bottom: 30px; }
-            footer { padding: 40px 1.5rem 20px; }
-            .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+        .dropdown:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .dropdown-menu li a { display: block; padding: 8px 20px; font-weight: 500; }
+        .dropdown-menu li a:hover { background: #f8f0f6; color: var(--wb-primary); }
+        .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; }
+        .hamburger span { width: 24px; height: 2px; background: var(--wb-text); }
+
+        @media (max-width: 900px) {
+            .hamburger { display: flex; }
+            .nav-links {
+                position: absolute; top: 100%; left: 0; right: 0; background: #fff;
+                flex-direction: column; align-items: flex-start; padding: 16px 24px;
+                display: none; box-shadow: 0 12px 30px rgba(0,0,0,.1);
+            }
+            .nav-links.open { display: flex; }
+            .dropdown-menu { position: static; opacity: 1; visibility: visible; transform: none; box-shadow: none; display: none; padding-left: 10px; }
+            .dropdown.open .dropdown-menu { display: block; }
+        }
+
+        /* ============ HERO ============ */
+        .blog-hero {
+            text-align: center;
+            padding: 70px 24px 50px;
+            background: linear-gradient(180deg, #fbf1f8 0%, #fff 100%);
+        }
+        .blog-hero h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-weight: 800;
+            font-size: clamp(2rem, 5vw, 3rem);
+            color: var(--wb-text);
+        }
+        .blog-hero span { color: var(--wb-plum); }
+        .blog-hero p { margin-top: 14px; color: #666; font-size: 1.05rem; max-width: 560px; margin-left: auto; margin-right: auto; }
+
+        /* ============ GRID ============ */
+        .blog-section { max-width: 1200px; margin: 0 auto; padding: 20px 24px 90px; }
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 32px;
+        }
+        .blog-card {
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 6px 24px rgba(0,0,0,.07);
+            cursor: pointer;
+            transition: transform .25s ease, box-shadow .25s ease;
+        }
+        .blog-card:hover { transform: translateY(-6px); box-shadow: 0 16px 34px rgba(0,0,0,.12); }
+        .blog-cover { width: 100%; height: 200px; object-fit: cover; }
+        .blog-cover-ph { width: 100%; height: 200px; background: linear-gradient(135deg, #871e6c, #8E2158); }
+        .blog-card-body { padding: 22px; }
+        .blog-cat {
+            display: inline-block; background: #f8e9f4; color: var(--wb-primary);
+            font-weight: 700; font-size: 11.5px; letter-spacing: .04em; text-transform: uppercase;
+            padding: 5px 12px; border-radius: 100px; margin-bottom: 12px;
+        }
+        .blog-card-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.2rem; font-weight: 700; line-height: 1.3; margin-bottom: 10px; color: var(--wb-text);
+        }
+        .blog-excerpt { font-size: 14.5px; color: #666; margin-bottom: 16px; }
+        .blog-author { font-weight: 700; font-size: 13.5px; color: var(--wb-text); margin-bottom: 4px; }
+        .blog-meta { font-size: 12.5px; color: #999; }
+        .blog-meta .dot { margin: 0 6px; }
+        .blog-status { text-align: center; padding: 60px 24px; color: #888; font-size: 16px; font-weight: 600; grid-column: 1 / -1; }
+
+        /* ============ FOOTER ============ */
+        footer { background: #1a1a1a; color: #fff; padding: 60px 24px 24px; }
+        .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 40px; }
+        .footer-logo img { height: 40px; margin-bottom: 14px; }
+        .footer-tagline { color: #ccc; font-size: 14px; margin-bottom: 18px; }
+        .footer-socials { display: flex; gap: 10px; }
+        .footer-socials img { width: 28px; height: 28px; border-radius: 50%; }
+        .footer-grid h4 { font-size: 15px; margin-bottom: 14px; }
+        .footer-grid a { display: block; color: #ccc; font-size: 14px; margin-bottom: 10px; }
+        .footer-grid a:hover { color: #fff; }
+        .footer-contact { font-weight: 700; margin-bottom: 6px; }
+        .footer-bottom { text-align: center; color: #999; font-size: 13px; margin-top: 40px; padding-top: 20px; border-top: 1px solid #333; }
+        @media (max-width: 800px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+
+        .whatsapp-button {
+            position: fixed; bottom: 30px; right: 30px; width: 58px; height: 58px; border-radius: 50%;
+            background: #25d366; display: flex; align-items: center; justify-content: center;
+            color: #fff; font-size: 1.4rem; z-index: 999; box-shadow: 0 8px 25px rgba(37,211,102,.4);
         }
     </style>
 </head>
 <body>
-    <div class="cursor-trail"></div>
 
-    <nav id="navbar">
-        <div class="logo">
-            <img src="https://static.wixstatic.com/media/fe3583_2f36ed41d71a4ed3ba3db03baf388f14~mv2.png/v1/fill/w_104,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/2209_Woosh%20Biz%20update%20final%20logo_PNG.png" alt="Woosh Biz">
-        </div>
-        <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="high-octane.html">In-Office</a></li>
-            <li><a href="outbound.html">Outbound</a></li>
-            <li><a href="virtual.html">Virtual</a></li>
-            <li class="dropdown">
-                <a href="#">Get In Touch</a>
-                <div class="dropdown-menu">
-                    <a href="about.html">About Us</a>
-                    <a href="blog.html">Blogs</a>
-                    <a href="contact.html">Free Consultation Call</a>
-                    <a href="resorts.html">Resorts Recommended</a>
-                </div>
-            </li>
-        </ul>
-        <div class="hamburger" id="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <img src="https://static.wixstatic.com/media/fe3583_2f36ed41d71a4ed3ba3db03baf388f14~mv2.png/v1/fill/w_104,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/2209_Woosh%20Biz%20update%20final%20logo_PNG.png" alt="Woosh Biz" height="40">
+            </a>
+            <button class="hamburger" id="hamburger" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="high-octane.html">In-Office</a></li>
+                <li><a href="outbound.html">Outbound</a></li>
+                <li><a href="virtual.html">Virtual</a></li>
+                <li class="dropdown" id="navDropdown">
+                    <a href="#" class="dropdown-toggle">Get In Touch ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="blog.html">Blogs</a></li>
+                        <li><a href="contact.html">Free Consultation</a></li>
+                        <li><a href="resorts.html">Resorts Recommended</a></li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </nav>
 
-    <section class="hero">
-        <div class="badge reveal">📝 Insights & Stories</div>
-        <h1 class="reveal">Team Building Insights</h1>
-        <p class="reveal">Dive in and discover the secrets behind high-performing teams</p>
-    </section>
+    <div class="blog-hero">
+        <h1>The Woosh Biz <span>Blog</span></h1>
+        <p>Ideas, tips and stories on team building, corporate events and workplace culture — no gyaan, just good reads.</p>
+    </div>
 
-    <section class="blog-section">
-        <h2 class="section-heading reveal">Latest Articles</h2>
-        <div class="blog-grid">
-            <a href="https://www.wooshbiz.com/post/kung-fu-panda-team-building" target="_blank" class="blog-card reveal">
-                <img class="blog-image" src="https://i.ytimg.com/vi/5CMOe_3UPhk/maxresdefault.jpg" alt="Kung Fu Panda Team Building">
-                <div class="blog-content">
-                    <div class="blog-category">Team Building</div>
-                    <h3 class="blog-title">What Kung Fu Panda Can Teach You About Team Building</h3>
-                    <p class="blog-excerpt">A common misconception about teams is that members have to be homogeneous. Kung Fu Panda mirthfully busts that myth.</p>
-                    <div class="blog-meta">
-                        <span class="blog-meta-text">Woosh Biz Team</span>
-                        <span>Nov 11, 2022</span>
-                    </div>
-                </div>
-            </a>
-
-            <a href="https://www.wooshbiz.com/timeline-blog-posts/team-building-activity-benefits" target="_blank" class="blog-card reveal">
-                <img class="blog-image" src="https://i.ytimg.com/vi/KPirBZoTSPA/maxresdefault.jpg" alt="Team Building Activities">
-                <div class="blog-content">
-                    <div class="blog-category">Team Building</div>
-                    <h3 class="blog-title">A Team Building Activity for Every Benefit You Wish to Achieve</h3>
-                    <p class="blog-excerpt">Effective communication is the lifeblood of any successful team. Here are specific activities for specific benefits.</p>
-                    <div class="blog-meta">
-                        <span class="blog-meta-text">Woosh Biz Team</span>
-                        <span>Dec 5, 2022</span>
-                    </div>
-                </div>
-            </a>
-
-            <a href="https://www.wooshbiz.com/team-building-insights" target="_blank" class="blog-card reveal">
-                <img class="blog-image" src="https://i.ytimg.com/vi/aRa3-lk0ss0/maxresdefault.jpg" alt="Team Building Unity">
-                <div class="blog-content">
-                    <div class="blog-category">Team Building</div>
-                    <h3 class="blog-title">Team Building Insights: Unveiling the Power of Unity</h3>
-                    <p class="blog-excerpt">From unity to victory, explore why team building is the cornerstone of corporate triumph.</p>
-                    <div class="blog-meta">
-                        <span class="blog-meta-text">Woosh Biz Team</span>
-                        <span>Jan 15, 2023</span>
-                    </div>
-                </div>
-            </a>
-
-            <a href="https://www.wooshbiz.com/slow-down" target="_blank" class="blog-card reveal">
-                <img class="blog-image" src="https://i.ytimg.com/vi/d7hAV96jBg0/maxresdefault.jpg" alt="Escape Daily Grind">
-                <div class="blog-content">
-                    <div class="blog-category">Team Building</div>
-                    <h3 class="blog-title">Escape the Daily Grind with Woosh Biz</h3>
-                    <p class="blog-excerpt">Embark on a culinary adventure, build rafts, explore rural life. The ultimate Slow Down experience.</p>
-                    <div class="blog-meta">
-                        <span class="blog-meta-text">Woosh Biz Team</span>
-                        <span>Oct 20, 2023</span>
-                    </div>
-                </div>
-            </a>
-
-            <a href="https://www.wooshbiz.com/timeline-blogs/beyond-desks-and-chairs-team-building-activities" target="_blank" class="blog-card reveal">
-                <img class="blog-image" src="https://i.ytimg.com/vi/2cJditUwJCY/maxresdefault.jpg" alt="Beyond Desks and Chairs">
-                <div class="blog-content">
-                    <div class="blog-category">Team Building</div>
-                    <h3 class="blog-title">Beyond Desks and Chairs: Team Building Activities</h3>
-                    <p class="blog-excerpt">Discover how getting outside the office completely transforms team dynamics and performance.</p>
-                    <div class="blog-meta">
-                        <span class="blog-meta-text">Woosh Biz Team</span>
-                        <span>Mar 8, 2024</span>
-                    </div>
-                </div>
-            </a>
+    <div class="blog-section">
+        <div class="blog-grid" id="blogGrid">
+            <div class="blog-status" id="blogStatus">Loading blogs…</div>
         </div>
-    </section>
+    </div>
 
     <footer>
         <div class="footer-grid">
@@ -227,7 +170,13 @@
                 <div class="footer-logo">
                     <img src="https://static.wixstatic.com/media/9e0902_b8e2795e4f484602a2294b7410e3f4e5~mv2.png/v1/fill/w_112,h_44,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/2209_Woosh%20Biz%20update%20final%20white%20logo_PNG.png" alt="Woosh Biz">
                 </div>
-                <p style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 20px; line-height: 1.6;">No Gyaan. Just Fun With Learning.</p>
+                <p class="footer-tagline">No Gyaan. Just Fun With Learning.</p>
+                <div class="footer-socials">
+                    <a href="https://www.facebook.com/people/Woosh-Biz-by-HTI/100083456102229/" title="Facebook"><img src="https://static.wixstatic.com/media/11062b_ef6a6ac194704911951645990055c2ce~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_ef6a6ac194704911951645990055c2ce~mv2.png" alt="FB"></a>
+                    <a href="https://www.instagram.com/wooshbiz/" title="Instagram"><img src="https://static.wixstatic.com/media/11062b_cef3b719166a4815b446d4dcfcb6120d~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_cef3b719166a4815b446d4dcfcb6120d~mv2.png" alt="IG"></a>
+                    <a href="https://www.linkedin.com/company/woosh-biz-by-hti/" title="LinkedIn"><img src="https://static.wixstatic.com/media/11062b_b5690303a8ff470e9b1c03a24aff140b~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_b5690303a8ff470e9b1c03a24aff140b~mv2.png" alt="LI"></a>
+                    <a href="https://www.youtube.com/channel/UC9BdT9tzf4841P1B-R7P-Qg" title="YouTube"><img src="https://static.wixstatic.com/media/11062b_fe985b889c144b348eefc7bbc67018b4~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_fe985b889c144b348eefc7bbc67018b4~mv2.png" alt="YT"></a>
+                </div>
             </div>
             <div>
                 <h4>Quick Links</h4>
@@ -245,49 +194,96 @@
             <div>
                 <h4>Contact</h4>
                 <div class="footer-contact">+91 9920389760</div>
-                <div class="footer-rating">⭐ 4.5 | 150 Ratings</div>
+                <div>⭐ 4.5 | 150 Ratings</div>
             </div>
         </div>
-        <div class="footer-bottom">© 2024 Woosh Biz by HTI India Pvt Ltd. All rights reserved.</div>
+        <div class="footer-bottom">© 2026 Woosh Biz by HTI India Pvt Ltd. All rights reserved.</div>
     </footer>
 
     <a href="https://wa.me/919920389760" class="whatsapp-button" title="Chat with us on WhatsApp">💬</a>
-    <button class="scroll-to-top" id="scrollToTop" title="Scroll to top">↑</button>
 
     <script>
-        const cursorTrail = document.querySelector('.cursor-trail');
-        let cursorX = 0, cursorY = 0, trailX = 0, trailY = 0;
-        document.addEventListener('mousemove', (e) => { cursorX = e.clientX; cursorY = e.clientY; });
-        function animateCursorTrail() {
-            trailX += (cursorX - trailX) * 0.15; trailY += (cursorY - trailY) * 0.15;
-            cursorTrail.style.left = trailX + 'px'; cursorTrail.style.top = trailY + 'px';
-            requestAnimationFrame(animateCursorTrail);
+        const SUPABASE_URL = "https://ytthcgdsbfagvwcopoaj.supabase.co";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl0dGhjZ2RzYmZhZ3Z3Y29wb2FqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMzMjk5MTMsImV4cCI6MjA5ODkwNTkxM30.JIDahcRTu3VbFpZ55Ti5hHg_JrHobk0zh8PSaj9lWLc";
+        const REST = `${SUPABASE_URL}/rest/v1/wooshbiz_blogs`;
+
+        function stripHtml(html) {
+            const tmp = document.createElement('div');
+            tmp.innerHTML = html || '';
+            return (tmp.textContent || tmp.innerText || '').replace(/\s+/g, ' ').trim();
         }
-        animateCursorTrail();
+        function excerpt(html, len) {
+            const text = stripHtml(html);
+            return text.length > len ? text.slice(0, len).trim() + '…' : text;
+        }
+        function readTime(html) {
+            const words = stripHtml(html).split(/\s+/).filter(Boolean).length;
+            return Math.max(1, Math.round(words / 200)) + ' min read';
+        }
+        function formatDate(d) {
+            if (!d) return '';
+            const date = new Date(d);
+            if (isNaN(date)) return '';
+            return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+        }
+        function escapeHtml(str) {
+            return (str || '').replace(/[&<>"']/g, c => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            }[c]));
+        }
 
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            navbar.classList.toggle('scrolled', window.scrollY > 80);
-        });
+        async function loadBlogs() {
+            const statusEl = document.getElementById('blogStatus');
+            const gridEl = document.getElementById('blogGrid');
+            try {
+                const res = await fetch(
+                    `${REST}?is_published=eq.true&order=created_at.desc&select=id,title,author,category,cover_image,body,created_at,redirect_url`, {
+                    headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` }
+                });
+                if (!res.ok) throw new Error('Request failed: ' + res.status);
+                const blogs = await res.json();
 
-        const hamburger = document.getElementById('hamburger');
-        const navLinks = document.querySelector('.nav-links');
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
-        });
+                if (!blogs.length) {
+                    statusEl.textContent = 'No blogs published yet — check back soon!';
+                    return;
+                }
 
-        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
-        }, observerOptions);
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+                statusEl.remove();
+                gridEl.innerHTML = blogs.map(b => {
+                    const href = b.redirect_url || `blog-post.html?id=${encodeURIComponent(b.id)}`;
+                    const cover = b.cover_image
+                        ? `<img class="blog-cover" src="${escapeHtml(b.cover_image)}" alt="${escapeHtml(b.title || '')}" loading="lazy">`
+                        : `<div class="blog-cover-ph"></div>`;
+                    const cat = b.category ? `<div class="blog-cat">${escapeHtml(b.category)}</div>` : '';
+                    const excerptText = excerpt(b.body || '', 130);
+                    return `
+                    <article class="blog-card" onclick="location.href='${escapeHtml(href)}'">
+                        ${cover}
+                        <div class="blog-card-body">
+                            ${cat}
+                            <h3 class="blog-card-title">${escapeHtml(b.title || 'Untitled')}</h3>
+                            <p class="blog-excerpt">${escapeHtml(excerptText)}</p>
+                            <div class="blog-author">${escapeHtml(b.author || 'Team Woosh Biz')}</div>
+                            <div class="blog-meta">${formatDate(b.created_at)}<span class="dot">&bull;</span>${readTime(b.body)}</div>
+                        </div>
+                    </article>`;
+                }).join('');
+            } catch (err) {
+                console.error(err);
+                statusEl.textContent = 'Could not load blogs. Please try again later.';
+            }
+        }
+        loadBlogs();
 
-        const scrollToTopBtn = document.getElementById('scrollToTop');
-        window.addEventListener('scroll', () => {
-            scrollToTopBtn.classList.toggle('visible', window.scrollY > 300);
-        });
-        scrollToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        (function () {
+            document.getElementById('hamburger').addEventListener('click', () => {
+                document.getElementById('navLinks').classList.toggle('open');
+            });
+            const dd = document.getElementById('navDropdown');
+            dd.querySelector('.dropdown-toggle').addEventListener('click', (e) => {
+                if (window.innerWidth <= 900) { e.preventDefault(); dd.classList.toggle('open'); }
+            });
+        })();
     </script>
 </body>
 </html>

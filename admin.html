@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin | Woosh Biz Blog</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon"
+    href="https://static.wixstatic.com/media/fe3583_2f36ed41d71a4ed3ba3db03baf388f14~mv2.png/v1/fill/w_104,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/2209_Woosh%20Biz%20update%20final%20logo_PNG.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap"
+    rel="stylesheet" />
+  <!-- Quill rich text editor -->
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
+  <style>
+    :root {
+      --wb-bg: #f3f2ef;
+      --wb-primary: #871e6c;
+      --wb-text: #111;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', Arial, Helvetica, sans-serif;
+      background: var(--wb-bg);
+      color: var(--wb-text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    /* ============ LOGIN ============ */
+    .login-screen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .login-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .12);
+      padding: 40px 34px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .login-card img {
+      width: 60px;
+      margin: 0 auto 18px;
+    }
+
+    .login-card h1 {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .login-card p {
+      color: #777;
+      font-size: 14px;
+      margin-bottom: 26px;
+    }
+
+    .field {
+      margin-bottom: 18px;
+      text-align: left;
+    }
+
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 7px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      font-family: inherit;
+      font-size: 15px;
+      padding: 12px 14px;
+      border: 1px solid #dcdcdc;
+      border-radius: 9px;
+      background: #fff;
+      color: #111;
+      outline: none;
+      transition: border-color .15s ease;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--wb-primary);
+    }
+
+    textarea {
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 15px;
+      border: none;
+      border-radius: 9px;
+      padding: 12px 22px;
+      cursor: pointer;
+      transition: transform .12s ease, background .15s ease, opacity .15s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-red {
+      background: var(--wb-primary);
+      color: #fff;
+    }
+
+    .btn-red:hover {
+      background: #6b1756;
+    }
+
+    .btn-dark {
+      background: #111;
+      color: #fff;
+    }
+
+    .btn-dark:hover {
+      background: #000;
+    }
+
+    .btn-ghost {
+      background: #fff;
+      color: #333;
+      border: 1px solid #d5d5d5;
+    }
+
+    .btn-ghost:hover {
+      background: #f5f5f5;
+    }
+
+    .btn-block {
+      width: 100%;
+    }
+
+    .login-error {
+      color: var(--wb-primary);
+      font-size: 13.5px;
+      font-weight: 600;
+      margin-bottom: 14px;
+      min-height: 18px;
+    }
+
+    /* ============ DASHBOARD ============ */
+    .dashboard {
+      display: none;
+    }
+
+    .admin-header {
+      background: #111;
+      color: #fff;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .admin-header .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .admin-header .brand img {
+      width: 40px;
+    }
+
+    .admin-header .brand h2 {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .admin-header .brand span {
+      color: var(--wb-primary);
+    }
+
+    .admin-header .header-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .admin-header a.view-site {
+      color: #ccc;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .admin-header a.view-site:hover {
+      color: #fff;
+    }
+
+    .admin-main {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 34px 24px 70px;
+    }
+
+    .panel {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, .05);
+      border: 1px solid #eee;
+      padding: 30px 28px;
+      margin-bottom: 34px;
+    }
+
+    .panel h3.section-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .panel .section-sub {
+      color: #888;
+      font-size: 13.5px;
+      margin-bottom: 24px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .form-grid .full {
+      grid-column: 1 / -1;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+      align-items: center;
+    }
+
+    .editing-badge {
+      display: none;
+      background: #fff4e5;
+      color: #a8600b;
+      border: 1px solid #f5d9a8;
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 20px;
+    }
+
+    .form-msg {
+      font-size: 14px;
+      font-weight: 600;
+      margin-left: auto;
+    }
+
+    .form-msg.ok {
+      color: #1a8a3c;
+    }
+
+    .form-msg.err {
+      color: var(--wb-primary);
+    }
+
+    /* ---- cover image live preview ---- */
+    .cover-preview {
+      margin-top: 12px;
+      display: none;
+    }
+
+    .cover-preview img {
+      width: 100%;
+      max-height: 180px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid #eee;
+    }
+
+    /* ---- Quill editor (Google-Docs-like white area) ---- */
+    .editor-shell {
+      border: 1px solid #dcdcdc;
+      border-radius: 9px;
+      overflow: hidden;
+      background: #fff;
+      transition: border-color .15s ease;
+    }
+
+    .editor-shell:focus-within {
+      border-color: var(--wb-primary);
+    }
+
+    .ql-toolbar.ql-snow {
+      border: none;
+      border-bottom: 1px solid #eee;
+      background: #fafafa;
+      padding: 10px 12px;
+    }
+
+    .ql-container.ql-snow {
+      border: none;
+      font-family: 'Poppins', Arial, sans-serif;
+      font-size: 15px;
+    }
+
+    .ql-editor {
+      min-height: 300px;
+      line-height: 1.7;
+      color: #222;
+      background: #fff;
+    }
+
+    .ql-editor.ql-blank::before {
+      color: #aaa;
+      font-style: normal;
+    }
+
+    /* Woosh Biz accent on active toolbar controls */
+    .ql-snow.ql-toolbar button:hover .ql-stroke,
+    .ql-snow.ql-toolbar button.ql-active .ql-stroke,
+    .ql-snow .ql-picker-label:hover,
+    .ql-snow .ql-picker-item:hover {
+      stroke: var(--wb-primary);
+      color: var(--wb-primary);
+    }
+
+    .ql-snow.ql-toolbar button:hover .ql-fill,
+    .ql-snow.ql-toolbar button.ql-active .ql-fill {
+      fill: var(--wb-primary);
+    }
+
+    /* ---- table ---- */
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 640px;
+    }
+
+    thead th {
+      text-align: left;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      color: #999;
+      font-weight: 700;
+      padding: 12px 14px;
+      border-bottom: 2px solid #eee;
+    }
+
+    tbody td {
+      padding: 14px;
+      border-bottom: 1px solid #f0f0f0;
+      font-size: 14px;
+      vertical-align: middle;
+    }
+
+    tbody tr:hover {
+      background: #fafafa;
+    }
+
+    .post-title-cell {
+      font-weight: 600;
+      color: #111;
+      max-width: 320px;
+    }
+
+    .title-with-thumb {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .post-thumb {
+      width: 40px;
+      height: 40px;
+      border-radius: 7px;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 1px solid #eee;
+    }
+
+    .post-thumb-placeholder {
+      width: 40px;
+      height: 40px;
+      border-radius: 7px;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, #871e6c 0%, #5a1345 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 4px 11px;
+      border-radius: 20px;
+    }
+
+    .badge.pub {
+      background: #e5f7ec;
+      color: #1a8a3c;
+    }
+
+    .badge.draft {
+      background: #f0f0f0;
+      color: #777;
+    }
+
+    .badge.layout-timeline {
+      background: #1a1a1a;
+      color: #fff;
+      font-size: 11px;
+    }
+
+    .badge.layout-story {
+      background: #2c3e50;
+      color: #fff;
+      font-size: 11px;
+    }
+
+    .badge.layout-standard {
+      background: #eee;
+      color: #555;
+      font-size: 11px;
+    }
+
+    .row-actions {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .mini-btn {
+      font-family: inherit;
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 7px;
+      border: 1px solid #ddd;
+      background: #fff;
+      color: #333;
+      cursor: pointer;
+      transition: all .12s ease;
+    }
+
+    .mini-btn:hover {
+      background: #f2f2f2;
+    }
+
+    .mini-btn.danger {
+      color: var(--wb-primary);
+      border-color: #e9c9e0;
+    }
+
+    .mini-btn.danger:hover {
+      background: var(--wb-primary);
+      color: #fff;
+    }
+
+    .table-status {
+      padding: 30px 14px;
+      text-align: center;
+      color: #999;
+      font-size: 15px;
+    }
+
+    @media(max-width:640px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ============ LOGIN SCREEN ============ -->
+  <div class="login-screen" id="loginScreen">
+    <div class="login-card">
+      <img
+        src="https://static.wixstatic.com/media/fe3583_2f36ed41d71a4ed3ba3db03baf388f14~mv2.png/v1/fill/w_104,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/2209_Woosh%20Biz%20update%20final%20logo_PNG.png"
+        alt="Woosh Biz" />
+      <h1>Blog Admin</h1>
+      <p>Enter the team password to continue.</p>
+      <div class="login-error" id="loginError"></div>
+      <div class="field">
+        <label for="pwInput">Password</label>
+        <input type="password" id="pwInput" placeholder="••••••••" autocomplete="current-password" />
+      </div>
+      <button class="btn btn-red btn-block" id="loginBtn">Log In</button>
+    </div>
+  </div>
+
+  <!-- ============ DASHBOARD ============ -->
+  <div class="dashboard" id="dashboard">
+    <header class="admin-header">
+      <div class="brand">
+        <img
+          src="https://static.wixstatic.com/media/fe3583_2f36ed41d71a4ed3ba3db03baf388f14~mv2.png/v1/fill/w_104,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/2209_Woosh%20Biz%20update%20final%20logo_PNG.png"
+          alt="Woosh Biz" />
+        <h2>Blog <span>Admin</span></h2>
+      </div>
+      <div class="header-actions">
+        <a href="blog.html" target="_blank" class="view-site">View Blog &#8599;</a>
+        <button class="btn btn-ghost" id="logoutBtn">Log Out</button>
+      </div>
+    </header>
+
+    <main class="admin-main">
+
+      <!-- SECTION A: Write / Edit -->
+      <section class="panel">
+        <h3 class="section-title" id="formHeading">Write New Post</h3>
+        <p class="section-sub">Just type your post below like a document. Use the toolbar to format text, add headings, lists, links and images.</p>
+
+        <input type="hidden" id="postId" />
+        <div class="form-grid">
+          <div class="field full">
+            <label for="titleInput">Title</label>
+            <input type="text" id="titleInput" placeholder="Blog post title" />
+          </div>
+          <div class="field">
+            <label for="categoryInput">Category</label>
+            <select id="categoryInput">
+              <option value="General">General</option>
+              <option value="Team Building">Team Building</option>
+              <option value="Corporate Events">Corporate Events</option>
+              <option value="Workplace Culture">Workplace Culture</option>
+              <option value="Tips & Guides">Tips & Guides</option>
+              <option value="Case Study">Case Study</option>
+            </select>
+          </div>
+          <!-- Layout selector -->
+          <div class="field">
+            <label for="layoutInput">Page Layout</label>
+            <select id="layoutInput">
+              <option value="standard">Standard Blog (default)</option>
+              <option value="timeline">Timeline (e.g. Sanjay Vazirani)</option>
+              <option value="story-interview">Story Interview (e.g. Agnibh Mudi)</option>
+              <option value="news-announcement">News / Announcement</option>
+            </select>
+            <p style="font-size:12px; color:#888; margin-top:6px;">
+              Choose <b>Standard Blog</b> for regular posts. Choose <b>Timeline</b> or <b>Story Interview</b> for special story pages — then fill in the Redirect URL below.
+            </p>
+          </div>
+
+          <!-- Redirect URL (only relevant for Timeline / Story Interview) -->
+          <div class="field" id="redirectUrlField" style="display:none;">
+            <label for="redirectUrlInput">Redirect URL <span style="color:#888; font-weight:400;">(filename only, e.g. sanjay-vazirani.html)</span></label>
+            <input type="text" id="redirectUrlInput" placeholder="e.g. sanjay-vazirani.html" />
+            <p style="font-size:12px; color:#888; margin-top:6px;">
+              When a visitor opens this blog post, they will be redirected to this page instead of the standard blog layout.
+            </p>
+          </div>
+          <div class="field">
+            <label for="authorInput">Author</label>
+            <input type="text" id="authorInput" value="Team Woosh Biz" />
+          </div>
+          <div class="field full">
+            <label for="coverInput">Cover Image URL</label>
+            <input type="url" id="coverInput" placeholder="https://… (paste an image link)" />
+            <div class="cover-preview" id="coverPreview">
+              <img id="coverPreviewImg" src="" alt="Cover preview" />
+            </div>
+          </div>
+          <div class="field full">
+            <label>Body</label>
+            <div class="editor-shell">
+              <div id="editor"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn btn-dark" id="saveDraftBtn">Save as Draft</button>
+          <button class="btn btn-red" id="publishBtn">Publish</button>
+          <button class="btn btn-ghost" id="cancelEditBtn" style="display:none;">Cancel Edit</button>
+          <span class="editing-badge" id="editingBadge">Editing existing post</span>
+          <span class="form-msg" id="formMsg"></span>
+        </div>
+      </section>
+
+      <!-- SECTION B: Manage -->
+      <section class="panel">
+        <h3 class="section-title">Manage Posts</h3>
+        <p class="section-sub">All posts, newest first. Edit, delete, publish or unpublish.</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Layout</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="postsBody">
+              <tr>
+                <td colspan="6" class="table-status">Loading…</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Quill rich text editor -->
+  <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+  <script>
+    /* ============ CONFIG ============ */
+    const SUPABASE_URL = "https://ytthcgdsbfagvwcopoaj.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl0dGhjZ2RzYmZhZ3Z3Y29wb2FqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMzMjk5MTMsImV4cCI6MjA5ODkwNTkxM30.JIDahcRTu3VbFpZ55Ti5hHg_JrHobk0zh8PSaj9lWLc";
+    const ADMIN_PASSWORD = "WooshBiz@2026";
+    const REST = `${SUPABASE_URL}/rest/v1/wooshbiz_blogs`;
+
+    const HEADERS = {
+      apikey: SUPABASE_ANON_KEY,
+      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+      'Content-Type': 'application/json'
+    };
+
+    /* ============ HELPERS ============ */
+    function $(id) { return document.getElementById(id); }
+
+    /* ============ QUILL RICH TEXT EDITOR ============ */
+    let quill;
+    (function initQuill() {
+      const Size = Quill.import('attributors/style/size');
+      Size.whitelist = ['13px', '15px', '18px', '24px', '32px'];
+      Quill.register(Size, true);
+
+      quill = new Quill('#editor', {
+        theme: 'snow',
+        placeholder: 'Start writing your blog post here…',
+        modules: {
+          toolbar: {
+            container: [
+              [{ header: [1, 2, false] }],
+              [{ size: ['13px', '15px', '18px', '24px', '32px'] }],
+              ['bold', 'italic', 'underline'],
+              [{ list: 'ordered' }, { list: 'bullet' }],
+              ['blockquote'],
+              ['link', 'image'],
+              ['clean']
+            ],
+            handlers: {
+              // Insert image BY URL (prompt) instead of file upload
+              image: function () {
+                const url = prompt('Paste the image URL:');
+                if (url) {
+                  const range = this.quill.getSelection(true);
+                  this.quill.insertEmbed(range.index, 'image', url, 'user');
+                  this.quill.setSelection(range.index + 1);
+                }
+              }
+            }
+          }
+        }
+      });
+    })();
+
+    function escapeHtml(str) {
+      return (str || '').replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[c]));
+    }
+
+    function formatDate(d) {
+      if (!d) return '—';
+      const date = new Date(d);
+      if (isNaN(date)) return '—';
+      return date.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
+    }
+
+    function showMsg(text, kind) {
+      const el = $('formMsg');
+      el.textContent = text;
+      el.className = 'form-msg ' + (kind || '');
+      if (text) setTimeout(() => { if (el.textContent === text) { el.textContent = ''; el.className = 'form-msg'; } }, 4000);
+    }
+
+    /* ============ LOGIN ============ */
+    function doLogin() {
+      const val = $('pwInput').value;
+      if (val === ADMIN_PASSWORD) {
+        sessionStorage.setItem('wb_admin', '1');
+        openDashboard();
+      } else {
+        $('loginError').textContent = 'Incorrect password. Please try again.';
+        $('pwInput').value = '';
+      }
+    }
+
+    function openDashboard() {
+      $('loginScreen').style.display = 'none';
+      $('dashboard').style.display = 'block';
+      initDashboard();
+    }
+
+    function logout() {
+      sessionStorage.removeItem('wb_admin');
+      location.reload();
+    }
+
+    $('loginBtn').addEventListener('click', doLogin);
+    $('pwInput').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+    $('logoutBtn').addEventListener('click', logout);
+
+    /* ============ SEED DATA ============ */
+    const SEED_POSTS = [
+      {
+        title: "5 Signs Your Team Needs a Team-Building Reset",
+        slug: "signs-your-team-needs-a-reset",
+        category: "Team Building",
+        author: "Team Woosh Biz",
+        cover_image: "https://static.wixstatic.com/media/9e0902_b8e2795e4f484602a2294b7410e3f4e5~mv2.png",
+        body: `<p>Every team hits a slump — silence on calls, low energy in meetings, less collaboration than there used to be. The question is whether you notice it early enough to do something about it.</p><h2>1. Meetings Feel Flat</h2><p>If people show up, say the minimum, and log off, that's not a scheduling problem. It's an energy problem.</p><h2>2. Collaboration Has Dropped</h2><p>Teams that trust each other ask for help. When people quietly struggle alone instead, something has shifted.</p><h2>3. New Hires Feel Like Outsiders</h2><p>A healthy team absorbs new people fast. If new hires still feel like strangers after weeks, the existing bonds may need refreshing too.</p><h2>4. Humor Has Disappeared</h2><p>Light, easy humor is often the first thing to go when a team is stressed or disconnected — and one of the first things a good offsite brings back.</p><h2>5. Everyone's Heads-Down, All The Time</h2><p>Focus is good. But zero shared moments, zero shared wins, zero shared laughs — that's a team quietly drifting apart.</p><h2>What Helps</h2><p>A well-designed team-building experience isn't a distraction from work — it rebuilds the trust and communication that make the work itself easier. That's exactly what we build at Woosh Biz.</p>`,
+        is_published: true,
+        created_at: "2026-06-20"
+      },
+      {
+        title: "In-Office vs Outbound vs Virtual: Which Team Event Fits You?",
+        slug: "in-office-vs-outbound-vs-virtual",
+        category: "Corporate Events",
+        author: "Team Woosh Biz",
+        cover_image: "https://static.wixstatic.com/media/9e0902_b8e2795e4f484602a2294b7410e3f4e5~mv2.png",
+        body: `<p>Not every team needs the same kind of event. Here's how to pick the right format for your team's size, budget and goals.</p><h2>In-Office Events</h2><p>Best when you want zero travel time and maximum participation. Great for quick energy boosts between busy sprints.</p><h2>Outbound Events</h2><p>Best when you want a genuine change of scenery — a full day (or more) away from desks, screens and routine. Ideal for teams that are due a real reset.</p><h2>Virtual Events</h2><p>Best for distributed and remote-first teams. A well-run virtual session can build just as much connection as an in-person one, minus the logistics.</p><h2>Our Take</h2><p>We design all three formats around the same idea: no gyaan, just fun with learning. Tell us your team size and goal, and we'll recommend the format that fits.</p>`,
+        is_published: true,
+        created_at: "2026-06-05"
+      },
+      {
+        title: "Why 'No Gyaan, Just Fun' Actually Works Better Than Corporate Training",
+        slug: "no-gyaan-just-fun-with-learning",
+        category: "Workplace Culture",
+        author: "Team Woosh Biz",
+        cover_image: "https://static.wixstatic.com/media/9e0902_b8e2795e4f484602a2294b7410e3f4e5~mv2.png",
+        body: `<p>Ask anyone what they remember from a mandatory training session six months later, and most will draw a blank. Ask them about a team event where they laughed until it hurt, and they'll tell you the whole story.</p><h2>Learning Sticks When It's Felt, Not Told</h2><p>People don't remember lectures. They remember experiences — the moment they solved a puzzle as a team, the game they almost lost, the colleague who surprised everyone.</p><h2>Fun Is Not The Opposite Of Serious</h2><p>A great team-building event is designed with real objectives underneath the fun: better communication, faster trust-building, stronger cross-team relationships. The fun is the delivery mechanism, not a distraction from the goal.</p><h2>The Result</h2><p>Teams that play together end up working better together — not because they were told to, but because they experienced it.</p>`,
+        is_published: true,
+        created_at: "2026-05-18"
+      }
+    ];
+
+    async function seedIfEmpty() {
+      try {
+        const res = await fetch(`${REST}?select=id&limit=1`, { headers: HEADERS });
+        if (!res.ok) throw new Error('seed check failed: ' + res.status);
+        const rows = await res.json();
+        if (rows.length === 0) {
+          const ins = await fetch(REST, {
+            method: 'POST',
+            headers: { ...HEADERS, Prefer: 'return=minimal' },
+            body: JSON.stringify(SEED_POSTS)
+          });
+          if (!ins.ok) {
+            console.warn('Seeding failed:', ins.status, await ins.text());
+          }
+        }
+      } catch (err) {
+        console.warn('Seed skipped:', err);
+      }
+    }
+
+    /* ============ LOAD / RENDER POSTS ============ */
+    async function loadPosts() {
+      const tbody = $('postsBody');
+      try {
+        const res = await fetch(`${REST}?select=*&order=created_at.desc`, { headers: HEADERS });
+        if (!res.ok) throw new Error('load failed: ' + res.status);
+        const posts = await res.json();
+
+        if (!posts.length) {
+          tbody.innerHTML = '<tr><td colspan="6" class="table-status">No posts yet. Write your first one above.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = posts.map(p => {
+          const pub = p.is_published;
+          const thumb = p.cover_image
+            ? `<img class="post-thumb" src="${escapeHtml(p.cover_image)}" alt="" loading="lazy" onerror="this.outerHTML='<div class=&quot;post-thumb-placeholder&quot;>WB</div>'">`
+            : `<div class="post-thumb-placeholder">WB</div>`;
+          return `
+          <tr>
+            <td class="post-title-cell">
+              <div class="title-with-thumb">
+                ${thumb}
+                <span>${escapeHtml(p.title || 'Untitled')}</span>
+              </div>
+            </td>
+            <td>${escapeHtml(p.author || '—')}</td>
+            <td>${formatDate(p.created_at)}</td>
+            <td><span class="badge ${pub ? 'pub' : 'draft'}">${pub ? 'Published' : 'Draft'}</span></td>
+            <td>
+              ${p.layout === 'timeline'
+                ? '<span class="badge layout-timeline">Timeline</span>'
+                : p.layout === 'story-interview'
+                ? '<span class="badge layout-story">Story Interview</span>'
+                : '<span class="badge layout-standard">Standard</span>'}
+            </td>
+            <td>
+              <div class="row-actions">
+                <button class="mini-btn" onclick="editPost('${p.id}')">Edit</button>
+                <button class="mini-btn" onclick="togglePublish('${p.id}', ${pub})">${pub ? 'Unpublish' : 'Publish'}</button>
+                <button class="mini-btn danger" onclick="deletePost('${p.id}', this)">Delete</button>
+              </div>
+            </td>
+          </tr>`;
+        }).join('');
+      } catch (err) {
+        console.error(err);
+        tbody.innerHTML = '<tr><td colspan="6" class="table-status">Could not load posts.</td></tr>';
+      }
+    }
+
+    /* ============ COVER IMAGE LIVE PREVIEW ============ */
+    function updateCoverPreview() {
+      const url = $('coverInput').value.trim();
+      const wrap = $('coverPreview');
+      const img = $('coverPreviewImg');
+      if (url) {
+        img.src = url;
+        wrap.style.display = 'block';
+      } else {
+        img.src = '';
+        wrap.style.display = 'none';
+      }
+    }
+    $('coverInput').addEventListener('input', updateCoverPreview);
+    // Show redirect URL field only when a special layout is chosen
+    $('layoutInput').addEventListener('change', function() {
+      const isSpecial = this.value !== 'standard';
+      $('redirectUrlField').style.display = isSpecial ? 'block' : 'none';
+      if (!isSpecial) $('redirectUrlInput').value = '';
+      // Auto-fill the redirect target for the News / Announcement layout
+      if (this.value === 'news-announcement') $('redirectUrlInput').value = 'news-announcement.html';
+    });
+    // hide preview if the image fails to load
+    $('coverPreviewImg').addEventListener('error', () => {
+      if ($('coverPreviewImg').src) $('coverPreview').style.display = 'none';
+    });
+
+    /* ============ FORM: SAVE (create or update) ============ */
+    function isQuillEmpty() {
+      const text = quill.getText().replace(/\s+/g, '');
+      return text.length === 0;
+    }
+
+    function readForm() {
+      return {
+        title: $('titleInput').value.trim(),
+        category: $('categoryInput').value,
+        author: $('authorInput').value.trim() || 'Team Woosh Biz',
+        cover_image: $('coverInput').value.trim(),
+        layout: $('layoutInput').value || 'standard',
+        redirect_url: $('redirectUrlInput').value.trim() || '',
+        // rich HTML straight from the editor
+        body: isQuillEmpty() ? '' : quill.root.innerHTML
+      };
+    }
+
+    function resetForm() {
+      $('postId').value = '';
+      $('titleInput').value = '';
+      $('categoryInput').value = 'General';
+      $('authorInput').value = 'Team Woosh Biz';
+      $('coverInput').value = '';
+      $('layoutInput').value = 'standard';
+      $('redirectUrlInput').value = '';
+      $('redirectUrlField').style.display = 'none';
+      quill.setContents([]);
+      updateCoverPreview();
+      $('formHeading').textContent = 'Write New Post';
+      $('editingBadge').style.display = 'none';
+      $('cancelEditBtn').style.display = 'none';
+    }
+
+    async function savePost(publish) {
+      const data = readForm();
+      if (!data.title) { showMsg('Title is required.', 'err'); return; }
+      if (!data.body.trim()) { showMsg('Body is required.', 'err'); return; }
+
+      data.is_published = publish;
+      const id = $('postId').value;
+
+      try {
+        let res;
+        if (id) {
+          // update
+          res = await fetch(`${REST}?id=eq.${encodeURIComponent(id)}`, {
+            method: 'PATCH',
+            headers: { ...HEADERS, Prefer: 'return=minimal' },
+            body: JSON.stringify(data)
+          });
+        } else {
+          // create — stamp created_at for new posts
+          data.created_at = new Date().toISOString();
+          res = await fetch(REST, {
+            method: 'POST',
+            headers: { ...HEADERS, Prefer: 'return=minimal' },
+            body: JSON.stringify(data)
+          });
+        }
+        if (!res.ok) throw new Error(await res.text());
+
+        showMsg(id ? 'Post updated.' : (publish ? 'Post published.' : 'Draft saved.'), 'ok');
+        resetForm();
+        loadPosts();
+      } catch (err) {
+        console.error(err);
+        showMsg('Save failed. Check console for details.', 'err');
+      }
+    }
+
+    /* ============ EDIT ============ */
+    async function editPost(id) {
+      try {
+        const res = await fetch(`${REST}?id=eq.${encodeURIComponent(id)}&select=*`, { headers: HEADERS });
+        if (!res.ok) throw new Error('fetch failed');
+        const rows = await res.json();
+        if (!rows.length) { showMsg('Post not found.', 'err'); return; }
+        const p = rows[0];
+
+        $('postId').value = p.id;
+        $('titleInput').value = p.title || '';
+        const validCats = ['General', 'Team Building', 'Corporate Events', 'Workplace Culture', 'Tips & Guides', 'Case Study'];
+        $('categoryInput').value = validCats.includes(p.category) ? p.category : 'General';
+        $('authorInput').value = p.author || 'Team Woosh Biz';
+        $('coverInput').value = p.cover_image || '';
+        $('layoutInput').value = p.layout || 'standard';
+        $('redirectUrlInput').value = p.redirect_url || '';
+        $('redirectUrlField').style.display = (p.layout && p.layout !== 'standard') ? 'block' : 'none';
+        updateCoverPreview();
+        // load existing HTML into the rich text editor
+        quill.setContents([]);
+        quill.clipboard.dangerouslyPasteHTML(0, p.body || '');
+
+        $('formHeading').textContent = 'Edit Post';
+        $('editingBadge').style.display = 'inline-block';
+        $('cancelEditBtn').style.display = 'inline-flex';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } catch (err) {
+        console.error(err);
+        showMsg('Could not load post for editing.', 'err');
+      }
+    }
+
+    /* ============ DELETE ============ */
+    async function deletePost(id, btn) {
+      if (!confirm('Delete this post permanently? This cannot be undone.')) return;
+      try {
+        const res = await fetch(`${REST}?id=eq.${encodeURIComponent(id)}`, {
+          method: 'DELETE',
+          headers: { ...HEADERS, Prefer: 'return=minimal' }
+        });
+        if (!res.ok) throw new Error(await res.text());
+        // if we were editing this one, clear the form
+        if ($('postId').value === String(id)) resetForm();
+        loadPosts();
+      } catch (err) {
+        console.error(err);
+        alert('Delete failed. Check console for details.');
+      }
+    }
+
+    /* ============ TOGGLE PUBLISH ============ */
+    async function togglePublish(id, current) {
+      try {
+        const res = await fetch(`${REST}?id=eq.${encodeURIComponent(id)}`, {
+          method: 'PATCH',
+          headers: { ...HEADERS, Prefer: 'return=minimal' },
+          body: JSON.stringify({ is_published: !current })
+        });
+        if (!res.ok) throw new Error(await res.text());
+        loadPosts();
+      } catch (err) {
+        console.error(err);
+        alert('Could not change status. Check console for details.');
+      }
+    }
+
+    /* ============ WIRE UP ============ */
+    $('saveDraftBtn').addEventListener('click', () => savePost(false));
+    $('publishBtn').addEventListener('click', () => savePost(true));
+    $('cancelEditBtn').addEventListener('click', resetForm);
+
+    async function initDashboard() {
+      await seedIfEmpty();
+      await loadPosts();
+    }
+
+    /* ============ AUTO-LOGIN IF SESSION ============ */
+    if (sessionStorage.getItem('wb_admin') === '1') {
+      openDashboard();
+    } else {
+      $('pwInput').focus();
+    }
+  </script>
+</body>
+
+</html>

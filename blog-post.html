@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | Woosh Biz</title>
+    <meta name="description" content="Read the latest from Woosh Biz on team building, corporate events, and workplace culture.">
+    <link rel="icon" href="https://static.wixstatic.com/media/fe3583_2f36ed41d71a4ed3ba3db03baf388f14~mv2.png/v1/fill/w_104,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/2209_Woosh%20Biz%20update%20final%20logo_PNG.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        @import url('https://fonts.cdnfonts.com/css/gilroy-free');
+
+        :root {
+            --wb-primary: #871e6c;
+            --wb-primary-dark: #6b1756;
+            --wb-plum: #8E2158;
+            --wb-text: #1a1a1a;
+            --wb-bg: #faf7f9;
+        }
+
+        html { scroll-behavior: smooth; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Gilroy', sans-serif;
+            color: var(--wb-text);
+            background: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        img { display: block; max-width: 100%; }
+
+        /* ============ NAV (matches index.html) ============ */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            background: #fff;
+            box-shadow: 0 2px 12px rgba(0,0,0,.06);
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nav-logo img { height: 40px; width: auto; display: block; }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            list-style: none;
+        }
+        .nav-links a {
+            font-weight: 700;
+            font-size: 15px;
+            font-family: 'Gilroy', sans-serif;
+            color: var(--wb-text);
+            transition: color .2s ease;
+        }
+        .nav-links a:hover { color: var(--wb-primary); }
+        .dropdown { position: relative; }
+        .dropdown-menu {
+            position: absolute;
+            top: 130%;
+            left: 0;
+            background: #fff;
+            box-shadow: 0 12px 30px rgba(0,0,0,.12);
+            border-radius: 10px;
+            padding: 10px 0;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(6px);
+            transition: all .2s ease;
+            list-style: none;
+        }
+        .dropdown:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .dropdown-menu li a { display: block; padding: 8px 20px; font-weight: 500; }
+        .dropdown-menu li a:hover { background: #f8f0f6; color: var(--wb-primary); }
+        .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; }
+        .hamburger span { width: 24px; height: 2px; background: var(--wb-text); }
+
+        @media (max-width: 900px) {
+            .hamburger { display: flex; }
+            .nav-links {
+                position: absolute;
+                top: 100%; left: 0; right: 0;
+                background: #fff;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 16px 24px;
+                display: none;
+                box-shadow: 0 12px 30px rgba(0,0,0,.1);
+            }
+            .nav-links.open { display: flex; }
+            .dropdown-menu { position: static; opacity: 1; visibility: visible; transform: none; box-shadow: none; display: none; padding-left: 10px; }
+            .dropdown.open .dropdown-menu { display: block; }
+        }
+
+        /* ============ ARTICLE ============ */
+        .article-wrap {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 50px 24px 80px;
+        }
+        .article-tag {
+            display: inline-block;
+            background: #f8e9f4;
+            color: var(--wb-primary);
+            font-weight: 700;
+            font-size: 12.5px;
+            letter-spacing: .04em;
+            text-transform: uppercase;
+            padding: 6px 14px;
+            border-radius: 100px;
+            margin-bottom: 18px;
+        }
+        .article-wrap h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-weight: 800;
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
+            line-height: 1.2;
+            margin-bottom: 22px;
+            color: var(--wb-text);
+        }
+        .article-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 28px;
+            padding: 18px 0;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 30px;
+        }
+        .meta-item { display: flex; flex-direction: column; gap: 2px; }
+        .meta-label { font-size: 11.5px; text-transform: uppercase; letter-spacing: .05em; color: #999; font-weight: 700; }
+        .meta-value { font-size: 14.5px; font-weight: 600; color: var(--wb-text); }
+        .cover-image {
+            width: 100%;
+            border-radius: 14px;
+            margin-bottom: 34px;
+            max-height: 460px;
+            object-fit: cover;
+        }
+        .article-body { font-size: 17px; color: #333; }
+        .article-body p { margin-bottom: 20px; }
+        .article-body h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--wb-plum);
+            margin: 34px 0 14px;
+        }
+        .article-body img { border-radius: 12px; margin: 20px 0; }
+        .article-body blockquote {
+            border-left: 4px solid var(--wb-primary);
+            padding-left: 18px;
+            font-style: italic;
+            color: #555;
+            margin: 22px 0;
+        }
+        .article-body ul, .article-body ol { margin: 0 0 20px 22px; }
+        .article-status {
+            text-align: center;
+            padding: 90px 24px;
+            color: #888;
+            font-size: 17px;
+            font-weight: 600;
+        }
+
+        .share-bar {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-top: 46px;
+            padding-top: 26px;
+            border-top: 1px solid #eee;
+        }
+        .share-bar .label { font-weight: 700; font-size: 14px; color: #666; }
+        .share-btn {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            background: #f8f0f6;
+            color: var(--wb-primary);
+            display: flex; align-items: center; justify-content: center;
+            transition: all .2s ease;
+        }
+        .share-btn svg { width: 16px; height: 16px; }
+        .share-btn:hover { background: var(--wb-primary); color: #fff; }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--wb-primary);
+            margin: 30px 24px 0;
+        }
+
+        /* ============ CTA STRIP ============ */
+        .cta-strip {
+            background: var(--wb-plum);
+            color: #fff;
+            text-align: center;
+            padding: 50px 24px;
+        }
+        .cta-strip h3 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.6rem;
+            margin-bottom: 16px;
+        }
+        .cta-button {
+            background: #fff;
+            color: var(--wb-plum);
+            padding: 14px 34px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all .3s ease;
+        }
+        .cta-button:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,.2); }
+
+        /* ============ FOOTER (matches index.html) ============ */
+        footer { background: #1a1a1a; color: #fff; padding: 60px 24px 24px; }
+        .footer-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.6fr 1fr 1fr 1fr;
+            gap: 40px;
+        }
+        .footer-logo img { height: 40px; margin-bottom: 14px; }
+        .footer-tagline { color: #ccc; font-size: 14px; margin-bottom: 18px; }
+        .footer-socials { display: flex; gap: 10px; }
+        .footer-socials img { width: 28px; height: 28px; border-radius: 50%; }
+        .footer-grid h4 { font-size: 15px; margin-bottom: 14px; }
+        .footer-grid a { display: block; color: #ccc; font-size: 14px; margin-bottom: 10px; }
+        .footer-grid a:hover { color: #fff; }
+        .footer-contact { font-weight: 700; margin-bottom: 6px; }
+        .footer-bottom {
+            text-align: center;
+            color: #999;
+            font-size: 13px;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+        }
+        @media (max-width: 800px) {
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        .whatsapp-button {
+            position: fixed; bottom: 30px; right: 30px;
+            width: 58px; height: 58px; border-radius: 50%;
+            background: #25d366; display: flex; align-items: center; justify-content: center;
+            color: #fff; font-size: 1.4rem; z-index: 999;
+            box-shadow: 0 8px 25px rgba(37,211,102,.4);
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <img src="https://static.wixstatic.com/media/fe3583_2f36ed41d71a4ed3ba3db03baf388f14~mv2.png/v1/fill/w_104,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/2209_Woosh%20Biz%20update%20final%20logo_PNG.png" alt="Woosh Biz" height="40">
+            </a>
+            <button class="hamburger" id="hamburger" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="high-octane.html">In-Office</a></li>
+                <li><a href="outbound.html">Outbound</a></li>
+                <li><a href="virtual.html">Virtual</a></li>
+                <li class="dropdown" id="navDropdown">
+                    <a href="#" class="dropdown-toggle">Get In Touch ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="blog.html">Blogs</a></li>
+                        <li><a href="contact.html">Free Consultation</a></li>
+                        <li><a href="resorts.html">Resorts Recommended</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <a href="blog.html" class="back-link">&larr; Back to Blogs</a>
+
+    <div class="article-wrap" id="articleContent">
+        <div class="article-status">Loading…</div>
+    </div>
+
+    <div class="cta-strip">
+        <h3>Ready to plan your team's next event?</h3>
+        <a href="https://wa.me/919920389760" target="_blank" class="cta-button">Get a Quote in 90 mins 🚀</a>
+    </div>
+
+    <footer>
+        <div class="footer-grid">
+            <div>
+                <div class="footer-logo">
+                    <img src="https://static.wixstatic.com/media/9e0902_b8e2795e4f484602a2294b7410e3f4e5~mv2.png/v1/fill/w_112,h_44,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/2209_Woosh%20Biz%20update%20final%20white%20logo_PNG.png" alt="Woosh Biz">
+                </div>
+                <p class="footer-tagline">No Gyaan. Just Fun With Learning.</p>
+                <div class="footer-socials">
+                    <a href="https://www.facebook.com/people/Woosh-Biz-by-HTI/100083456102229/" title="Facebook"><img src="https://static.wixstatic.com/media/11062b_ef6a6ac194704911951645990055c2ce~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_ef6a6ac194704911951645990055c2ce~mv2.png" alt="FB"></a>
+                    <a href="https://www.instagram.com/wooshbiz/" title="Instagram"><img src="https://static.wixstatic.com/media/11062b_cef3b719166a4815b446d4dcfcb6120d~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_cef3b719166a4815b446d4dcfcb6120d~mv2.png" alt="IG"></a>
+                    <a href="https://www.linkedin.com/company/woosh-biz-by-hti/" title="LinkedIn"><img src="https://static.wixstatic.com/media/11062b_b5690303a8ff470e9b1c03a24aff140b~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_b5690303a8ff470e9b1c03a24aff140b~mv2.png" alt="LI"></a>
+                    <a href="https://www.youtube.com/channel/UC9BdT9tzf4841P1B-R7P-Qg" title="YouTube"><img src="https://static.wixstatic.com/media/11062b_fe985b889c144b348eefc7bbc67018b4~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_fe985b889c144b348eefc7bbc67018b4~mv2.png" alt="YT"></a>
+                </div>
+            </div>
+            <div>
+                <h4>Quick Links</h4>
+                <a href="about.html">About Us</a>
+                <a href="contact.html">Get In Touch</a>
+                <a href="contact.html">Free Consultation Call</a>
+                <a href="blog.html">Blogs</a>
+            </div>
+            <div>
+                <h4>Programs</h4>
+                <a href="high-octane.html">In-Office</a>
+                <a href="outbound.html">Outbound</a>
+                <a href="virtual.html">Virtual</a>
+            </div>
+            <div>
+                <h4>Contact</h4>
+                <div class="footer-contact">+91 9920389760</div>
+                <div>⭐ 4.5 | 150 Ratings</div>
+            </div>
+        </div>
+        <div class="footer-bottom">© 2026 Woosh Biz by HTI India Pvt Ltd. All rights reserved.</div>
+    </footer>
+
+    <a href="https://wa.me/919920389760" class="whatsapp-button" title="Chat with us on WhatsApp">💬</a>
+
+    <script>
+        /* ---------- Supabase config ---------- */
+        const SUPABASE_URL = "https://ytthcgdsbfagvwcopoaj.supabase.co";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl0dGhjZ2RzYmZhZ3Z3Y29wb2FqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMzMjk5MTMsImV4cCI6MjA5ODkwNTkxM30.JIDahcRTu3VbFpZ55Ti5hHg_JrHobk0zh8PSaj9lWLc";
+        const REST = `${SUPABASE_URL}/rest/v1/wooshbiz_blogs`;
+
+        function stripHtml(html) {
+            const tmp = document.createElement('div');
+            tmp.innerHTML = html || '';
+            return (tmp.textContent || tmp.innerText || '').replace(/\s+/g, ' ').trim();
+        }
+        function readTime(html) {
+            const words = stripHtml(html).split(/\s+/).filter(Boolean).length;
+            return Math.max(1, Math.round(words / 200)) + ' min read';
+        }
+        function formatDate(d) {
+            if (!d) return '';
+            const date = new Date(d);
+            if (isNaN(date)) return '';
+            return date.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
+        }
+        function escapeHtml(str) {
+            return (str || '').replace(/[&<>"']/g, c => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            }[c]));
+        }
+
+        async function loadPost() {
+            const container = document.getElementById('articleContent');
+            const params = new URLSearchParams(location.search);
+            const id = params.get('id');
+
+            if (!id) {
+                container.innerHTML = '<div class="article-status">No blog specified.</div>';
+                return;
+            }
+
+            try {
+                const res = await fetch(`${REST}?id=eq.${encodeURIComponent(id)}&select=*`, {
+                    headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` }
+                });
+                if (!res.ok) throw new Error('Request failed: ' + res.status);
+                const rows = await res.json();
+
+                if (!rows.length) {
+                    container.innerHTML = '<div class="article-status">Blog not found.</div>';
+                    return;
+                }
+
+                const b = rows[0];
+
+                // Data-driven redirect: special-layout posts point at their own page.
+                if (b.redirect_url) {
+                    window.location.replace(b.redirect_url);
+                    return;
+                }
+
+                document.title = (b.title || 'Blog') + ' | Woosh Biz';
+
+                const cover = b.cover_image
+                    ? `<img class="cover-image" src="${escapeHtml(b.cover_image)}" alt="${escapeHtml(b.title || '')}">`
+                    : '';
+
+                const shareUrl = encodeURIComponent(location.href);
+
+                container.innerHTML = `
+                    <span class="article-tag">${escapeHtml(b.category || 'General')}</span>
+                    <h1>${escapeHtml(b.title || 'Untitled')}</h1>
+                    <div class="article-meta">
+                        <div class="meta-item"><span class="meta-label">Words by</span><span class="meta-value">${escapeHtml(b.author || 'Team Woosh Biz')}</span></div>
+                        <div class="meta-item"><span class="meta-label">Date</span><span class="meta-value">${formatDate(b.created_at)}</span></div>
+                        <div class="meta-item"><span class="meta-label">Reading Time</span><span class="meta-value">${readTime(b.body)}</span></div>
+                    </div>
+                    ${cover}
+                    <div class="article-body">${b.body || ''}</div>
+                    <div class="share-bar">
+                        <span class="label">Share:</span>
+                        <a class="share-btn" target="_blank" aria-label="Share on Facebook" href="https://www.facebook.com/sharer/sharer.php?u=${shareUrl}">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669c1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                        </a>
+                        <a class="share-btn" target="_blank" aria-label="Share on Instagram" href="https://www.instagram.com/wooshbiz/">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 2c-2.716 0-3.056.012-4.123.06c-1.064.049-1.791.218-2.427.465a4.901 4.901 0 0 0-1.772 1.153A4.902 4.902 0 0 0 2.525 5.45c-.247.636-.416 1.363-.465 2.427C2.011 8.944 2 9.284 2 12s.011 3.056.06 4.123c.049 1.064.218 1.791.465 2.427a4.903 4.903 0 0 0 1.153 1.772a4.903 4.903 0 0 0 1.772 1.153c.636.247 1.363.416 2.427.465c1.067.048 1.407.06 4.123.06s3.056-.012 4.123-.06c1.064-.049 1.791-.218 2.427-.465a4.902 4.902 0 0 0 1.772-1.153a4.902 4.902 0 0 0 1.153-1.772c.247-.636.416-1.363.465-2.427c.048-1.067.06-1.407.06-4.123s-.012-3.056-.06-4.123c-.049-1.064-.218-1.791-.465-2.427a4.902 4.902 0 0 0-1.153-1.772a4.901 4.901 0 0 0-1.772-1.153c-.636-.247-1.363-.416-2.427-.465C15.056 2.012 14.716 2 12 2m0 1.802c2.67 0 2.986.01 4.04.058c.976.045 1.505.207 1.858.344c.466.182.8.399 1.15.748c.35.35.566.684.748 1.15c.136.353.3.882.344 1.857c.048 1.055.058 1.37.058 4.041c0 2.67-.01 2.986-.058 4.04c-.045.976-.208 1.505-.344 1.858a3.1 3.1 0 0 1-.748 1.15c-.35.35-.684.566-1.15.748c-.353.136-.882.3-1.857.344c-1.054.048-1.37.058-4.041.058c-2.67 0-2.987-.01-4.04-.058c-.976-.045-1.505-.208-1.858-.344a3.098 3.098 0 0 1-1.15-.748a3.098 3.098 0 0 1-.748-1.15c-.137-.353-.3-.882-.344-1.857c-.048-1.055-.058-1.37-.058-4.041c0-2.67.01-2.986.058-4.04c.045-.976.207-1.505.344-1.858c.182-.466.399-.8.748-1.15c.35-.35.684-.566 1.15-.748c.353-.137.882-.3 1.857-.344c1.055-.048 1.37-.058 4.041-.058m0 11.531a3.333 3.333 0 1 1 0-6.666a3.333 3.333 0 0 1 0 6.666m0-8.468a5.135 5.135 0 1 0 0 10.27a5.135 5.135 0 0 0 0-10.27m6.538-.203a1.2 1.2 0 1 1-2.4 0a1.2 1.2 0 0 1 2.4 0"/></svg>
+                        </a>
+                        <a class="share-btn" target="_blank" aria-label="Share on LinkedIn" href="https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}">
+                            <svg viewBox="0 0 32 32" fill="currentColor"><path d="M26.2 4H5.8C4.8 4 4 4.8 4 5.7v20.5c0 .9.8 1.7 1.8 1.7h20.4c1 0 1.8-.8 1.8-1.7V5.7c0-.9-.8-1.7-1.8-1.7zM11.1 24.4H7.6V13h3.5v11.4zm-1.7-13c-1.1 0-2.1-.9-2.1-2.1c0-1.2.9-2.1 2.1-2.1c1.1 0 2.1.9 2.1 2.1s-1 2.1-2.1 2.1zm15.1 12.9H21v-5.6c0-1.3 0-3.1-1.9-3.1S17 17.1 17 18.5v5.7h-3.5V13h3.3v1.5h.1c.5-.9 1.7-1.9 3.4-1.9c3.6 0 4.3 2.4 4.3 5.5v6.2z"/></svg>
+                        </a>
+                    </div>
+                `;
+            } catch (err) {
+                console.error(err);
+                container.innerHTML = '<div class="article-status">Could not load this blog. Please try again later.</div>';
+            }
+        }
+        loadPost();
+
+        /* ---------- Mobile nav ---------- */
+        (function () {
+            document.getElementById('hamburger').addEventListener('click', () => {
+                document.getElementById('navLinks').classList.toggle('open');
+            });
+            const dd = document.getElementById('navDropdown');
+            dd.querySelector('.dropdown-toggle').addEventListener('click', (e) => {
+                if (window.innerWidth <= 900) { e.preventDefault(); dd.classList.toggle('open'); }
+            });
+        })();
+    </script>
+</body>
+</html>
