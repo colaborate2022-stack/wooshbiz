@@ -202,9 +202,9 @@
 
         .phone-hero {
             position: relative;
-            max-width: 480px;
+            max-width: 620px;
             width: 100%;
-            margin: -4% auto 0;
+            margin: -3% auto 0;
         }
 
         .hands-img {
@@ -232,34 +232,45 @@
         }
 
         .cta-button {
-            background: #8E2158;
+            background: linear-gradient(135deg, #8E2158 0%, #6b1a46 100%);
             color: white;
-            padding: 14px 34px;
+            padding: 11px 26px;
             border-radius: 50px;
-            font-family: Georgia, serif;
-            font-weight: normal;
-            font-size: 1.125rem;
-            letter-spacing: 0.5px;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.3px;
             border: none;
             cursor: pointer;
             transition: all 0.3s ease;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
+            gap: 9px;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 6px 18px rgba(142, 33, 88, 0.28);
         }
 
         .cta-button:hover {
-            background: #6b1a46;
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(142, 33, 88, 0.3);
+            box-shadow: 0 10px 24px rgba(142, 33, 88, 0.4);
         }
 
-        .cta-button svg {
-            width: 22px;
-            height: 22px;
+        .cta-button .wa-icon {
+            width: 26px;
+            height: 26px;
+            background: #25D366;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .cta-button .wa-icon svg {
+            width: 16px;
+            height: 16px;
             flex-shrink: 0;
         }
 
@@ -267,7 +278,7 @@
         .stats-section {
             background: #871e6c;
             color: white;
-            padding: 36px 3rem;
+            padding: 22px 3rem;
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 2rem;
@@ -283,14 +294,14 @@
         }
 
         .stat-number {
-            font-size: 3.5rem;
+            font-size: 2.6rem;
             font-weight: 800;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
             counter-increment: stat-counter;
         }
 
         .stat-label {
-            font-size: 1rem;
+            font-size: 0.9rem;
             opacity: 0.85;
         }
 
@@ -318,11 +329,11 @@
         .marquee {
             display: flex;
             gap: 2rem;
-            animation: marqueeLeft 35s linear infinite;
+            animation: marqueeLeft 16s linear infinite;
         }
 
         .marquee.reverse {
-            animation: marqueeRight 40s linear infinite;
+            animation: marqueeRight 18s linear infinite;
         }
 
         .marquee:hover {
@@ -1074,8 +1085,9 @@
 
             /* Hero */
             .hero {
-                padding: 100px 20px 40px !important;
+                padding: 100px 20px 16px !important;
                 min-height: auto !important;
+                gap: 0.5rem !important;
             }
             .hero-headline {
                 font-size: clamp(1.5rem, 5vw, 2.2rem) !important;
@@ -1085,15 +1097,23 @@
                 margin-bottom: 0 !important;
             }
             .phone-hero {
-                margin: 12px auto 0 !important;
+                margin: 4px auto 0 !important;
             }
             .hero-cta-container {
-                margin-top: 10px !important;
+                margin-top: 4px !important;
             }
 
             /* Sections */
             section, [class*="section"] {
                 padding: 60px 20px !important;
+            }
+
+            /* Brands strip — tighten so it hugs the hero */
+            .brands-section {
+                padding: 28px 20px !important;
+            }
+            .brands-section .section-label {
+                margin-bottom: 20px !important;
             }
 
             /* Grids */
@@ -1220,7 +1240,11 @@
             }
 
             .marquee {
-                gap: 1rem;
+                gap: 2rem;
+                animation-duration: 7s;
+            }
+            .marquee.reverse {
+                animation-duration: 7s;
             }
 
             .cursor-trail {
@@ -1317,31 +1341,13 @@
 
         <div class="hero-cta-container">
             <a href="https://wa.me/919920389760" target="_blank" class="cta-button">
-                <svg viewBox="0 0 24 24" fill="#ffffff" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-4.994 1.509c-1.54.887-2.803 2.126-3.666 3.71C3.31 12.493 3 13.845 3 15.233c0 1.388.31 2.74.926 4.055.615 1.315 1.474 2.491 2.539 3.379.65.538 1.36 1.018 2.12 1.418-.082.488-.281 1.513-.46 2.34-.174.818-.24 1.126-.125 1.28.116.157.452.254.88.25.428-.002.856-.178 1.367-.334 1.06-.349 2.407-1.003 3.456-1.695 1.048.694 2.396 1.346 3.456 1.695.51.156.938.332 1.367.334.428.004.764-.093.88-.25.115-.154.049-.462-.125-1.28-.179-.827-.378-1.852-.46-2.34.76-.4 1.47-.88 2.12-1.418 1.065-.888 1.924-2.064 2.539-3.379.616-1.315.926-2.667.926-4.055 0-1.388-.31-2.74-.926-4.055-.615-1.315-1.474-2.49-2.539-3.379A9.87 9.87 0 0012 7.021"/>
-                </svg>
+                <span class="wa-icon">
+                    <svg viewBox="0 0 24 24" fill="#ffffff" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413"/>
+                    </svg>
+                </span>
                 Get a Quote in 90 mins
             </a>
-        </div>
-    </section>
-
-    <!-- Stats Section -->
-    <section class="stats-section reveal">
-        <div class="stat-item">
-            <div class="stat-number" data-target="30">0</div>
-            <div class="stat-label">Unique Events</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number" data-target="60">0</div>
-            <div class="stat-label">Legendary Brands</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number" data-target="150">0</div>
-            <div class="stat-label">Happy Teams</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number" data-target="10">0</div>
-            <div class="stat-label">Years Experience</div>
         </div>
     </section>
 
@@ -1367,6 +1373,26 @@
                 <div class="logo-item"><img src="https://static.wixstatic.com/media/9e0902_62f68fef408d4e91840ccdd1f2bb9d50~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/22_%20Ginger%20Hotels.png" alt="Ginger"></div>
                 <div class="logo-item"><img src="https://static.wixstatic.com/media/9e0902_2c317fb4db7e44beb9d1ec412e9fdeb6~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/23_%20Swastik%20Tins.png" alt="Swastik"></div>
             </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section reveal">
+        <div class="stat-item">
+            <div class="stat-number" data-target="30">0</div>
+            <div class="stat-label">Unique Events</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number" data-target="60">0</div>
+            <div class="stat-label">Legendary Brands</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number" data-target="150">0</div>
+            <div class="stat-label">Happy Teams</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number" data-target="10">0</div>
+            <div class="stat-label">Years Experience</div>
         </div>
     </section>
 
@@ -1654,7 +1680,6 @@
     </footer>
 
     <!-- Floating Buttons -->
-    <a href="https://wa.me/919920389760" class="whatsapp-button" title="Chat with us on WhatsApp">💬</a>
     <button class="scroll-to-top" id="scrollToTop" title="Scroll to top">↑</button>
 
     <script>
