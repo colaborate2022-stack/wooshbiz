@@ -44,6 +44,141 @@
         .reveal:nth-child(5) { transition-delay: 0.4s; }
         .reveal:nth-child(6) { transition-delay: 0.5s; }
 
+        /* ===== 3D entrance + tilt + accents ===== */
+        /* Cards rotate up into place as they scroll in */
+        .reveal-3d {
+            opacity: 0;
+            transform: perspective(1000px) rotateX(-45deg) translateY(90px);
+            transform-origin: 50% 100%;
+            transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+            will-change: transform, opacity;
+        }
+        .reveal-3d.visible {
+            opacity: 1;
+            transform: perspective(1000px) rotateX(0deg) translateY(0);
+        }
+        /* Depth shadow when a 3D card is hovered */
+        .video-card.tilt-3d,
+        .program-card.tilt-3d {
+            transition: box-shadow 0.3s ease;
+        }
+        .video-card.tilt-3d:hover,
+        .program-card.tilt-3d:hover {
+            box-shadow: 0 40px 70px -30px rgba(135, 30, 108, 0.65);
+        }
+
+        /* Classy: animated underline on nav links */
+        .nav-links a { position: relative; }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 0; bottom: -5px;
+            width: 100%; height: 2px;
+            background: linear-gradient(90deg, #871e6c, #f47920);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+        .nav-links a:hover::after { transform: scaleX(1); }
+
+        /* Classy: sheen sweep across buttons on hover */
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -120%;
+            width: 60%; height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+            transform: skewX(-20deg);
+            transition: left 0.6s ease;
+            pointer-events: none;
+            z-index: 3;
+        }
+        .cta-button:hover::before { left: 140%; }
+
+        /* Classy: slowly shifting gradient on the colored bands */
+        .stats-section {
+            background: linear-gradient(120deg, #871e6c, #8E2158, #6b1a46, #871e6c);
+            background-size: 300% 300%;
+            animation: gradientShift 14s ease infinite;
+        }
+        .cta-strip {
+            background: linear-gradient(120deg, #871e6c, #5c1349, #8E2158, #5c1349);
+            background-size: 300% 300%;
+            animation: gradientShift 16s ease infinite;
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .reveal-3d:nth-child(2) { transition-delay: 0.08s; }
+        .reveal-3d:nth-child(3) { transition-delay: 0.16s; }
+        .reveal-3d:nth-child(4) { transition-delay: 0.24s; }
+        .reveal-3d:nth-child(5) { transition-delay: 0.32s; }
+
+        .tilt-3d { will-change: transform; }
+
+        /* Pulsing accent dot */
+        .pulse-dot {
+            display: inline-block;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #f47920;
+            margin-right: 10px;
+            vertical-align: middle;
+            animation: accentPulse 2s infinite;
+        }
+        @keyframes accentPulse {
+            0% { box-shadow: 0 0 0 0 rgba(244, 121, 32, 0.5); }
+            70% { box-shadow: 0 0 0 11px rgba(244, 121, 32, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(244, 121, 32, 0); }
+        }
+
+        /* Scroll progress bar */
+        .scroll-progress {
+            position: fixed;
+            top: 0; left: 0;
+            height: 3px;
+            width: 0%;
+            background: linear-gradient(90deg, #f47920, #8E2158, #871e6c);
+            z-index: 10000;
+            transition: width 0.08s linear;
+        }
+
+        /* Animated gradient shimmer on the hero highlight */
+        .hero-headline .highlight {
+            background: linear-gradient(100deg, #8E2158 0%, #f47920 35%, #871e6c 70%, #8E2158 100%);
+            background-size: 250% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmerText 5s linear infinite;
+        }
+        @keyframes shimmerText {
+            to { background-position: -250% 0; }
+        }
+
+        /* Stats: 3D depth for tilt */
+        .stats-section {
+            perspective: 1000px;
+        }
+        .stat-item {
+            transform-style: preserve-3d;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .reveal-3d { opacity: 1 !important; transform: none !important; }
+            .pulse-dot,
+            .hero-headline .highlight,
+            .stats-section,
+            .cta-strip { animation: none; }
+            .hero-headline .highlight {
+                -webkit-text-fill-color: #8E2158;
+                color: #8E2158;
+            }
+        }
+
         /* Custom Cursor */
         .cursor-trail {
             position: fixed;
@@ -205,23 +340,44 @@
             max-width: 620px;
             width: 100%;
             margin: -3% auto 0;
+            perspective: 1300px;
+            animation: phoneFloat 6s ease-in-out infinite;
+        }
+
+        @keyframes phoneFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-16px); }
+        }
+
+        /* 3D layer — flat at rest, tilts only on hover */
+        .phone-3d {
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateX(0deg) rotateY(0deg);
+            transition: transform 0.4s ease-out;
+            will-change: transform;
         }
 
         .hands-img {
             display: block;
             width: 100%;
             height: auto;
+            filter: drop-shadow(0 26px 36px rgba(0, 0, 0, 0.3));
         }
 
         .phone-video {
             position: absolute;
-            left: 22.2%;
-            top: 24.2%;
-            width: 49.2%;
-            height: 43%;
+            /* Mapped to the phone's actual inner screen so the frame/sides stay visible */
+            left: 27.4%;
+            top: 25.4%;
+            width: 44.2%;
+            height: 41.6%;
             object-fit: cover;
-            border-radius: 14px;
+            border-radius: 7px;
             z-index: 2;
+            /* Coplanar with the hands so it lines up exactly with the screen,
+               and tilts together with them for the 3D effect */
+            transform: translateZ(0);
         }
 
         .hero-cta-container {
@@ -514,6 +670,8 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            object-position: center top;
+            transform-origin: center top;
             transition: transform 0.4s ease;
         }
 
@@ -789,7 +947,7 @@
         .carousel-nav button {
             width: 48px;
             height: 48px;
-            border-radius: 50%;
+            border-radius: 12px;
             background: white;
             border: 2px solid #f47920;
             color: #f47920;
@@ -978,7 +1136,7 @@
             right: 30px;
             width: 48px;
             height: 48px;
-            border-radius: 50%;
+            border-radius: 12px;
             background: #871e6c;
             display: flex;
             align-items: center;
@@ -1098,6 +1256,14 @@
             }
             .phone-hero {
                 margin: 4px auto 0 !important;
+                perspective: 900px !important;
+            }
+            .phone-3d {
+                transform: rotateX(0deg) rotateY(0deg) !important;
+            }
+            .phone-video {
+                transform: translateZ(0) !important;
+                border-radius: 4px !important;
             }
             .hero-cta-container {
                 margin-top: 4px !important;
@@ -1142,7 +1308,7 @@
             .video-featured { grid-column: span 1 !important; }
 
             /* Program cards */
-            .program-card, [class*="program"] {
+            .program-card {
                 height: 280px !important;
             }
 
@@ -1190,8 +1356,12 @@
             .scroll-top { bottom: 90px !important; right: 16px !important; }
 
             /* Gallery */
-            .gallery-grid, [class*="gallery"] {
-                columns: 2 !important;
+            .gallery-grid {
+                grid-template-columns: 1fr 1fr !important;
+                gap: 12px !important;
+            }
+            .gallery-item {
+                height: 160px !important;
             }
 
             /* CTA strip */
@@ -1274,7 +1444,7 @@
             }
 
             .gallery-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr 1fr;
             }
 
             .testimonial-card {
@@ -1332,11 +1502,13 @@
         <h1 class="hero-headline">Want to host the most epic team-building program ever? <span class="highlight">Let us!</span></h1>
         <p class="hero-subtext">We host events for in-person & remote teams.<br>30+ unique events intentionally designed to build happier teams.</p>
 
-        <div class="phone-hero">
-            <img src="images/hands-phone.png" class="hands-img" alt="Team building event video">
-            <video class="phone-video" autoplay muted loop playsinline>
-                <source src="videos/hero-video.mp4" type="video/mp4">
-            </video>
+        <div class="phone-hero" id="phoneHero">
+            <div class="phone-3d">
+                <img src="images/hands-phone.png" class="hands-img" alt="Team building event video">
+                <video class="phone-video" autoplay muted loop playsinline>
+                    <source src="videos/hero-video.mp4" type="video/mp4">
+                </video>
+            </div>
         </div>
 
         <div class="hero-cta-container">
@@ -1378,19 +1550,19 @@
 
     <!-- Stats Section -->
     <section class="stats-section reveal">
-        <div class="stat-item">
+        <div class="stat-item tilt-3d">
             <div class="stat-number" data-target="30">0</div>
             <div class="stat-label">Unique Events</div>
         </div>
-        <div class="stat-item">
+        <div class="stat-item tilt-3d">
             <div class="stat-number" data-target="60">0</div>
             <div class="stat-label">Legendary Brands</div>
         </div>
-        <div class="stat-item">
+        <div class="stat-item tilt-3d">
             <div class="stat-number" data-target="150">0</div>
             <div class="stat-label">Happy Teams</div>
         </div>
-        <div class="stat-item">
+        <div class="stat-item tilt-3d">
             <div class="stat-number" data-target="10">0</div>
             <div class="stat-label">Years Experience</div>
         </div>
@@ -1399,9 +1571,9 @@
     <!-- Video Section -->
     <section class="video-section">
         <h2 class="section-heading reveal">See Us In Action</h2>
-        <p class="section-subheading reveal">Real teams. Real results. Real fun.</p>
+        <p class="section-subheading reveal"><span class="pulse-dot"></span>Real teams. Real results. Real fun.</p>
         <div class="videos-grid">
-            <a href="https://youtube.com/watch?v=5CMOe_3UPhk" target="_blank" class="video-card reveal">
+            <a href="https://youtube.com/watch?v=5CMOe_3UPhk" target="_blank" class="video-card reveal-3d tilt-3d">
                 <img src="https://i.ytimg.com/vi/5CMOe_3UPhk/maxresdefault.jpg" alt="Video 1">
                 <div class="video-overlay">
                     <div class="play-button">▶</div>
@@ -1409,7 +1581,7 @@
                 </div>
                 <div class="video-duration">02:57</div>
             </a>
-            <a href="https://youtube.com/watch?v=aRa3-lk0ss0" target="_blank" class="video-card reveal">
+            <a href="https://youtube.com/watch?v=aRa3-lk0ss0" target="_blank" class="video-card reveal-3d tilt-3d">
                 <img src="https://i.ytimg.com/vi/aRa3-lk0ss0/maxresdefault.jpg" alt="Video 2">
                 <div class="video-overlay">
                     <div class="play-button">▶</div>
@@ -1417,7 +1589,7 @@
                 </div>
                 <div class="video-duration">02:01</div>
             </a>
-            <a href="https://youtube.com/watch?v=d7hAV96jBg0" target="_blank" class="video-card reveal">
+            <a href="https://youtube.com/watch?v=d7hAV96jBg0" target="_blank" class="video-card reveal-3d tilt-3d">
                 <img src="https://i.ytimg.com/vi/d7hAV96jBg0/maxresdefault.jpg" alt="Video 3">
                 <div class="video-overlay">
                     <div class="play-button">▶</div>
@@ -1425,7 +1597,7 @@
                 </div>
                 <div class="video-duration">01:52</div>
             </a>
-            <a href="https://youtube.com/watch?v=KPirBZoTSPA" target="_blank" class="video-card reveal">
+            <a href="https://youtube.com/watch?v=KPirBZoTSPA" target="_blank" class="video-card reveal-3d tilt-3d">
                 <img src="https://i.ytimg.com/vi/KPirBZoTSPA/maxresdefault.jpg" alt="Video 4">
                 <div class="video-overlay">
                     <div class="play-button">▶</div>
@@ -1433,7 +1605,7 @@
                 </div>
                 <div class="video-duration">02:07</div>
             </a>
-            <a href="https://youtube.com/watch?v=2cJditUwJCY" target="_blank" class="video-card reveal">
+            <a href="https://youtube.com/watch?v=2cJditUwJCY" target="_blank" class="video-card reveal-3d tilt-3d">
                 <img src="https://i.ytimg.com/vi/2cJditUwJCY/maxresdefault.jpg" alt="Video 5">
                 <div class="video-overlay">
                     <div class="play-button">▶</div>
@@ -1448,13 +1620,13 @@
     <section class="programs-section">
         <h2 class="section-heading reveal">We Conduct Team Building Programs...</h2>
         <div class="programs-grid">
-            <a href="high-octane.html" class="program-card reveal">
+            <a href="high-octane.html" class="program-card reveal tilt-3d">
                 <img src="https://static.wixstatic.com/media/9e0902_8d3d0381f7ba42059e3b4d31262bbf76~mv2.webp" alt="In-Person">
                 <div class="program-overlay">
                     <div class="program-label">In-Person Teams <span>→</span></div>
                 </div>
             </a>
-            <a href="outbound.html" class="program-card reveal">
+            <a href="outbound.html" class="program-card reveal tilt-3d">
                 <img src="https://static.wixstatic.com/media/9e0902_5900279ea35a4bd4b477ee405c99c974~mv2.webp" alt="Remote">
                 <div class="program-overlay">
                     <div class="program-label">Remote Teams <span>→</span></div>
@@ -1553,7 +1725,7 @@
     <section class="testimonials-section">
         <h2 class="section-heading reveal">What Our Happy Alumni Say</h2>
         <div class="testimonials-container">
-            <div class="testimonial-card reveal">
+            <div class="testimonial-card reveal tilt-3d">
                 <div class="testimonial-header">
                     <div class="testimonial-photo" onclick="window.open('https://youtube.com/watch?v=0LXwBcbDXO8', '_blank')">
                         <img src="https://static.wixstatic.com/media/9e0902_9bbb420bd9e341d9a70285c815652550~mv2.png/v1/fill/w_100,h_120,al_c,q_85,enc_avif,quality_auto/1.png" alt="Vijay">
@@ -1566,7 +1738,7 @@
                 <img class="testimonial-logo" src="https://static.wixstatic.com/media/fe3583_e7877f2020724c448c11dfdafbf62681~mv2.png/v1/fill/w_85,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/33.png" alt="Logo">
             </div>
 
-            <div class="testimonial-card reveal">
+            <div class="testimonial-card reveal tilt-3d">
                 <div class="testimonial-header">
                     <div class="testimonial-photo" onclick="window.open('https://youtube.com/watch?v=24UVuhVgcGk', '_blank')">
                         <img src="https://static.wixstatic.com/media/9e0902_26ddb95f6a74461c9578699a7b0e4f69~mv2.png/v1/fill/w_100,h_120,al_c,q_85,enc_avif,quality_auto/3.png" alt="Aditi">
@@ -1579,7 +1751,7 @@
                 <img class="testimonial-logo" src="https://static.wixstatic.com/media/fe3583_cc6177f206fd489bb8c184e95ab24018~mv2.png/v1/fill/w_85,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/10.png" alt="Logo">
             </div>
 
-            <div class="testimonial-card reveal">
+            <div class="testimonial-card reveal tilt-3d">
                 <div class="testimonial-header">
                     <div class="testimonial-photo" onclick="window.open('https://youtube.com/watch?v=dnEX3EFsFWU', '_blank')">
                         <img src="https://static.wixstatic.com/media/9e0902_cf7e26a57628432a9b21d13310c736da~mv2.png/v1/fill/w_100,h_120,al_c,q_85,enc_avif,quality_auto/6.png" alt="Saloni">
@@ -1592,7 +1764,7 @@
                 <img class="testimonial-logo" src="https://static.wixstatic.com/media/fe3583_72cbf69aff6c4a2ca4af6bee6a1bf042~mv2.png/v1/fill/w_85,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/51.png" alt="Logo">
             </div>
 
-            <div class="testimonial-card reveal">
+            <div class="testimonial-card reveal tilt-3d">
                 <div class="testimonial-header">
                     <div class="testimonial-photo" onclick="window.open('https://youtube.com/watch?v=ezc0rHC3qls', '_blank')">
                         <img src="https://static.wixstatic.com/media/9e0902_46772eef354f4006ad3f2fd527fafd97~mv2.png/v1/fill/w_100,h_120,al_c,q_85,enc_avif,quality_auto/2.png" alt="Dr Chandran">
@@ -1605,7 +1777,7 @@
                 <img class="testimonial-logo" src="https://static.wixstatic.com/media/9e0902_ac47178e223341f78417b9e6a4d68083~mv2.png/v1/fill/w_85,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/64.png" alt="Logo">
             </div>
 
-            <div class="testimonial-card reveal">
+            <div class="testimonial-card reveal tilt-3d">
                 <div class="testimonial-header">
                     <div class="testimonial-photo" onclick="window.open('https://youtube.com/watch?v=geojIntTGiA', '_blank')">
                         <img src="https://static.wixstatic.com/media/9e0902_1c049d655ce24665a5c860b846f9a96d~mv2.png/v1/fill/w_100,h_120,al_c,q_85,enc_avif,quality_auto/4.png" alt="Sanjay">
@@ -1657,20 +1829,20 @@
                     </a>
                 </div>
             </div>
-            <div>
+            <div class="footer-column">
                 <h4>Quick Links</h4>
                 <a href="about.html">About Us</a>
                 <a href="contact.html">Get In Touch</a>
                 <a href="contact.html">Free Consultation Call</a>
                 <a href="blog.html">Blogs</a>
             </div>
-            <div>
+            <div class="footer-column">
                 <h4>Programs</h4>
                 <a href="high-octane.html">In-Office</a>
                 <a href="outbound.html">Outbound</a>
                 <a href="virtual.html">Virtual</a>
             </div>
-            <div>
+            <div class="footer-column">
                 <h4>Contact</h4>
                 <div class="footer-contact">+91 9920389760</div>
                 <div class="footer-rating">⭐ 4.5 | 150 Ratings</div>
@@ -1683,6 +1855,31 @@
     <button class="scroll-to-top" id="scrollToTop" title="Scroll to top">↑</button>
 
     <script>
+
+        // 3D interactive tilt for the hero phone (desktop pointers only)
+        (function () {
+            const phone = document.getElementById('phoneHero');
+            if (!phone) return;
+            const layer = phone.querySelector('.phone-3d');
+            const finePointer = window.matchMedia('(pointer: fine)').matches;
+            const restTilt = 'rotateX(0deg) rotateY(0deg)';
+            if (!layer || !finePointer) return;
+
+            phone.addEventListener('mousemove', (e) => {
+                const rect = phone.getBoundingClientRect();
+                const px = (e.clientX - rect.left) / rect.width - 0.5;   // -0.5 .. 0.5
+                const py = (e.clientY - rect.top) / rect.height - 0.5;
+                const rotateY = px * 22;           // left/right swing
+                const rotateX = -py * 16;          // up/down swing
+                layer.style.transition = 'transform 0.08s linear';
+                layer.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+
+            phone.addEventListener('mouseleave', () => {
+                layer.style.transition = 'transform 0.5s ease-out';
+                layer.style.transform = restTilt;
+            });
+        })();
 
         // Hamburger menu & mobile nav
         const hamburger = document.getElementById('hamburger');
@@ -1734,11 +1931,68 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
+                    // Reveal once, then stop observing so cards stay settled and identical
+                    observer.unobserve(entry.target);
                 }
             });
         }, observerOptions);
 
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        document.querySelectorAll('.reveal, .reveal-3d').forEach(el => observer.observe(el));
+
+        // 3D interactive tilt for cards (desktop pointers only)
+        (function () {
+            if (!window.matchMedia('(pointer: fine)').matches) return;
+            document.querySelectorAll('.tilt-3d').forEach(function (card) {
+                card.addEventListener('mousemove', function (e) {
+                    const r = card.getBoundingClientRect();
+                    const px = (e.clientX - r.left) / r.width - 0.5;
+                    const py = (e.clientY - r.top) / r.height - 0.5;
+                    // Pivot from the centre (override the entrance's bottom origin)
+                    // and lift onto its own layer so the top never clips behind a neighbour
+                    card.style.transformOrigin = 'center center';
+                    card.style.position = 'relative';
+                    card.style.zIndex = '30';
+                    card.style.transition = 'transform 0.1s ease-out';
+                    // Pure rotation only — no translateZ/scale, so the card never
+                    // grows upward past the fixed navbar and its top stays visible
+                    card.style.transform =
+                        `perspective(1000px) rotateX(${-py * 12}deg) rotateY(${px * 16}deg)`;
+                });
+                card.addEventListener('mouseleave', function () {
+                    card.style.transition = 'transform 0.5s ease-out';
+                    card.style.transform = '';
+                    card.style.transformOrigin = '';
+                    card.style.zIndex = '';
+                });
+            });
+        })();
+
+        // ===== Rich effects: scroll progress, blobs, magnetic buttons =====
+        // Scroll progress bar
+        const progressBar = document.createElement('div');
+        progressBar.className = 'scroll-progress';
+        document.body.appendChild(progressBar);
+
+        window.addEventListener('scroll', function () {
+            const st = window.scrollY || document.documentElement.scrollTop;
+            const h = document.documentElement.scrollHeight - window.innerHeight;
+            progressBar.style.width = (h > 0 ? (st / h) * 100 : 0) + '%';
+        }, { passive: true });
+
+        // Magnetic pull on buttons (desktop pointers only)
+        if (window.matchMedia('(pointer: fine)').matches) {
+            document.querySelectorAll('.cta-button').forEach(function (btn) {
+                btn.addEventListener('mousemove', function (e) {
+                    const r = btn.getBoundingClientRect();
+                    const x = (e.clientX - r.left - r.width / 2) * 0.3;
+                    const y = (e.clientY - r.top - r.height / 2) * 0.4;
+                    btn.style.transform = `translate(${x}px, ${y}px)`;
+                });
+                btn.addEventListener('mouseleave', function () {
+                    btn.style.transform = '';
+                });
+            });
+        }
 
         // Stats counter
         const statsSection = document.querySelector('.stats-section');
