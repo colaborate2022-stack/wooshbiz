@@ -3,14 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Consultation Call - Get In Touch | Woosh Biz</title>
+    <title>Contact Us - Free Consultation Call | Woosh Biz</title>
+    <meta name="description" content="Let's chat. Call, WhatsApp or mail Woosh Biz by HTI for in-office, outbound and virtual team building programs. Our support team gets back within 24 hours.">
     <style>
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&display=swap");
         @import url('https://fonts.cdnfonts.com/css/gilroy-free');
 
         html { scroll-behavior: smooth; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Gilroy', sans-serif; color: #1a1a1a; overflow-x: hidden; line-height: 1.6; }
+        body { font-family: 'Gilroy', sans-serif; color: #1a1a1a; overflow-x: hidden; line-height: 1.6; background: #fff; }
 
+        /* ===== Reveal + 3D entrance ===== */
         .reveal { opacity: 0; transform: translateY(40px); transition: all 0.7s ease; }
         .reveal.visible { opacity: 1; transform: translateY(0); }
         .reveal:nth-child(2) { transition-delay: 0.1s; }
@@ -18,206 +21,653 @@
         .reveal:nth-child(4) { transition-delay: 0.3s; }
         .reveal:nth-child(5) { transition-delay: 0.4s; }
 
-        .cursor-trail { position: fixed; width: 12px; height: 12px; border-radius: 50%; background: rgba(135, 30, 108, 0.5); pointer-events: none; z-index: 9998; display: none; }
-        @media (min-width: 1025px) { .cursor-trail { display: block; } }
+        .reveal-3d {
+            opacity: 0;
+            transform: perspective(1000px) rotateX(-45deg) translateY(90px);
+            transform-origin: 50% 100%;
+            transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+            will-change: transform, opacity;
+        }
+        .reveal-3d.visible { opacity: 1; transform: perspective(1000px) rotateX(0deg) translateY(0); }
+        .reveal-3d:nth-child(2) { transition-delay: 0.08s; }
+        .reveal-3d:nth-child(3) { transition-delay: 0.16s; }
+        .reveal-3d:nth-child(4) { transition-delay: 0.24s; }
+        .reveal-3d:nth-child(5) { transition-delay: 0.32s; }
 
-        nav { position: fixed; top: 0; left: 0; right: 0; background: white; padding: 1.5rem 3rem; display: flex; justify-content: space-between; align-items: center; z-index: 1000; transition: all 0.3s ease; }
-        nav::after {
+        .tilt-3d { will-change: transform; }
+
+        /* Pulsing accent dot */
+        .pulse-dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: #f47920; margin-right: 10px; vertical-align: middle; animation: accentPulse 2s infinite; }
+        @keyframes accentPulse {
+            0% { box-shadow: 0 0 0 0 rgba(244, 121, 32, 0.5); }
+            70% { box-shadow: 0 0 0 11px rgba(244, 121, 32, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(244, 121, 32, 0); }
+        }
+
+        /* Scroll progress line under the navbar */
+        .scroll-progress { position: fixed; top: 70px; left: 0; height: 3px; width: 0%; background: linear-gradient(90deg, #f47920, #8E2158, #871e6c); z-index: 9998; transition: width 0.08s linear; }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes shimmerText { to { background-position: -250% 0; } }
+        @keyframes fadeUpAnimation { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes floatY { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+        @keyframes blobDrift {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(40px, -30px) scale(1.12); }
+            66% { transform: translate(-30px, 25px) scale(0.94); }
+        }
+
+        /* ===== Navbar (matches index.html) ===== */
+        .navbar { position: fixed; top: 0; left: 0; width: 100%; background: #fff; z-index: 9999; }
+        .navbar::after {
             content: '';
             position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            height: 2px;
+            left: 0; bottom: 0;
+            width: 100%; height: 2px;
             background: linear-gradient(to right, transparent, #871e6c, transparent);
+            transition: opacity 0.2s ease;
         }
-        nav.scrolled { backdrop-filter: blur(10px); }
-        .logo img { height: 41px; width: auto; }
-        .nav-links { display: flex; list-style: none; gap: 1.5rem; align-items: center; }
-        .nav-links a { text-decoration: none; color: #1a1a1a; font-weight: 700; font-size: 15px; letter-spacing: 0.3px; position: relative; transition: color 0.3s ease; }
-        .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: #871e6c; transition: width 0.3s ease; }
+        .navbar.scrolled::after { opacity: 0; }
+        .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; height: 70px; display: flex; align-items: center; justify-content: space-between; }
+        .nav-logo img { height: 40px; width: auto; display: block; }
+        .nav-links { display: flex; align-items: center; gap: 24px; list-style: none; margin: 0; padding: 0; }
+        .nav-links a { color: #1a1a1a; text-decoration: none; font-weight: 700; font-size: 15px; font-family: 'Gilroy', sans-serif; transition: color 0.2s; white-space: nowrap; position: relative; }
         .nav-links a:hover { color: #871e6c; }
-        .nav-links a:hover::after { width: 100%; }
+        .nav-links > li > a::after {
+            content: '';
+            position: absolute;
+            left: 0; bottom: -5px;
+            width: 100%; height: 2px;
+            background: linear-gradient(90deg, #871e6c, #f47920);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+        .nav-links > li > a:hover::after { transform: scaleX(1); }
+        .nav-links a.active { color: #871e6c; }
         .dropdown { position: relative; }
-        .dropdown > a::after { content: ' ▾'; }
-        .dropdown-menu { display: none; position: absolute; top: 100%; left: 0; background: white; border-radius: 12px; box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12); padding: 8px; min-width: 220px; margin-top: 10px; }
+        .dropdown-menu { display: none; position: absolute; top: 100%; right: 0; background: white; border-radius: 12px; box-shadow: 0 8px 40px rgba(0,0,0,0.12); padding: 8px; min-width: 220px; list-style: none; z-index: 10000; }
         .dropdown:hover .dropdown-menu { display: block; }
-        .dropdown-menu a { display: block; padding: 12px 16px; color: #1a1a1a; text-decoration: none; border-radius: 8px; transition: all 0.2s ease; }
-        .dropdown-menu a:hover { background: #fdf0f9; color: #871e6c; }
-        .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 6px; }
-        .hamburger span { width: 25px; height: 3px; background: #1a1a1a; transition: all 0.3s ease; border-radius: 2px; }
-        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(10px, 10px); }
+        .dropdown-menu li a { display: block; padding: 12px 16px; color: #1a1a1a; border-radius: 8px; font-size: 14px; }
+        .dropdown-menu li a::after { display: none; }
+        .dropdown-menu li a:hover { background: #fdf0f9; color: #871e6c; }
+        .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; z-index: 10001; }
+        .hamburger span { display: block; width: 26px; height: 3px; background: #1a1a1a; border-radius: 3px; transition: all 0.3s ease; }
+        .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
         .hamburger.active span:nth-child(2) { opacity: 0; }
-        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -8px); }
+        .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
-        .hero { min-height: 70vh; background: linear-gradient(135deg, #871e6c 0%, #5c1349 100%); color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 160px 3rem 100px; text-align: center; }
-        .badge { background: rgba(255, 255, 255, 0.2); color: white; width: fit-content; padding: 10px 24px; border-radius: 50px; font-size: 14px; font-weight: 700; margin-bottom: 20px; animation: slideDownFade 0.5s ease 0.2s both; }
-        @keyframes slideDownFade { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-        .hero h1 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; line-height: 1.15; margin-bottom: 16px; animation: fadeUpAnimation 0.6s ease 0.3s both; }
-        @keyframes fadeUpAnimation { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        .hero p { font-size: 1.1rem; opacity: 0.9; animation: fadeUpAnimation 0.6s ease 0.4s both; }
+        /* ===== Hero ===== */
+        .hero {
+            position: relative;
+            overflow: hidden;
+            color: white;
+            padding: 140px 3rem 110px;
+            background: linear-gradient(120deg, #871e6c, #5c1349, #8E2158, #5c1349);
+            background-size: 300% 300%;
+            animation: gradientShift 16s ease infinite;
+        }
+        .hero-blob { position: absolute; border-radius: 50%; filter: blur(70px); pointer-events: none; }
+        .hero-blob.b1 { width: 380px; height: 380px; background: rgba(244, 121, 32, 0.35); top: -120px; right: -60px; animation: blobDrift 18s ease-in-out infinite; }
+        .hero-blob.b2 { width: 300px; height: 300px; background: rgba(255, 255, 255, 0.18); bottom: -140px; left: -80px; animation: blobDrift 22s ease-in-out infinite reverse; }
+        .container { max-width: 1160px; margin: 0 auto; position: relative; z-index: 2; }
 
-        .contact-section { padding: 80px 3rem; background: white; }
-        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; max-width: 1400px; margin: 0 auto; }
+        .breadcrumbs { list-style: none; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 0.85rem; margin-bottom: 24px; }
+        .breadcrumbs a { color: rgba(255, 255, 255, 0.75); text-decoration: none; transition: color 0.3s ease; }
+        .breadcrumbs a:hover { color: #fff; text-decoration: underline; }
+        .breadcrumbs li + li::before { content: '›'; margin-right: 8px; color: rgba(255, 255, 255, 0.5); }
+        .breadcrumbs .current { color: #fff; font-weight: 700; }
 
-        .contact-info h2 { font-size: 1.8rem; font-weight: 800; color: #871e6c; margin-bottom: 32px; }
-        .info-card { background: white; border-radius: 16px; padding: 28px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06); border-left: 4px solid #871e6c; margin-bottom: 16px; transition: all 0.3s ease; animation: fadeUpAnimation 0.6s ease forwards; }
-        .info-card:nth-child(2) { animation-delay: 0.1s; }
-        .info-card:nth-child(3) { animation-delay: 0.2s; }
-        .info-card:nth-child(4) { animation-delay: 0.3s; }
-        .info-card:hover { transform: translateY(-4px); box-shadow: 0 8px 32px rgba(135, 30, 108, 0.12); }
-        .info-card p { color: #555; margin-bottom: 8px; }
-        .info-card a { color: #871e6c; font-weight: 700; text-decoration: none; display: inline-block; transition: color 0.3s ease; }
-        .info-card a:hover { color: #f47920; }
-        .info-card .cta-button { width: 100%; margin-top: 12px; }
+        .hero-badge { display: inline-flex; align-items: center; background: rgba(255, 255, 255, 0.16); border: 1px solid rgba(255, 255, 255, 0.25); padding: 9px 20px; border-radius: 50px; font-size: 0.85rem; font-weight: 700; margin-bottom: 18px; backdrop-filter: blur(6px); animation: fadeUpAnimation 0.6s ease 0.1s both; }
+        .hero-intro h1 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(2.2rem, 5vw, 3.6rem); font-weight: 700; line-height: 1.1; margin-bottom: 16px; animation: fadeUpAnimation 0.6s ease 0.2s both; }
+        .hero-intro h1 .highlight {
+            background: linear-gradient(100deg, #ffd9a3 0%, #f47920 35%, #ffffff 70%, #ffd9a3 100%);
+            background-size: 250% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmerText 5s linear infinite;
+        }
+        .hero-intro p { font-size: 1.12rem; opacity: 0.92; max-width: 640px; animation: fadeUpAnimation 0.6s ease 0.35s both; }
+        .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; animation: fadeUpAnimation 0.6s ease 0.45s both; }
+        .hero-actions .cta-button { width: auto; }
+        .cta-ghost { background: rgba(255, 255, 255, 0.12); border: 2px solid rgba(255, 255, 255, 0.4); }
+        .cta-ghost:hover { background: rgba(255, 255, 255, 0.22); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18); }
 
-        .social-links { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
-        .social-links a { padding: 8px 16px; background: #fdf0f9; color: #871e6c; text-decoration: none; border-radius: 6px; font-size: 0.9rem; font-weight: 600; transition: all 0.3s ease; }
-        .social-links a:hover { background: #871e6c; color: white; }
+        /* ===== Support strip ===== */
+        .support-strip { background: #fdf0f9; padding: 20px 3rem; }
+        .support-inner { max-width: 1160px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px; text-align: center; font-size: 0.98rem; color: #5c1349; font-weight: 600; }
+        .support-inner a { color: #871e6c; font-weight: 800; text-decoration: none; border-bottom: 2px solid rgba(135, 30, 108, 0.3); transition: all 0.3s ease; }
+        .support-inner a:hover { color: #f47920; border-color: #f47920; }
 
-        .contact-form { background: white; border-radius: 20px; padding: 40px; box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1); animation: fadeUpAnimation 0.6s ease 0.2s both; }
-        .contact-form h2 { font-size: 1.8rem; font-weight: 800; color: #871e6c; margin-bottom: 24px; }
+        /* ===== Contact cards ===== */
+        .contact-section { padding: 70px 3rem 90px; background: #fafafa; }
+        .contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; perspective: 1200px; }
 
+        .card { background: #fff; border-radius: 20px; padding: 32px; box-shadow: 0 8px 40px rgba(0, 0, 0, 0.08); transition: box-shadow 0.3s ease; transform-style: preserve-3d; }
+        .card:hover { box-shadow: 0 40px 70px -30px rgba(135, 30, 108, 0.55); }
+
+        .card-header { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+        .card-icon { width: 48px; height: 48px; flex-shrink: 0; border-radius: 14px; background: linear-gradient(135deg, #fdf0f9, #f7dcef); color: #871e6c; display: flex; align-items: center; justify-content: center; transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1), background 0.3s ease, color 0.3s ease; }
+        .card:hover .card-icon { transform: rotateY(180deg); background: #871e6c; color: #fff; }
+        .card-icon svg { width: 24px; height: 24px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+        .card-header h2 { font-size: 1.25rem; font-weight: 800; color: #1a1a1a; }
+
+        .contact-list { list-style: none; }
+        .contact-item { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 11px 0; border-bottom: 1px solid #f0f0f0; }
+        .contact-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .contact-item-label { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; color: #8a8a8a; flex-shrink: 0; }
+        .contact-item a { color: #871e6c; font-weight: 700; text-decoration: none; text-align: right; transition: color 0.3s ease; word-break: break-word; }
+        .contact-item a:hover { color: #f47920; text-decoration: underline; }
+        .contact-item .plain { color: #555; font-weight: 600; text-align: right; }
+
+        .social-list { display: flex; flex-wrap: wrap; gap: 10px; }
+        .social-list a { padding: 9px 18px; background: #fdf0f9; color: #871e6c; text-decoration: none; border-radius: 8px; font-size: 0.9rem; font-weight: 700; transition: all 0.3s ease; }
+        .social-list a:hover { background: #871e6c; color: #fff; transform: translateY(-3px); box-shadow: 0 8px 18px rgba(135, 30, 108, 0.3); }
+
+        /* ===== Address card ===== */
+        .address-card { margin-top: 24px; padding: 40px; }
+        .address-inner { display: grid; grid-template-columns: 320px 1fr; gap: 48px; align-items: center; }
+        .illustration-stage { perspective: 1000px; }
+        .illustration-3d { transform-style: preserve-3d; transition: transform 0.5s ease-out; animation: floatY 6s ease-in-out infinite; }
+        .address-illustration { width: 100%; height: auto; display: block; }
+        .address-block address { font-style: normal; color: #555; font-size: 1rem; line-height: 1.8; padding-left: 62px; }
+        .address-block .card-header { margin-bottom: 12px; }
+        .region-tags { display: flex; flex-wrap: wrap; gap: 8px; padding-left: 62px; margin-top: 4px; }
+        .region-tags span { padding: 6px 14px; border-radius: 50px; background: #fdf0f9; color: #871e6c; font-size: 0.85rem; font-weight: 700; transition: all 0.3s ease; cursor: default; }
+        .region-tags span:hover { background: #871e6c; color: #fff; transform: translateY(-3px); }
+
+        /* ===== Let's Chat form ===== */
+        .planner-section { padding: 90px 3rem; background: #fff; }
+        .planner-card { display: grid; grid-template-columns: 1fr 1.1fr; gap: 0; border-radius: 24px; overflow: hidden; box-shadow: 0 12px 60px rgba(0, 0, 0, 0.12); }
+        .planner-aside {
+            color: #fff; padding: 48px 40px;
+            background: linear-gradient(120deg, #871e6c, #8E2158, #6b1a46, #871e6c);
+            background-size: 300% 300%;
+            animation: gradientShift 14s ease infinite;
+        }
+        .planner-aside h2 { font-family: 'Playfair Display', Georgia, serif; font-size: 2rem; font-weight: 700; line-height: 1.2; margin-bottom: 14px; }
+        .planner-aside > p { opacity: 0.92; margin-bottom: 28px; }
+        .planner-points { list-style: none; }
+        .planner-points li { display: flex; gap: 12px; align-items: flex-start; padding: 12px 0; border-top: 1px solid rgba(255, 255, 255, 0.18); font-size: 0.95rem; }
+        .planner-points li:first-child { border-top: none; }
+        .planner-points .tick { flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%; background: #f47920; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800; margin-top: 2px; }
+        .planner-rating { margin-top: 28px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.18); font-size: 0.9rem; opacity: 0.92; }
+        .planner-rating strong { font-size: 1.35rem; font-weight: 800; }
+
+        .planner-form { background: #fff; padding: 48px 40px; }
+        .planner-form h3 { font-family: 'Playfair Display', Georgia, serif; font-size: 1.6rem; font-weight: 700; color: #1a1a1a; margin-bottom: 6px; }
+        .planner-form .form-lede { color: #666; font-size: 0.95rem; margin-bottom: 26px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
         .form-group { margin-bottom: 16px; }
-        .form-group label { display: block; margin-bottom: 8px; color: #1a1a1a; font-weight: 600; font-size: 0.9rem; }
-        .form-group input, .form-group textarea { width: 100%; padding: 14px 18px; border: 2px solid #eee; border-radius: 12px; font-family: 'Gilroy', sans-serif; font-size: 1rem; transition: all 0.3s ease; }
-        .form-group textarea { resize: vertical; min-height: 120px; }
-        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: #871e6c; box-shadow: 0 0 0 3px rgba(135, 30, 108, 0.1); }
+        .form-group label { display: block; margin-bottom: 8px; color: #1a1a1a; font-weight: 700; font-size: 0.88rem; }
+        .form-group label .optional { font-weight: 400; color: #8a8a8a; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 14px 18px; border: 2px solid #eee; border-radius: 12px; font-family: 'Gilroy', sans-serif; font-size: 1rem; color: #1a1a1a; background: #fff; transition: all 0.3s ease; }
+        .form-group textarea { resize: vertical; min-height: 110px; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #871e6c; box-shadow: 0 0 0 3px rgba(135, 30, 108, 0.12); transform: translateY(-2px); }
 
-        .cta-button { background: #f47920; color: white; padding: 16px 32px; border-radius: 12px; font-weight: 800; font-size: 1rem; border: none; cursor: pointer; transition: all 0.3s ease; text-decoration: none; display: inline-block; width: 100%; }
-        .cta-button:hover { background: #d96a10; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(244, 121, 32, 0.3); }
+        .consent { display: flex; gap: 10px; align-items: flex-start; margin: 4px 0 20px; font-size: 0.82rem; color: #666; line-height: 1.5; }
+        .consent input { width: 18px; height: 18px; flex-shrink: 0; margin-top: 2px; accent-color: #871e6c; cursor: pointer; }
+        .consent label { cursor: pointer; }
 
-        .form-note { margin-top: 16px; font-size: 0.9rem; color: #555; text-align: center; }
+        .cta-button { position: relative; overflow: hidden; background: #f47920; color: white; padding: 16px 32px; border-radius: 12px; font-weight: 800; font-size: 1rem; border: none; cursor: pointer; transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.15s ease; text-decoration: none; display: inline-block; width: 100%; text-align: center; }
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -120%;
+            width: 60%; height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+            transform: skewX(-20deg);
+            transition: left 0.6s ease;
+            pointer-events: none;
+            z-index: 3;
+        }
+        .cta-button:hover::before { left: 140%; }
+        .cta-button:hover { background: #d96a10; box-shadow: 0 12px 28px rgba(244, 121, 32, 0.35); }
+        .cta-whatsapp { background: #25d366; }
+        .cta-whatsapp:hover { background: #1fb855; box-shadow: 0 12px 28px rgba(37, 211, 102, 0.35); }
 
+        .form-divider { display: flex; align-items: center; gap: 14px; margin: 22px 0 16px; color: #999; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        .form-divider::before, .form-divider::after { content: ''; flex: 1; height: 1px; background: #eee; }
+        .form-note { margin-top: 14px; font-size: 0.85rem; color: #777; text-align: center; }
+        .form-success { display: none; margin-top: 16px; padding: 14px 18px; border-radius: 12px; background: #eafaf0; color: #1c7a45; font-weight: 700; text-align: center; }
+        .form-success.show { display: block; animation: fadeUpAnimation 0.5s ease both; }
+
+        /* ===== Newsletter ===== */
+        .newsletter-section { padding: 0 3rem 90px; background: #fff; }
+        .newsletter-card {
+            border-radius: 24px; padding: 56px 40px; text-align: center; color: #fff; position: relative; overflow: hidden;
+            background: linear-gradient(120deg, #871e6c, #5c1349, #8E2158, #5c1349);
+            background-size: 300% 300%;
+            animation: gradientShift 16s ease infinite;
+        }
+        .newsletter-card h2 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.8rem, 4vw, 2.4rem); font-weight: 700; margin-bottom: 10px; }
+        .newsletter-card > p { opacity: 0.9; max-width: 560px; margin: 0 auto 28px; }
+        .newsletter-form { display: flex; flex-wrap: wrap; gap: 12px; max-width: 520px; margin: 0 auto; }
+        .newsletter-form input[type="email"] { flex: 1 1 260px; padding: 15px 20px; border: 2px solid rgba(255, 255, 255, 0.35); border-radius: 12px; background: rgba(255, 255, 255, 0.12); color: #fff; font-family: 'Gilroy', sans-serif; font-size: 1rem; transition: all 0.3s ease; }
+        .newsletter-form input[type="email"]::placeholder { color: rgba(255, 255, 255, 0.65); }
+        .newsletter-form input[type="email"]:focus { outline: none; border-color: #f47920; background: rgba(255, 255, 255, 0.2); }
+        .newsletter-form .cta-button { width: auto; flex: 0 0 auto; }
+        .newsletter-consent { display: flex; gap: 10px; align-items: center; justify-content: center; margin-top: 18px; font-size: 0.85rem; opacity: 0.9; }
+        .newsletter-consent input { width: 17px; height: 17px; accent-color: #f47920; cursor: pointer; }
+
+        /* ===== Footer ===== */
         footer { background: #871e6c; color: white; padding: 60px 3rem 30px; }
         .footer-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr 1fr; gap: 3rem; max-width: 1400px; margin: 0 auto 40px; }
         .footer-logo img { height: 40px; width: auto; }
-        .footer-column h4 { font-size: 0.85rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px; opacity: 0.9; }
-        .footer-column a { display: block; color: rgba(255, 255, 255, 0.75); text-decoration: none; font-size: 0.9rem; margin-bottom: 10px; transition: all 0.3s ease; }
-        .footer-column a:hover { opacity: 1; text-decoration: underline; }
+        footer h4 { font-size: 0.85rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px; opacity: 0.9; }
+        footer a { display: block; color: rgba(255, 255, 255, 0.75); text-decoration: none; font-size: 0.9rem; margin-bottom: 10px; transition: all 0.3s ease; }
+        footer a:hover { opacity: 1; color: #fff; padding-left: 5px; }
         .footer-contact { font-size: 1.2rem; font-weight: 800; }
+        .footer-contact a { display: inline; color: #fff; font-size: 1.2rem; }
         .footer-rating { font-size: 0.85rem; opacity: 0.8; margin-top: 12px; }
         .footer-bottom { border-top: 1px solid rgba(255, 255, 255, 0.2); padding-top: 20px; text-align: center; color: rgba(255, 255, 255, 0.6); font-size: 0.85rem; }
 
-        .whatsapp-button { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; border-radius: 50%; background: #25d366; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; text-decoration: none; z-index: 9999; box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4); transition: all 0.3s ease; }
-        .whatsapp-button:hover { transform: scale(1.1); box-shadow: 0 12px 35px rgba(37, 211, 102, 0.5); }
-        .scroll-to-top { position: fixed; bottom: 100px; right: 30px; width: 48px; height: 48px; border-radius: 50%; background: #871e6c; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem; cursor: pointer; z-index: 9998; opacity: 0; visibility: hidden; transition: all 0.3s ease; border: none; }
+        /* ===== Scroll to top ===== */
+        .scroll-to-top { position: fixed; bottom: 30px; right: 30px; width: 48px; height: 48px; border-radius: 12px; background: #871e6c; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem; cursor: pointer; z-index: 9998; opacity: 0; visibility: hidden; transition: all 0.3s ease; border: none; }
         .scroll-to-top.visible { opacity: 1; visibility: visible; }
         .scroll-to-top:hover { background: #6b1857; transform: scale(1.1); }
 
+        @media (prefers-reduced-motion: reduce) {
+            .reveal-3d { opacity: 1 !important; transform: none !important; }
+            .pulse-dot, .hero, .planner-aside, .newsletter-card, .illustration-3d, .hero-blob { animation: none !important; }
+            .hero-intro h1 .highlight { -webkit-text-fill-color: #ffd9a3; color: #ffd9a3; animation: none; }
+        }
+
         @media (max-width: 1024px) {
             .contact-grid { grid-template-columns: 1fr; }
+            .address-inner { grid-template-columns: 1fr; gap: 28px; }
+            .illustration-stage { max-width: 260px; margin: 0 auto; }
+            .address-block address, .region-tags { padding-left: 0; }
+            .planner-card { grid-template-columns: 1fr; }
             .footer-grid { grid-template-columns: 1fr 1fr; }
-            .hamburger { display: flex; }
+            .hamburger { display: flex !important; }
             .nav-links { display: none; }
         }
         @media (max-width: 768px) {
             body { overflow-x: hidden; }
             .hamburger { display: flex !important; }
-            .nav-links { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: #fff; flex-direction: column; align-items: center; justify-content: center; gap: 24px; z-index: 9998; padding: 80px 24px 40px; }
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 0; left: 0;
+                width: 100%; height: 100vh;
+                background: #fff;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 24px;
+                z-index: 9998;
+                padding: 80px 24px 40px;
+            }
             .nav-links.open { display: flex !important; }
             .nav-links a { font-size: 1.3rem; }
-            .hero { padding: 120px 1.5rem 60px; }
-            .hero h1 { font-size: 1.8rem; }
-            .contact-section { padding: 60px 1.5rem; }
-            footer { padding: 40px 1.5rem 20px; }
-            .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .dropdown-menu { position: static !important; display: none; box-shadow: none; background: #fdf0f9; border-radius: 12px; margin-top: 10px; min-width: 200px; }
+            .dropdown.open .dropdown-menu { display: block; }
+            .dropdown-menu li a { font-size: 1rem; text-align: center; }
+
+            /* Hero */
+            .hero { padding: 100px 1.25rem 56px; }
+            .breadcrumbs { margin-bottom: 16px; }
+            .hero-badge { margin-bottom: 14px; font-size: 0.78rem; padding: 8px 16px; }
+            .hero-intro p { font-size: 1rem; }
+            .hero-actions { margin-top: 22px; gap: 10px; }
+            .hero-actions .cta-button { width: 100%; padding: 15px 24px; }
+            .hero-blob.b1 { width: 220px; height: 220px; top: -80px; right: -70px; }
+            .hero-blob.b2 { width: 190px; height: 190px; bottom: -90px; left: -70px; }
+
+            /* Support strip — one flowing sentence, no gap gaps */
+            .support-strip { padding: 16px 1.25rem; }
+            .support-inner { display: block; gap: 0; font-size: 0.9rem; line-height: 1.55; }
+            .support-inner a { display: inline; word-break: break-word; }
+
+            /* Cards */
+            .contact-section { padding: 36px 1.25rem 44px; }
+            .contact-grid { gap: 16px; }
+            .card { padding: 22px 20px; }
+            .card-header { margin-bottom: 14px; gap: 12px; }
+            .card-icon { width: 42px; height: 42px; border-radius: 12px; }
+            .card-icon svg { width: 21px; height: 21px; }
+            .card-header h2 { font-size: 1.1rem; }
+            .contact-item { flex-direction: column; align-items: flex-start; gap: 1px; padding: 9px 0; }
+            .contact-item a, .contact-item .plain { text-align: left; }
+            .contact-item-label { font-size: 0.72rem; }
+            .social-list { gap: 8px; }
+            .social-list a { padding: 8px 14px; font-size: 0.85rem; }
+
+            /* Address card */
+            .address-card { margin-top: 16px; padding: 22px 20px; }
+            .illustration-stage { max-width: 190px; }
+            .address-block address { font-size: 0.95rem; line-height: 1.7; }
+            .region-tags span { font-size: 0.78rem; padding: 5px 12px; }
+
+            /* Form */
+            .planner-section { padding: 44px 1.25rem; }
+            .planner-card { border-radius: 18px; }
+            .planner-aside, .planner-form { padding: 28px 20px; }
+            .planner-aside h2 { font-size: 1.6rem; }
+            .planner-aside > p { margin-bottom: 20px; font-size: 0.95rem; }
+            .planner-points li { padding: 10px 0; font-size: 0.9rem; }
+            .planner-rating { margin-top: 20px; padding-top: 16px; }
+            .planner-form h3 { font-size: 1.35rem; }
+            .planner-form .form-lede { margin-bottom: 20px; }
+            .form-row { grid-template-columns: 1fr; gap: 0; }
+            .form-group { margin-bottom: 14px; }
+            .form-group input, .form-group select, .form-group textarea { padding: 13px 16px; font-size: 16px; }
+            .form-group textarea { min-height: 96px; }
+            .consent { font-size: 0.78rem; margin: 2px 0 18px; }
+            .cta-button { padding: 15px 24px; }
+
+            /* Newsletter */
+            .newsletter-section { padding: 0 1.25rem 44px; }
+            .newsletter-card { padding: 34px 20px; border-radius: 18px; }
+            .newsletter-card > p { margin-bottom: 22px; font-size: 0.95rem; }
+            .newsletter-form { gap: 10px; }
+            .newsletter-form input[type="email"] { flex: 1 1 100%; padding: 14px 16px; font-size: 16px; }
+            .newsletter-form .cta-button { width: 100%; }
+            .newsletter-consent { font-size: 0.8rem; text-align: left; }
+
+            /* Footer */
+            footer { padding: 36px 1.25rem 20px; }
+            .footer-grid { grid-template-columns: 1fr; gap: 1.75rem; margin-bottom: 28px; }
+            .scroll-to-top { bottom: 20px; right: 16px; width: 44px; height: 44px; }
+        }
+
+        @media (max-width: 480px) {
+            .nav-container { padding: 0 16px; }
+            .hero { padding: 94px 1rem 48px; }
+            .support-strip { padding: 14px 1rem; }
+            .contact-section { padding: 30px 1rem 38px; }
+            .planner-section { padding: 38px 1rem; }
+            .newsletter-section { padding: 0 1rem 38px; }
+            .card, .address-card { padding: 20px 16px; }
+            .planner-aside, .planner-form { padding: 24px 16px; }
+            .newsletter-card { padding: 30px 16px; }
+            footer { padding: 32px 1rem 18px; }
+            /* Long addresses shouldn't blow out the card */
+            .contact-item a { font-size: 0.95rem; }
         }
     </style>
 </head>
 <body>
-    <div class="cursor-trail"></div>
 
-    <nav id="navbar">
-        <div class="logo">
-            <img src="https://static.wixstatic.com/media/fe3583_2f36ed41d71a4ed3ba3db03baf388f14~mv2.png/v1/fill/w_104,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/2209_Woosh%20Biz%20update%20final%20logo_PNG.png" alt="Woosh Biz">
-        </div>
-        <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="high-octane.html">In-Office</a></li>
-            <li><a href="outbound.html">Outbound</a></li>
-            <li><a href="virtual.html">Virtual</a></li>
-            <li class="dropdown">
-                <a href="#">Get In Touch</a>
-                <div class="dropdown-menu">
-                    <a href="about.html">About Us</a>
-                    <a href="blog.html">Blogs</a>
-                    <a href="contact.html">Free Consultation Call</a>
-                    <a href="resorts.html">Resorts Recommended</a>
-                </div>
-            </li>
-        </ul>
-        <div class="hamburger" id="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
+    <!-- ================= NAVBAR ================= -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <img src="https://static.wixstatic.com/media/fe3583_2f36ed41d71a4ed3ba3db03baf388f14~mv2.png/v1/fill/w_104,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/2209_Woosh%20Biz%20update%20final%20logo_PNG.png" alt="Woosh Biz" height="40">
+            </a>
+            <button class="hamburger" id="hamburger" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="high-octane.html">In-Office</a></li>
+                <li><a href="outbound.html">Outbound</a></li>
+                <li><a href="virtual.html">Virtual</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle active">Get In Touch ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="blog.html">Blogs</a></li>
+                        <li><a href="contact.html">Free Consultation Call</a></li>
+                        <li><a href="resorts.html">Resorts Recommended</a></li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </nav>
 
-    <section class="hero">
-        <div class="badge reveal">📞 Let's Connect</div>
-        <h1 class="reveal">Let's Build Something Epic Together</h1>
-        <p class="reveal">Get in touch with India's best team building company</p>
-    </section>
-
-    <section class="contact-section">
-        <div class="contact-grid">
-            <div class="contact-info">
-                <h2>Get In Touch</h2>
-
-                <div class="info-card reveal">
-                    <p style="font-weight: 700; color: #1a1a1a;">📞 Phone</p>
-                    <a href="tel:+919920389760">+91 9920389760</a>
-                </div>
-
-                <div class="info-card reveal">
-                    <p style="font-weight: 700; color: #1a1a1a;">💬 WhatsApp</p>
-                    <a href="https://wa.me/919920389760" class="cta-button" style="text-align: center;">Chat on WhatsApp</a>
-                </div>
-
-                <div class="info-card reveal">
-                    <p style="font-weight: 700; color: #1a1a1a;">📧 Email</p>
-                    <a href="mailto:info@wooshbiz.com">info@wooshbiz.com</a>
-                </div>
-
-                <div class="info-card reveal">
-                    <p style="font-weight: 700; color: #1a1a1a; margin-bottom: 12px;">🌐 Follow Us</p>
-                    <div class="social-links">
-                        <a href="https://www.facebook.com/people/Woosh-Biz-by-HTI/100083456102229/" target="_blank">Facebook</a>
-                        <a href="https://www.instagram.com/wooshbiz/" target="_blank">Instagram</a>
-                        <a href="https://www.linkedin.com/company/woosh-biz-by-hti/" target="_blank">LinkedIn</a>
-                        <a href="https://www.youtube.com/channel/UC9BdT9tzf4841P1B-R7P-Qg" target="_blank">YouTube</a>
-                    </div>
+    <!-- ================= HERO ================= -->
+    <section class="hero" aria-labelledby="contact-heading">
+        <div class="hero-blob b1" aria-hidden="true"></div>
+        <div class="hero-blob b2" aria-hidden="true"></div>
+        <div class="container">
+            <nav aria-label="Breadcrumb">
+                <ol class="breadcrumbs">
+                    <li><a href="index.html">Home</a></li>
+                    <li><span class="current">Contact Us</span></li>
+                </ol>
+            </nav>
+            <div class="hero-intro">
+                <div class="hero-badge"><span class="pulse-dot"></span>We reply within 24 hours</div>
+                <h1 id="contact-heading">Contact Us — <span class="highlight">Let's Chat</span></h1>
+                <p>Talk to a real human about your next team building program. In-office, outbound or virtual — tell us what you're planning and we'll take it from there.</p>
+                <div class="hero-actions">
+                    <a href="tel:+919210804078" class="cta-button">Call +91 92108 04078</a>
+                    <a href="https://wa.me/919210804078" target="_blank" rel="noopener" class="cta-button cta-ghost">Chat on WhatsApp</a>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <div class="contact-form">
-                <h2>Send Us a Message</h2>
-                <form action="https://formspree.io/f/your-form-id" method="POST">
-                    <div class="form-group">
-                        <label for="name">Full Name</label>
-                        <input type="text" id="name" name="name" required>
+    <!-- ================= SUPPORT STRIP ================= -->
+    <div class="support-strip">
+        <div class="support-inner">
+            <span>For any support, please mail</span>
+            <a href="mailto:javed@hti-india.com">javed@hti-india.com</a>
+            <span>— our support team will get back to you within 24 hours.</span>
+        </div>
+    </div>
+
+    <!-- ================= CONTACT CARDS ================= -->
+    <section class="contact-section">
+        <div class="container">
+            <div class="contact-grid">
+
+                <!-- Email -->
+                <section class="card reveal-3d tilt-3d" aria-labelledby="contact-email-heading">
+                    <div class="card-header">
+                        <div class="card-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                        </div>
+                        <h2 id="contact-email-heading">Email</h2>
                     </div>
+                    <ul class="contact-list">
+                        <li class="contact-item">
+                            <span class="contact-item-label">Write to us</span>
+                            <a href="mailto:javed@hti-india.com?subject=Team%20Building%20Enquiry">javed@hti-india.com</a>
+                        </li>
+                        <li class="contact-item">
+                            <span class="contact-item-label">Response</span>
+                            <span class="plain">Within 24 hours</span>
+                        </li>
+                    </ul>
+                </section>
 
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" required>
+                <!-- Phone -->
+                <section class="card reveal-3d tilt-3d" aria-labelledby="contact-phone-heading">
+                    <div class="card-header">
+                        <div class="card-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.09 4.18 2 2 0 0 1 4.08 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                        </div>
+                        <h2 id="contact-phone-heading">Phone &amp; WhatsApp</h2>
                     </div>
+                    <ul class="contact-list">
+                        <li class="contact-item">
+                            <span class="contact-item-label">Call us</span>
+                            <a href="tel:+919210804078">+91 92108 04078</a>
+                        </li>
+                        <li class="contact-item">
+                            <span class="contact-item-label">WhatsApp</span>
+                            <a href="https://wa.me/919210804078" target="_blank" rel="noopener">Chat instantly</a>
+                        </li>
+                    </ul>
+                </section>
 
-                    <div class="form-group">
-                        <label for="phone">Phone</label>
-                        <input type="tel" id="phone" name="phone" required>
+                <!-- Social -->
+                <section class="card reveal-3d tilt-3d" aria-labelledby="contact-social-heading">
+                    <div class="card-header">
+                        <div class="card-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/></svg>
+                        </div>
+                        <h2 id="contact-social-heading">Social</h2>
                     </div>
-
-                    <div class="form-group">
-                        <label for="message">Message</label>
-                        <textarea id="message" name="message" required></textarea>
+                    <div class="social-list">
+                        <a href="https://www.linkedin.com/company/woosh-biz-by-hti/" target="_blank" rel="noopener">LinkedIn</a>
+                        <a href="https://www.instagram.com/wooshbiz/" target="_blank" rel="noopener">Instagram</a>
+                        <a href="https://www.facebook.com/people/Woosh-Biz-by-HTI/100083456102229/" target="_blank" rel="noopener">Facebook</a>
+                        <a href="https://www.youtube.com/channel/UC9BdT9tzf4841P1B-R7P-Qg" target="_blank" rel="noopener">YouTube</a>
                     </div>
+                </section>
 
-                    <button type="submit" class="cta-button">Send Message</button>
+            </div>
+
+            <!-- Address / coverage -->
+            <section class="card address-card reveal" aria-labelledby="contact-address-heading">
+                <div class="address-inner">
+                    <div class="illustration-stage" id="illustrationStage">
+                        <div class="illustration-3d">
+                            <svg class="address-illustration" viewBox="0 0 400 300" role="img" aria-label="Illustration of a map location pin">
+                                <rect x="30" y="40" width="340" height="220" rx="20" fill="#fdf0f9"/>
+                                <path d="M30 200 L120 140 L200 190 L290 120 L370 165" stroke="#f3d3e9" stroke-width="6" fill="none" stroke-linecap="round"/>
+                                <path d="M30 235 L110 205 L190 240 L280 195 L370 225" stroke="#f3d3e9" stroke-width="6" fill="none" stroke-linecap="round"/>
+                                <circle cx="200" cy="130" r="62" fill="#fff" opacity="0.75"/>
+                                <path d="M200 68c-24 0-43 19-43 43 0 32 43 79 43 79s43-47 43-79c0-24-19-43-43-43z" fill="#871e6c"/>
+                                <circle cx="200" cy="111" r="16" fill="#fff"/>
+                                <ellipse cx="200" cy="205" rx="42" ry="9" fill="#871e6c" opacity="0.15"/>
+                                <circle cx="96" cy="96" r="9" fill="#f47920"/>
+                                <circle cx="310" cy="214" r="9" fill="#f47920"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="address-block">
+                        <div class="card-header">
+                            <div class="card-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            </div>
+                            <h2 id="contact-address-heading">Head office</h2>
+                        </div>
+                        <address>
+                            Woosh Biz by HTI India Pvt Ltd<br>
+                            Mumbai, Maharashtra<br>
+                            India<br>
+                            <a href="tel:+919210804078" style="color:#871e6c; font-weight:700; text-decoration:none;">+91 92108 04078</a>
+                        </address>
+
+                        <div class="card-header" style="margin-top: 28px;">
+                            <div class="card-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                            </div>
+                            <h2>Where we run programs</h2>
+                        </div>
+                        <div class="region-tags">
+                            <span>Mumbai</span>
+                            <span>Pune</span>
+                            <span>Lonavala</span>
+                            <span>Panvel</span>
+                            <span>Bengaluru</span>
+                            <span>Delhi NCR</span>
+                            <span>Goa</span>
+                            <span>Pan-India &amp; Virtual</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </section>
+
+    <!-- ================= LET'S CHAT FORM ================= -->
+    <section class="planner-section" id="lets-chat">
+        <div class="container">
+            <div class="planner-card reveal">
+                <aside class="planner-aside">
+                    <h2>Let's Chat</h2>
+                    <p>Tell us a little about your team and we'll come prepared. Free, no markups, zero pressure.</p>
+                    <ul class="planner-points">
+                        <li><span class="tick" aria-hidden="true">✓</span><span>A 15-minute call with someone who has actually run the activity</span></li>
+                        <li><span class="tick" aria-hidden="true">✓</span><span>A shortlist of formats that fit your group size, venue and budget</span></li>
+                        <li><span class="tick" aria-hidden="true">✓</span><span>Resort and venue recommendations if you need an offsite</span></li>
+                        <li><span class="tick" aria-hidden="true">✓</span><span>A written quote within 24 hours — no obligation</span></li>
+                    </ul>
+                    <div class="planner-rating"><strong>⭐ 4.5</strong> average rating out of 5, based on 150 ratings<br>No Gyaan. Just Fun With Learning.</div>
+                </aside>
+
+                <div class="planner-form">
+                    <h3>Send us a message</h3>
+                    <p class="form-lede">Our support team gets back to every enquiry within 24 hours.</p>
+
+                    <form id="contactForm" action="https://formspree.io/f/your-form-id" method="POST">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">First Name</label>
+                                <input type="text" id="firstName" name="firstName" autocomplete="given-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Last Name</label>
+                                <input type="text" id="lastName" name="lastName" autocomplete="family-name" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" autocomplete="email" inputmode="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone</label>
+                                <input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="guests">Group size <span class="optional">(optional)</span></label>
+                                <input type="number" id="guests" name="guests" min="1" step="1" inputmode="numeric" placeholder="e.g. 25">
+                            </div>
+                            <div class="form-group">
+                                <label for="program">Program type</label>
+                                <select id="program" name="program">
+                                    <option value="">Not sure yet — help me choose</option>
+                                    <option value="In-Office">In-Office</option>
+                                    <option value="Outbound">Outbound</option>
+                                    <option value="Virtual">Virtual</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="3" placeholder="Occasion, dates, city, budget — anything helpful" required></textarea>
+                        </div>
+
+                        <div class="consent">
+                            <input type="checkbox" id="consent" name="consent" value="yes" required>
+                            <label for="consent">I authorize Woosh Biz by HTI and its representatives to contact me with updates and notifications via Email, SMS, WhatsApp, and Call. This will override the registry on DND / NDNC.</label>
+                        </div>
+
+                        <button type="submit" class="cta-button">Send</button>
+                        <p class="form-note">We'll never share your details. No spam, ever.</p>
+                        <p class="form-success" id="formSuccess">Thanks for submitting! We'll be in touch within 24 hours.</p>
+                    </form>
+
+                    <div class="form-divider">or</div>
+                    <a href="https://wa.me/919210804078" class="cta-button cta-whatsapp" target="_blank" rel="noopener">Get an instant quote on WhatsApp</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= NEWSLETTER ================= -->
+    <section class="newsletter-section">
+        <div class="container">
+            <div class="newsletter-card reveal">
+                <h2>What's up?</h2>
+                <p>Get updates on new programs, workshops, the latest developments, and community activities straight to your inbox.</p>
+                <form class="newsletter-form" id="newsletterForm" action="https://formspree.io/f/your-form-id" method="POST">
+                    <input type="email" name="email" placeholder="Email" aria-label="Email" required>
+                    <button type="submit" class="cta-button">Join</button>
                 </form>
-                <p class="form-note">Or get an instant quote via WhatsApp! 👇</p>
-                <a href="https://wa.me/919920389760" class="cta-button" style="background: #25d366; margin-top: 12px; text-align: center;">Chat on WhatsApp</a>
+                <div class="newsletter-consent">
+                    <input type="checkbox" id="subscribe" name="subscribe" value="yes" checked>
+                    <label for="subscribe">I want to subscribe to your mailing list.</label>
+                </div>
             </div>
         </div>
     </section>
@@ -244,8 +694,8 @@
                 <a href="virtual.html">Virtual</a>
             </div>
             <div>
-                <h4>Contact</h4>
-                <div class="footer-contact">+91 9920389760</div>
+                <h4>Contact Us:</h4>
+                <div class="footer-contact"><a href="tel:+919210804078">+91 9210804078</a></div>
                 <div class="footer-rating">⭐ 4.5 | 150 Ratings</div>
             </div>
         </div>
@@ -255,39 +705,133 @@
     <button class="scroll-to-top" id="scrollToTop" title="Scroll to top">↑</button>
 
     <script>
-        const cursorTrail = document.querySelector('.cursor-trail');
-        let cursorX = 0, cursorY = 0, trailX = 0, trailY = 0;
-        document.addEventListener('mousemove', (e) => { cursorX = e.clientX; cursorY = e.clientY; });
-        function animateCursorTrail() {
-            trailX += (cursorX - trailX) * 0.15; trailY += (cursorY - trailY) * 0.15;
-            cursorTrail.style.left = trailX + 'px'; cursorTrail.style.top = trailY + 'px';
-            requestAnimationFrame(animateCursorTrail);
-        }
-        animateCursorTrail();
 
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            navbar.classList.toggle('scrolled', window.scrollY > 80);
-        });
-
+        // ===== Hamburger menu & mobile nav =====
         const hamburger = document.getElementById('hamburger');
-        const navLinks = document.querySelector('.nav-links');
+        const navLinks = document.getElementById('navLinks');
+        const dropdownToggle = document.querySelector('.dropdown-toggle');
+        const dropdown = document.querySelector('.dropdown');
+
         hamburger.addEventListener('click', () => {
             hamburger.classList.toggle('active');
-            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+            navLinks.classList.toggle('open');
+            document.body.style.overflow = navLinks.classList.contains('open') ? 'hidden' : '';
         });
 
-        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+        navLinks.querySelectorAll('a:not(.dropdown-toggle)').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('open');
+                document.body.style.overflow = '';
+            });
+        });
+
+        if (dropdownToggle) {
+            dropdownToggle.addEventListener('click', (e) => {
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                    dropdown.classList.toggle('open');
+                }
+            });
+        }
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.navbar')) {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // ===== Reveal on scroll =====
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
-        }, observerOptions);
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
+        document.querySelectorAll('.reveal, .reveal-3d').forEach(el => observer.observe(el));
+
+        // ===== 3D interactive tilt for cards (desktop pointers only) =====
+        (function () {
+            if (!window.matchMedia('(pointer: fine)').matches) return;
+            document.querySelectorAll('.tilt-3d').forEach(function (card) {
+                card.addEventListener('mousemove', function (e) {
+                    const r = card.getBoundingClientRect();
+                    const px = (e.clientX - r.left) / r.width - 0.5;
+                    const py = (e.clientY - r.top) / r.height - 0.5;
+                    card.style.transformOrigin = 'center center';
+                    card.style.position = 'relative';
+                    card.style.zIndex = '30';
+                    card.style.transition = 'transform 0.1s ease-out';
+                    card.style.transform =
+                        `perspective(1000px) rotateX(${-py * 12}deg) rotateY(${px * 16}deg)`;
+                });
+                card.addEventListener('mouseleave', function () {
+                    card.style.transition = 'transform 0.5s ease-out';
+                    card.style.transform = '';
+                    card.style.transformOrigin = '';
+                    card.style.zIndex = '';
+                });
+            });
+        })();
+
+        // ===== 3D tilt on the map illustration =====
+        (function () {
+            const stage = document.getElementById('illustrationStage');
+            if (!stage || !window.matchMedia('(pointer: fine)').matches) return;
+            const layer = stage.querySelector('.illustration-3d');
+            if (!layer) return;
+
+            stage.addEventListener('mousemove', (e) => {
+                const r = stage.getBoundingClientRect();
+                const px = (e.clientX - r.left) / r.width - 0.5;
+                const py = (e.clientY - r.top) / r.height - 0.5;
+                layer.style.animation = 'none';
+                layer.style.transition = 'transform 0.08s linear';
+                layer.style.transform = `rotateX(${-py * 18}deg) rotateY(${px * 24}deg)`;
+            });
+            stage.addEventListener('mouseleave', () => {
+                layer.style.transition = 'transform 0.5s ease-out';
+                layer.style.transform = 'rotateX(0deg) rotateY(0deg)';
+                setTimeout(() => { layer.style.animation = ''; }, 500);
+            });
+        })();
+
+        // ===== Scroll progress line =====
+        const progressBar = document.createElement('div');
+        progressBar.className = 'scroll-progress';
+        document.body.appendChild(progressBar);
+        const navBar = document.querySelector('.navbar');
         const scrollToTopBtn = document.getElementById('scrollToTop');
-        window.addEventListener('scroll', () => {
-            scrollToTopBtn.classList.toggle('visible', window.scrollY > 300);
-        });
+
+        window.addEventListener('scroll', function () {
+            const st = window.scrollY || document.documentElement.scrollTop;
+            const h = document.documentElement.scrollHeight - window.innerHeight;
+            progressBar.style.width = (h > 0 ? (st / h) * 100 : 0) + '%';
+            if (navBar) navBar.classList.toggle('scrolled', st > 0);
+            scrollToTopBtn.classList.toggle('visible', st > 300);
+        }, { passive: true });
+
         scrollToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+        // ===== Magnetic pull on buttons (desktop pointers only) =====
+        if (window.matchMedia('(pointer: fine)').matches) {
+            document.querySelectorAll('.cta-button').forEach(function (btn) {
+                btn.addEventListener('mousemove', function (e) {
+                    const r = btn.getBoundingClientRect();
+                    const x = (e.clientX - r.left - r.width / 2) * 0.25;
+                    const y = (e.clientY - r.top - r.height / 2) * 0.35;
+                    btn.style.transform = `translate(${x}px, ${y}px)`;
+                });
+                btn.addEventListener('mouseleave', function () {
+                    btn.style.transform = '';
+                });
+            });
+        }
     </script>
 </body>
 </html>

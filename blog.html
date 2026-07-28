@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&display=swap");
         @import url('https://fonts.cdnfonts.com/css/gilroy-free');
 
         :root {
@@ -118,12 +119,9 @@
         .footer-bottom { text-align: center; color: #999; font-size: 13px; margin-top: 40px; padding-top: 20px; border-top: 1px solid #333; }
         @media (max-width: 800px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
 
-        .whatsapp-button {
-            position: fixed; bottom: 30px; right: 30px; width: 58px; height: 58px; border-radius: 50%;
-            background: #25d366; display: flex; align-items: center; justify-content: center;
-            color: #fff; font-size: 1.4rem; z-index: 999; box-shadow: 0 8px 25px rgba(37,211,102,.4);
-        }
-    </style>
+    /* Global font override — all text uses Playfair Display */
+* { font-family: "Playfair Display", Georgia, serif !important; }
+</style>
 </head>
 <body>
 
@@ -193,13 +191,12 @@
             </div>
             <div>
                 <h4>Contact</h4>
-                <div class="footer-contact">+91 9920389760</div>
+                <div class="footer-contact">+91 9210804078</div>
                 <div>⭐ 4.5 | 150 Ratings</div>
             </div>
         </div>
         <div class="footer-bottom">© 2026 Woosh Biz by HTI India Pvt Ltd. All rights reserved.</div>
     </footer>
-
 
     <script>
         const SUPABASE_URL = "https://ytthcgdsbfagvwcopoaj.supabase.co";

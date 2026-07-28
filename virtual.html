@@ -5,14 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Virtual Programs Coming Soon | Woosh Biz</title>
     <style>
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&display=swap");
         @import url('https://fonts.cdnfonts.com/css/gilroy-free');
 
         html { scroll-behavior: smooth; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Gilroy', sans-serif; color: #1a1a1a; overflow-x: hidden; line-height: 1.6; }
-
-        .cursor-trail { position: fixed; width: 12px; height: 12px; border-radius: 50%; background: rgba(135, 30, 108, 0.5); pointer-events: none; z-index: 9998; display: none; }
-        @media (min-width: 1025px) { .cursor-trail { display: block; } }
 
         nav { position: fixed; top: 0; left: 0; right: 0; background: white; padding: 1.5rem 3rem; display: flex; justify-content: space-between; align-items: center; z-index: 1000; transition: all 0.3s ease; }
         nav::after {
@@ -82,9 +80,7 @@
         .social-icons a { width: 44px; height: 44px; border-radius: 50%; background: rgba(255, 255, 255, 0.2); display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; font-size: 1.2rem; transition: all 0.3s ease; }
         .social-icons a:hover { background: white; color: #871e6c; transform: scale(1.1); }
 
-        .whatsapp-button { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; border-radius: 50%; background: #25d366; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; text-decoration: none; z-index: 9999; box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4); transition: all 0.3s ease; }
-        .whatsapp-button:hover { transform: scale(1.1); box-shadow: 0 12px 35px rgba(37, 211, 102, 0.5); }
-        .scroll-to-top { position: fixed; bottom: 100px; right: 30px; width: 48px; height: 48px; border-radius: 50%; background: #871e6c; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem; cursor: pointer; z-index: 9998; opacity: 0; visibility: hidden; transition: all 0.3s ease; border: none; }
+        .scroll-to-top { position: fixed; bottom: 30px; right: 30px; width: 48px; height: 48px; border-radius: 50%; background: #871e6c; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem; cursor: pointer; z-index: 9998; opacity: 0; visibility: hidden; transition: all 0.3s ease; border: none; }
         .scroll-to-top.visible { opacity: 1; visibility: visible; }
         .scroll-to-top:hover { background: #6b1857; transform: scale(1.1); }
 
@@ -99,10 +95,11 @@
             .cta-buttons { flex-direction: column; gap: 12px; }
             .cta-button { width: 100%; }
         }
-    </style>
+    /* Global font override — all text uses Playfair Display */
+* { font-family: "Playfair Display", Georgia, serif !important; }
+</style>
 </head>
 <body>
-    <div class="cursor-trail"></div>
 
     <nav id="navbar">
         <div class="logo">
@@ -165,15 +162,6 @@
     <button class="scroll-to-top" id="scrollToTop" title="Scroll to top">↑</button>
 
     <script>
-        const cursorTrail = document.querySelector('.cursor-trail');
-        let cursorX = 0, cursorY = 0, trailX = 0, trailY = 0;
-        document.addEventListener('mousemove', (e) => { cursorX = e.clientX; cursorY = e.clientY; });
-        function animateCursorTrail() {
-            trailX += (cursorX - trailX) * 0.15; trailY += (cursorY - trailY) * 0.15;
-            cursorTrail.style.left = trailX + 'px'; cursorTrail.style.top = trailY + 'px';
-            requestAnimationFrame(animateCursorTrail);
-        }
-        animateCursorTrail();
 
         const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
