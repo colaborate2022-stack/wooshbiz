@@ -136,13 +136,14 @@
         }
 
         /* Scroll progress bar */
+        /* Scroll progress line — sits just under the navbar, grows as you scroll */
         .scroll-progress {
             position: fixed;
-            top: 0; left: 0;
+            top: 70px; left: 0;
             height: 3px;
             width: 0%;
             background: linear-gradient(90deg, #f47920, #8E2158, #871e6c);
-            z-index: 10000;
+            z-index: 9998;
             transition: width 0.08s linear;
         }
 
@@ -206,6 +207,7 @@
             background: #fff;
             z-index: 9999;
         }
+        /* Static underline — shown at the top, hidden once the scroll line appears */
         .navbar::after {
             content: '';
             position: absolute;
@@ -214,7 +216,9 @@
             width: 100%;
             height: 2px;
             background: linear-gradient(to right, transparent, #871e6c, transparent);
+            transition: opacity 0.2s ease;
         }
+        .navbar.scrolled::after { opacity: 0; }
         .nav-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -1967,16 +1971,19 @@
             });
         })();
 
-        // ===== Rich effects: scroll progress, blobs, magnetic buttons =====
-        // Scroll progress bar
+        // ===== Rich effects: scroll progress + magnetic buttons =====
+        // Scroll progress line (grows as you scroll; hidden at the top)
         const progressBar = document.createElement('div');
         progressBar.className = 'scroll-progress';
         document.body.appendChild(progressBar);
+        const navBar = document.querySelector('.navbar');
 
         window.addEventListener('scroll', function () {
             const st = window.scrollY || document.documentElement.scrollTop;
             const h = document.documentElement.scrollHeight - window.innerHeight;
             progressBar.style.width = (h > 0 ? (st / h) * 100 : 0) + '%';
+            // At the top show the static underline; once scrolling, the progress line takes over
+            if (navBar) navBar.classList.toggle('scrolled', st > 0);
         }, { passive: true });
 
         // Magnetic pull on buttons (desktop pointers only)
