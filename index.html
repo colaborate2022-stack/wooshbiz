@@ -136,17 +136,9 @@
             100% { box-shadow: 0 0 0 0 rgba(244, 121, 32, 0); }
         }
 
-        /* Scroll progress bar */
-        /* Scroll progress line — sits just under the navbar, grows as you scroll */
-        .scroll-progress {
-            position: fixed;
-            top: 70px; left: 0;
-            height: 3px;
-            width: 0%;
-            background: linear-gradient(90deg, #f47920, #8E2158, #871e6c);
-            z-index: 9998;
-            transition: width 0.08s linear;
-        }
+        /* The scroll progress line is built and styled by assets/woosh-3d.*,
+           which every page loads, so it looks and behaves the same everywhere.
+           It rides the bottom edge of the navbar rather than a fixed offset. */
 
         /* Animated gradient shimmer on the hero highlight */
         .hero-headline .highlight {
@@ -1205,24 +1197,26 @@
             .dropdown.open .dropdown-menu { display: block; }
             .dropdown-menu li a { font-size: 1rem; text-align: center; }
 
-            /* Hero */
+            /* Hero — compact so the hero + "Trusted by" logos fit on one screen */
             .hero {
-                padding: 140px 20px 4px !important;
+                padding: 112px 8px 0 !important;   /* clears the 70px navbar + breathing room */
                 min-height: auto !important;
-                gap: 0.5rem !important;
+                gap: 0.25rem !important;
             }
             .hero-headline {
-                font-size: clamp(1.5rem, 5vw, 2.2rem) !important;
+                font-size: clamp(1.3rem, 4.6vw, 1.9rem) !important;
+                line-height: 1.2 !important;
             }
             .hero-subtext {
-                font-size: clamp(0.95rem, 2.5vw, 1.125rem) !important;
+                font-size: clamp(0.78rem, 2.3vw, 0.98rem) !important;
+                line-height: 1.4 !important;
                 margin-bottom: 0 !important;
             }
             .phone-hero {
-                /* Full-bleed on mobile so the hands + video are large and clear */
-                width: calc(100% + 40px) !important;
+                /* 130vw wide, centred — trims more of the hands so the phone + video are bigger */
+                width: calc(100% + 30vw + 16px) !important;
                 max-width: none !important;
-                margin: 8px -20px 0 !important;
+                margin: 2px calc(-15vw - 8px) 0 !important;
                 perspective: 900px !important;
             }
             .phone-3d {
@@ -1233,21 +1227,28 @@
                 border-radius: 4px !important;
             }
             .hero-cta-container {
-                margin-top: 4px !important;
+                margin-top: 2px !important;
             }
 
             /* Sections */
             section, [class*="section"] {
-                padding: 60px 20px !important;
+                padding: 36px 20px !important;
             }
 
-            /* Brands strip — tighten so it hugs the hero */
+            /* Brands strip — tight, no dead space around the "Trusted by" line */
             .brands-section {
-                padding: 10px 20px 24px !important;
+                padding: 0 12px 8px !important;
             }
             .brands-section .section-label {
-                margin-bottom: 16px !important;
+                margin-bottom: 2px !important;
+                font-size: 0.72rem !important;
+                letter-spacing: 1.5px !important;
             }
+            .brands-section .marquee-container {
+                margin: 2px 0 0 !important;
+            }
+            .brands-section .logo-item { height: 38px !important; }
+            .brands-section .logo-item img { max-height: 38px !important; }
 
             /* Grids */
             .grid-3, .cards-grid, .features-grid,
@@ -1423,7 +1424,49 @@
         }
     /* Global font override — all text uses Playfair Display */
 * { font-family: "Playfair Display", Georgia, serif !important; }
+
+        /* ==================================================================
+           Scroll-focus states
+           Every rule below mirrors a :hover rule further up this file. The
+           .w3d-focus class is applied by assets/woosh-3d.js to whichever
+           cards are crossing the middle of the viewport, so these effects
+           now fire on a phone — where there is no hover — as well as on a
+           desktop. The :hover versions are left in place untouched.
+           ================================================================== */
+        .video-card.w3d-focus img { transform: scale(1.02); }
+        .video-card.w3d-focus .video-overlay {
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, transparent 50%);
+        }
+        .video-card.w3d-focus .play-button {
+            transform: translate(-50%, -50%) scale(1.15);
+        }
+
+        .program-card.w3d-focus img { transform: scale(1.08); }
+        .program-card.w3d-focus .program-overlay {
+            background: linear-gradient(to top, rgba(135, 30, 108, 0.95) 0%, transparent 40%);
+        }
+        .program-card.w3d-focus .program-label { transform: translateY(-8px); }
+
+        .duration-card.w3d-focus {
+            box-shadow: 0 20px 40px rgba(135, 30, 108, 0.15);
+            border: 2px solid #871e6c;
+        }
+
+        .gallery-item.w3d-focus img { transform: scale(1.04); filter: brightness(1.1); }
+
+        .testimonial-card.w3d-focus { border-left-color: #f47920; }
+
+        /* The marquee logos slide horizontally inside a CSS-animated strip, so
+           they can't take part in the scroll-focus band. On touch devices,
+           where the grayscale-on-hover reveal can never fire, they are simply
+           shown in full colour instead. */
+        @media (hover: none) {
+            .logo-item img { filter: grayscale(0%); opacity: 1; }
+        }
 </style>
+    <!-- Scroll-driven 3D motion — works on touch and desktop alike -->
+    <link rel="stylesheet" href="assets/woosh-3d.css">
+    <script defer src="assets/woosh-3d.js"></script>
 </head>
 <body>
     <!-- Navbar -->
@@ -1814,30 +1857,9 @@
 
     <script>
 
-        // 3D interactive tilt for the hero phone (desktop pointers only)
-        (function () {
-            const phone = document.getElementById('phoneHero');
-            if (!phone) return;
-            const layer = phone.querySelector('.phone-3d');
-            const finePointer = window.matchMedia('(pointer: fine)').matches;
-            const restTilt = 'rotateX(0deg) rotateY(0deg)';
-            if (!layer || !finePointer) return;
-
-            phone.addEventListener('mousemove', (e) => {
-                const rect = phone.getBoundingClientRect();
-                const px = (e.clientX - rect.left) / rect.width - 0.5;   // -0.5 .. 0.5
-                const py = (e.clientY - rect.top) / rect.height - 0.5;
-                const rotateY = px * 22;           // left/right swing
-                const rotateX = -py * 16;          // up/down swing
-                layer.style.transition = 'transform 0.08s linear';
-                layer.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-            });
-
-            phone.addEventListener('mouseleave', () => {
-                layer.style.transition = 'transform 0.5s ease-out';
-                layer.style.transform = restTilt;
-            });
-        })();
+        // The hero phone's 3D tilt now lives in assets/woosh-3d.js, driven by
+        // scroll position so it also works on touch. Mouse tilt is layered on
+        // there too, so nothing is lost on desktop.
 
         // Hamburger menu & mobile nav
         const hamburger = document.getElementById('hamburger');
@@ -1897,46 +1919,17 @@
 
         document.querySelectorAll('.reveal, .reveal-3d').forEach(el => observer.observe(el));
 
-        // 3D interactive tilt for cards (desktop pointers only)
-        (function () {
-            if (!window.matchMedia('(pointer: fine)').matches) return;
-            document.querySelectorAll('.tilt-3d').forEach(function (card) {
-                card.addEventListener('mousemove', function (e) {
-                    const r = card.getBoundingClientRect();
-                    const px = (e.clientX - r.left) / r.width - 0.5;
-                    const py = (e.clientY - r.top) / r.height - 0.5;
-                    // Pivot from the centre (override the entrance's bottom origin)
-                    // and lift onto its own layer so the top never clips behind a neighbour
-                    card.style.transformOrigin = 'center center';
-                    card.style.position = 'relative';
-                    card.style.zIndex = '30';
-                    card.style.transition = 'transform 0.1s ease-out';
-                    // Pure rotation only — no translateZ/scale, so the card never
-                    // grows upward past the fixed navbar and its top stays visible
-                    card.style.transform =
-                        `perspective(1000px) rotateX(${-py * 12}deg) rotateY(${px * 16}deg)`;
-                });
-                card.addEventListener('mouseleave', function () {
-                    card.style.transition = 'transform 0.5s ease-out';
-                    card.style.transform = '';
-                    card.style.transformOrigin = '';
-                    card.style.zIndex = '';
-                });
-            });
-        })();
+        // Card tilt is handled by assets/woosh-3d.js: driven by scroll position
+        // on every device, with mouse tilt added on top for fine pointers.
 
-        // ===== Rich effects: scroll progress + magnetic buttons =====
-        // Scroll progress line (grows as you scroll; hidden at the top)
-        const progressBar = document.createElement('div');
-        progressBar.className = 'scroll-progress';
-        document.body.appendChild(progressBar);
+        // ===== Rich effects: magnetic buttons =====
+        // The scroll progress line itself is drawn by assets/woosh-3d.js, which
+        // hangs it off the bottom of the navbar on every page. All that is left
+        // here is swapping the static underline out once it appears.
         const navBar = document.querySelector('.navbar');
 
         window.addEventListener('scroll', function () {
             const st = window.scrollY || document.documentElement.scrollTop;
-            const h = document.documentElement.scrollHeight - window.innerHeight;
-            progressBar.style.width = (h > 0 ? (st / h) * 100 : 0) + '%';
-            // At the top show the static underline; once scrolling, the progress line takes over
             if (navBar) navBar.classList.toggle('scrolled', st > 0);
         }, { passive: true });
 

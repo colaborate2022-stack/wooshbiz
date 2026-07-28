@@ -85,6 +85,10 @@
         footer { background: #871e6c; color: white; padding: 60px 3rem 30px; }
         .footer-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr 1fr; gap: 3rem; max-width: 1400px; margin: 0 auto 40px; }
         .footer-logo img { height: 40px; width: auto; }
+        .footer-socials { display: flex; gap: 1rem; margin-top: 8px; }
+        .social-icon { width: 36px; height: 36px; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; transition: transform 0.2s ease; }
+        .social-icon:hover { transform: scale(1.2); }
+        .social-icon img { width: 100%; height: 100%; object-fit: cover; }
         .footer-column h4 { font-size: 0.85rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px; opacity: 0.9; }
         .footer-column a { display: block; color: rgba(255, 255, 255, 0.75); text-decoration: none; font-size: 0.9rem; margin-bottom: 10px; transition: all 0.3s ease; }
         .footer-column a:hover { opacity: 1; text-decoration: underline; }
@@ -111,7 +115,7 @@
             .dropdown-menu { position: static !important; display: none; box-shadow: none; background: #fdf0f9; border-radius: 12px; padding: 8px; margin-top: 8px; width: 100%; }
             .dropdown.open .dropdown-menu { display: block; }
             .dropdown-menu li a { font-size: 1rem; text-align: center; }
-            section, [class*="section"] { padding: 60px 20px !important; }
+            section, [class*="section"] { padding: 36px 20px !important; }
             .hero, [class*="hero"] { padding: 100px 20px 60px !important; min-height: auto !important; }
             .features-grid, .faq-container, [class*="grid"] { grid-template-columns: 1fr !important; }
             .hero h1, .section-heading, .faq-heading { font-size: 1.8rem !important; }
@@ -131,7 +135,22 @@
         }
     /* Global font override — all text uses Playfair Display */
 * { font-family: "Playfair Display", Georgia, serif !important; }
+
+        /* ==================================================================
+           Scroll-focus states — mirrors of the :hover rules above.
+           assets/woosh-3d.js applies .w3d-focus to whichever cards are
+           crossing the middle of the viewport, so these fire on touch too.
+           The lift itself is handled in 3D by the engine.
+           ================================================================== */
+        .feature-card.w3d-focus {
+            box-shadow: 0 12px 48px rgba(135, 30, 108, 0.15);
+            border-top-color: #f47920;
+        }
+        .faq-item.w3d-focus .faq-question { color: #871e6c; }
 </style>
+    <!-- Scroll-driven 3D motion — works on touch and desktop alike -->
+    <link rel="stylesheet" href="assets/woosh-3d.css">
+    <script defer src="assets/woosh-3d.js"></script>
 </head>
 <body>
 
@@ -229,21 +248,27 @@
                     <img src="https://static.wixstatic.com/media/9e0902_b8e2795e4f484602a2294b7410e3f4e5~mv2.png/v1/fill/w_112,h_44,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/2209_Woosh%20Biz%20update%20final%20white%20logo_PNG.png" alt="Woosh Biz">
                 </div>
                 <p style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 20px; line-height: 1.6;">No Gyaan. Just Fun With Learning.</p>
+                <div class="footer-socials">
+                    <a href="https://www.facebook.com/people/Woosh-Biz-by-HTI/100083456102229/" class="social-icon" title="Facebook"><img src="https://static.wixstatic.com/media/11062b_ef6a6ac194704911951645990055c2ce~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_ef6a6ac194704911951645990055c2ce~mv2.png" alt="FB"></a>
+                    <a href="https://www.instagram.com/wooshbiz/" class="social-icon" title="Instagram"><img src="https://static.wixstatic.com/media/11062b_cef3b719166a4815b446d4dcfcb6120d~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_cef3b719166a4815b446d4dcfcb6120d~mv2.png" alt="IG"></a>
+                    <a href="https://www.linkedin.com/company/woosh-biz-by-hti/" class="social-icon" title="LinkedIn"><img src="https://static.wixstatic.com/media/11062b_b5690303a8ff470e9b1c03a24aff140b~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_b5690303a8ff470e9b1c03a24aff140b~mv2.png" alt="LI"></a>
+                    <a href="https://www.youtube.com/channel/UC9BdT9tzf4841P1B-R7P-Qg" class="social-icon" title="YouTube"><img src="https://static.wixstatic.com/media/11062b_fe985b889c144b348eefc7bbc67018b4~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_fe985b889c144b348eefc7bbc67018b4~mv2.png" alt="YT"></a>
+                </div>
             </div>
-            <div>
+            <div class="footer-column">
                 <h4>Quick Links</h4>
                 <a href="about.html">About Us</a>
                 <a href="contact.html">Get In Touch</a>
                 <a href="contact.html">Free Consultation Call</a>
                 <a href="blog.html">Blogs</a>
             </div>
-            <div>
+            <div class="footer-column">
                 <h4>Programs</h4>
                 <a href="high-octane.html">In-Office</a>
                 <a href="outbound.html">Outbound</a>
                 <a href="virtual.html">Virtual</a>
             </div>
-            <div>
+            <div class="footer-column">
                 <h4>Contact</h4>
                 <div class="footer-contact">+91 9210804078</div>
                 <div class="footer-rating">⭐ 4.5 | 150 Ratings</div>

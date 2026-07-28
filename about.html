@@ -19,7 +19,7 @@
         .reveal:nth-child(4) { transition-delay: 0.3s; }
         .reveal:nth-child(5) { transition-delay: 0.4s; }
 
-        nav { position: fixed; top: 0; left: 0; right: 0; background: white; padding: 1.5rem 3rem; display: flex; justify-content: space-between; align-items: center; z-index: 1000; transition: all 0.3s ease; }
+        nav { position: fixed; top: 0; left: 0; right: 0; background: #fff; padding: 1.5rem 3rem; display: flex; justify-content: space-between; align-items: center; z-index: 1000; transition: box-shadow 0.3s ease, background-color 0.3s ease; }
         nav::after {
             content: '';
             position: absolute;
@@ -29,7 +29,10 @@
             height: 2px;
             background: linear-gradient(to right, transparent, #871e6c, transparent);
         }
-        nav.scrolled { backdrop-filter: blur(10px); }
+        /* No backdrop-filter here: the nav already sits on solid white, and
+           filtering a fixed bar makes mobile GPUs flicker it half-away as you
+           scroll past content. A shadow gives the same lift for free. */
+        nav.scrolled { box-shadow: 0 10px 30px -18px rgba(28, 10, 24, 0.55); }
         .logo img { height: 41px; width: auto; }
         .nav-links { display: flex; list-style: none; gap: 1.5rem; align-items: center; }
         .nav-links a { text-decoration: none; color: #1a1a1a; font-weight: 700; font-size: 15px; letter-spacing: 0.3px; position: relative; transition: color 0.3s ease; }
@@ -99,6 +102,10 @@
         footer { background: #871e6c; color: white; padding: 60px 3rem 30px; }
         .footer-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr 1fr; gap: 3rem; max-width: 1400px; margin: 0 auto 40px; }
         .footer-logo img { height: 40px; width: auto; }
+        .footer-socials { display: flex; gap: 1rem; margin-top: 8px; }
+        .social-icon { width: 36px; height: 36px; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; transition: transform 0.2s ease; }
+        .social-icon:hover { transform: scale(1.2); }
+        .social-icon img { width: 100%; height: 100%; object-fit: cover; }
         .footer-column h4 { font-size: 0.85rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px; opacity: 0.9; }
         .footer-column a { display: block; color: rgba(255, 255, 255, 0.75); text-decoration: none; font-size: 0.9rem; margin-bottom: 10px; transition: all 0.3s ease; }
         .footer-column a:hover { opacity: 1; text-decoration: underline; }
@@ -124,16 +131,28 @@
             .nav-links { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: #fff; flex-direction: column; align-items: center; justify-content: center; gap: 24px; z-index: 9998; padding: 80px 24px 40px; }
             .nav-links.open { display: flex !important; }
             .nav-links a { font-size: 1.3rem; }
-            .hero { padding: 120px 1.5rem 60px; }
+            .hero { padding: 120px 1.5rem 40px; }
             .hero h1 { font-size: 1.8rem; }
-            .section { padding: 60px 1.5rem; }
+            .section { padding: 36px 1.5rem; }
             footer { padding: 40px 1.5rem 20px; }
             .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
             .philosophy-quote { font-size: 1.5rem; }
         }
     /* Global font override — all text uses Playfair Display */
 * { font-family: "Playfair Display", Georgia, serif !important; }
+
+        /* ==================================================================
+           Scroll-focus states — mirrors of the :hover rules above.
+           assets/woosh-3d.js applies .w3d-focus to whichever cards are
+           crossing the middle of the viewport, so these fire on touch too.
+           The lift itself is handled in 3D by the engine.
+           ================================================================== */
+        .team-card.w3d-focus { box-shadow: 0 16px 48px rgba(135, 30, 108, 0.15); }
+        .why-card.w3d-focus { box-shadow: 0 12px 34px rgba(135, 30, 108, 0.14); }
 </style>
+    <!-- Scroll-driven 3D motion — works on touch and desktop alike -->
+    <link rel="stylesheet" href="assets/woosh-3d.css">
+    <script defer src="assets/woosh-3d.js"></script>
 </head>
 <body>
 
@@ -266,21 +285,27 @@
                     <img src="https://static.wixstatic.com/media/9e0902_b8e2795e4f484602a2294b7410e3f4e5~mv2.png/v1/fill/w_112,h_44,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/2209_Woosh%20Biz%20update%20final%20white%20logo_PNG.png" alt="Woosh Biz">
                 </div>
                 <p style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 20px; line-height: 1.6;">No Gyaan. Just Fun With Learning.</p>
+                <div class="footer-socials">
+                    <a href="https://www.facebook.com/people/Woosh-Biz-by-HTI/100083456102229/" class="social-icon" title="Facebook"><img src="https://static.wixstatic.com/media/11062b_ef6a6ac194704911951645990055c2ce~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_ef6a6ac194704911951645990055c2ce~mv2.png" alt="FB"></a>
+                    <a href="https://www.instagram.com/wooshbiz/" class="social-icon" title="Instagram"><img src="https://static.wixstatic.com/media/11062b_cef3b719166a4815b446d4dcfcb6120d~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_cef3b719166a4815b446d4dcfcb6120d~mv2.png" alt="IG"></a>
+                    <a href="https://www.linkedin.com/company/woosh-biz-by-hti/" class="social-icon" title="LinkedIn"><img src="https://static.wixstatic.com/media/11062b_b5690303a8ff470e9b1c03a24aff140b~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_b5690303a8ff470e9b1c03a24aff140b~mv2.png" alt="LI"></a>
+                    <a href="https://www.youtube.com/channel/UC9BdT9tzf4841P1B-R7P-Qg" class="social-icon" title="YouTube"><img src="https://static.wixstatic.com/media/11062b_fe985b889c144b348eefc7bbc67018b4~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_fe985b889c144b348eefc7bbc67018b4~mv2.png" alt="YT"></a>
+                </div>
             </div>
-            <div>
+            <div class="footer-column">
                 <h4>Quick Links</h4>
                 <a href="about.html">About Us</a>
                 <a href="contact.html">Get In Touch</a>
                 <a href="contact.html">Free Consultation Call</a>
                 <a href="blog.html">Blogs</a>
             </div>
-            <div>
+            <div class="footer-column">
                 <h4>Programs</h4>
                 <a href="high-octane.html">In-Office</a>
                 <a href="outbound.html">Outbound</a>
                 <a href="virtual.html">Virtual</a>
             </div>
-            <div>
+            <div class="footer-column">
                 <h4>Contact</h4>
                 <div class="footer-contact">+91 9210804078</div>
                 <div class="footer-rating">⭐ 4.5 | 150 Ratings</div>

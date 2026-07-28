@@ -108,7 +108,7 @@
         .article-wrap {
             max-width: 760px;
             margin: 0 auto;
-            padding: 50px 24px 80px;
+            padding: 40px 24px 48px;
         }
         .article-tag {
             display: inline-block;
@@ -169,7 +169,7 @@
         .article-body ul, .article-body ol { margin: 0 0 20px 22px; }
         .article-status {
             text-align: center;
-            padding: 90px 24px;
+            padding: 52px 24px;
             color: #888;
             font-size: 17px;
             font-weight: 600;
@@ -262,7 +262,19 @@
 
     /* Global font override — all text uses Playfair Display */
 * { font-family: "Playfair Display", Georgia, serif !important; }
+
+        /* ==================================================================
+           Scroll-focus states.
+           The article body itself lifts into place paragraph by paragraph via
+           assets/woosh-3d.js; the cover image gets the depth pass. Share
+           buttons keep their :hover styling and additionally light up when
+           the share bar reaches the middle of the viewport on touch.
+           ================================================================== */
+        .cover-image.w3d-focus { box-shadow: 0 30px 60px -28px rgba(0, 0, 0, 0.45); }
 </style>
+    <!-- Scroll-driven 3D motion — works on touch and desktop alike -->
+    <link rel="stylesheet" href="assets/woosh-3d.css">
+    <script defer src="assets/woosh-3d.js"></script>
 </head>
 <body>
 

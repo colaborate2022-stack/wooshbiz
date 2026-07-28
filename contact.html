@@ -44,8 +44,8 @@
             100% { box-shadow: 0 0 0 0 rgba(244, 121, 32, 0); }
         }
 
-        /* Scroll progress line under the navbar */
-        .scroll-progress { position: fixed; top: 70px; left: 0; height: 3px; width: 0%; background: linear-gradient(90deg, #f47920, #8E2158, #871e6c); z-index: 9998; transition: width 0.08s linear; }
+        /* The scroll progress line is built and styled by assets/woosh-3d.*,
+           shared by every page, and rides the bottom edge of the navbar. */
 
         @keyframes gradientShift {
             0% { background-position: 0% 50%; }
@@ -260,6 +260,10 @@
         .footer-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr 1fr; gap: 3rem; max-width: 1400px; margin: 0 auto 40px; }
         .footer-logo img { height: 40px; width: auto; }
         footer h4 { font-size: 0.85rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px; opacity: 0.9; }
+        .footer-socials { display: flex; gap: 1rem; margin-top: 8px; }
+        .social-icon { width: 36px; height: 36px; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; transition: transform 0.2s ease; }
+        .social-icon:hover { transform: scale(1.2); }
+        .social-icon img { width: 100%; height: 100%; object-fit: cover; }
         footer a { display: block; color: rgba(255, 255, 255, 0.75); text-decoration: none; font-size: 0.9rem; margin-bottom: 10px; transition: all 0.3s ease; }
         footer a:hover { opacity: 1; color: #fff; padding-left: 5px; }
         .footer-contact { font-size: 1.2rem; font-weight: 800; }
@@ -391,7 +395,23 @@
             /* Long addresses shouldn't blow out the card */
             .contact-item a { font-size: 0.95rem; }
         }
+
+        /* ==================================================================
+           Scroll-focus states
+           Mirrors of the :hover rules above. assets/woosh-3d.js applies
+           .w3d-focus to whichever cards are crossing the middle of the
+           viewport, so these effects fire on touch devices too.
+           ================================================================== */
+        .card.w3d-focus { box-shadow: 0 40px 70px -30px rgba(135, 30, 108, 0.55); }
+        .card.w3d-focus .card-icon {
+            transform: rotateY(180deg);
+            background: #871e6c;
+            color: #fff;
+        }
     </style>
+    <!-- Scroll-driven 3D motion — works on touch and desktop alike -->
+    <link rel="stylesheet" href="assets/woosh-3d.css">
+    <script defer src="assets/woosh-3d.js"></script>
 </head>
 <body>
 
@@ -679,6 +699,12 @@
                     <img src="https://static.wixstatic.com/media/9e0902_b8e2795e4f484602a2294b7410e3f4e5~mv2.png/v1/fill/w_112,h_44,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/2209_Woosh%20Biz%20update%20final%20white%20logo_PNG.png" alt="Woosh Biz">
                 </div>
                 <p style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 20px; line-height: 1.6;">No Gyaan. Just Fun With Learning.</p>
+                <div class="footer-socials">
+                    <a href="https://www.facebook.com/people/Woosh-Biz-by-HTI/100083456102229/" class="social-icon" title="Facebook"><img src="https://static.wixstatic.com/media/11062b_ef6a6ac194704911951645990055c2ce~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_ef6a6ac194704911951645990055c2ce~mv2.png" alt="FB"></a>
+                    <a href="https://www.instagram.com/wooshbiz/" class="social-icon" title="Instagram"><img src="https://static.wixstatic.com/media/11062b_cef3b719166a4815b446d4dcfcb6120d~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_cef3b719166a4815b446d4dcfcb6120d~mv2.png" alt="IG"></a>
+                    <a href="https://www.linkedin.com/company/woosh-biz-by-hti/" class="social-icon" title="LinkedIn"><img src="https://static.wixstatic.com/media/11062b_b5690303a8ff470e9b1c03a24aff140b~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_b5690303a8ff470e9b1c03a24aff140b~mv2.png" alt="LI"></a>
+                    <a href="https://www.youtube.com/channel/UC9BdT9tzf4841P1B-R7P-Qg" class="social-icon" title="YouTube"><img src="https://static.wixstatic.com/media/11062b_fe985b889c144b348eefc7bbc67018b4~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_fe985b889c144b348eefc7bbc67018b4~mv2.png" alt="YT"></a>
+                </div>
             </div>
             <div>
                 <h4>Quick Links</h4>
@@ -755,63 +781,18 @@
 
         document.querySelectorAll('.reveal, .reveal-3d').forEach(el => observer.observe(el));
 
-        // ===== 3D interactive tilt for cards (desktop pointers only) =====
-        (function () {
-            if (!window.matchMedia('(pointer: fine)').matches) return;
-            document.querySelectorAll('.tilt-3d').forEach(function (card) {
-                card.addEventListener('mousemove', function (e) {
-                    const r = card.getBoundingClientRect();
-                    const px = (e.clientX - r.left) / r.width - 0.5;
-                    const py = (e.clientY - r.top) / r.height - 0.5;
-                    card.style.transformOrigin = 'center center';
-                    card.style.position = 'relative';
-                    card.style.zIndex = '30';
-                    card.style.transition = 'transform 0.1s ease-out';
-                    card.style.transform =
-                        `perspective(1000px) rotateX(${-py * 12}deg) rotateY(${px * 16}deg)`;
-                });
-                card.addEventListener('mouseleave', function () {
-                    card.style.transition = 'transform 0.5s ease-out';
-                    card.style.transform = '';
-                    card.style.transformOrigin = '';
-                    card.style.zIndex = '';
-                });
-            });
-        })();
+        // Card tilt and the map illustration's 3D turn are both handled by
+        // assets/woosh-3d.js now — driven by scroll position so they work on
+        // touch as well, with mouse tilt layered on top for fine pointers.
 
-        // ===== 3D tilt on the map illustration =====
-        (function () {
-            const stage = document.getElementById('illustrationStage');
-            if (!stage || !window.matchMedia('(pointer: fine)').matches) return;
-            const layer = stage.querySelector('.illustration-3d');
-            if (!layer) return;
-
-            stage.addEventListener('mousemove', (e) => {
-                const r = stage.getBoundingClientRect();
-                const px = (e.clientX - r.left) / r.width - 0.5;
-                const py = (e.clientY - r.top) / r.height - 0.5;
-                layer.style.animation = 'none';
-                layer.style.transition = 'transform 0.08s linear';
-                layer.style.transform = `rotateX(${-py * 18}deg) rotateY(${px * 24}deg)`;
-            });
-            stage.addEventListener('mouseleave', () => {
-                layer.style.transition = 'transform 0.5s ease-out';
-                layer.style.transform = 'rotateX(0deg) rotateY(0deg)';
-                setTimeout(() => { layer.style.animation = ''; }, 500);
-            });
-        })();
-
-        // ===== Scroll progress line =====
-        const progressBar = document.createElement('div');
-        progressBar.className = 'scroll-progress';
-        document.body.appendChild(progressBar);
+        // ===== Nav state + back-to-top =====
+        // The scroll progress line is drawn by assets/woosh-3d.js, which hangs
+        // it off the bottom of the navbar on every page.
         const navBar = document.querySelector('.navbar');
         const scrollToTopBtn = document.getElementById('scrollToTop');
 
         window.addEventListener('scroll', function () {
             const st = window.scrollY || document.documentElement.scrollTop;
-            const h = document.documentElement.scrollHeight - window.innerHeight;
-            progressBar.style.width = (h > 0 ? (st / h) * 100 : 0) + '%';
             if (navBar) navBar.classList.toggle('scrolled', st > 0);
             scrollToTopBtn.classList.toggle('visible', st > 300);
         }, { passive: true });

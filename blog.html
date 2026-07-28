@@ -59,7 +59,7 @@
         /* ============ HERO ============ */
         .blog-hero {
             text-align: center;
-            padding: 70px 24px 50px;
+            padding: 56px 24px 36px;
             background: linear-gradient(180deg, #fbf1f8 0%, #fff 100%);
         }
         .blog-hero h1 {
@@ -72,7 +72,7 @@
         .blog-hero p { margin-top: 14px; color: #666; font-size: 1.05rem; max-width: 560px; margin-left: auto; margin-right: auto; }
 
         /* ============ GRID ============ */
-        .blog-section { max-width: 1200px; margin: 0 auto; padding: 20px 24px 90px; }
+        .blog-section { max-width: 1200px; margin: 0 auto; padding: 20px 24px 48px; }
         .blog-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -121,7 +121,20 @@
 
     /* Global font override — all text uses Playfair Display */
 * { font-family: "Playfair Display", Georgia, serif !important; }
+
+        /* ==================================================================
+           Scroll-focus states — mirrors of the :hover rules above.
+           assets/woosh-3d.js applies .w3d-focus to whichever cards are
+           crossing the middle of the viewport, so these fire on touch too.
+           The lift itself is handled in 3D by the engine.
+           ================================================================== */
+        .blog-card.w3d-focus { box-shadow: 0 16px 34px rgba(0, 0, 0, 0.12); }
+        .blog-card.w3d-focus .blog-cat { background: var(--wb-primary); color: #fff; }
+        .blog-cat { transition: background 0.35s ease, color 0.35s ease; }
 </style>
+    <!-- Scroll-driven 3D motion — works on touch and desktop alike -->
+    <link rel="stylesheet" href="assets/woosh-3d.css">
+    <script defer src="assets/woosh-3d.js"></script>
 </head>
 <body>
 

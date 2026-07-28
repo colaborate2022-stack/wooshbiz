@@ -27,6 +27,9 @@ a{color:inherit;text-decoration:none}svg{display:block}
 .nav-cta{font-weight:600;font-size:14px;background:var(--ink);color:#fff;padding:11px 20px;border-radius:40px;transition:.2s}
 .nav-cta:hover{background:var(--magenta);transform:translateY(-2px)}
 @media(max-width:820px){.nav-links{display:none}}
+/* Scroll progress line. This page's nav is deliberately transparent, so the
+   line sits on the very top edge of the viewport rather than under the bar. */
+.scroll-progress{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--orange),var(--plum),var(--magenta));z-index:9998;pointer-events:none;transition:width .08s linear}
 
 .hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden}
 .hero-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(1100px 700px at 78% 8%,#f7dcec 0%,rgba(247,220,236,0) 60%),linear-gradient(180deg,#fdeef5 0%,var(--cream) 70%)}
@@ -228,6 +231,22 @@ h1.head em{font-style:italic;color:var(--magenta)}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lenis/1.1.13/lenis.min.js"></script>
 <script>
+/* Scroll progress line — kept out of the GSAP block below so it still runs
+   under reduced motion and if the CDN scripts fail to load. */
+(function(){
+  var bar = document.createElement('div');
+  bar.className = 'scroll-progress';
+  document.body.appendChild(bar);
+  function draw(){
+    var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+    var span = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (span > 0 ? (y / span) * 100 : 0) + '%';
+  }
+  window.addEventListener('scroll', draw, { passive: true });
+  window.addEventListener('resize', draw, { passive: true });
+  draw();
+})();
+
 (function(){
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if(reduce || !window.gsap){ document.querySelectorAll('.rv').forEach(function(e){e.style.opacity=1;}); return; }
@@ -259,12 +278,22 @@ h1.head em{font-style:italic;color:var(--magenta)}
   gsap.to('#blobA',{y:170,scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:1}});
 
   var hdeck = document.getElementById('hdeck'), hero = document.querySelector('.hero');
+  var fine = window.matchMedia('(pointer: fine)').matches;
   gsap.set(hdeck,{rotateX:6,rotateY:-6});
-  hero.addEventListener('pointermove',function(e){
-    var r = hero.getBoundingClientRect();
-    var px = (e.clientX-r.left)/r.width-0.5, py=(e.clientY-r.top)/r.height-0.5;
-    gsap.to(hdeck,{rotateY:px*22,rotateX:-py*18,duration:.6,ease:'power2.out'});
-  });
+
+  if(fine){
+    hero.addEventListener('pointermove',function(e){
+      var r = hero.getBoundingClientRect();
+      var px = (e.clientX-r.left)/r.width-0.5, py=(e.clientY-r.top)/r.height-0.5;
+      gsap.to(hdeck,{rotateY:px*22,rotateX:-py*18,duration:.6,ease:'power2.out'});
+    });
+  } else {
+    // Touch devices have no pointer to follow, so the deck turns with the
+    // scroll instead — same effect, driven by something a thumb can do.
+    gsap.to(hdeck,{rotateY:20,rotateX:-12,ease:'none',
+      scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:1}});
+  }
+
   gsap.to(hdeck,{yPercent:-14,scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:1}});
 
   gsap.utils.toArray('.panel').forEach(function(p){

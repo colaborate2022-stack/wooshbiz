@@ -1,0 +1,176 @@
+/* ==========================================================================
+   Woosh Biz — scroll-driven 3D motion system
+   --------------------------------------------------------------------------
+   Everything here is driven by SCROLL POSITION, not by :hover, so the site
+   behaves identically on desktop and on phones/tablets. Mouse tilt is layered
+   on top for fine pointers only — nothing depends on it.
+
+   The engine (assets/woosh-3d.js) only ever writes the custom properties
+   below. It never writes `transform` directly, which keeps page-level CSS
+   predictable and lets these rules stay in charge of composition.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. The composed 3D transform
+   The class is repeated three times purely for specificity: it has to out-rank
+   page rules like `.video-card.tilt-3d:hover { transform: ... }` (0,3,0) that
+   would otherwise clobber the scroll transform mid-scroll.
+   -------------------------------------------------------------------------- */
+.w3d.w3d.w3d {
+    transform:
+        perspective(var(--w3d-p, 1100px))
+        translate3d(0, var(--w3d-y, 0px), var(--w3d-z, 0px))
+        rotateX(var(--w3d-rx, 0deg))
+        rotateY(var(--w3d-ry, 0deg))
+        scale(var(--w3d-s, 1));
+
+    /* Many cards ship `transition: all .3s ease`. Left alone, that would
+       transition the scroll transform on every frame and turn the motion into
+       mush. Restrict the transition to the properties that actually benefit
+       from easing — transform and opacity are already smoothed by the engine. */
+    transition:
+        box-shadow 0.4s cubic-bezier(0.22, 0.61, 0.36, 1),
+        border-color 0.4s ease,
+        border 0.4s ease,
+        background 0.4s ease,
+        color 0.3s ease,
+        filter 0.4s ease;
+}
+
+/* Opacity is only taken over for elements the page already hides
+   (.reveal / .rv), so a JS failure can never leave content invisible. */
+.w3d-fade.w3d-fade.w3d-fade {
+    opacity: var(--w3d-o, 1);
+}
+
+/* Promotion is applied only while an element is near the viewport, so a long
+   page never holds 100+ composited layers at once. */
+.w3d-live {
+    will-change: transform;
+}
+
+/* --------------------------------------------------------------------------
+   2. Scroll-focus — the replacement for :hover
+   The engine tags whichever cards are crossing the middle of the viewport with
+   .w3d-focus. On a phone that means the card you are looking at lights up as
+   you scroll; on desktop it does the same, and hovering still works on top.
+   Page-specific styling is mirrored into .w3d-focus inside each page's own
+   stylesheet, next to the :hover rule it mirrors.
+   -------------------------------------------------------------------------- */
+.w3d-card.w3d-focus {
+    box-shadow: 0 34px 64px -30px rgba(135, 30, 108, 0.55);
+}
+
+/* Media inside a focused card gets the same treatment hover used to give it. */
+.w3d-card > img,
+.w3d-card img.duration-image,
+.w3d-card .cover-image img {
+    transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1), filter 0.5s ease;
+}
+
+/* --------------------------------------------------------------------------
+   3. Hero depth layers
+   Elements that used to tilt only under the mouse (the phone mock-up, the
+   contact-page map illustration) now tilt as they travel through the viewport.
+   -------------------------------------------------------------------------- */
+.w3d-layer.w3d-layer.w3d-layer {
+    transform:
+        translate3d(0, var(--w3d-y, 0px), var(--w3d-z, 0px))
+        rotateX(var(--w3d-rx, 0deg))
+        rotateY(var(--w3d-ry, 0deg));
+    transition: none;
+}
+
+/* --------------------------------------------------------------------------
+   4. Chrome that every page now shares
+   -------------------------------------------------------------------------- */
+
+/* Scroll progress line. Every page gets exactly one, built by the engine. */
+.w3d-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background: linear-gradient(90deg, #f47920, #8E2158, #871e6c);
+    z-index: 9998;
+    pointer-events: none;
+    transition: width 0.08s linear;
+}
+
+/* Where there is a nav, the line rides its bottom edge instead — so it inherits
+   the nav's height, its stacking and its pinning for free, on every page. */
+.w3d-progress.w3d-progress-in-nav {
+    position: absolute;
+    top: auto;
+    bottom: 0;
+    z-index: 2;
+}
+
+/* Nav lifts off the page once you start scrolling. */
+nav.w3d-stuck,
+.navbar.w3d-stuck {
+    box-shadow: 0 10px 30px -18px rgba(28, 10, 24, 0.55);
+}
+
+/* Most navs carry a static gradient underline for the top of the page. It hands
+   over to the progress line as soon as you scroll — here for every page, rather
+   than only the two that used to script it. Pages with no ::after ignore this. */
+.w3d-nav::after {
+    transition: opacity 0.2s ease;
+}
+.w3d-nav.w3d-stuck::after {
+    opacity: 0;
+}
+
+/* The nav has to stay whole and on screen for the entire scroll on a phone.
+   A backdrop-filter is the usual reason it doesn't: it forces the bar to be
+   re-rasterised against moving content, which on mobile GPUs shows up as the
+   bar flickering or half-vanishing on the way down. Every nav here already
+   sits on solid white, so the filter was buying nothing anyway.
+   The translate that pins the bar is written by the engine — see woosh-3d.js. */
+.w3d-nav {
+    -webkit-backdrop-filter: none;
+            backdrop-filter: none;
+    -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+}
+
+/* `transition: all` on a nav animates whatever a scroll-triggered class happens
+   to change — including layout — so the bar visibly resizes mid-scroll. Only
+   the paint-only properties should ease. */
+.w3d-nav.w3d-nav {
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+/* Back-to-top button gets a little depth of its own. */
+.scroll-to-top {
+    transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1),
+                opacity 0.3s ease,
+                visibility 0.3s ease,
+                background 0.3s ease;
+}
+.scroll-to-top.visible {
+    transform: perspective(500px) rotateX(0deg) translateZ(0);
+}
+
+/* --------------------------------------------------------------------------
+   5. Accessibility / low-power fallbacks
+   The engine bails out entirely under reduced-motion, but the CSS is reset
+   here too so nothing is left mid-transform if the class was already applied.
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    .w3d.w3d.w3d,
+    .w3d-layer.w3d-layer.w3d-layer {
+        transform: none !important;
+    }
+    .w3d-fade.w3d-fade.w3d-fade {
+        opacity: 1 !important;
+    }
+    .w3d-live {
+        will-change: auto;
+    }
+    .w3d-progress {
+        transition: none;
+    }
+}
