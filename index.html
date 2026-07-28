@@ -1163,7 +1163,7 @@
 
         @media (max-width: 768px) {
             /* Global */
-            body { overflow-x: hidden; }
+            html, body { overflow-x: hidden; }
 
             /* Navbar */
             .hamburger { display: flex !important; }
@@ -1202,6 +1202,7 @@
                 padding: 112px 8px 0 !important;   /* clears the 70px navbar + breathing room */
                 min-height: auto !important;
                 gap: 0.25rem !important;
+                overflow: hidden !important;   /* contain the 130vw phone so it can't widen the page */
             }
             .hero-headline {
                 font-size: clamp(1.3rem, 4.6vw, 1.9rem) !important;
