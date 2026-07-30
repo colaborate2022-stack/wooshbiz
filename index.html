@@ -409,6 +409,15 @@
             flex-shrink: 0;
         }
 
+        /* On the purple CTA strip the maroon pill sits too close to its own
+           background, so it gets a white rim there. The hero button keeps its
+           rimless look — it sits on white and needs no help. */
+        .cta-strip .cta-button:not(.cta-secondary) {
+            border: 2px solid rgba(255, 255, 255, 0.92);
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
+        }
+        .cta-strip .cta-button:not(.cta-secondary):hover { box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35); }
+
         /* Stats Section */
         .stats-section {
             background: #871e6c;
@@ -492,18 +501,17 @@
             align-items: center;
         }
 
+        /* Logos ride in full colour — no grayscale wash. */
         .logo-item img {
             max-height: 45px;
             width: auto;
             object-fit: contain;
-            filter: grayscale(100%);
-            opacity: 0.7;
-            transition: all 0.3s ease;
+            opacity: 1;
+            transition: transform 0.3s ease;
         }
 
         .logo-item:hover img {
-            filter: grayscale(0%);
-            opacity: 1;
+            transform: scale(1.08);
         }
 
         /* Video Section */
@@ -813,20 +821,66 @@
             border: none;
         }
 
-        /* Testimonials Section */
+        /* ==================================================================
+           Testimonials Section
+           Each card is a link to that person's video, so the whole card —
+           photo, name, role, logo — is one click target. The depth motion is
+           driven by assets/woosh-3d.js (scroll position + carousel position),
+           so it behaves the same on a phone as on a desktop.
+           ================================================================== */
         .testimonials-section {
-            background: white;
-            padding: 80px 3rem;
+            position: relative;
+            background: linear-gradient(180deg, #ffffff 0%, #fdf6fb 45%, #ffffff 100%);
+            padding: 90px 3rem 80px;
+            overflow: hidden;
+        }
+
+        /* Soft brand glow behind the heading. The section clips its overflow,
+           so the ellipse is sized to have already faded out by every edge it
+           meets — otherwise the clip shows up as a hard seam. */
+        .testimonials-section::before {
+            content: '';
+            position: absolute;
+            top: -80px;
+            left: 50%;
+            width: min(900px, 130%);
+            height: 520px;
+            transform: translateX(-50%);
+            background: radial-gradient(ellipse at center, rgba(135, 30, 108, 0.10), transparent 65%);
+            pointer-events: none;
+        }
+
+        .testimonials-section > * { position: relative; }
+
+        /* Heading, sub-line and the card strip all share one 1400px measure, so
+           the copy lines up with the first card instead of drifting left of it
+           on wide screens. */
+        .testimonials-section > .section-heading,
+        .testimonials-sub {
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .testimonials-sub {
+            margin-top: 0;
+            color: #8a7f87;
+            font-size: 1.02rem;
+            line-height: 1.6;
+            max-width: 1400px;
         }
 
         .testimonials-container {
             display: flex;
-            gap: 1.5rem;
+            gap: 1.75rem;
             overflow-x: auto;
-            padding: 30px 0;
+            overflow-y: hidden;
+            padding: 44px 6px 48px;
             max-width: 1400px;
             margin: 0 auto;
             scrollbar-width: none;
+            scroll-snap-type: x proximity;
+            -webkit-overflow-scrolling: touch;
         }
 
         .testimonials-container::-webkit-scrollbar {
@@ -834,115 +888,263 @@
         }
 
         .testimonial-card {
+            position: relative;
+            display: block;
             flex-shrink: 0;
-            width: 300px;
-            background: white;
-            border-radius: 20px;
-            padding: 28px;
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
-            border-left: 4px solid #871e6c;
-            transition: all 0.3s ease;
+            width: 320px;
+            scroll-snap-align: center;
+            background: #fff;
+            border: 1px solid rgba(135, 30, 108, 0.09);
+            border-radius: 22px;
+            padding: 26px 26px 20px;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            box-shadow: 0 12px 32px -14px rgba(28, 10, 24, 0.20),
+                        0 2px 6px rgba(28, 10, 24, 0.04);
+            transition: box-shadow 0.4s cubic-bezier(0.22, 0.61, 0.36, 1),
+                        border-color 0.4s ease;
+        }
+
+        /* Gradient accent stripe, replacing the flat border-left. */
+        .testimonial-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #871e6c 0%, #8E2158 55%, #f47920 100%);
+            transition: width 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+        /* Quote watermark. */
+        .testimonial-card::after {
+            content: '\201C';
+            position: absolute;
+            top: 2px;
+            right: 20px;
+            font-size: 5.5rem;
+            line-height: 1;
+            color: rgba(135, 30, 108, 0.07);
+            pointer-events: none;
         }
 
         .testimonial-card:hover {
-            transform: translateY(-6px);
-            border-left-color: #f47920;
+            box-shadow: 0 28px 54px -24px rgba(135, 30, 108, 0.45);
+            border-color: rgba(244, 121, 32, 0.35);
+        }
+
+        .testimonial-card:hover::before {
+            width: 7px;
+        }
+
+        /* The card is now a link, so it is tab-reachable — say so. */
+        .testimonial-card:focus-visible {
+            outline: 2px solid #f47920;
+            outline-offset: 3px;
         }
 
         .testimonial-header {
             display: flex;
-            gap: 1rem;
-            margin-bottom: 16px;
-            align-items: flex-start;
+            gap: 1.05rem;
+            align-items: center;
         }
 
+        /* Gradient ring around the photo; the padding is the ring. */
         .testimonial-photo {
             position: relative;
-            width: 80px;
-            height: 100px;
-            border-radius: 10px;
-            overflow: hidden;
-            cursor: pointer;
+            width: 86px;
+            height: 104px;
+            border-radius: 15px;
+            padding: 3px;
+            background: linear-gradient(140deg, #f47920 0%, #871e6c 100%);
             flex-shrink: 0;
+            cursor: pointer;
         }
 
         .testimonial-photo img {
+            display: block;
             width: 100%;
             height: 100%;
             object-fit: cover;
+            border-radius: 12px;
+            transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
         }
 
+        /* Always-visible play badge — the card is a video, and it says so. */
         .testimonial-photo::after {
             content: '▶';
             position: absolute;
-            inset: 0;
-            background: rgba(220, 38, 38, 0.8);
+            right: -7px;
+            bottom: -7px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #e11d2f;
+            border: 2px solid #fff;
+            color: #fff;
+            font-size: 9px;
+            line-height: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 18px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            box-shadow: 0 5px 12px rgba(225, 29, 47, 0.45);
+            transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1),
+                        box-shadow 0.35s ease;
         }
 
-        .testimonial-photo:hover::after {
-            opacity: 1;
+        .testimonial-card:hover .testimonial-photo::after {
+            transform: scale(1.18);
+            box-shadow: 0 8px 18px rgba(225, 29, 47, 0.55);
         }
 
         .testimonial-info h3 {
-            font-size: 0.95rem;
+            font-size: 1.05rem;
             font-weight: 800;
             color: #1a1a1a;
             margin-bottom: 4px;
+            letter-spacing: 0.2px;
+        }
+
+        /* Grows in as the card takes focus. */
+        .testimonial-info h3::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            margin-top: 6px;
+            border-radius: 2px;
+            background: linear-gradient(90deg, #f47920, #871e6c);
+            transition: width 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+        .testimonial-card:hover .testimonial-info h3::after {
+            width: 44px;
         }
 
         .testimonial-info p {
-            font-size: 0.8rem;
-            color: #999;
+            font-size: 0.82rem;
+            color: #8d8590;
+            line-height: 1.4;
+        }
+
+        .testimonial-foot {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 22px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(28, 10, 24, 0.07);
         }
 
         .testimonial-logo {
-            margin-top: 16px;
-            height: 35px;
             display: flex;
             align-items: center;
+            height: 34px;
         }
 
         .testimonial-logo img {
-            max-height: 35px;
+            max-height: 34px;
+            max-width: 115px;
             width: auto;
-            filter: grayscale(100%);
-            opacity: 0.7;
+            opacity: 1;
+            transition: transform 0.45s ease;
         }
 
+        .testimonial-card:hover .testimonial-logo img {
+            transform: scale(1.06);
+        }
+
+        .testimonial-watch {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            flex-shrink: 0;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.09em;
+            text-transform: uppercase;
+            color: #871e6c;
+            white-space: nowrap;
+            transition: color 0.35s ease, gap 0.35s ease;
+        }
+
+        .testimonial-watch span {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: rgba(135, 30, 108, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+            transition: background 0.35s ease, transform 0.35s ease;
+        }
+
+        .testimonial-card:hover .testimonial-watch {
+            color: #f47920;
+            gap: 10px;
+        }
+
+        .testimonial-card:hover .testimonial-watch span {
+            background: rgba(244, 121, 32, 0.16);
+            transform: translateX(2px);
+        }
+
+        /* Carousel controls + scroll rail */
         .carousel-nav {
             display: flex;
             gap: 1rem;
             justify-content: center;
-            margin-top: 30px;
+            align-items: center;
+            margin-top: 8px;
+        }
+
+        .carousel-rail {
+            width: 140px;
+            height: 4px;
+            border-radius: 4px;
+            background: rgba(135, 30, 108, 0.12);
+            overflow: hidden;
+        }
+
+        .carousel-rail-fill {
+            display: block;
+            width: 25%;
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #f47920, #871e6c);
+            transition: transform 0.15s linear;
         }
 
         .carousel-nav button {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            background: white;
-            border: 2px solid #f47920;
-            color: #f47920;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: #fff;
+            border: 1.5px solid rgba(135, 30, 108, 0.25);
+            color: #871e6c;
             cursor: pointer;
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(244, 121, 32, 0.2);
+            transition: all 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+            box-shadow: 0 8px 20px -10px rgba(135, 30, 108, 0.45);
         }
 
         .carousel-nav button:hover {
-            background: #f47920;
-            color: white;
-            transform: scale(1.1);
+            background: linear-gradient(135deg, #f47920 0%, #871e6c 100%);
+            border-color: transparent;
+            color: #fff;
+            transform: translateY(-3px) scale(1.06);
+            box-shadow: 0 14px 26px -10px rgba(135, 30, 108, 0.6);
+        }
+
+        .carousel-nav button:active {
+            transform: scale(0.95);
         }
 
         /* CTA Strip */
@@ -1289,9 +1491,27 @@
 
             /* Testimonials */
             .testimonials-row, [class*="testimonials"] {
-                gap: 16px !important;
+                gap: 18px !important;
             }
-            .testimonial-card { width: 260px !important; }
+            .testimonials-section { padding: 60px 1.25rem 56px !important; }
+            .testimonials-container {
+                padding: 32px 4px 36px !important;
+                scroll-snap-type: x mandatory;
+            }
+            .testimonial-card {
+                width: min(300px, 82vw) !important;
+                padding: 22px 20px 18px !important;
+            }
+            .testimonial-photo { width: 76px; height: 92px; }
+            .testimonial-info h3 { font-size: 1rem; }
+            /* Keep the round arrows round — the blanket button padding above
+               would otherwise squash their glyphs. */
+            .carousel-nav button {
+                width: 48px !important;
+                height: 48px !important;
+                padding: 0 !important;
+            }
+            .carousel-rail { width: 96px; }
 
             /* Buttons */
             .btn, button, [class*="btn"] {
@@ -1412,8 +1632,10 @@
                 grid-template-columns: 1fr 1fr;
             }
 
+            /* Deliberately not 100vw-based: vw includes the scrollbar on some
+               browsers, which is what used to push the page sideways. */
             .testimonial-card {
-                width: calc(100vw - 3rem);
+                width: min(300px, 84vw) !important;
             }
 
             .scroll-to-top {
@@ -1455,15 +1677,35 @@
 
         .gallery-item.w3d-focus img { transform: scale(1.04); filter: brightness(1.1); }
 
-        .testimonial-card.w3d-focus { border-left-color: #f47920; }
-
-        /* The marquee logos slide horizontally inside a CSS-animated strip, so
-           they can't take part in the scroll-focus band. On touch devices,
-           where the grayscale-on-hover reveal can never fire, they are simply
-           shown in full colour instead. */
-        @media (hover: none) {
-            .logo-item img { filter: grayscale(0%); opacity: 1; }
+        /* Testimonials: the card crossing the centre of the carousel lights up
+           exactly as a hovered card does, so the effect exists on touch too. */
+        /* Doubled class deliberately: woosh-3d.css is linked after this style
+           block and carries a generic `.w3d-card.w3d-focus` shadow, so the
+           card's own focus shadow needs to out-rank it. */
+        .testimonial-card.testimonial-card.w3d-focus {
+            box-shadow: 0 28px 54px -24px rgba(135, 30, 108, 0.45);
+            border-color: rgba(244, 121, 32, 0.35);
         }
+        .testimonial-card.w3d-focus::before { width: 7px; }
+        .testimonial-card.w3d-focus .testimonial-info h3::after { width: 44px; }
+        .testimonial-card.w3d-focus .testimonial-photo::after {
+            transform: scale(1.18);
+            box-shadow: 0 8px 18px rgba(225, 29, 47, 0.55);
+        }
+        .testimonial-card.w3d-focus .testimonial-logo img {
+            transform: scale(1.06);
+        }
+        .testimonial-card.w3d-focus .testimonial-watch {
+            color: #f47920;
+            gap: 10px;
+        }
+        .testimonial-card.w3d-focus .testimonial-watch span {
+            background: rgba(244, 121, 32, 0.16);
+            transform: translateX(2px);
+        }
+        .testimonial-card.w3d-focus .testimonial-photo img,
+        .testimonial-card:hover .testimonial-photo img { transform: scale(1.05); }
+
 </style>
     <!-- Scroll-driven 3D motion — works on touch and desktop alike -->
     <link rel="stylesheet" href="assets/woosh-3d.css">
@@ -1680,7 +1922,14 @@
             </a>
         </div>
         <div style="text-align: center; margin-top: 40px;">
-            <a href="https://wa.me/919210804078" class="cta-button">Get a Quote in 30 mins 🚀</a>
+            <a href="https://wa.me/919210804078" target="_blank" rel="noopener" class="cta-button">
+                <span class="wa-icon">
+                    <svg viewBox="0 0 24 24" fill="#ffffff" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413"/>
+                    </svg>
+                </span>
+                Get a Quote in 30 mins
+            </a>
         </div>
     </section>
 
@@ -1726,62 +1975,83 @@
     <!-- Testimonials Section -->
     <section class="testimonials-section">
         <h2 class="section-heading reveal">What Our Happy Alumni Say</h2>
-        <div class="testimonials-container">
-            <div class="testimonial-card reveal tilt-3d">
+        <p class="testimonials-sub reveal">Real teams, real stories. Tap any card to watch them tell it themselves.</p>
+        <div class="testimonials-container" id="testimonialsTrack">
+            <a class="testimonial-card reveal" href="https://www.youtube.com/watch?v=0LXwBcbDXO8" target="_blank" rel="noopener" aria-label="Watch Vijay Rajput's testimonial on YouTube">
                 <div class="testimonial-header">
-                    <div class="testimonial-photo" onclick="window.open('https://youtube.com/watch?v=0LXwBcbDXO8', '_blank')">
-                        <img src="https://static.wixstatic.com/media/9e0902_9bbb420bd9e341d9a70285c815652550~mv2.png/v1/fill/w_100,h_120,al_c,q_85,enc_avif,quality_auto/1.png" alt="Vijay">
+                    <div class="testimonial-photo">
+                        <img src="https://static.wixstatic.com/media/9e0902_9bbb420bd9e341d9a70285c815652550~mv2.png/v1/fill/w_100,h_120,al_c,q_85,enc_avif,quality_auto/1.png" alt="Vijay Rajput">
                     </div>
                     <div class="testimonial-info">
                         <h3>Vijay Rajput</h3>
                         <p>IP Services</p>
                     </div>
                 </div>
-                <img class="testimonial-logo" src="https://static.wixstatic.com/media/fe3583_e7877f2020724c448c11dfdafbf62681~mv2.png/v1/fill/w_85,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/33.png" alt="Logo">
-            </div>
+                <div class="testimonial-foot">
+                    <div class="testimonial-logo">
+                        <img src="https://static.wixstatic.com/media/fe3583_e7877f2020724c448c11dfdafbf62681~mv2.png/v1/fill/w_85,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/33.png" alt="IP Services logo">
+                    </div>
+                    <div class="testimonial-watch">Watch <span>▶</span></div>
+                </div>
+            </a>
 
-            <div class="testimonial-card reveal tilt-3d">
+            <a class="testimonial-card reveal" href="https://www.youtube.com/watch?v=24UVuhVgcGk" target="_blank" rel="noopener" aria-label="Watch Aditi Khanna's testimonial on YouTube">
                 <div class="testimonial-header">
-                    <div class="testimonial-photo" onclick="window.open('https://youtube.com/watch?v=24UVuhVgcGk', '_blank')">
-                        <img src="https://static.wixstatic.com/media/9e0902_26ddb95f6a74461c9578699a7b0e4f69~mv2.png/v1/fill/w_100,h_120,al_c,q_85,enc_avif,quality_auto/3.png" alt="Aditi">
+                    <div class="testimonial-photo">
+                        <img src="https://static.wixstatic.com/media/9e0902_26ddb95f6a74461c9578699a7b0e4f69~mv2.png/v1/fill/w_100,h_120,al_c,q_85,enc_avif,quality_auto/3.png" alt="Aditi Khanna">
                     </div>
                     <div class="testimonial-info">
                         <h3>Aditi Khanna</h3>
                         <p>Partner at FutureSkomp</p>
                     </div>
                 </div>
-                <img class="testimonial-logo" src="https://static.wixstatic.com/media/fe3583_cc6177f206fd489bb8c184e95ab24018~mv2.png/v1/fill/w_85,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/10.png" alt="Logo">
-            </div>
+                <div class="testimonial-foot">
+                    <div class="testimonial-logo">
+                        <img src="https://static.wixstatic.com/media/fe3583_cc6177f206fd489bb8c184e95ab24018~mv2.png/v1/fill/w_85,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/10.png" alt="FutureSkomp logo">
+                    </div>
+                    <div class="testimonial-watch">Watch <span>▶</span></div>
+                </div>
+            </a>
 
-            <div class="testimonial-card reveal tilt-3d">
+            <a class="testimonial-card reveal" href="https://www.youtube.com/watch?v=dnEX3EFsFWU" target="_blank" rel="noopener" aria-label="Watch Saloni Thakkar's testimonial on YouTube">
                 <div class="testimonial-header">
-                    <div class="testimonial-photo" onclick="window.open('https://youtube.com/watch?v=dnEX3EFsFWU', '_blank')">
-                        <img src="https://static.wixstatic.com/media/9e0902_cf7e26a57628432a9b21d13310c736da~mv2.png/v1/fill/w_100,h_120,al_c,q_85,enc_avif,quality_auto/6.png" alt="Saloni">
+                    <div class="testimonial-photo">
+                        <img src="https://static.wixstatic.com/media/9e0902_cf7e26a57628432a9b21d13310c736da~mv2.png/v1/fill/w_100,h_120,al_c,q_85,enc_avif,quality_auto/6.png" alt="Saloni Thakkar">
                     </div>
                     <div class="testimonial-info">
                         <h3>Saloni Thakkar</h3>
                         <p>Senior Manager Training</p>
                     </div>
                 </div>
-                <img class="testimonial-logo" src="https://static.wixstatic.com/media/fe3583_72cbf69aff6c4a2ca4af6bee6a1bf042~mv2.png/v1/fill/w_85,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/51.png" alt="Logo">
-            </div>
+                <div class="testimonial-foot">
+                    <div class="testimonial-logo">
+                        <img src="https://static.wixstatic.com/media/fe3583_72cbf69aff6c4a2ca4af6bee6a1bf042~mv2.png/v1/fill/w_85,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/51.png" alt="Client logo">
+                    </div>
+                    <div class="testimonial-watch">Watch <span>▶</span></div>
+                </div>
+            </a>
 
-            <div class="testimonial-card reveal tilt-3d">
+            <a class="testimonial-card reveal" href="https://www.youtube.com/watch?v=ezc0rHC3qls" target="_blank" rel="noopener" aria-label="Watch Dr R. Chandran's testimonial on YouTube">
                 <div class="testimonial-header">
-                    <div class="testimonial-photo" onclick="window.open('https://youtube.com/watch?v=ezc0rHC3qls', '_blank')">
-                        <img src="https://static.wixstatic.com/media/9e0902_46772eef354f4006ad3f2fd527fafd97~mv2.png/v1/fill/w_100,h_120,al_c,q_85,enc_avif,quality_auto/2.png" alt="Dr Chandran">
+                    <div class="testimonial-photo">
+                        <img src="https://static.wixstatic.com/media/9e0902_46772eef354f4006ad3f2fd527fafd97~mv2.png/v1/fill/w_100,h_120,al_c,q_85,enc_avif,quality_auto/2.png" alt="Dr R. Chandran">
                     </div>
                     <div class="testimonial-info">
                         <h3>Dr R. Chandran</h3>
                         <p>Director</p>
                     </div>
                 </div>
-                <img class="testimonial-logo" src="https://static.wixstatic.com/media/9e0902_ac47178e223341f78417b9e6a4d68083~mv2.png/v1/fill/w_85,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/64.png" alt="Logo">
-            </div>
+                <div class="testimonial-foot">
+                    <div class="testimonial-logo">
+                        <img src="https://static.wixstatic.com/media/9e0902_ac47178e223341f78417b9e6a4d68083~mv2.png/v1/fill/w_85,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/64.png" alt="PCE logo">
+                    </div>
+                    <div class="testimonial-watch">Watch <span>▶</span></div>
+                </div>
+            </a>
 
-            <div class="testimonial-card reveal tilt-3d">
+            <a class="testimonial-card reveal" href="https://www.youtube.com/watch?v=geojIntTGiA" target="_blank" rel="noopener" aria-label="Watch Sanjay's testimonial on YouTube">
                 <div class="testimonial-header">
-                    <div class="testimonial-photo" onclick="window.open('https://youtube.com/watch?v=geojIntTGiA', '_blank')">
+                    <div class="testimonial-photo">
                         <img src="https://static.wixstatic.com/media/9e0902_1c049d655ce24665a5c860b846f9a96d~mv2.png/v1/fill/w_100,h_120,al_c,q_85,enc_avif,quality_auto/4.png" alt="Sanjay">
                     </div>
                     <div class="testimonial-info">
@@ -1789,21 +2059,34 @@
                         <p>Creative Director</p>
                     </div>
                 </div>
-                <img class="testimonial-logo" src="https://static.wixstatic.com/media/9e0902_12d557bdea5a4b29830c4d8e33cffad1~mv2.png/v1/fill/w_85,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/65.png" alt="Logo">
-            </div>
+                <div class="testimonial-foot">
+                    <div class="testimonial-logo">
+                        <img src="https://static.wixstatic.com/media/9e0902_12d557bdea5a4b29830c4d8e33cffad1~mv2.png/v1/fill/w_85,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/65.png" alt="Studios logo">
+                    </div>
+                    <div class="testimonial-watch">Watch <span>▶</span></div>
+                </div>
+            </a>
         </div>
         <div class="carousel-nav">
-            <button onclick="scrollTestimonials('left')">←</button>
-            <button onclick="scrollTestimonials('right')">→</button>
+            <button onclick="scrollTestimonials('left')" aria-label="Previous testimonial">←</button>
+            <div class="carousel-rail"><span class="carousel-rail-fill" id="testimonialsRail"></span></div>
+            <button onclick="scrollTestimonials('right')" aria-label="Next testimonial">→</button>
         </div>
     </section>
 
     <!-- CTA Strip -->
     <section class="cta-strip">
         <h2 class="reveal">Ready to Build an Epic Team?</h2>
-        <p class="reveal">Get a quote in 90 minutes. No commitment.</p>
+        <p class="reveal">Get a quote in 30 minutes. No commitment.</p>
         <div class="cta-buttons reveal">
-            <a href="https://wa.me/919210804078" class="cta-button">Get a Quote on WhatsApp 🚀</a>
+            <a href="https://wa.me/919210804078" target="_blank" rel="noopener" class="cta-button">
+                <span class="wa-icon">
+                    <svg viewBox="0 0 24 24" fill="#ffffff" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413"/>
+                    </svg>
+                </span>
+                Get a Quote on WhatsApp
+            </a>
             <a href="contact.html" class="cta-button cta-secondary">Free Consultation Call</a>
         </div>
     </section>
@@ -1999,16 +2282,38 @@
             if (e.key === 'Escape') closeLightbox();
         });
 
-        // Testimonials carousel
+        /* Testimonials carousel — steps by one real card width (whatever the
+           breakpoint made it) and keeps the little rail in sync with the
+           scroll position, so there is always a sense of where you are. */
         function scrollTestimonials(direction) {
-            const container = document.querySelector('.testimonials-container');
-            const scrollAmount = 320;
-            if (direction === 'left') {
-                container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-            } else {
-                container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-            }
+            const container = document.getElementById('testimonialsTrack');
+            if (!container) return;
+            const card = container.querySelector('.testimonial-card');
+            const gap = parseFloat(getComputedStyle(container).columnGap) || 28;
+            const step = card ? card.offsetWidth + gap : 320;
+            container.scrollBy({ left: direction === 'left' ? -step : step, behavior: 'smooth' });
         }
+
+        (function testimonialRail() {
+            const track = document.getElementById('testimonialsTrack');
+            const fill = document.getElementById('testimonialsRail');
+            if (!track || !fill) return;
+
+            function update() {
+                const span = track.scrollWidth - track.clientWidth;
+                // Thumb width is the share of the strip currently on screen;
+                // it then travels the rest of the rail as you scroll.
+                const share = Math.min(1, track.clientWidth / track.scrollWidth);
+                const pos = span > 0 ? track.scrollLeft / span : 0;
+                fill.style.width = (share * 100) + '%';
+                fill.style.transform = 'translateX(' + (pos * (100 / share - 100)) + '%)';
+            }
+
+            track.addEventListener('scroll', update, { passive: true });
+            window.addEventListener('resize', update);
+            window.addEventListener('load', update);
+            update();
+        })();
 
         // Scroll to top button
         const scrollToTopBtn = document.getElementById('scrollToTop');

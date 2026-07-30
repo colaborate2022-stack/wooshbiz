@@ -146,7 +146,10 @@
 
         /* ===== Contact cards ===== */
         .contact-section { padding: 70px 3rem 90px; background: #fafafa; }
-        .contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; perspective: 1200px; }
+        /* Four cards across on a wide screen, then 2×2, then stacked. Explicit
+           counts rather than auto-fit: auto-fit would hit a 3-column step on the
+           way down and leave the fourth card orphaned in a row of its own. */
+        .contact-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; perspective: 1200px; }
 
         .card { background: #fff; border-radius: 20px; padding: 32px; box-shadow: 0 8px 40px rgba(0, 0, 0, 0.08); transition: box-shadow 0.3s ease; transform-style: preserve-3d; }
         .card:hover { box-shadow: 0 40px 70px -30px rgba(135, 30, 108, 0.55); }
@@ -169,6 +172,82 @@
         .social-list a { padding: 9px 18px; background: #fdf0f9; color: #871e6c; text-decoration: none; border-radius: 8px; font-size: 0.9rem; font-weight: 700; transition: all 0.3s ease; }
         .social-list a:hover { background: #871e6c; color: #fff; transform: translateY(-3px); box-shadow: 0 8px 18px rgba(135, 30, 108, 0.3); }
 
+        /* ==================================================================
+           Square contact cards
+
+           The four cards are squares at every breakpoint. Two things make that
+           work: a width cap so a 2-up or 1-up column never produces an enormous
+           square, and content sized to fit the SMALLEST square in play (the
+           ~272px one on a 1160px desktop grid) so nothing ever overflows.
+
+           Everything here is scoped to .contact-grid so the wide address card
+           below the grid keeps its own proportions.
+           ================================================================== */
+        .contact-grid .card {
+            aspect-ratio: 1 / 1;
+            width: 100%;
+            max-width: 340px;
+            justify-self: center;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header is tighter than the standalone card's: at 272px wide,
+           "Phone & WhatsApp" needs two lines and the default 48px icon plus
+           1.25rem heading would eat a third of the square. */
+        .contact-grid .card-header { gap: 12px; margin-bottom: 14px; }
+        .contact-grid .card-icon { width: 42px; height: 42px; border-radius: 12px; }
+        .contact-grid .card-icon svg { width: 21px; height: 21px; }
+        .contact-grid .card-header h2 { font-size: 1.05rem; line-height: 1.25; }
+
+        /* The body takes the leftover height and centres in it, so the four
+           squares read as one row rather than four top-weighted blocks. */
+        .contact-grid .contact-list {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .contact-grid .social-list { flex: 1; align-content: center; gap: 8px; }
+        .contact-grid .social-list a { padding: 7px 13px; font-size: 0.78rem; }
+
+        /* Label above value, not beside it. Side by side, "javed@hti-india.com"
+           and its label cannot both fit on a 224px content line — that is what
+           was breaking the address across two ragged lines. */
+        .contact-grid .contact-item {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 3px;
+            padding: 9px 0;
+        }
+        .contact-grid .contact-item a,
+        .contact-grid .contact-item .plain { text-align: left; }
+        .contact-grid .contact-item-label { font-size: 0.72rem; }
+        .contact-grid .contact-item a { font-size: 0.98rem; }
+
+        /* ===== Contact form card ===== */
+        .form-card .cta-button { margin-top: 4px; padding: 12px 18px; font-size: 0.9rem; }
+        .form-pending-note { display: none; }
+
+        /* Holding state until the form URL is pasted in. Pointer events are cut
+           in CSS as well as dimmed, so the placeholder "#" links cannot be
+           clicked into a jump-to-top. The note is its own element rather than a
+           ::after on the link — appended text re-wrapped the button and blew the
+           square out of shape. */
+        .form-card[data-form-pending] .form-card-link { pointer-events: none; opacity: 0.55; }
+        .form-card[data-form-pending] .cta-button.form-card-link { background: #bdbdbd; box-shadow: none; }
+        .form-card[data-form-pending] .form-pending-note {
+            display: block;
+            margin-top: 8px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+            color: #a0a0a0;
+            text-align: center;
+        }
+
         /* ===== Address card ===== */
         .address-card { margin-top: 24px; padding: 40px; }
         .address-inner { display: grid; grid-template-columns: 320px 1fr; gap: 48px; align-items: center; }
@@ -181,17 +260,21 @@
         .region-tags span { padding: 6px 14px; border-radius: 50px; background: #fdf0f9; color: #871e6c; font-size: 0.85rem; font-weight: 700; transition: all 0.3s ease; cursor: default; }
         .region-tags span:hover { background: #871e6c; color: #fff; transform: translateY(-3px); }
 
-        /* ===== Let's Chat form ===== */
+        /* ===== Let's Chat ===== */
         .planner-section { padding: 90px 3rem; background: #fff; }
-        .planner-card { display: grid; grid-template-columns: 1fr 1.1fr; gap: 0; border-radius: 24px; overflow: hidden; box-shadow: 0 12px 60px rgba(0, 0, 0, 0.12); }
+        /* Single column now that the panel is the whole card. The bullet list is
+           held to a readable measure and centred rather than stretched across the
+           full width, which at 1400px would leave one word per line of whitespace. */
+        .planner-card { border-radius: 24px; overflow: hidden; box-shadow: 0 12px 60px rgba(0, 0, 0, 0.12); }
         .planner-aside {
-            color: #fff; padding: 48px 40px;
+            color: #fff; padding: 56px 40px;
             background: linear-gradient(120deg, #871e6c, #8E2158, #6b1a46, #871e6c);
             background-size: 300% 300%;
             animation: gradientShift 14s ease infinite;
         }
+        .planner-inner { max-width: 720px; margin: 0 auto; }
         .planner-aside h2 { font-family: 'Playfair Display', Georgia, serif; font-size: 2rem; font-weight: 700; line-height: 1.2; margin-bottom: 14px; }
-        .planner-aside > p { opacity: 0.92; margin-bottom: 28px; }
+        .planner-inner > p { opacity: 0.92; margin-bottom: 28px; }
         .planner-points { list-style: none; }
         .planner-points li { display: flex; gap: 12px; align-items: flex-start; padding: 12px 0; border-top: 1px solid rgba(255, 255, 255, 0.18); font-size: 0.95rem; }
         .planner-points li:first-child { border-top: none; }
@@ -199,20 +282,9 @@
         .planner-rating { margin-top: 28px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.18); font-size: 0.9rem; opacity: 0.92; }
         .planner-rating strong { font-size: 1.35rem; font-weight: 800; }
 
-        .planner-form { background: #fff; padding: 48px 40px; }
-        .planner-form h3 { font-family: 'Playfair Display', Georgia, serif; font-size: 1.6rem; font-weight: 700; color: #1a1a1a; margin-bottom: 6px; }
-        .planner-form .form-lede { color: #666; font-size: 0.95rem; margin-bottom: 26px; }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-        .form-group { margin-bottom: 16px; }
-        .form-group label { display: block; margin-bottom: 8px; color: #1a1a1a; font-weight: 700; font-size: 0.88rem; }
-        .form-group label .optional { font-weight: 400; color: #8a8a8a; }
-        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 14px 18px; border: 2px solid #eee; border-radius: 12px; font-family: 'Gilroy', sans-serif; font-size: 1rem; color: #1a1a1a; background: #fff; transition: all 0.3s ease; }
-        .form-group textarea { resize: vertical; min-height: 110px; }
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #871e6c; box-shadow: 0 0 0 3px rgba(135, 30, 108, 0.12); transform: translateY(-2px); }
-
-        .consent { display: flex; gap: 10px; align-items: flex-start; margin: 4px 0 20px; font-size: 0.82rem; color: #666; line-height: 1.5; }
-        .consent input { width: 18px; height: 18px; flex-shrink: 0; margin-top: 2px; accent-color: #871e6c; cursor: pointer; }
-        .consent label { cursor: pointer; }
+        /* The panel's own call to action, sized to the text rather than stretched
+           across the full width the way the form's submit button was. */
+        .planner-aside .cta-button { width: auto; margin-top: 28px; }
 
         .cta-button { position: relative; overflow: hidden; background: #f47920; color: white; padding: 16px 32px; border-radius: 12px; font-weight: 800; font-size: 1rem; border: none; cursor: pointer; transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.15s ease; text-decoration: none; display: inline-block; width: 100%; text-align: center; }
         .cta-button::before {
@@ -230,30 +302,6 @@
         .cta-button:hover { background: #d96a10; box-shadow: 0 12px 28px rgba(244, 121, 32, 0.35); }
         .cta-whatsapp { background: #25d366; }
         .cta-whatsapp:hover { background: #1fb855; box-shadow: 0 12px 28px rgba(37, 211, 102, 0.35); }
-
-        .form-divider { display: flex; align-items: center; gap: 14px; margin: 22px 0 16px; color: #999; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
-        .form-divider::before, .form-divider::after { content: ''; flex: 1; height: 1px; background: #eee; }
-        .form-note { margin-top: 14px; font-size: 0.85rem; color: #777; text-align: center; }
-        .form-success { display: none; margin-top: 16px; padding: 14px 18px; border-radius: 12px; background: #eafaf0; color: #1c7a45; font-weight: 700; text-align: center; }
-        .form-success.show { display: block; animation: fadeUpAnimation 0.5s ease both; }
-
-        /* ===== Newsletter ===== */
-        .newsletter-section { padding: 0 3rem 90px; background: #fff; }
-        .newsletter-card {
-            border-radius: 24px; padding: 56px 40px; text-align: center; color: #fff; position: relative; overflow: hidden;
-            background: linear-gradient(120deg, #871e6c, #5c1349, #8E2158, #5c1349);
-            background-size: 300% 300%;
-            animation: gradientShift 16s ease infinite;
-        }
-        .newsletter-card h2 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.8rem, 4vw, 2.4rem); font-weight: 700; margin-bottom: 10px; }
-        .newsletter-card > p { opacity: 0.9; max-width: 560px; margin: 0 auto 28px; }
-        .newsletter-form { display: flex; flex-wrap: wrap; gap: 12px; max-width: 520px; margin: 0 auto; }
-        .newsletter-form input[type="email"] { flex: 1 1 260px; padding: 15px 20px; border: 2px solid rgba(255, 255, 255, 0.35); border-radius: 12px; background: rgba(255, 255, 255, 0.12); color: #fff; font-family: 'Gilroy', sans-serif; font-size: 1rem; transition: all 0.3s ease; }
-        .newsletter-form input[type="email"]::placeholder { color: rgba(255, 255, 255, 0.65); }
-        .newsletter-form input[type="email"]:focus { outline: none; border-color: #f47920; background: rgba(255, 255, 255, 0.2); }
-        .newsletter-form .cta-button { width: auto; flex: 0 0 auto; }
-        .newsletter-consent { display: flex; gap: 10px; align-items: center; justify-content: center; margin-top: 18px; font-size: 0.85rem; opacity: 0.9; }
-        .newsletter-consent input { width: 17px; height: 17px; accent-color: #f47920; cursor: pointer; }
 
         /* ===== Footer ===== */
         footer { background: #871e6c; color: white; padding: 60px 3rem 30px; }
@@ -278,16 +326,17 @@
 
         @media (prefers-reduced-motion: reduce) {
             .reveal-3d { opacity: 1 !important; transform: none !important; }
-            .pulse-dot, .hero, .planner-aside, .newsletter-card, .illustration-3d, .hero-blob { animation: none !important; }
+            .pulse-dot, .hero, .planner-aside, .illustration-3d, .hero-blob { animation: none !important; }
             .hero-intro h1 .highlight { -webkit-text-fill-color: #ffd9a3; color: #ffd9a3; animation: none; }
         }
 
         @media (max-width: 1024px) {
-            .contact-grid { grid-template-columns: 1fr; }
+            /* 2×2 rather than straight to a single column — four cards in one
+               tall stack pushes the rest of the page a long way down. */
+            .contact-grid { grid-template-columns: repeat(2, 1fr); }
             .address-inner { grid-template-columns: 1fr; gap: 28px; }
             .illustration-stage { max-width: 260px; margin: 0 auto; }
             .address-block address, .region-tags { padding-left: 0; }
-            .planner-card { grid-template-columns: 1fr; }
             .footer-grid { grid-template-columns: 1fr 1fr; }
             .hamburger { display: flex !important; }
             .nav-links { display: none; }
@@ -331,7 +380,7 @@
 
             /* Cards */
             .contact-section { padding: 36px 1.25rem 44px; }
-            .contact-grid { gap: 16px; }
+            .contact-grid { grid-template-columns: 1fr; gap: 16px; }
             .card { padding: 22px 20px; }
             .card-header { margin-bottom: 14px; gap: 12px; }
             .card-icon { width: 42px; height: 42px; border-radius: 12px; }
@@ -349,31 +398,16 @@
             .address-block address { font-size: 0.95rem; line-height: 1.7; }
             .region-tags span { font-size: 0.78rem; padding: 5px 12px; }
 
-            /* Form */
+            /* Let's Chat */
             .planner-section { padding: 44px 1.25rem; }
             .planner-card { border-radius: 18px; }
-            .planner-aside, .planner-form { padding: 28px 20px; }
+            .planner-aside { padding: 28px 20px; }
             .planner-aside h2 { font-size: 1.6rem; }
-            .planner-aside > p { margin-bottom: 20px; font-size: 0.95rem; }
+            .planner-inner > p { margin-bottom: 20px; font-size: 0.95rem; }
             .planner-points li { padding: 10px 0; font-size: 0.9rem; }
             .planner-rating { margin-top: 20px; padding-top: 16px; }
-            .planner-form h3 { font-size: 1.35rem; }
-            .planner-form .form-lede { margin-bottom: 20px; }
-            .form-row { grid-template-columns: 1fr; gap: 0; }
-            .form-group { margin-bottom: 14px; }
-            .form-group input, .form-group select, .form-group textarea { padding: 13px 16px; font-size: 16px; }
-            .form-group textarea { min-height: 96px; }
-            .consent { font-size: 0.78rem; margin: 2px 0 18px; }
             .cta-button { padding: 15px 24px; }
-
-            /* Newsletter */
-            .newsletter-section { padding: 0 1.25rem 44px; }
-            .newsletter-card { padding: 34px 20px; border-radius: 18px; }
-            .newsletter-card > p { margin-bottom: 22px; font-size: 0.95rem; }
-            .newsletter-form { gap: 10px; }
-            .newsletter-form input[type="email"] { flex: 1 1 100%; padding: 14px 16px; font-size: 16px; }
-            .newsletter-form .cta-button { width: 100%; }
-            .newsletter-consent { font-size: 0.8rem; text-align: left; }
+            .planner-aside .cta-button { width: 100%; }
 
             /* Footer */
             footer { padding: 36px 1.25rem 20px; }
@@ -387,10 +421,8 @@
             .support-strip { padding: 14px 1rem; }
             .contact-section { padding: 30px 1rem 38px; }
             .planner-section { padding: 38px 1rem; }
-            .newsletter-section { padding: 0 1rem 38px; }
             .card, .address-card { padding: 20px 16px; }
-            .planner-aside, .planner-form { padding: 24px 16px; }
-            .newsletter-card { padding: 30px 16px; }
+            .planner-aside { padding: 24px 16px; }
             footer { padding: 32px 1rem 18px; }
             /* Long addresses shouldn't blow out the card */
             .contact-item a { font-size: 0.95rem; }
@@ -537,6 +569,35 @@
                     </div>
                 </section>
 
+                <!-- Contact form -->
+                <!-- ============================================================
+                     TODO — PASTE THE FORM LINK HERE
+                     Replace the two "#" values below with the form's URL, then
+                     delete the `data-form-pending` attribute on the card element.
+                     While that attribute is present the card shows a muted
+                     "Link coming soon" state and its links do nothing, so a
+                     half-finished card can never ship as a dead link.
+                     ============================================================ -->
+                <section class="card form-card reveal-3d tilt-3d" data-form-pending aria-labelledby="contact-form-heading">
+                    <div class="card-header">
+                        <div class="card-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></svg>
+                        </div>
+                        <h2 id="contact-form-heading">Contact Form</h2>
+                    </div>
+                    <!-- One row, not two: the button below is the "open the form"
+                         action, so a link row saying the same thing was both
+                         redundant and the reason the square ran out of height. -->
+                    <ul class="contact-list">
+                        <li class="contact-item">
+                            <span class="contact-item-label">Takes</span>
+                            <span class="plain">Under 2 minutes</span>
+                        </li>
+                    </ul>
+                    <a href="#" target="_blank" rel="noopener" class="cta-button form-card-link">Fill the form</a>
+                    <span class="form-pending-note">Link coming soon</span>
+                </section>
+
             </div>
 
             <!-- Address / coverage -->
@@ -593,11 +654,12 @@
         </div>
     </section>
 
-    <!-- ================= LET'S CHAT FORM ================= -->
+    <!-- ================= LET'S CHAT ================= -->
     <section class="planner-section" id="lets-chat">
         <div class="container">
             <div class="planner-card reveal">
                 <aside class="planner-aside">
+                  <div class="planner-inner">
                     <h2>Let's Chat</h2>
                     <p>Tell us a little about your team and we'll come prepared. Free, no markups, zero pressure.</p>
                     <ul class="planner-points">
@@ -607,87 +669,11 @@
                         <li><span class="tick" aria-hidden="true">✓</span><span>A written quote within 24 hours — no obligation</span></li>
                     </ul>
                     <div class="planner-rating"><strong>⭐ 4.5</strong> average rating out of 5, based on 150 ratings<br>No Gyaan. Just Fun With Learning.</div>
-                </aside>
-
-                <div class="planner-form">
-                    <h3>Send us a message</h3>
-                    <p class="form-lede">Our support team gets back to every enquiry within 24 hours.</p>
-
-                    <form id="contactForm" action="https://formspree.io/f/your-form-id" method="POST">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="firstName">First Name</label>
-                                <input type="text" id="firstName" name="firstName" autocomplete="given-name" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="lastName">Last Name</label>
-                                <input type="text" id="lastName" name="lastName" autocomplete="family-name" required>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" id="email" name="email" autocomplete="email" inputmode="email" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">Phone</label>
-                                <input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" required>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="guests">Group size <span class="optional">(optional)</span></label>
-                                <input type="number" id="guests" name="guests" min="1" step="1" inputmode="numeric" placeholder="e.g. 25">
-                            </div>
-                            <div class="form-group">
-                                <label for="program">Program type</label>
-                                <select id="program" name="program">
-                                    <option value="">Not sure yet — help me choose</option>
-                                    <option value="In-Office">In-Office</option>
-                                    <option value="Outbound">Outbound</option>
-                                    <option value="Virtual">Virtual</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="message">Message</label>
-                            <textarea id="message" name="message" rows="3" placeholder="Occasion, dates, city, budget — anything helpful" required></textarea>
-                        </div>
-
-                        <div class="consent">
-                            <input type="checkbox" id="consent" name="consent" value="yes" required>
-                            <label for="consent">I authorize Woosh Biz by HTI and its representatives to contact me with updates and notifications via Email, SMS, WhatsApp, and Call. This will override the registry on DND / NDNC.</label>
-                        </div>
-
-                        <button type="submit" class="cta-button">Send</button>
-                        <p class="form-note">We'll never share your details. No spam, ever.</p>
-                        <p class="form-success" id="formSuccess">Thanks for submitting! We'll be in touch within 24 hours.</p>
-                    </form>
-
-                    <div class="form-divider">or</div>
+                    <!-- Kept from the removed form panel so the section still has a
+                         way to act on. -->
                     <a href="https://wa.me/919210804078" class="cta-button cta-whatsapp" target="_blank" rel="noopener">Get an instant quote on WhatsApp</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ================= NEWSLETTER ================= -->
-    <section class="newsletter-section">
-        <div class="container">
-            <div class="newsletter-card reveal">
-                <h2>What's up?</h2>
-                <p>Get updates on new programs, workshops, the latest developments, and community activities straight to your inbox.</p>
-                <form class="newsletter-form" id="newsletterForm" action="https://formspree.io/f/your-form-id" method="POST">
-                    <input type="email" name="email" placeholder="Email" aria-label="Email" required>
-                    <button type="submit" class="cta-button">Join</button>
-                </form>
-                <div class="newsletter-consent">
-                    <input type="checkbox" id="subscribe" name="subscribe" value="yes" checked>
-                    <label for="subscribe">I want to subscribe to your mailing list.</label>
-                </div>
+                  </div>
+                </aside>
             </div>
         </div>
     </section>
