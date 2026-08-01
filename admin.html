@@ -309,7 +309,9 @@
     .cover-preview img {
       width: 100%;
       max-height: 180px;
-      object-fit: cover;
+      /* contain, not cover: this previews whatever URL was pasted, so it must
+         show the whole image rather than a crop of it */
+      object-fit: contain;
       border-radius: 8px;
       border: 1px solid #eee;
     }
@@ -411,19 +413,21 @@
       gap: 12px;
     }
 
+    /* Blog covers are 2.1:1 artwork with the title baked in. A square thumb
+       would centre-crop and show nothing but the middle of the picture. */
     .post-thumb {
-      width: 40px;
-      height: 40px;
-      border-radius: 7px;
+      width: 63px;
+      height: 30px;
+      border-radius: 6px;
       object-fit: cover;
       flex-shrink: 0;
       border: 1px solid #eee;
     }
 
     .post-thumb-placeholder {
-      width: 40px;
-      height: 40px;
-      border-radius: 7px;
+      width: 63px;
+      height: 30px;
+      border-radius: 6px;
       flex-shrink: 0;
       background: linear-gradient(135deg, #871e6c 0%, #5a1345 100%);
       display: flex;
@@ -570,6 +574,7 @@
             <select id="categoryInput">
               <option value="General">General</option>
               <option value="Team Building">Team Building</option>
+              <option value="Leadership">Leadership</option>
               <option value="Corporate Events">Corporate Events</option>
               <option value="Workplace Culture">Workplace Culture</option>
               <option value="Tips & Guides">Tips & Guides</option>

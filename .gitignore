@@ -1,3 +1,9 @@
 .DS_Store
 Thumbs.db
 *.log
+
+# Local safety backups — never commit
+*.backup-*
+
+# One-off blog migration scripts and scraped data — local only
+.migrate/

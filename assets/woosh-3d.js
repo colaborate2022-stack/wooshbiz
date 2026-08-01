@@ -128,7 +128,7 @@
     var CARDS = [
         '.resort-card', '.feature-card', '.why-card', '.team-card',
         '.video-card', '.program-card', '.testimonial-card', '.duration-card',
-        '.gallery-item', '.blog-card', '.faq-item', '.step',
+        '.gallery-item', '.blog-card', '.featured-card', '.faq-item', '.step',
         '.contact-grid .card', '.address-card', '.planner-card',
         '.newsletter-card', '.stat-item', '.philosophy-image', '.cover-image'
     ].join(',');
@@ -494,22 +494,23 @@
        opacity, so nothing that the page had hidden can flash into view for a
        frame while waiting for the first animation frame.
        ---------------------------------------------------------------------- */
-    (function prime() {
+    function prime(list) {
         var rs = [], bs = [], i;
 
         measureSlack();
-        for (i = 0; i < items.length; i++) {
-            rs[i] = items[i].el.getBoundingClientRect();
-            bs[i] = items[i].scroller ? items[i].scroller.getBoundingClientRect() : null;
+        for (i = 0; i < list.length; i++) {
+            rs[i] = list[i].el.getBoundingClientRect();
+            bs[i] = list[i].scroller ? list[i].scroller.getBoundingClientRect() : null;
         }
-        for (i = 0; i < items.length; i++) {
-            paint(items[i], rs[i], bs[i]);
+        for (i = 0; i < list.length; i++) {
+            paint(list[i], rs[i], bs[i]);
         }
-        for (i = 0; i < items.length; i++) {
-            if (items[i].fades) items[i].el.classList.add('w3d-fade');
-            if (!items[i].settled) io.observe(items[i].el);
+        for (i = 0; i < list.length; i++) {
+            if (list[i].fades) list[i].el.classList.add('w3d-fade');
+            if (!list[i].settled) io.observe(list[i].el);
         }
-    })();
+    }
+    prime(items);
 
     W.addEventListener('scroll', kick, { passive: true });
     W.addEventListener('resize', function () {
@@ -529,7 +530,21 @@
             items.forEach(function (it) { out[it.kind]++; });
             return out;
         },
-        refresh: kick
+        refresh: kick,
+
+        // Pick up elements that arrived after load — the blog grid renders its
+        // cards from a fetch, so they miss the pass that runs at startup.
+        // Already-registered elements are skipped, so calling this repeatedly
+        // (e.g. after each "Load more") only ever costs the new ones.
+        scan: function (root) {
+            var scope = root || D;
+            var before = items.length;
+            scope.querySelectorAll(CARDS).forEach(function (el) { register(el, 'card'); });
+            scope.querySelectorAll(RISE).forEach(function (el) { register(el, 'rise'); });
+            var added = items.slice(before);
+            if (added.length) { prime(added); kick(); }
+            return added.length;
+        }
     };
 
     kick();
