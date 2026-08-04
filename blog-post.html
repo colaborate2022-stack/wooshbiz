@@ -26,7 +26,10 @@
             --wb-bg: #faf7f9;
         }
 
-        html { scroll-behavior: smooth; }
+        /* The nav dropdown is absolutely positioned and reaches past the
+           viewport on narrow desktops; guarding html as well as body matches
+           the rest of the site. */
+        html { scroll-behavior: smooth; overflow-x: hidden; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {

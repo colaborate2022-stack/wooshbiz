@@ -226,17 +226,67 @@
         .contact-grid .contact-item-label { font-size: 0.72rem; }
         .contact-grid .contact-item a { font-size: 0.98rem; }
 
+        /* ==================================================================
+           Action buttons inside the contact squares
+
+           The email address and phone number used to be bare inline links —
+           correct HTML, but they read as body copy, so nothing on the card
+           looked pressable. Each actionable card now shows the value as plain
+           text and puts the action itself in a real button: mailto, tel and
+           wa.me. The value stays selectable/copyable for anyone who wants to
+           paste it elsewhere.
+           ================================================================== */
+        .card-body { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+        .card-value { font-size: 1rem; font-weight: 800; color: #871e6c; word-break: break-word; line-height: 1.3; }
+        .card-sub { display: block; margin-top: 4px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: #8a8a8a; }
+
+        /* Deliberately compact: these are secondary to the hero CTAs, so they
+           read as pressable without shouting. Small type, a hairline shadow
+           instead of a coloured glow, and the lift only on hover. */
+        /* Row that wraps, not a full-width stack: sized to their labels the
+           buttons stop dominating the square, and the pair drops to two lines
+           on its own once the card gets too narrow for both. */
+        .card-actions { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 14px; }
+        .card-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            padding: 8px 14px;
+            border-radius: 8px;
+            border: 1px solid transparent;
+            font-size: 0.8rem;
+            font-weight: 700;
+            line-height: 1.2;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.15s ease;
+        }
+        .card-btn svg { width: 14px; height: 14px; flex-shrink: 0; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+        .card-btn:active { transform: translateY(0); }
+        .card-btn:focus-visible { outline: 2px solid #f47920; outline-offset: 2px; }
+
+        .card-btn-primary { background: #871e6c; color: #fff; box-shadow: 0 1px 3px rgba(135, 30, 108, 0.18); }
+        .card-btn-primary:hover { background: #6d1657; transform: translateY(-1px); box-shadow: 0 5px 12px rgba(135, 30, 108, 0.22); }
+
+        /* WhatsApp sits alongside "Call now", so it is outlined rather than a
+           second solid fill — two saturated blocks in a 214px square is a lot. */
+        .card-btn-whatsapp { background: #fff; color: #128c4a; border-color: #b7e8cb; }
+        .card-btn-whatsapp:hover { background: #25d366; color: #fff; border-color: #25d366; transform: translateY(-1px); box-shadow: 0 5px 12px rgba(37, 211, 102, 0.25); }
+
+        .card-btn-ghost { background: #fdf0f9; color: #871e6c; border-color: #f3d3e9; }
+        .card-btn-ghost:hover { background: #871e6c; color: #fff; border-color: #871e6c; transform: translateY(-1px); box-shadow: 0 5px 12px rgba(135, 30, 108, 0.22); }
+
         /* ===== Contact form card ===== */
-        .form-card .cta-button { margin-top: 4px; padding: 12px 18px; font-size: 0.9rem; }
         .form-pending-note { display: none; }
 
-        /* Holding state until the form URL is pasted in. Pointer events are cut
-           in CSS as well as dimmed, so the placeholder "#" links cannot be
-           clicked into a jump-to-top. The note is its own element rather than a
-           ::after on the link — appended text re-wrapped the button and blew the
-           square out of shape. */
+        /* Fallback holding state, off by default now that the Google Form is
+           live: add `data-form-pending` back to the card and the button greys
+           out and stops responding to clicks. The note is its own element
+           rather than a ::after on the link — appended text re-wrapped the
+           button and blew the square out of shape. */
         .form-card[data-form-pending] .form-card-link { pointer-events: none; opacity: 0.55; }
-        .form-card[data-form-pending] .cta-button.form-card-link { background: #bdbdbd; box-shadow: none; }
+        .form-card[data-form-pending] .card-btn.form-card-link { background: #bdbdbd; box-shadow: none; }
         .form-card[data-form-pending] .form-pending-note {
             display: block;
             margin-top: 8px;
@@ -328,6 +378,19 @@
             .reveal-3d { opacity: 1 !important; transform: none !important; }
             .pulse-dot, .hero, .planner-aside, .illustration-3d, .hero-blob { animation: none !important; }
             .hero-intro h1 .highlight { -webkit-text-fill-color: #ffd9a3; color: #ffd9a3; animation: none; }
+        }
+
+        /* The narrowest the 4-up row ever gets is a ~214px square at 1025px,
+           where the phone card carries the most content (value + two buttons).
+           Tighten the buttons there rather than letting them set the row
+           height for every wider viewport too. */
+        @media (min-width: 1025px) and (max-width: 1200px) {
+            .contact-grid .card { padding: 20px; }
+            .contact-grid .card-header { margin-bottom: 10px; }
+            .card-value { font-size: 0.92rem; }
+            .card-actions { margin-top: 11px; gap: 6px; }
+            .card-btn { padding: 7px 11px; font-size: 0.76rem; gap: 6px; }
+            .card-btn svg { width: 13px; height: 13px; }
         }
 
         @media (max-width: 1024px) {
@@ -521,16 +584,16 @@
                         </div>
                         <h2 id="contact-email-heading">Email</h2>
                     </div>
-                    <ul class="contact-list">
-                        <li class="contact-item">
-                            <span class="contact-item-label">Write to us</span>
-                            <a href="mailto:javed@hti-india.com?subject=Team%20Building%20Enquiry">javed@hti-india.com</a>
-                        </li>
-                        <li class="contact-item">
-                            <span class="contact-item-label">Response</span>
-                            <span class="plain">Within 24 hours</span>
-                        </li>
-                    </ul>
+                    <div class="card-body">
+                        <span class="card-value">javed@hti-india.com</span>
+                        <span class="card-sub">Reply within 24 hours</span>
+                        <div class="card-actions">
+                            <a href="mailto:javed@hti-india.com?subject=Team%20Building%20Enquiry" class="card-btn card-btn-primary">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                                Send an email
+                            </a>
+                        </div>
+                    </div>
                 </section>
 
                 <!-- Phone -->
@@ -541,16 +604,20 @@
                         </div>
                         <h2 id="contact-phone-heading">Phone &amp; WhatsApp</h2>
                     </div>
-                    <ul class="contact-list">
-                        <li class="contact-item">
-                            <span class="contact-item-label">Call us</span>
-                            <a href="tel:+919210804078">+91 92108 04078</a>
-                        </li>
-                        <li class="contact-item">
-                            <span class="contact-item-label">WhatsApp</span>
-                            <a href="https://wa.me/919210804078" target="_blank" rel="noopener">Chat instantly</a>
-                        </li>
-                    </ul>
+                    <div class="card-body">
+                        <span class="card-value">+91 92108 04078</span>
+                        <span class="card-sub">Call or chat instantly</span>
+                        <div class="card-actions">
+                            <a href="tel:+919210804078" class="card-btn card-btn-primary">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.09 4.18 2 2 0 0 1 4.08 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                                Call now
+                            </a>
+                            <a href="https://wa.me/919210804078" target="_blank" rel="noopener" class="card-btn card-btn-whatsapp">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                                WhatsApp
+                            </a>
+                        </div>
+                    </div>
                 </section>
 
                 <!-- Social -->
@@ -569,33 +636,30 @@
                     </div>
                 </section>
 
-                <!-- Contact form -->
-                <!-- ============================================================
-                     TODO — PASTE THE FORM LINK HERE
-                     Replace the two "#" values below with the form's URL, then
-                     delete the `data-form-pending` attribute on the card element.
-                     While that attribute is present the card shows a muted
-                     "Link coming soon" state and its links do nothing, so a
-                     half-finished card can never ship as a dead link.
-                     ============================================================ -->
-                <section class="card form-card reveal-3d tilt-3d" data-form-pending aria-labelledby="contact-form-heading">
+                <!-- Contact form
+                     The Google Form opens in a new tab so the enquiry does not
+                     navigate the visitor off the site. If the form is ever taken
+                     down, re-add the `data-form-pending` attribute below and the
+                     card falls back to a muted, unclickable "Link coming soon"
+                     state rather than shipping a dead link. -->
+                <section class="card form-card reveal-3d tilt-3d" aria-labelledby="contact-form-heading">
                     <div class="card-header">
                         <div class="card-icon" aria-hidden="true">
                             <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></svg>
                         </div>
                         <h2 id="contact-form-heading">Contact Form</h2>
                     </div>
-                    <!-- One row, not two: the button below is the "open the form"
-                         action, so a link row saying the same thing was both
-                         redundant and the reason the square ran out of height. -->
-                    <ul class="contact-list">
-                        <li class="contact-item">
-                            <span class="contact-item-label">Takes</span>
-                            <span class="plain">Under 2 minutes</span>
-                        </li>
-                    </ul>
-                    <a href="#" target="_blank" rel="noopener" class="cta-button form-card-link">Fill the form</a>
-                    <span class="form-pending-note">Link coming soon</span>
+                    <div class="card-body">
+                        <span class="card-value">Under 2 minutes</span>
+                        <span class="card-sub">Tell us what you need</span>
+                        <div class="card-actions">
+                            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfUKWG1tcoE-i1N5MufT7kw9LvQM105gcbMv6BlCnKV1VKuvg/viewform" target="_blank" rel="noopener" class="card-btn card-btn-primary form-card-link">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></svg>
+                                Fill the form
+                            </a>
+                        </div>
+                        <span class="form-pending-note">Link coming soon</span>
+                    </div>
                 </section>
 
             </div>

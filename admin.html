@@ -491,6 +491,11 @@
       color: #333;
       cursor: pointer;
       transition: all .12s ease;
+      /* "View" is an anchor rather than a button, so it needs the bits a
+         <button> gets for free. */
+      display: inline-block;
+      text-decoration: none;
+      line-height: 1.35;
     }
 
     .mini-btn:hover {
@@ -585,13 +590,16 @@
           <div class="field">
             <label for="layoutInput">Page Layout</label>
             <select id="layoutInput">
-              <option value="standard">Standard Blog (default)</option>
+              <option value="standard">Rich Article — Standard Blog (default)</option>
               <option value="timeline">Timeline (e.g. Sanjay Vazirani)</option>
               <option value="story-interview">Story Interview (e.g. Agnibh Mudi)</option>
               <option value="news-announcement">News / Announcement</option>
             </select>
             <p style="font-size:12px; color:#888; margin-top:6px;">
-              Choose <b>Standard Blog</b> for regular posts. Choose <b>Timeline</b> or <b>Story Interview</b> for special story pages — then fill in the Redirect URL below.
+              <b>Rich Article</b> is the site-wide blog template (<code>blog-post.html</code>) — plum hero,
+              cover card, sticky contents, share rail, author card and 3 “More From Us” suggestions.
+              Every regular post should stay on it. Only choose <b>Timeline</b> or <b>Story Interview</b>
+              for one-off story pages that have their own hand-built HTML file — then fill in the Redirect URL below.
             </p>
           </div>
 
@@ -849,10 +857,12 @@
                 ? '<span class="badge layout-timeline">Timeline</span>'
                 : p.layout === 'story-interview'
                 ? '<span class="badge layout-story">Story Interview</span>'
-                : '<span class="badge layout-standard">Standard</span>'}
+                : '<span class="badge layout-standard">Rich Article</span>'}
+              ${p.redirect_url ? `<span class="badge layout-story" title="Redirects to ${escapeHtml(p.redirect_url)}">Redirected</span>` : ''}
             </td>
             <td>
               <div class="row-actions">
+                <a class="mini-btn" href="${escapeHtml(p.redirect_url || `blog-post.html?id=${p.id}`)}" target="_blank" rel="noopener">View</a>
                 <button class="mini-btn" onclick="editPost('${p.id}')">Edit</button>
                 <button class="mini-btn" onclick="togglePublish('${p.id}', ${pub})">${pub ? 'Unpublish' : 'Publish'}</button>
                 <button class="mini-btn danger" onclick="deletePost('${p.id}', this)">Delete</button>
