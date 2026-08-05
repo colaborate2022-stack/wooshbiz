@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found | Woosh Biz</title>
+    <meta name="description" content="We've rebuilt the Woosh Biz website, so some older links have changed. Here's where you might be headed.">
+    <meta name="robots" content="noindex">
+    <style>
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&display=swap");
+        @import url('https://fonts.cdnfonts.com/css/gilroy-free');
+
+        html { scroll-behavior: smooth; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Gilroy', sans-serif; color: #1a1a1a; overflow-x: hidden; line-height: 1.6; background: #fff; }
+
+        /* ===== Reveal + 3D entrance ===== */
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.7s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        .reveal-3d {
+            opacity: 0;
+            transform: perspective(1000px) rotateX(-45deg) translateY(90px);
+            transform-origin: 50% 100%;
+            transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+            will-change: transform, opacity;
+        }
+        .reveal-3d.visible { opacity: 1; transform: perspective(1000px) rotateX(0deg) translateY(0); }
+        .reveal-3d:nth-child(2) { transition-delay: 0.08s; }
+        .reveal-3d:nth-child(3) { transition-delay: 0.16s; }
+        .reveal-3d:nth-child(4) { transition-delay: 0.24s; }
+        .reveal-3d:nth-child(5) { transition-delay: 0.32s; }
+        .reveal-3d:nth-child(6) { transition-delay: 0.40s; }
+
+        .tilt-3d { will-change: transform; }
+
+        /* Pulsing accent dot */
+        .pulse-dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: #f47920; margin-right: 10px; vertical-align: middle; animation: accentPulse 2s infinite; }
+        @keyframes accentPulse {
+            0% { box-shadow: 0 0 0 0 rgba(244, 121, 32, 0.5); }
+            70% { box-shadow: 0 0 0 11px rgba(244, 121, 32, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(244, 121, 32, 0); }
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes shimmerText { to { background-position: -250% 0; } }
+        @keyframes fadeUpAnimation { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes floatY { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+        @keyframes blobDrift {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(40px, -30px) scale(1.12); }
+            66% { transform: translate(-30px, 25px) scale(0.94); }
+        }
+
+        /* ===== Navbar (matches index.html) ===== */
+        .navbar { position: fixed; top: 0; left: 0; width: 100%; background: #fff; z-index: 9999; }
+        .navbar::after {
+            content: '';
+            position: absolute;
+            left: 0; bottom: 0;
+            width: 100%; height: 2px;
+            background: linear-gradient(to right, transparent, #871e6c, transparent);
+            transition: opacity 0.2s ease;
+        }
+        .navbar.scrolled::after { opacity: 0; }
+        .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; height: 70px; display: flex; align-items: center; justify-content: space-between; }
+        .nav-logo img { height: 40px; width: auto; display: block; }
+        .nav-links { display: flex; align-items: center; gap: 24px; list-style: none; margin: 0; padding: 0; }
+        .nav-links a { color: #1a1a1a; text-decoration: none; font-weight: 700; font-size: 15px; font-family: 'Gilroy', sans-serif; transition: color 0.2s; white-space: nowrap; position: relative; }
+        .nav-links a:hover { color: #871e6c; }
+        .nav-links > li > a::after {
+            content: '';
+            position: absolute;
+            left: 0; bottom: -5px;
+            width: 100%; height: 2px;
+            background: linear-gradient(90deg, #871e6c, #f47920);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+        .nav-links > li > a:hover::after { transform: scaleX(1); }
+        .nav-links a.active { color: #871e6c; }
+        .dropdown { position: relative; }
+        .dropdown-menu { display: none; position: absolute; top: 100%; right: 0; background: white; border-radius: 12px; box-shadow: 0 8px 40px rgba(0,0,0,0.12); padding: 8px; min-width: 220px; list-style: none; z-index: 10000; }
+        .dropdown:hover .dropdown-menu { display: block; }
+        .dropdown-menu li a { display: block; padding: 12px 16px; color: #1a1a1a; border-radius: 8px; font-size: 14px; }
+        .dropdown-menu li a::after { display: none; }
+        .dropdown-menu li a:hover { background: #fdf0f9; color: #871e6c; }
+        .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; z-index: 10001; }
+        .hamburger span { display: block; width: 26px; height: 3px; background: #1a1a1a; border-radius: 3px; transition: all 0.3s ease; }
+        .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+        /* ===== Hero ===== */
+        .hero {
+            position: relative;
+            overflow: hidden;
+            color: white;
+            padding: 140px 3rem 110px;
+            background: linear-gradient(120deg, #871e6c, #5c1349, #8E2158, #5c1349);
+            background-size: 300% 300%;
+            animation: gradientShift 16s ease infinite;
+        }
+        .hero-blob { position: absolute; border-radius: 50%; filter: blur(70px); pointer-events: none; }
+        .hero-blob.b1 { width: 380px; height: 380px; background: rgba(244, 121, 32, 0.35); top: -120px; right: -60px; animation: blobDrift 18s ease-in-out infinite; }
+        .hero-blob.b2 { width: 300px; height: 300px; background: rgba(255, 255, 255, 0.18); bottom: -140px; left: -80px; animation: blobDrift 22s ease-in-out infinite reverse; }
+        .container { max-width: 1160px; margin: 0 auto; position: relative; z-index: 2; }
+
+        /* The hero pairs the message with a lost-signpost illustration, so it
+           reads as a friendly wrong turn rather than a server error page. */
+        .hero-split { display: grid; grid-template-columns: 1fr 300px; gap: 48px; align-items: center; }
+        .hero-badge { display: inline-flex; align-items: center; background: rgba(255, 255, 255, 0.16); border: 1px solid rgba(255, 255, 255, 0.25); padding: 9px 20px; border-radius: 50px; font-size: 0.85rem; font-weight: 700; margin-bottom: 18px; backdrop-filter: blur(6px); animation: fadeUpAnimation 0.6s ease 0.1s both; }
+        .hero-intro h1 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(2.2rem, 5vw, 3.6rem); font-weight: 700; line-height: 1.1; margin-bottom: 16px; animation: fadeUpAnimation 0.6s ease 0.2s both; }
+        .hero-intro h1 .highlight {
+            background: linear-gradient(100deg, #ffd9a3 0%, #f47920 35%, #ffffff 70%, #ffd9a3 100%);
+            background-size: 250% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmerText 5s linear infinite;
+        }
+        .hero-intro p { font-size: 1.12rem; opacity: 0.92; max-width: 640px; animation: fadeUpAnimation 0.6s ease 0.35s both; }
+        .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; animation: fadeUpAnimation 0.6s ease 0.45s both; }
+        .hero-actions .cta-button { width: auto; }
+        .cta-ghost { background: rgba(255, 255, 255, 0.12); border: 2px solid rgba(255, 255, 255, 0.4); }
+        .cta-ghost:hover { background: rgba(255, 255, 255, 0.22); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18); }
+
+        .illustration-stage { perspective: 1000px; }
+        .illustration-3d { transform-style: preserve-3d; transition: transform 0.5s ease-out; animation: floatY 6s ease-in-out infinite; }
+        .hero-illustration { width: 100%; height: auto; display: block; }
+
+        /* ===== Support strip ===== */
+        .support-strip { background: #fdf0f9; padding: 20px 3rem; }
+        .support-inner { max-width: 1160px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px; text-align: center; font-size: 0.98rem; color: #5c1349; font-weight: 600; }
+        .support-inner a { color: #871e6c; font-weight: 800; text-decoration: none; border-bottom: 2px solid rgba(135, 30, 108, 0.3); transition: all 0.3s ease; }
+        .support-inner a:hover { color: #f47920; border-color: #f47920; }
+
+        /* ===== Destination cards ===== */
+        .links-section { padding: 70px 3rem 90px; background: #fafafa; }
+        .section-head { text-align: center; margin-bottom: 40px; }
+        .section-head h2 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.6rem, 3.4vw, 2.2rem); font-weight: 700; margin-bottom: 10px; }
+        .section-head p { color: #555; max-width: 620px; margin: 0 auto; }
+
+        /* Three across, then 2-up, then stacked — six links divide cleanly into
+           both, so no card is ever orphaned in a row of its own. */
+        .links-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; perspective: 1200px; }
+
+        .card { background: #fff; border-radius: 20px; padding: 28px; box-shadow: 0 8px 40px rgba(0, 0, 0, 0.08); transition: box-shadow 0.3s ease; transform-style: preserve-3d; }
+        .card:hover { box-shadow: 0 40px 70px -30px rgba(135, 30, 108, 0.55); }
+
+        /* The whole card is the link, so the entire tile is a target on touch
+           rather than a text-sized one buried inside it. */
+        a.link-card { display: flex; flex-direction: column; text-decoration: none; color: inherit; }
+        .card-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+        .card-icon { width: 48px; height: 48px; flex-shrink: 0; border-radius: 14px; background: linear-gradient(135deg, #fdf0f9, #f7dcef); color: #871e6c; display: flex; align-items: center; justify-content: center; transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1), background 0.3s ease, color 0.3s ease; }
+        .card:hover .card-icon { transform: rotateY(180deg); background: #871e6c; color: #fff; }
+        .card-icon svg { width: 24px; height: 24px; stroke: currentColor; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+        .card-header h3 { font-size: 1.2rem; font-weight: 800; color: #1a1a1a; }
+        .link-card p { color: #555; font-size: 0.95rem; flex: 1; }
+        .link-card .go { display: inline-flex; align-items: center; gap: 7px; margin-top: 16px; color: #871e6c; font-weight: 800; font-size: 0.9rem; transition: gap 0.25s ease, color 0.25s ease; }
+        .link-card:hover .go { gap: 12px; color: #f47920; }
+        .link-card:focus-visible { outline: 2px solid #f47920; outline-offset: 3px; }
+
+        /* ===== Still stuck ===== */
+        .planner-section { padding: 90px 3rem; background: #fff; }
+        .planner-card { border-radius: 24px; overflow: hidden; box-shadow: 0 12px 60px rgba(0, 0, 0, 0.12); }
+        .planner-aside {
+            color: #fff; padding: 56px 40px; text-align: center;
+            background: linear-gradient(120deg, #871e6c, #8E2158, #6b1a46, #871e6c);
+            background-size: 300% 300%;
+            animation: gradientShift 14s ease infinite;
+        }
+        .planner-inner { max-width: 720px; margin: 0 auto; }
+        .planner-aside h2 { font-family: 'Playfair Display', Georgia, serif; font-size: 2rem; font-weight: 700; line-height: 1.2; margin-bottom: 14px; }
+        .planner-inner > p { opacity: 0.92; margin-bottom: 28px; }
+        .planner-actions { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
+        .planner-actions .cta-button { width: auto; }
+
+        .cta-button { position: relative; overflow: hidden; background: #f47920; color: white; padding: 16px 32px; border-radius: 12px; font-weight: 800; font-size: 1rem; border: none; cursor: pointer; transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.15s ease; text-decoration: none; display: inline-block; width: 100%; text-align: center; }
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -120%;
+            width: 60%; height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+            transform: skewX(-20deg);
+            transition: left 0.6s ease;
+            pointer-events: none;
+            z-index: 3;
+        }
+        .cta-button:hover::before { left: 140%; }
+        .cta-button:hover { background: #d96a10; box-shadow: 0 12px 28px rgba(244, 121, 32, 0.35); }
+        .cta-whatsapp { background: #25d366; }
+        .cta-whatsapp:hover { background: #1fb855; box-shadow: 0 12px 28px rgba(37, 211, 102, 0.35); }
+
+        /* ===== Footer ===== */
+        footer { background: #871e6c; color: white; padding: 60px 3rem 30px; }
+        .footer-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr 1fr; gap: 3rem; max-width: 1400px; margin: 0 auto 40px; }
+        .footer-logo img { height: 40px; width: auto; }
+        footer h4 { font-size: 0.85rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px; opacity: 0.9; }
+        .footer-socials { display: flex; gap: 1rem; margin-top: 8px; }
+        .social-icon { width: 36px; height: 36px; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; transition: transform 0.2s ease; }
+        .social-icon:hover { transform: scale(1.2); }
+        .social-icon img { width: 100%; height: 100%; object-fit: cover; }
+        footer a { display: block; color: rgba(255, 255, 255, 0.75); text-decoration: none; font-size: 0.9rem; margin-bottom: 10px; transition: all 0.3s ease; }
+        footer a:hover { opacity: 1; color: #fff; padding-left: 5px; }
+        .footer-contact { font-size: 1.2rem; font-weight: 800; }
+        .footer-contact a { display: inline; color: #fff; font-size: 1.2rem; }
+        .footer-rating { font-size: 0.85rem; opacity: 0.8; margin-top: 12px; }
+        .footer-bottom { border-top: 1px solid rgba(255, 255, 255, 0.2); padding-top: 20px; text-align: center; color: rgba(255, 255, 255, 0.6); font-size: 0.85rem; }
+
+        /* ===== Scroll to top ===== */
+        .scroll-to-top { position: fixed; bottom: 30px; right: 30px; width: 48px; height: 48px; border-radius: 12px; background: #871e6c; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem; cursor: pointer; z-index: 9998; opacity: 0; visibility: hidden; transition: all 0.3s ease; border: none; }
+        .scroll-to-top.visible { opacity: 1; visibility: visible; }
+        .scroll-to-top:hover { background: #6b1857; transform: scale(1.1); }
+
+        @media (prefers-reduced-motion: reduce) {
+            .reveal-3d { opacity: 1 !important; transform: none !important; }
+            .pulse-dot, .hero, .planner-aside, .illustration-3d, .hero-blob { animation: none !important; }
+            .hero-intro h1 .highlight { -webkit-text-fill-color: #ffd9a3; color: #ffd9a3; animation: none; }
+        }
+
+        @media (max-width: 1024px) {
+            .hero-split { grid-template-columns: 1fr; gap: 32px; }
+            .illustration-stage { max-width: 240px; margin: 0 auto; }
+            .links-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .hamburger { display: flex !important; }
+            .nav-links { display: none; }
+        }
+        @media (max-width: 768px) {
+            body { overflow-x: hidden; }
+            .hamburger { display: flex !important; }
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 0; left: 0;
+                width: 100%; height: 100vh;
+                background: #fff;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 24px;
+                z-index: 9998;
+                padding: 80px 24px 40px;
+            }
+            .nav-links.open { display: flex !important; }
+            .nav-links a { font-size: 1.3rem; }
+            .dropdown-menu { position: static !important; display: none; box-shadow: none; background: #fdf0f9; border-radius: 12px; margin-top: 10px; min-width: 200px; }
+            .dropdown.open .dropdown-menu { display: block; }
+            .dropdown-menu li a { font-size: 1rem; text-align: center; }
+
+            /* Hero */
+            .hero { padding: 100px 1.25rem 56px; }
+            .hero-badge { margin-bottom: 14px; font-size: 0.78rem; padding: 8px 16px; }
+            .hero-intro p { font-size: 1rem; }
+            .hero-actions { margin-top: 22px; gap: 10px; }
+            .hero-actions .cta-button { width: 100%; padding: 15px 24px; }
+            .hero-blob.b1 { width: 220px; height: 220px; top: -80px; right: -70px; }
+            .hero-blob.b2 { width: 190px; height: 190px; bottom: -90px; left: -70px; }
+            .illustration-stage { max-width: 190px; }
+
+            /* Support strip — one flowing sentence, no gap gaps */
+            .support-strip { padding: 16px 1.25rem; }
+            .support-inner { display: block; gap: 0; font-size: 0.9rem; line-height: 1.55; }
+            .support-inner a { display: inline; word-break: break-word; }
+
+            /* Cards */
+            .links-section { padding: 36px 1.25rem 44px; }
+            .section-head { margin-bottom: 26px; }
+            .links-grid { grid-template-columns: 1fr; gap: 16px; }
+            .card { padding: 22px 20px; }
+            .card-header { margin-bottom: 12px; gap: 12px; }
+            .card-icon { width: 42px; height: 42px; border-radius: 12px; }
+            .card-icon svg { width: 21px; height: 21px; }
+            .card-header h3 { font-size: 1.1rem; }
+            .link-card p { font-size: 0.9rem; }
+
+            /* Still stuck */
+            .planner-section { padding: 44px 1.25rem; }
+            .planner-card { border-radius: 18px; }
+            .planner-aside { padding: 28px 20px; }
+            .planner-aside h2 { font-size: 1.6rem; }
+            .planner-inner > p { margin-bottom: 20px; font-size: 0.95rem; }
+            .cta-button { padding: 15px 24px; }
+            .planner-actions .cta-button { width: 100%; }
+
+            /* Footer */
+            footer { padding: 36px 1.25rem 20px; }
+            .footer-grid { grid-template-columns: 1fr; gap: 1.75rem; margin-bottom: 28px; }
+            .scroll-to-top { bottom: 20px; right: 16px; width: 44px; height: 44px; }
+        }
+
+        @media (max-width: 480px) {
+            .nav-container { padding: 0 16px; }
+            .hero { padding: 94px 1rem 48px; }
+            .support-strip { padding: 14px 1rem; }
+            .links-section { padding: 30px 1rem 38px; }
+            .planner-section { padding: 38px 1rem; }
+            .card { padding: 20px 16px; }
+            .planner-aside { padding: 24px 16px; }
+            footer { padding: 32px 1rem 18px; }
+        }
+
+        /* ==================================================================
+           Scroll-focus states
+           Mirrors of the :hover rules above. assets/woosh-3d.js applies
+           .w3d-focus to whichever cards are crossing the middle of the
+           viewport, so these effects fire on touch devices too.
+           ================================================================== */
+        .card.w3d-focus { box-shadow: 0 40px 70px -30px rgba(135, 30, 108, 0.55); }
+        .card.w3d-focus .card-icon {
+            transform: rotateY(180deg);
+            background: #871e6c;
+            color: #fff;
+        }
+    </style>
+    <!-- Scroll-driven 3D motion — works on touch and desktop alike.
+         Root-absolute, not relative: GitHub Pages serves this file for any
+         missing URL at any depth (/blog/old-post, /programs/foo/bar), and a
+         relative "assets/..." would resolve against that phantom directory. -->
+    <link rel="stylesheet" href="/assets/woosh-3d.css">
+    <script defer src="/assets/woosh-3d.js"></script>
+</head>
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/index.html" class="nav-logo">
+                <img src="https://static.wixstatic.com/media/fe3583_2f36ed41d71a4ed3ba3db03baf388f14~mv2.png/v1/fill/w_104,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/2209_Woosh%20Biz%20update%20final%20logo_PNG.png" alt="Woosh Biz" height="40">
+            </a>
+            <button class="hamburger" id="hamburger" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="/index.html">Home</a></li>
+                <li><a href="/high-octane.html">In-Office</a></li>
+                <li><a href="/outbound.html">Outbound</a></li>
+                <li><a href="/virtual.html">Virtual</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">Get In Touch ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/about.html">About Us</a></li>
+                        <li><a href="/blog.html">Blogs</a></li>
+                        <li><a href="/contact.html">Free Consultation Call</a></li>
+                        <li><a href="/resorts.html">Resorts Recommended</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ================= HERO ================= -->
+    <section class="hero" aria-labelledby="notfound-heading">
+        <div class="hero-blob b1" aria-hidden="true"></div>
+        <div class="hero-blob b2" aria-hidden="true"></div>
+        <div class="container">
+            <div class="hero-split">
+                <div class="hero-intro">
+                    <div class="hero-badge"><span class="pulse-dot"></span>Nothing's broken — just moved</div>
+                    <h1 id="notfound-heading">This page has <span class="highlight">moved</span></h1>
+                    <p>We've just rebuilt our website, so some older links have changed. Here's where you might be headed — pick one below, or give us a shout and we'll point you straight to it.</p>
+                    <div class="hero-actions">
+                        <a href="/index.html" class="cta-button">Take me home</a>
+                        <a href="https://wa.me/919210804078" target="_blank" rel="noopener" class="cta-button cta-ghost">Chat on WhatsApp</a>
+                    </div>
+                </div>
+                <div class="illustration-stage" id="illustrationStage">
+                    <div class="illustration-3d">
+                        <svg class="hero-illustration" viewBox="0 0 300 300" role="img" aria-label="Illustration of a signpost pointing in several directions">
+                            <ellipse cx="150" cy="258" rx="86" ry="14" fill="#5c1349" opacity="0.35"/>
+                            <rect x="142" y="70" width="16" height="185" rx="8" fill="#fdf0f9"/>
+                            <rect x="52" y="96" width="118" height="30" rx="8" fill="#f47920"/>
+                            <path d="M52 111 L36 96 L36 126 Z" fill="#f47920"/>
+                            <rect x="130" y="146" width="122" height="30" rx="8" fill="#ffffff"/>
+                            <path d="M252 161 L268 146 L268 176 Z" fill="#ffffff"/>
+                            <rect x="66" y="196" width="104" height="30" rx="8" fill="#ffd9a3"/>
+                            <path d="M66 211 L50 196 L50 226 Z" fill="#ffd9a3"/>
+                            <circle cx="150" cy="58" r="15" fill="#f47920"/>
+                            <circle cx="66" cy="52" r="6" fill="#ffffff" opacity="0.7"/>
+                            <circle cx="242" cy="86" r="5" fill="#ffffff" opacity="0.55"/>
+                            <circle cx="248" cy="228" r="7" fill="#ffffff" opacity="0.45"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= SUPPORT STRIP ================= -->
+    <div class="support-strip">
+        <div class="support-inner">
+            <span>Followed a link that should work? Mail us at</span>
+            <a href="mailto:javed@hti-india.com?subject=Broken%20link%20on%20wooshbiz.com">javed@hti-india.com</a>
+            <span>— our support team will get back to you within 24 hours.</span>
+        </div>
+    </div>
+
+    <!-- ================= WHERE YOU MIGHT BE HEADED ================= -->
+    <section class="links-section" aria-labelledby="destinations-heading">
+        <div class="container">
+            <div class="section-head reveal">
+                <h2 id="destinations-heading">Where you might be headed</h2>
+                <p>The six pages people look for most. One of these is almost certainly the one you wanted.</p>
+            </div>
+            <div class="links-grid">
+
+                <a href="/index.html" class="card link-card reveal-3d tilt-3d">
+                    <div class="card-header">
+                        <div class="card-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M10 21v-6h4v6"/></svg>
+                        </div>
+                        <h3>Home</h3>
+                    </div>
+                    <p>Start again from the top — everything Woosh Biz does, in one place.</p>
+                    <span class="go">Go to home →</span>
+                </a>
+
+                <a href="/high-octane.html" class="card link-card reveal-3d tilt-3d">
+                    <div class="card-header">
+                        <div class="card-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/><path d="M7 12h3M14 9h3M14 13h3"/></svg>
+                        </div>
+                        <h3>In-Office</h3>
+                    </div>
+                    <p>High-octane team building that runs inside your own workspace.</p>
+                    <span class="go">See in-office programs →</span>
+                </a>
+
+                <a href="/outbound.html" class="card link-card reveal-3d tilt-3d">
+                    <div class="card-header">
+                        <div class="card-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="m3 20 6-2.5V6L3 8.5z"/><path d="m9 17.5 6 2.5V9.5L9 6z"/><path d="m15 20 6-2.5V4l-6 2.5z"/></svg>
+                        </div>
+                        <h3>Outbound</h3>
+                    </div>
+                    <p>Offsites, resorts and outdoor programs away from the office.</p>
+                    <span class="go">See outbound programs →</span>
+                </a>
+
+                <a href="/virtual.html" class="card link-card reveal-3d tilt-3d">
+                    <div class="card-header">
+                        <div class="card-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                        </div>
+                        <h3>Virtual</h3>
+                    </div>
+                    <p>Remote and hybrid teams, together on a call and actually enjoying it.</p>
+                    <span class="go">See virtual programs →</span>
+                </a>
+
+                <a href="/blog.html" class="card link-card reveal-3d tilt-3d">
+                    <div class="card-header">
+                        <div class="card-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></svg>
+                        </div>
+                        <h3>Blog</h3>
+                    </div>
+                    <p>Ideas, activity guides and write-ups from programs we've run.</p>
+                    <span class="go">Read the blog →</span>
+                </a>
+
+                <a href="/contact.html" class="card link-card reveal-3d tilt-3d">
+                    <div class="card-header">
+                        <div class="card-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.09 4.18 2 2 0 0 1 4.08 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                        </div>
+                        <h3>Contact</h3>
+                    </div>
+                    <p>Call, WhatsApp or mail us — free consultation, no obligation.</p>
+                    <span class="go">Get in touch →</span>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= STILL STUCK ================= -->
+    <section class="planner-section">
+        <div class="container">
+            <div class="planner-card reveal">
+                <aside class="planner-aside">
+                    <div class="planner-inner">
+                        <h2>Still can't find it?</h2>
+                        <p>Send us a message and we'll find the right page for you — or just tell us what you're planning and we'll take it from there.</p>
+                        <div class="planner-actions">
+                            <a href="https://wa.me/919210804078" class="cta-button cta-whatsapp" target="_blank" rel="noopener">Message us on WhatsApp</a>
+                            <a href="tel:+919210804078" class="cta-button">Call +91 92108 04078</a>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div>
+                <div class="footer-logo">
+                    <img src="https://static.wixstatic.com/media/9e0902_b8e2795e4f484602a2294b7410e3f4e5~mv2.png/v1/fill/w_112,h_44,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/2209_Woosh%20Biz%20update%20final%20white%20logo_PNG.png" alt="Woosh Biz">
+                </div>
+                <p style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 20px; line-height: 1.6;">No Gyaan. Just Fun With Learning.</p>
+                <div class="footer-socials">
+                    <a href="https://www.facebook.com/people/Woosh-Biz-by-HTI/100083456102229/" class="social-icon" title="Facebook"><img src="https://static.wixstatic.com/media/11062b_ef6a6ac194704911951645990055c2ce~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_ef6a6ac194704911951645990055c2ce~mv2.png" alt="FB"></a>
+                    <a href="https://www.instagram.com/wooshbiz/" class="social-icon" title="Instagram"><img src="https://static.wixstatic.com/media/11062b_cef3b719166a4815b446d4dcfcb6120d~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_cef3b719166a4815b446d4dcfcb6120d~mv2.png" alt="IG"></a>
+                    <a href="https://www.linkedin.com/company/woosh-biz-by-hti/" class="social-icon" title="LinkedIn"><img src="https://static.wixstatic.com/media/11062b_b5690303a8ff470e9b1c03a24aff140b~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_b5690303a8ff470e9b1c03a24aff140b~mv2.png" alt="LI"></a>
+                    <a href="https://www.youtube.com/channel/UC9BdT9tzf4841P1B-R7P-Qg" class="social-icon" title="YouTube"><img src="https://static.wixstatic.com/media/11062b_fe985b889c144b348eefc7bbc67018b4~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_fe985b889c144b348eefc7bbc67018b4~mv2.png" alt="YT"></a>
+                </div>
+            </div>
+            <div>
+                <h4>Quick Links</h4>
+                <a href="/about.html">About Us</a>
+                <a href="/contact.html">Get In Touch</a>
+                <a href="/contact.html">Free Consultation Call</a>
+                <a href="/blog.html">Blogs</a>
+            </div>
+            <div>
+                <h4>Programs</h4>
+                <a href="/high-octane.html">In-Office</a>
+                <a href="/outbound.html">Outbound</a>
+                <a href="/virtual.html">Virtual</a>
+            </div>
+            <div>
+                <h4>Contact Us:</h4>
+                <div class="footer-contact"><a href="tel:+919210804078">+91 9210804078</a></div>
+                <div class="footer-rating">⭐ 4.5 | 150 Ratings</div>
+            </div>
+        </div>
+        <div class="footer-bottom">© 2024 Woosh Biz by HTI India Pvt Ltd. All rights reserved.</div>
+    </footer>
+
+    <button class="scroll-to-top" id="scrollToTop" title="Scroll to top">↑</button>
+
+    <script>
+
+        // ===== Hamburger menu & mobile nav =====
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+        const dropdownToggle = document.querySelector('.dropdown-toggle');
+        const dropdown = document.querySelector('.dropdown');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('open');
+            document.body.style.overflow = navLinks.classList.contains('open') ? 'hidden' : '';
+        });
+
+        navLinks.querySelectorAll('a:not(.dropdown-toggle)').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('open');
+                document.body.style.overflow = '';
+            });
+        });
+
+        if (dropdownToggle) {
+            dropdownToggle.addEventListener('click', (e) => {
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                    dropdown.classList.toggle('open');
+                }
+            });
+        }
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.navbar')) {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // ===== Reveal on scroll =====
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        document.querySelectorAll('.reveal, .reveal-3d').forEach(el => observer.observe(el));
+
+        // Card tilt and the signpost's 3D turn are both handled by
+        // assets/woosh-3d.js — driven by scroll position so they work on
+        // touch as well, with mouse tilt layered on top for fine pointers.
+
+        // ===== Nav state + back-to-top =====
+        const navBar = document.querySelector('.navbar');
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+
+        window.addEventListener('scroll', function () {
+            const st = window.scrollY || document.documentElement.scrollTop;
+            if (navBar) navBar.classList.toggle('scrolled', st > 0);
+            scrollToTopBtn.classList.toggle('visible', st > 300);
+        }, { passive: true });
+
+        scrollToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+        // ===== Magnetic pull on buttons (desktop pointers only) =====
+        if (window.matchMedia('(pointer: fine)').matches) {
+            document.querySelectorAll('.cta-button').forEach(function (btn) {
+                btn.addEventListener('mousemove', function (e) {
+                    const r = btn.getBoundingClientRect();
+                    const x = (e.clientX - r.left - r.width / 2) * 0.25;
+                    const y = (e.clientY - r.top - r.height / 2) * 0.35;
+                    btn.style.transform = `translate(${x}px, ${y}px)`;
+                });
+                btn.addEventListener('mouseleave', function () {
+                    btn.style.transform = '';
+                });
+            });
+        }
+    </script>
+</body>
+</html>
