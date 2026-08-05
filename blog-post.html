@@ -1102,7 +1102,11 @@
             setMeta('metaDesc', summary);
             setMeta('ogTitle', title + ' | Woosh Biz');
             setMeta('ogDesc', summary);
-            if (b.cover_image) setMeta('ogImage', b.cover_image);
+            // og:image must be absolute — cover_image is stored relative since
+            // the Wix migration, and some scrapers skip relative URLs outright.
+            if (b.cover_image) setMeta('ogImage', /^https?:\/\//i.test(b.cover_image)
+                ? b.cover_image
+                : 'https://wooshbiz.com/' + b.cover_image.replace(/^\/+/, ''));
 
             document.getElementById('crumbCat').textContent = category;
             document.getElementById('artTag').textContent = category;
