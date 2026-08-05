@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /tier-test.html
+
+Sitemap: https://wooshbiz.com/sitemap.xml
