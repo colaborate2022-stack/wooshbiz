@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resorts Recommended - Woosh Biz Team Building Venues</title>
+    <title>Team Building Venues in India - Resorts &amp; Offsite Destinations | Woosh Biz</title>
+    <meta name="description" content="State-wise guide to resorts and destinations where Woosh Biz runs corporate team building offsites - drive times, group sizes, formats and properties near Mumbai, Pune, Delhi NCR, Bengaluru, Hyderabad, Chennai, Kolkata and Ahmedabad.">
     <style>
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&display=swap");
         @import url('https://fonts.cdnfonts.com/css/gilroy-free');
@@ -52,32 +53,166 @@
         .hamburger.active span:nth-child(2) { opacity: 0; }
         .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -8px); }
 
-        .hero { min-height: 70vh; background: linear-gradient(135deg, #871e6c 0%, #5c1349 100%); color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 160px 3rem 100px; text-align: center; }
+        /* ------------------------------------------------------------------
+           Hero — a real photograph under the brand purple rather than a flat
+           gradient. The overlay is heavy enough that the headline keeps its
+           contrast even if the image is still loading.
+           ------------------------------------------------------------------ */
+        .hero {
+            position: relative;
+            min-height: 72vh;
+            color: white;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            padding: 170px 3rem 90px;
+            text-align: center;
+            background: #5c1349;
+        }
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Beautiful_view_at_Pawna_Lake%2C_Lonavala.jpg/1920px-Beautiful_view_at_Pawna_Lake%2C_Lonavala.jpg');
+            background-size: cover; background-position: center;
+        }
+        /* Two overlays, not one: the brand wash keeps the page on-palette, the
+           vertical darkener buys the headline its contrast. A single opaque
+           layer heavy enough to do both flattens the photograph to nothing. */
+        .hero::after {
+            content: '';
+            position: absolute; inset: 0;
+            background:
+                linear-gradient(180deg, rgba(26, 6, 20, 0.5) 0%, rgba(26, 6, 20, 0.15) 45%, rgba(26, 6, 20, 0.55) 100%),
+                linear-gradient(135deg, rgba(135, 30, 108, 0.7) 0%, rgba(92, 19, 73, 0.62) 100%);
+        }
+        .hero > * { position: relative; z-index: 2; }
         .badge { background: rgba(255, 255, 255, 0.2); color: white; width: fit-content; padding: 10px 24px; border-radius: 50px; font-size: 14px; font-weight: 700; margin-bottom: 20px; animation: slideDownFade 0.5s ease 0.2s both; }
         @keyframes slideDownFade { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-        .hero h1 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; line-height: 1.15; margin-bottom: 16px; animation: fadeUpAnimation 0.6s ease 0.3s both; }
+        .hero h1 { font-size: clamp(2rem, 4.2vw, 3.2rem); font-weight: 800; line-height: 1.15; margin-bottom: 16px; animation: fadeUpAnimation 0.6s ease 0.3s both; max-width: 18ch; }
         @keyframes fadeUpAnimation { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        .hero p { font-size: 1.1rem; opacity: 0.9; animation: fadeUpAnimation 0.6s ease 0.4s both; }
+        .hero p { font-size: 1.1rem; opacity: 0.92; animation: fadeUpAnimation 0.6s ease 0.4s both; max-width: 62ch; }
+        .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 28px; animation: fadeUpAnimation 0.6s ease 0.5s both; }
 
-        .resorts-section { padding: 80px 3rem; background: white; }
-        .section-heading { font-size: 2.5rem; font-weight: 800; color: #1a1a1a; text-align: center; margin-bottom: 50px; }
-        .resorts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; max-width: 1400px; margin: 0 auto; }
+        .hero-stats { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 44px; animation: fadeUpAnimation 0.6s ease 0.6s both; }
+        .hero-stat { background: rgba(255, 255, 255, 0.14); border: 1px solid rgba(255, 255, 255, 0.22); border-radius: 16px; padding: 16px 26px; min-width: 150px; }
+        .hero-stat strong { display: block; font-size: 1.6rem; font-weight: 800; line-height: 1.2; }
+        .hero-stat span { font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; opacity: 0.85; }
 
-        .resort-card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08); transition: all 0.3s ease; }
+        /* Shared section furniture */
+        section { scroll-margin-top: 100px; }
+        .wrap { max-width: 1400px; margin: 0 auto; }
+        .section-heading { font-size: 2.5rem; font-weight: 800; color: #1a1a1a; text-align: center; margin-bottom: 14px; }
+        .section-sub { text-align: center; color: #666; font-size: 1.02rem; max-width: 70ch; margin: 0 auto 50px; }
+        .eyebrow { text-align: center; color: #871e6c; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; font-size: 0.78rem; margin-bottom: 10px; }
+
+        .cta-button { background: #f47920; color: white; padding: 14px 28px; border-radius: 50px; font-weight: 800; font-size: 0.95rem; border: none; cursor: pointer; transition: all 0.3s ease; text-decoration: none; display: inline-block; text-align: center; }
+        .cta-button:hover { background: #d96a10; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(244, 121, 32, 0.3); }
+        .cta-button.ghost { background: rgba(255, 255, 255, 0.16); border: 2px solid rgba(255, 255, 255, 0.6); }
+        .cta-button.ghost:hover { background: rgba(255, 255, 255, 0.28); box-shadow: none; }
+        .cta-button.block { width: 100%; }
+
+        /* ------------------------------------------------------------------
+           "How we match a brief to a venue" — the answer to the question this
+           page actually gets asked: not "which resort", but "how do you pick".
+           ------------------------------------------------------------------ */
+        .brief-section { padding: 90px 3rem; background: #fff; }
+        .brief-layout { display: grid; grid-template-columns: 1fr 1.15fr; gap: 60px; align-items: center; max-width: 1400px; margin: 0 auto; }
+        /* The radius lives on the image, not the figure — clipping the figure
+           would swallow the caption that sits below it. */
+        .brief-photo img { width: 100%; height: 460px; object-fit: cover; display: block; border-radius: 24px; box-shadow: 0 20px 60px -30px rgba(28, 10, 24, 0.6); }
+        .brief-photo figcaption { font-size: 0.78rem; color: #888; padding: 12px 4px 0; }
+        .brief-copy h2 { font-size: 2.1rem; font-weight: 800; margin-bottom: 16px; }
+        .brief-copy > p { color: #555; margin-bottom: 28px; }
+        .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+        .why-card { background: #fdf0f9; border-radius: 16px; padding: 20px 22px; }
+        .why-card .why-icon { font-size: 1.5rem; display: block; margin-bottom: 8px; }
+        .why-card h3 { font-size: 1rem; font-weight: 800; margin-bottom: 6px; color: #871e6c; }
+        .why-card p { font-size: 0.88rem; color: #555; line-height: 1.6; }
+
+        /* Formats */
+        .formats-section { padding: 90px 3rem; background: #faf6fa; }
+        .formats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; max-width: 1400px; margin: 0 auto; }
+        .duration-card { background: white; border-radius: 20px; padding: 30px 26px; box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06); border-top: 5px solid #871e6c; transition: all 0.3s ease; }
+        .duration-card:hover { transform: translateY(-6px); box-shadow: 0 14px 44px rgba(0, 0, 0, 0.12); }
+        .duration-card:nth-child(2) { border-top-color: #f47920; }
+        .duration-card:nth-child(3) { border-top-color: #2d5a27; }
+        .duration-card:nth-child(4) { border-top-color: #1a5276; }
+        .duration-card .dur-tag { font-size: 0.72rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: #871e6c; }
+        .duration-card h3 { font-size: 1.25rem; font-weight: 800; margin: 8px 0 12px; }
+        .duration-card p { font-size: 0.9rem; color: #555; margin-bottom: 16px; }
+        .duration-card ul { list-style: none; }
+        .duration-card li { font-size: 0.86rem; color: #444; padding-left: 20px; position: relative; margin-bottom: 8px; }
+        .duration-card li::before { content: '→'; position: absolute; left: 0; color: #f47920; font-weight: 800; }
+
+        /* ------------------------------------------------------------------
+           Destination directory — state-wise, filterable by nearest hub city.
+           ------------------------------------------------------------------ */
+        .dest-section { padding: 90px 3rem; background: white; }
+        .filter-bar { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 16px; }
+        .filter-chip { background: #f4eef3; color: #5c1349; border: 2px solid transparent; border-radius: 50px; padding: 10px 22px; font-weight: 700; font-size: 0.88rem; cursor: pointer; transition: all 0.25s ease; font-family: inherit; }
+        .filter-chip:hover { border-color: #871e6c; }
+        .filter-chip.active { background: #871e6c; color: white; }
+        .filter-count { text-align: center; color: #888; font-size: 0.85rem; margin-bottom: 44px; }
+
+        .state-block { max-width: 1400px; margin: 0 auto 56px; }
+        .state-head { display: flex; align-items: baseline; gap: 14px; border-bottom: 2px solid #f0e6ee; padding-bottom: 12px; margin-bottom: 28px; flex-wrap: wrap; }
+        .state-head h3 { font-size: 1.6rem; font-weight: 800; color: #871e6c; }
+        .state-head span { font-size: 0.85rem; color: #999; }
+
+        .dest-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .resort-card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08); transition: box-shadow 0.3s ease, transform 0.3s ease; display: flex; flex-direction: column; }
         .resort-card:hover { transform: translateY(-8px); box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15); }
 
-        .resort-banner { width: 100%; height: 160px; display: flex; align-items: center; justify-content: center; font-size: 4rem; }
-        .resort-content { padding: 28px; }
-        .resort-name { font-size: 1.2rem; font-weight: 800; color: #1a1a1a; margin-bottom: 8px; }
-        .resort-location { font-size: 0.85rem; background: #fdf0f9; color: #871e6c; border-radius: 50px; padding: 4px 16px; display: inline-block; margin-bottom: 16px; font-weight: 600; }
-        .resort-description { font-size: 0.95rem; color: #555; line-height: 1.7; margin-bottom: 20px; }
-        .cta-button { background: #f47920; color: white; padding: 14px 28px; border-radius: 50px; font-weight: 800; font-size: 0.95rem; border: none; cursor: pointer; transition: all 0.3s ease; text-decoration: none; display: inline-block; width: 100%; text-align: center; }
-        .cta-button:hover { background: #d96a10; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(244, 121, 32, 0.3); }
+        .dest-media { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: #efe7ee; }
+        .dest-media img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease; }
+        .resort-card:hover .dest-media img { transform: scale(1.06); }
+        .dest-state { position: absolute; top: 14px; left: 14px; background: rgba(255, 255, 255, 0.92); color: #871e6c; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; padding: 6px 14px; border-radius: 50px; }
 
-        .cta-strip { background: linear-gradient(135deg, #871e6c 0%, #5c1349 100%); color: white; padding: 60px 3rem; text-align: center; }
-        .cta-strip h2 { font-size: 2.2rem; font-weight: 800; margin-bottom: 24px; }
-        .cta-strip-button { background: #f47920; }
-        .cta-strip-button:hover { background: #d96a10; }
+        .dest-body { padding: 24px 26px 26px; display: flex; flex-direction: column; flex: 1; }
+        .dest-body h4 { font-size: 1.2rem; font-weight: 800; margin-bottom: 6px; }
+        .dest-drive { font-size: 0.84rem; color: #871e6c; font-weight: 700; margin-bottom: 12px; }
+        .dest-desc { font-size: 0.92rem; color: #555; line-height: 1.65; margin-bottom: 18px; }
+        .dest-facts { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; border-top: 1px solid #f0e6ee; padding-top: 16px; margin-bottom: 16px; }
+        .dest-facts li span { display: block; font-size: 0.68rem; letter-spacing: 1px; text-transform: uppercase; color: #a08fa0; }
+        .dest-facts li strong { font-size: 0.86rem; font-weight: 800; color: #2a2a2a; }
+        .dest-props { font-size: 0.82rem; color: #666; line-height: 1.6; margin-top: auto; }
+        .dest-props strong { color: #1a1a1a; display: block; font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+
+        .dest-note { max-width: 900px; margin: 0 auto; text-align: center; font-size: 0.85rem; color: #888; background: #faf6fa; border-radius: 16px; padding: 20px 26px; }
+
+        /* Go-to venues (the properties clients ask us about most) */
+        .venues-section { padding: 90px 3rem; background: #faf6fa; }
+        .venues-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; max-width: 1400px; margin: 0 auto; }
+        .program-card { background: white; border-radius: 18px; overflow: hidden; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07); transition: all 0.3s ease; display: flex; flex-direction: column; }
+        .program-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(0, 0, 0, 0.13); }
+        .venue-banner { height: 110px; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+        .venue-body { padding: 24px 26px 26px; display: flex; flex-direction: column; flex: 1; }
+        .venue-name { font-size: 1.12rem; font-weight: 800; margin-bottom: 8px; }
+        .venue-location { font-size: 0.78rem; background: #fdf0f9; color: #871e6c; border-radius: 50px; padding: 4px 14px; display: inline-block; margin-bottom: 14px; font-weight: 700; align-self: flex-start; }
+        .venue-desc { font-size: 0.9rem; color: #555; line-height: 1.65; margin-bottom: 20px; flex: 1; }
+
+        /* Checklist */
+        .check-section { padding: 90px 3rem; background: #871e6c; color: white; }
+        .check-section .section-heading { color: white; }
+        .check-section .section-sub { color: rgba(255, 255, 255, 0.8); }
+        .check-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; max-width: 1400px; margin: 0 auto; }
+        .check-item { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 16px; padding: 22px 24px; }
+        .check-item h3 { font-size: 0.98rem; font-weight: 800; margin-bottom: 8px; }
+        .check-item p { font-size: 0.85rem; color: rgba(255, 255, 255, 0.82); line-height: 1.6; }
+
+        /* FAQ */
+        .faq-section { padding: 90px 3rem; background: white; }
+        .faq-list { max-width: 900px; margin: 0 auto; }
+        .faq-item { border: 1px solid #f0e6ee; border-radius: 16px; margin-bottom: 14px; overflow: hidden; background: #fff; }
+        .faq-item summary { padding: 20px 26px; font-weight: 800; font-size: 1rem; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+        .faq-item summary::-webkit-details-marker { display: none; }
+        .faq-item summary::after { content: '+'; color: #871e6c; font-size: 1.5rem; font-weight: 800; line-height: 1; flex-shrink: 0; }
+        .faq-item[open] summary::after { content: '−'; }
+        .faq-item[open] summary { background: #fdf0f9; color: #871e6c; }
+        .faq-item .faq-answer { padding: 18px 26px 24px; font-size: 0.93rem; color: #555; line-height: 1.75; }
+
+        .cta-strip { background: linear-gradient(135deg, #871e6c 0%, #5c1349 100%); color: white; padding: 70px 3rem; text-align: center; }
+        .cta-strip h2 { font-size: 2.2rem; font-weight: 800; margin-bottom: 14px; }
+        .cta-strip p { opacity: 0.88; margin-bottom: 28px; max-width: 60ch; margin-left: auto; margin-right: auto; }
+        .cta-strip-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
 
         footer { background: #871e6c; color: white; padding: 60px 3rem 30px; }
         .footer-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr 1fr; gap: 3rem; max-width: 1400px; margin: 0 auto 40px; }
@@ -93,15 +228,32 @@
         .footer-rating { font-size: 0.85rem; opacity: 0.8; margin-top: 12px; }
         .footer-bottom { border-top: 1px solid rgba(255, 255, 255, 0.2); padding-top: 20px; text-align: center; color: rgba(255, 255, 255, 0.6); font-size: 0.85rem; }
 
+        /* Photo credits — CC images need naming, so they get a real (if quiet)
+           home rather than a blanket "images from the internet" line. */
+        .credits { max-width: 1400px; margin: 0 auto 24px; }
+        .credits summary { cursor: pointer; font-size: 0.8rem; color: rgba(255, 255, 255, 0.65); list-style: none; }
+        .credits summary::-webkit-details-marker { display: none; }
+        .credits summary::before { content: '▸ '; }
+        .credits[open] summary::before { content: '▾ '; }
+        .credits-body { font-size: 0.72rem; color: rgba(255, 255, 255, 0.6); line-height: 1.9; margin-top: 12px; columns: 2; column-gap: 40px; }
+        .credits-body a { color: rgba(255, 255, 255, 0.8); }
+
         .scroll-to-top { position: fixed; bottom: 30px; right: 30px; width: 48px; height: 48px; border-radius: 50%; background: #871e6c; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem; cursor: pointer; z-index: 9998; opacity: 0; visibility: hidden; transition: all 0.3s ease; border: none; }
         .scroll-to-top.visible { opacity: 1; visibility: visible; }
         .scroll-to-top:hover { background: #6b1857; transform: scale(1.1); }
 
+        @media (max-width: 1200px) {
+            .dest-grid { grid-template-columns: repeat(2, 1fr); }
+            .venues-grid { grid-template-columns: repeat(2, 1fr); }
+            .formats-grid { grid-template-columns: repeat(2, 1fr); }
+            .check-grid { grid-template-columns: repeat(2, 1fr); }
+        }
         @media (max-width: 1024px) {
-            .resorts-grid { grid-template-columns: repeat(2, 1fr); }
-            .footer-grid { grid-template-columns: 1fr 1fr; }
             .hamburger { display: flex; }
             .nav-links { display: none; }
+            .brief-layout { grid-template-columns: 1fr; gap: 36px; }
+            .brief-photo img { height: 320px; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
         }
         @media (max-width: 768px) {
             body { overflow-x: hidden; }
@@ -109,11 +261,23 @@
             .nav-links { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: #fff; flex-direction: column; align-items: center; justify-content: center; gap: 24px; z-index: 9998; padding: 80px 24px 40px; }
             .nav-links.open { display: flex !important; }
             .nav-links a { font-size: 1.3rem; }
-            .hero { padding: 120px 1.5rem 40px; }
-            .hero h1 { font-size: 1.8rem; }
-            .resorts-section { padding: 36px 1.5rem; }
-            .resorts-grid { grid-template-columns: 1fr; }
-            .section-heading { font-size: 1.8rem; margin-bottom: 30px; }
+            .hero { padding: 130px 1.5rem 60px; min-height: auto; }
+            .hero h1 { font-size: 1.9rem; }
+            .hero-stats { gap: 10px; }
+            .hero-stat { padding: 12px 18px; min-width: 44%; flex: 1; }
+            .hero-stat strong { font-size: 1.25rem; }
+            .brief-section, .formats-section, .dest-section, .venues-section, .check-section, .faq-section { padding: 50px 1.5rem; }
+            .section-heading { font-size: 1.8rem; }
+            .section-sub { margin-bottom: 32px; }
+            .why-grid { grid-template-columns: 1fr; }
+            .formats-grid, .check-grid, .venues-grid { grid-template-columns: 1fr; }
+            .dest-grid { grid-template-columns: 1fr; gap: 24px; }
+            .filter-bar { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; padding-bottom: 8px; -webkit-overflow-scrolling: touch; }
+            .filter-chip { flex: 0 0 auto; }
+            .state-head h3 { font-size: 1.3rem; }
+            .cta-strip { padding: 50px 1.5rem; }
+            .cta-strip h2 { font-size: 1.6rem; }
+            .credits-body { columns: 1; }
             footer { padding: 40px 1.5rem 20px; }
             .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
         }
@@ -127,8 +291,10 @@
            The lift itself is handled in 3D by the engine.
            ================================================================== */
         .resort-card.w3d-focus { box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15); }
-        .resort-card.w3d-focus .resort-location { background: #871e6c; color: #fff; }
-        .resort-location { transition: background 0.35s ease, color 0.35s ease; }
+        .resort-card.w3d-focus .dest-state { background: #871e6c; color: #fff; }
+        .resort-card.w3d-focus .dest-media img { transform: scale(1.06); }
+        .dest-state { transition: background 0.35s ease, color 0.35s ease; }
+        .program-card.w3d-focus, .duration-card.w3d-focus { box-shadow: 0 12px 40px rgba(0, 0, 0, 0.13); }
 </style>
     <!-- Scroll-driven 3D motion — works on touch and desktop alike -->
     <link rel="stylesheet" href="assets/woosh-3d.css">
@@ -138,7 +304,7 @@
 
     <nav id="navbar">
         <div class="logo">
-            <img src="https://static.wixstatic.com/media/fe3583_2f36ed41d71a4ed3ba3db03baf388f14~mv2.png/v1/fill/w_104,h_41,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/2209_Woosh%20Biz%20update%20final%20logo_PNG.png" alt="Woosh Biz">
+            <img src="images/wix/wix-2f36ed41.png" alt="Woosh Biz">
         </div>
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
@@ -163,93 +329,1237 @@
     </nav>
 
     <section class="hero">
-        <div class="badge reveal">🏨 Hand-Picked by Woosh Biz</div>
-        <h1 class="reveal">Resorts We Recommend</h1>
-        <p class="reveal">Carefully selected venues for the best team building offsite experiences</p>
+        <div class="badge">📍 Venue Guide · Updated 2026</div>
+        <h1>Where Do You Actually Conduct The Team Building?</h1>
+        <p>Here is the honest answer: wherever your team can reach comfortably, with enough open ground to play on and a hall to fall back into if it rains. Below is our working list of resorts and destinations across India — sorted by state, filtered by the city your team flies out of.</p>
+        <div class="hero-actions">
+            <a href="#destinations" class="cta-button">Browse Destinations</a>
+            <a href="https://wa.me/919210804078" class="cta-button ghost">Tell Us Your Brief</a>
+        </div>
+        <div class="hero-stats">
+            <div class="hero-stat"><strong>43</strong><span>Destinations</span></div>
+            <div class="hero-stat"><strong>13</strong><span>States &amp; UTs</span></div>
+            <div class="hero-stat"><strong>8</strong><span>Metro Hubs</span></div>
+            <div class="hero-stat"><strong>15–2000</strong><span>Group Size</span></div>
+        </div>
     </section>
 
-    <section class="resorts-section">
-        <h2 class="section-heading reveal">Premium Venues for Your Offsite</h2>
-        <div class="resorts-grid">
-            <div class="resort-card reveal">
-                <div class="resort-banner" style="background: linear-gradient(135deg, #2d5a27, #4a9e3f);">🌿</div>
-                <div class="resort-content">
-                    <div class="resort-name">Natventure Camp</div>
-                    <div class="resort-location">Wada, Maharashtra</div>
-                    <p class="resort-description">A beautiful natural getaway perfect for outdoor team activities and nature immersion.</p>
-                    <a href="https://wa.me/919210804078" class="cta-button">Enquire Now</a>
-                </div>
-            </div>
-
-            <div class="resort-card reveal">
-                <div class="resort-banner" style="background: linear-gradient(135deg, #1a5276, #2e86c1);">🎡</div>
-                <div class="resort-content">
-                    <div class="resort-name">Visava Amusement Park</div>
-                    <div class="resort-location">Panvel, Maharashtra</div>
-                    <p class="resort-description">Fun-filled resort with amusement facilities perfect for energetic team building days.</p>
-                    <a href="https://wa.me/919210804078" class="cta-button">Enquire Now</a>
-                </div>
-            </div>
-
-            <div class="resort-card reveal">
-                <div class="resort-banner" style="background: linear-gradient(135deg, #7b241c, #cb4335);">🏖️</div>
-                <div class="resort-content">
-                    <div class="resort-name">Club Mahindra Resorts</div>
-                    <div class="resort-location">Pan India</div>
-                    <p class="resort-description">Premium resort chain offering excellent facilities for corporate offsites.</p>
-                    <a href="https://wa.me/919210804078" class="cta-button">Enquire Now</a>
-                </div>
-            </div>
-
-            <div class="resort-card reveal">
-                <div class="resort-banner" style="background: linear-gradient(135deg, #4a235a, #7d3c98);">🏙️</div>
-                <div class="resort-content">
-                    <div class="resort-name">Peninsula Redpine</div>
-                    <div class="resort-location">Mumbai</div>
-                    <p class="resort-description">Urban resort offering a refreshing escape for city-based corporate teams.</p>
-                    <a href="https://wa.me/919210804078" class="cta-button">Enquire Now</a>
-                </div>
-            </div>
-
-            <div class="resort-card reveal">
-                <div class="resort-banner" style="background: linear-gradient(135deg, #784212, #d35400);">🌄</div>
-                <div class="resort-content">
-                    <div class="resort-name">Treat Resorts</div>
-                    <div class="resort-location">Maharashtra</div>
-                    <p class="resort-description">Comfortable resort with great amenities for half-day and full-day programs.</p>
-                    <a href="https://wa.me/919210804078" class="cta-button">Enquire Now</a>
-                </div>
-            </div>
-
-            <div class="resort-card reveal">
-                <div class="resort-banner" style="background: linear-gradient(135deg, #1b2631, #2e4057);">⭐</div>
-                <div class="resort-content">
-                    <div class="resort-name">Westin Hotels</div>
-                    <div class="resort-location">Pan India</div>
-                    <p class="resort-description">Luxury hotel chain perfect for premium corporate team building experiences.</p>
-                    <a href="https://wa.me/919210804078" class="cta-button">Enquire Now</a>
+    <!-- ==================================================================
+         How a brief becomes a venue
+         ================================================================== -->
+    <section class="brief-section">
+        <div class="brief-layout">
+            <figure class="brief-photo reveal">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Taj%2C_The_Gateway_Resort%2C_Damdama_Lake.jpg/960px-Taj%2C_The_Gateway_Resort%2C_Damdama_Lake.jpg" alt="Lawns and low-rise blocks of a lakeside resort at Damdama Lake, Haryana" loading="lazy" width="960" height="720">
+                <figcaption>Lakeside resort at Damdama, Haryana — an hour and a half from Gurgaon.</figcaption>
+            </figure>
+            <div class="brief-copy reveal">
+                <h2>We don't sell resorts. We match a brief to a ground.</h2>
+                <p>Woosh Biz is a team building company, not a travel agent — we have no property to fill and no commission to protect. When a company asks us "where do you conduct it", we work backwards from four things before we name a single resort.</p>
+                <div class="why-grid">
+                    <div class="why-card">
+                        <span class="why-icon">🚌</span>
+                        <h3>Travel time</h3>
+                        <p>Anything over two hours each way eats the programme. For a day outing we stay inside a 90-minute radius; longer drives only make sense with a night's stay.</p>
+                    </div>
+                    <div class="why-card">
+                        <span class="why-icon">🌳</span>
+                        <h3>Open ground</h3>
+                        <p>Most of our activities need flat, unbroken lawn — roughly 1,500 sq ft for every 50 people. A pretty resort with only a pool deck cannot host a Woosh Biz day.</p>
+                    </div>
+                    <div class="why-card">
+                        <span class="why-icon">🏛️</span>
+                        <h3>Indoor backup</h3>
+                        <p>Every venue we clear must have a banquet hall that seats the full group. Rain, heat and dust are not "maybe" in India — they are Tuesday.</p>
+                    </div>
+                    <div class="why-card">
+                        <span class="why-icon">💰</span>
+                        <h3>Per-head budget</h3>
+                        <p>Venue, food and stay usually take 60–75% of an offsite budget. We size the destination to what's left for the actual programme, not the other way around.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- ==================================================================
+         Formats
+         ================================================================== -->
+    <section class="formats-section">
+        <p class="eyebrow reveal">Pick the shape first</p>
+        <h2 class="section-heading reveal">Four Formats, Four Very Different Venue Lists</h2>
+        <p class="section-sub reveal">The format decides the geography. Once you know how many days you have, the shortlist writes itself.</p>
+        <div class="formats-grid">
+            <div class="duration-card reveal">
+                <span class="dur-tag">4–6 hours</span>
+                <h3>Half-Day Outing</h3>
+                <p>Out after breakfast, back before evening traffic. Works with city-edge resorts and farm properties.</p>
+                <ul>
+                    <li>Within 60–90 minutes of office</li>
+                    <li>Lawn + one hall is enough</li>
+                    <li>Lunch on site, no rooms needed</li>
+                    <li>Best for 25–150 people</li>
+                </ul>
+            </div>
+            <div class="duration-card reveal">
+                <span class="dur-tag">Full day</span>
+                <h3>Day Outing</h3>
+                <p>The most common corporate ask. A full activity arc with breakfast, lunch and a closing session.</p>
+                <ul>
+                    <li>Within 2 hours, one way</li>
+                    <li>Needs day-use pricing + changing rooms</li>
+                    <li>Pool or adventure ground is a bonus</li>
+                    <li>Best for 30–400 people</li>
+                </ul>
+            </div>
+            <div class="duration-card reveal">
+                <span class="dur-tag">1 night, 2 days</span>
+                <h3>Overnight Offsite</h3>
+                <p>Where the real bonding happens — the evening is as important as the activity block.</p>
+                <ul>
+                    <li>2–4 hour drive opens up</li>
+                    <li>Room inventory becomes the constraint</li>
+                    <li>Bonfire, DJ night, awards evening</li>
+                    <li>Best for 30–300 people</li>
+                </ul>
+            </div>
+            <div class="duration-card reveal">
+                <span class="dur-tag">2–3 nights</span>
+                <h3>Annual Offsite</h3>
+                <p>Business review plus team building. Usually a flight, usually planned two to three months out.</p>
+                <ul>
+                    <li>Fly-out destinations open up</li>
+                    <li>Conference AV becomes non-negotiable</li>
+                    <li>Mix of strategy, activity and downtime</li>
+                    <li>Best for 40–800 people</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================================================================
+         Destination directory
+         ================================================================== -->
+    <section class="dest-section" id="destinations">
+        <p class="eyebrow reveal">State-wise directory</p>
+        <h2 class="section-heading reveal">Where Teams Actually Go</h2>
+        <p class="section-sub reveal">Filter by the city your team is travelling from. Drive times are approximate road estimates in normal traffic — we re-check them against your pickup point before we commit to a plan.</p>
+
+        <div class="filter-bar" id="filterBar">
+            <button class="filter-chip active" data-hub="all" type="button">All India</button>
+            <button class="filter-chip" data-hub="mumbai" type="button">From Mumbai</button>
+            <button class="filter-chip" data-hub="pune" type="button">From Pune</button>
+            <button class="filter-chip" data-hub="delhi" type="button">From Delhi NCR</button>
+            <button class="filter-chip" data-hub="bengaluru" type="button">From Bengaluru</button>
+            <button class="filter-chip" data-hub="hyderabad" type="button">From Hyderabad</button>
+            <button class="filter-chip" data-hub="chennai" type="button">From Chennai</button>
+            <button class="filter-chip" data-hub="kolkata" type="button">From Kolkata</button>
+            <button class="filter-chip" data-hub="ahmedabad" type="button">From Ahmedabad</button>
+            <button class="filter-chip" data-hub="fly" type="button">Fly-out</button>
+        </div>
+        <p class="filter-count" id="filterCount">Showing all 43 destinations</p>
+
+        <!-- ---------------- MAHARASHTRA ---------------- -->
+        <div class="state-block" data-state="Maharashtra">
+            <div class="state-head">
+                <h3>Maharashtra</h3>
+                <span>The deepest offsite inventory in the country — Mumbai and Pune teams are spoilt here.</span>
+            </div>
+            <div class="dest-grid">
+
+                <article class="resort-card reveal" data-hub="mumbai pune">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Bhushi_Dam_-_Lonavala.jpg/960px-Bhushi_Dam_-_Lonavala.jpg" alt="Water spilling over the stepped wall of Bhushi Dam at Lonavala, Maharashtra" loading="lazy" width="960" height="660">
+                        <span class="dest-state">Maharashtra</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Lonavala &amp; Khandala</h4>
+                        <p class="dest-drive">2–2.5 hrs from Mumbai · 1.5 hrs from Pune</p>
+                        <p class="dest-desc">The default answer for a Mumbai or Pune offsite, and for good reason — it has more large-lawn, large-banquet resorts than anywhere else within a short drive of either city. Spectacular in the monsoon, busy in season.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>30–500</strong></li>
+                            <li><span>Best for</span><strong>Day / 1N-2D</strong></li>
+                            <li><span>Season</span><strong>Jun–Feb</strong></li>
+                            <li><span>Terrain</span><strong>Ghats, lawns</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>Della Resorts, Fariyas Resort, Rhythm Lonavala, Radisson Resort &amp; Spa, Upper Deck Resort, Kumar Resort</p>
+                    </div>
+                </article>
+
+                <article class="resort-card reveal" data-hub="mumbai pune">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Ulhas_River_and_the_Western_Ghats.jpg/960px-Ulhas_River_and_the_Western_Ghats.jpg" alt="The Ulhas river running below forested Western Ghats hills near Karjat" loading="lazy" width="960" height="720">
+                        <span class="dest-state">Maharashtra</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Karjat</h4>
+                        <p class="dest-drive">2 hrs from Mumbai · 2 hrs from Pune</p>
+                        <p class="dest-desc">Riverside camps and farm-stay resorts along the Ulhas. This is adventure territory — rafting and river crossing in the monsoon, rappelling at Kondana, and the informal, shoes-off feel that younger teams take to quickly.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>20–200</strong></li>
+                            <li><span>Best for</span><strong>Day / 1N-2D</strong></li>
+                            <li><span>Season</span><strong>Jun–Feb</strong></li>
+                            <li><span>Terrain</span><strong>River, forest</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>The Machan, riverside adventure camps, boutique farm resorts along the Karjat–Kashele road</p>
+                    </div>
+                </article>
+
+                <article class="resort-card reveal" data-hub="mumbai pune">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Pawna_lake_reservoir.jpg/960px-Pawna_lake_reservoir.jpg" alt="Pawna Lake reservoir with hills reflected in still water" loading="lazy" width="960" height="720">
+                        <span class="dest-state">Maharashtra</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Pawna Lake &amp; Kamshet</h4>
+                        <p class="dest-drive">2.5 hrs from Mumbai · 1 hr from Pune</p>
+                        <p class="dest-desc">Lakeside tented camps with a fort skyline behind them, and India's best-known paragliding site fifteen minutes away at Kamshet. Brilliant for a young, adventurous team — but the camps are open-air, so keep it to the dry months.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>20–150</strong></li>
+                            <li><span>Best for</span><strong>1N-2D camping</strong></li>
+                            <li><span>Season</span><strong>Oct–Feb</strong></li>
+                            <li><span>Terrain</span><strong>Lakeside</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>Lakeside tented camps, Nirvana Adventures (Kamshet), farmhouse stays around Thakursai</p>
+                    </div>
+                </article>
+
+                <article class="resort-card reveal" data-hub="mumbai">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Alibaug_Beach.jpg/960px-Alibaug_Beach.jpg" alt="Sunset over Alibaug beach with families walking on the wet sand" loading="lazy" width="960" height="720">
+                        <span class="dest-state">Maharashtra</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Alibaug &amp; Kashid</h4>
+                        <p class="dest-drive">1 hr ferry + 30 min drive · 2.5 hrs by road</p>
+                        <p class="dest-desc">The ferry from Gateway to Mandwa makes the journey part of the programme. Beach resorts and private villas, sand-based activities, and a coastline that photographs beautifully for the recap video.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>15–250</strong></li>
+                            <li><span>Best for</span><strong>1N-2D</strong></li>
+                            <li><span>Season</span><strong>Oct–May</strong></li>
+                            <li><span>Terrain</span><strong>Beach</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>Radisson Blu Resort &amp; Spa Alibaug, beach villas at Awas and Kihim, Kashid beach resorts</p>
+                    </div>
+                </article>
+
+                <article class="resort-card reveal" data-hub="mumbai pune">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Manas_Resort%2C_Igatpuri_-_panoramio.jpg/960px-Manas_Resort%2C_Igatpuri_-_panoramio.jpg" alt="Bright green monsoon hillside with a waterfall and railway viaduct near Igatpuri" loading="lazy" width="960" height="720">
+                        <span class="dest-state">Maharashtra</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Igatpuri &amp; Bhandardara</h4>
+                        <p class="dest-drive">3 hrs from Mumbai · 4 hrs from Pune</p>
+                        <p class="dest-desc">The greenest drive out of Mumbai between June and September. Lake-facing resorts, waterfalls within walking distance and cool evenings — a strong pick when you want the offsite to feel like a genuine change of scene.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>20–200</strong></li>
+                            <li><span>Best for</span><strong>1N-2D</strong></li>
+                            <li><span>Season</span><strong>Jun–Feb</strong></li>
+                            <li><span>Terrain</span><strong>Hills, lakes</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>Manas Lifestyle Resort, lake-facing resorts at Bhandardara, Ghoti-side farm properties</p>
+                    </div>
+                </article>
+
+                <article class="resort-card reveal" data-hub="mumbai">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Up_hill%2C_Sahyadri_mountain_-_panoramio.jpg/960px-Up_hill%2C_Sahyadri_mountain_-_panoramio.jpg" alt="Misty ghat road curving through green Sahyadri hillside in the monsoon" loading="lazy" width="960" height="640">
+                        <span class="dest-state">Maharashtra</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Panvel, Khopoli &amp; Wada</h4>
+                        <p class="dest-drive">1–2.5 hrs from Mumbai</p>
+                        <p class="dest-desc">The closest real outdoors to Mumbai, and where most same-day corporate outings actually happen. Big activity grounds, day-use pricing and a drive short enough that a 9 am start still gives you a full programme.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>25–400</strong></li>
+                            <li><span>Best for</span><strong>Half-day / Day</strong></li>
+                            <li><span>Season</span><strong>Year round</strong></li>
+                            <li><span>Terrain</span><strong>Farm, lawns</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>Visava Amusement Park (Panvel), Natventure Camp (Wada), Novotel Imagica (Khopoli)</p>
+                    </div>
+                </article>
+
+                <article class="resort-card reveal" data-hub="pune mumbai">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Mulashi-2.JPG/960px-Mulashi-2.JPG" alt="Mulshi dam backwaters with green hills on both banks" loading="lazy" width="960" height="720">
+                        <span class="dest-state">Maharashtra</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Mulshi &amp; Tamhini</h4>
+                        <p class="dest-drive">1.5 hrs from Pune · 3.5 hrs from Mumbai</p>
+                        <p class="dest-desc">Pune's quiet alternative to Lonavala. Boutique lakeside resorts along the Mulshi backwaters with far fewer weekend crowds, plus the Tamhini ghat waterfalls for a monsoon trek block.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>20–200</strong></li>
+                            <li><span>Best for</span><strong>Day / 1N-2D</strong></li>
+                            <li><span>Season</span><strong>Jun–Feb</strong></li>
+                            <li><span>Terrain</span><strong>Lakeside</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>Lakeside boutique resorts along the Mulshi road, farm villas at Paud, Tamhini-side camps</p>
+                    </div>
+                </article>
+
+                <article class="resort-card reveal" data-hub="pune">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Lavasahills.jpg" alt="Aerial view of Lavasa hill town beside its lake, with green hillsides in the foreground" loading="lazy" width="800" height="550">
+                        <span class="dest-state">Maharashtra</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Lavasa</h4>
+                        <p class="dest-drive">1.5 hrs from Pune · 4 hrs from Mumbai</p>
+                        <p class="dest-desc">A purpose-built hill town, which means wide roads, a lakefront promenade and conference halls sized for corporate groups. Convenient and self-contained — everything is walkable once the buses park.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>25–300</strong></li>
+                            <li><span>Best for</span><strong>1N-2D</strong></li>
+                            <li><span>Season</span><strong>Jun–Feb</strong></li>
+                            <li><span>Terrain</span><strong>Lakefront town</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>Lakefront hotels and serviced apartments at Dasve, conference-equipped resorts on the Lavasa road</p>
+                    </div>
+                </article>
+
+                <article class="resort-card reveal" data-hub="pune mumbai">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/MAHABALESWAR_LANDSCAPE.jpg/960px-MAHABALESWAR_LANDSCAPE.jpg" alt="Wide valley view from a Mahabaleshwar viewpoint with layered green hills" loading="lazy" width="960" height="533">
+                        <span class="dest-state">Maharashtra</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Mahabaleshwar &amp; Panchgani</h4>
+                        <p class="dest-drive">3 hrs from Pune · 5–6 hrs from Mumbai</p>
+                        <p class="dest-desc">Cool weather almost all year, table-land plateaus that make superb activity grounds, and enough hotel inventory to hold a company-wide offsite. The drive rules out a day trip — plan it as two nights.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>30–300</strong></li>
+                            <li><span>Best for</span><strong>1N-2D / 2N-3D</strong></li>
+                            <li><span>Season</span><strong>Sep–May</strong></li>
+                            <li><span>Terrain</span><strong>Plateau, hills</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>Le Méridien Mahabaleshwar, Brightland Resort &amp; Spa, Evershine Resort, Club Mahindra Sherwood</p>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+
+        <!-- ---------------- HARYANA ---------------- -->
+        <div class="state-block" data-state="Haryana">
+            <div class="state-head">
+                <h3>Haryana</h3>
+                <span>The working belt for Delhi NCR — close enough that a full day still fits inside office hours.</span>
+            </div>
+            <div class="dest-grid">
+
+                <article class="resort-card reveal" data-hub="delhi">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/A_Pathway_at_Sultanpur_National_Park.jpg/960px-A_Pathway_at_Sultanpur_National_Park.jpg" alt="Tree-lined earthen pathway through scrub forest at Sultanpur National Park, Gurgaon district" loading="lazy" width="960" height="640">
+                        <span class="dest-state">Haryana</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Manesar &amp; the Gurgaon Aravallis</h4>
+                        <p class="dest-drive">1 hr from Gurgaon · 1.5 hrs from Delhi</p>
+                        <p class="dest-desc">The single most practical NCR option: resorts with genuine lawn acreage and banquet halls sized for several hundred people, forty minutes off the Delhi–Jaipur highway. This is where most Gurgaon day outings and one-nighters land.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>30–600</strong></li>
+                            <li><span>Best for</span><strong>Day / 1N-2D</strong></li>
+                            <li><span>Season</span><strong>Sep–Mar</strong></li>
+                            <li><span>Terrain</span><strong>Aravalli scrub</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>ITC Grand Bharat, Heritage Village Resort &amp; Spa Manesar, The Westin Sohna Resort &amp; Spa</p>
+                    </div>
+                </article>
+
+                <article class="resort-card reveal" data-hub="delhi">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Sunrise_at_Damdama_lake.jpg/960px-Sunrise_at_Damdama_lake.jpg" alt="Sunrise over Damdama Lake with the Aravalli ridge silhouetted behind" loading="lazy" width="960" height="526">
+                        <span class="dest-state">Haryana</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Damdama Lake &amp; Sohna</h4>
+                        <p class="dest-drive">1.5 hrs from Delhi · 45 min from Gurgaon</p>
+                        <p class="dest-desc">Adventure-first territory. Camps here are built around obstacle courses, zip-lines, rappelling walls and boating — so you spend less time importing equipment and more time running the programme.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>25–300</strong></li>
+                            <li><span>Best for</span><strong>Day outing</strong></li>
+                            <li><span>Season</span><strong>Sep–Mar</strong></li>
+                            <li><span>Terrain</span><strong>Lake, ridge</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>Botanix Nature Resort, Camp Wild Dhauj, lakeside resorts at Damdama</p>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+
+        <!-- ---------------- RAJASTHAN ---------------- -->
+        <div class="state-block" data-state="Rajasthan">
+            <div class="state-head">
+                <h3>Rajasthan</h3>
+                <span>Heritage properties that turn an offsite into something people talk about for a year.</span>
+            </div>
+            <div class="dest-grid">
+
+                <article class="resort-card reveal" data-hub="delhi">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Neemrana_fort.jpg/960px-Neemrana_fort.jpg" alt="The terraced ramparts of Neemrana Fort-Palace rising up a rocky hillside" loading="lazy" width="960" height="720">
+                        <span class="dest-state">Rajasthan</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Neemrana</h4>
+                        <p class="dest-drive">2.5 hrs from Delhi on NH-48</p>
+                        <p class="dest-desc">A fifteenth-century fort-palace on a hillside, two hours from Gurgaon. The terraces make an unforgettable setting for an awards evening, and the on-site zip-line is a ready-made ice-breaker. Note the layout is stepped — worth flagging for anyone with mobility limits.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>25–200</strong></li>
+                            <li><span>Best for</span><strong>1N-2D</strong></li>
+                            <li><span>Season</span><strong>Oct–Mar</strong></li>
+                            <li><span>Terrain</span><strong>Hillside fort</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>Neemrana Fort-Palace, Tijara Fort-Palace, Hill Fort Kesroli</p>
+                    </div>
+                </article>
+
+                <article class="resort-card reveal" data-hub="delhi fly">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/East_facade_Hawa_Mahal_Jaipur_from_ground_level_%28July_2022%29_-_img_01.jpg/960px-East_facade_Hawa_Mahal_Jaipur_from_ground_level_%28July_2022%29_-_img_01.jpg" alt="The honeycomb east facade of Hawa Mahal in Jaipur" loading="lazy" width="960" height="720">
+                        <span class="dest-state">Rajasthan</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Jaipur</h4>
+                        <p class="dest-drive">5 hrs from Delhi · ~1 hr flight from most metros</p>
+                        <p class="dest-desc">The most reliable large-group annual offsite in North India. Convention capacity in the hundreds, palace venues for the gala night, and cultural evenings that work equally well for an Indian team or an international visit.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>50–1000</strong></li>
+                            <li><span>Best for</span><strong>2N-3D</strong></li>
+                            <li><span>Season</span><strong>Oct–Mar</strong></li>
+                            <li><span>Terrain</span><strong>City, palaces</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>Fairmont Jaipur, Le Méridien Jaipur Resort &amp; Spa, Chokhi Dhani, Amer-road heritage hotels</p>
+                    </div>
+                </article>
+
+                <article class="resort-card reveal" data-hub="fly">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Taj_Lake_Palace_Udaipur_from_City_Palace.jpg/960px-Taj_Lake_Palace_Udaipur_from_City_Palace.jpg" alt="Lake Palace sitting on Lake Pichola in Udaipur, seen from the City Palace" loading="lazy" width="960" height="498">
+                        <span class="dest-state">Rajasthan</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Udaipur</h4>
+                        <p class="dest-drive">Direct flights + 30 min transfer</p>
+                        <p class="dest-desc">Premium end of the annual-offsite market. Lake-facing resorts, boat transfers between sessions and a setting that does half the work of making people feel valued. Budget accordingly — this is not the economical option.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>40–400</strong></li>
+                            <li><span>Best for</span><strong>2N-3D</strong></li>
+                            <li><span>Season</span><strong>Sep–Mar</strong></li>
+                            <li><span>Terrain</span><strong>Lakes, palaces</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>The Leela Palace Udaipur, Radisson Blu Udaipur Palace Resort, Ananta Udaipur</p>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+
+        <!-- ---------------- UTTARAKHAND ---------------- -->
+        <div class="state-block" data-state="Uttarakhand">
+            <div class="state-head">
+                <h3>Uttarakhand</h3>
+                <span>Where NCR goes when the offsite needs to feel like a proper expedition.</span>
+            </div>
+            <div class="dest-grid">
+
+                <article class="resort-card reveal" data-hub="delhi">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/On_the_way_to_corbett.jpg/960px-On_the_way_to_corbett.jpg" alt="Forested foothills and a wide river bed on the road into Jim Corbett" loading="lazy" width="960" height="629">
+                        <span class="dest-state">Uttarakhand</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Jim Corbett</h4>
+                        <p class="dest-drive">5–6 hrs from Delhi by road</p>
+                        <p class="dest-desc">Riverside resorts along the Kosi with big lawns, safari mornings and bonfire evenings. The strongest two-night option out of NCR, and one of the few where the wildlife itself becomes the shared story.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>30–400</strong></li>
+                            <li><span>Best for</span><strong>1N-2D / 2N-3D</strong></li>
+                            <li><span>Season</span><strong>Oct–Jun</strong></li>
+                            <li><span>Terrain</span><strong>Riverside forest</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>Aahana The Corbett Wilderness, Namah Resort, Taj Corbett Resort &amp; Spa, Club Mahindra Corbett</p>
+                    </div>
+                </article>
+
+                <article class="resort-card reveal" data-hub="delhi">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Rafting_in_Rishikesh.jpg/960px-Rafting_in_Rishikesh.jpg" alt="A raft full of people paddling through white water on the Ganga at Rishikesh" loading="lazy" width="960" height="640">
+                        <span class="dest-state">Uttarakhand</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Rishikesh</h4>
+                        <p class="dest-drive">5–6 hrs from Delhi · fly to Dehradun + 1 hr</p>
+                        <p class="dest-desc">Rafting is the anchor activity and it works — nothing levels a hierarchy faster than eight people in one raft taking instructions from the same guide. Riverside camps at Shivpuri and Byasi, hotels in town for larger groups.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>25–250</strong></li>
+                            <li><span>Best for</span><strong>1N-2D</strong></li>
+                            <li><span>Season</span><strong>Sep–Jun</strong></li>
+                            <li><span>Terrain</span><strong>River, foothills</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>Aloha on the Ganges, Ganga Kinare, licensed riverside camps at Shivpuri and Byasi</p>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+
+        <!-- ---------------- HIMACHAL ---------------- -->
+        <div class="state-block" data-state="Himachal Pradesh">
+            <div class="state-head">
+                <h3>Himachal Pradesh</h3>
+                <span>Pine air and cool evenings — worth the drive when the group is small and the agenda is heavy.</span>
+            </div>
+            <div class="dest-grid">
+
+                <article class="resort-card reveal" data-hub="delhi">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Kasauli%2C_Himachal_Pradesh.jpg/960px-Kasauli%2C_Himachal_Pradesh.jpg" alt="Pine-covered ridges and a hazy valley at Kasauli, Himachal Pradesh" loading="lazy" width="960" height="539">
+                        <span class="dest-state">Himachal Pradesh</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Kasauli &amp; the Shimla road</h4>
+                        <p class="dest-drive">5–6 hrs from Delhi · 1 hr from Chandigarh</p>
+                        <p class="dest-desc">Quiet pine hills with small, characterful resorts. Better suited to leadership retreats and strategy offsites than to large-group activity days — the terrain is steep and level ground is scarce.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>20–150</strong></li>
+                            <li><span>Best for</span><strong>2N-3D retreats</strong></li>
+                            <li><span>Season</span><strong>Mar–Jun, Sep–Dec</strong></li>
+                            <li><span>Terrain</span><strong>Pine hills</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>Kasauli Resort by Piccadily, Baikunth Resort, boutique hill hotels on the Kalka–Shimla road</p>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+
+        <!-- ---------------- KARNATAKA ---------------- -->
+        <div class="state-block" data-state="Karnataka">
+            <div class="state-head">
+                <h3>Karnataka</h3>
+                <span>Bengaluru is unusually well served — three distinct day-outing belts inside 90 minutes.</span>
+            </div>
+            <div class="dest-grid">
+
+                <article class="resort-card reveal" data-hub="bengaluru">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Sunrise_at_Nandi_Hills.jpg/960px-Sunrise_at_Nandi_Hills.jpg" alt="Sunrise above a sea of cloud seen from Nandi Hills near Bengaluru" loading="lazy" width="960" height="640">
+                        <span class="dest-state">Karnataka</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Nandi Hills &amp; Devanahalli</h4>
+                        <p class="dest-drive">1–1.5 hrs from Bengaluru · 20 min from BLR airport</p>
+                        <p class="dest-desc">The airport-side belt, which makes it the obvious choice when half the team is flying in. Large resorts with proper convention space, vineyards nearby, and the Nandi Hills sunrise as an optional 5 am opener for the brave.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>30–500</strong></li>
+                            <li><span>Best for</span><strong>Day / 1N-2D</strong></li>
+                            <li><span>Season</span><strong>Year round</strong></li>
+                            <li><span>Terrain</span><strong>Hills, plateau</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>Clarks Exotica Resort &amp; Spa, Angsana Oasis Resort &amp; Spa, Discovery Village Nandi Hills</p>
+                    </div>
+                </article>
+
+                <article class="resort-card reveal" data-hub="bengaluru">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Kanakapura_hill_top_trek.jpg/960px-Kanakapura_hill_top_trek.jpg" alt="View from a rocky hilltop over farmland and a lake near Kanakapura" loading="lazy" width="960" height="466">
+                        <span class="dest-state">Karnataka</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Kanakapura Road &amp; Bannerghatta</h4>
+                        <p class="dest-drive">1–1.5 hrs from South Bengaluru</p>
+                        <p class="dest-desc">Bengaluru's day-outing engine room. Resorts here are purpose-built for corporate groups — large activity grounds, buffet capacity, rain shelters — and the traffic runs the right way in the morning.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>25–400</strong></li>
+                            <li><span>Best for</span><strong>Half-day / Day</strong></li>
+                            <li><span>Season</span><strong>Year round</strong></li>
+                            <li><span>Terrain</span><strong>Farm, rocky</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>Guhantara Resort, Windflower Prakruthi, Discovery Village Kanakapura, farm resorts off Bannerghatta Road</p>
+                    </div>
+                </article>
+
+                <article class="resort-card reveal" data-hub="bengaluru">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Savandurga_Hill_01.jpg/960px-Savandurga_Hill_01.jpg" alt="The bare granite dome of Savandurga hill rising above scrub forest" loading="lazy" width="960" height="641">
+                        <span class="dest-state">Karnataka</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Ramanagara &amp; Savandurga</h4>
+                        <p class="dest-drive">1.5 hrs from Bengaluru on the Mysuru road</p>
+                        <p class="dest-desc">Granite country — the best natural rock-climbing and rappelling within reach of Bengaluru. Camps rather than resorts, so it suits smaller, fitter groups who want the day to feel genuinely physical.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>20–150</strong></li>
+                            <li><span>Best for</span><strong>Day / 1N camping</strong></li>
+                            <li><span>Season</span><strong>Oct–Mar</strong></li>
+                            <li><span>Terrain</span><strong>Granite hills</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>Adventure camps around Ramanagara, Savandurga-side campsites, Kaveri riverside properties at Bheemeshwari</p>
+                    </div>
+                </article>
+
+                <article class="resort-card reveal" data-hub="bengaluru fly">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Tadiandamol_Valley%2C_Western_Ghats.jpg/960px-Tadiandamol_Valley%2C_Western_Ghats.jpg" alt="Layered green valley in the Western Ghats near Tadiandamol, Coorg" loading="lazy" width="960" height="640">
+                        <span class="dest-state">Karnataka</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Coorg (Kodagu)</h4>
+                        <p class="dest-drive">5–6 hrs from Bengaluru · 3.5 hrs from Mangaluru</p>
+                        <p class="dest-desc">Coffee estates, mist and a genuinely premium resort set. The go-to two-night offsite for Bengaluru companies who want the team to come back rested rather than exhausted. Weekend inventory disappears early — book ahead.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>30–350</strong></li>
+                            <li><span>Best for</span><strong>2N-3D</strong></li>
+                            <li><span>Season</span><strong>Sep–May</strong></li>
+                            <li><span>Terrain</span><strong>Coffee hills</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>Club Mahindra Madikeri, The Tamara Coorg, Taj Madikeri Resort &amp; Spa, Evolve Back Chikkana Halli Estate</p>
+                    </div>
+                </article>
+
+                <article class="resort-card reveal" data-hub="bengaluru">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Hills_in_Chikmagalur.jpg/960px-Hills_in_Chikmagalur.jpg" alt="Rolling green hills under cloud near Chikmagalur, Karnataka" loading="lazy" width="960" height="540">
+                        <span class="dest-state">Karnataka</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Chikmagalur</h4>
+                        <p class="dest-drive">5 hrs from Bengaluru</p>
+                        <p class="dest-desc">Coorg's quieter cousin, and usually 20–30% cheaper for a comparable property. Coffee plantation walks, Mullayanagiri treks and estate bungalows that suit a leadership group of thirty better than a company of three hundred.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>25–250</strong></li>
+                            <li><span>Best for</span><strong>2N-3D</strong></li>
+                            <li><span>Season</span><strong>Sep–May</strong></li>
+                            <li><span>Terrain</span><strong>Coffee hills</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>The Serai Chikmagalur, Java Rain Resorts, Trivik Hotels &amp; Resorts, estate homestays</p>
+                    </div>
+                </article>
+
+                <article class="resort-card reveal" data-hub="bengaluru">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Kabani_River.jpg/960px-Kabani_River.jpg" alt="The Kabini river running wide and calm between forested banks" loading="lazy" width="960" height="640">
+                        <span class="dest-state">Karnataka</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Kabini</h4>
+                        <p class="dest-drive">5 hrs from Bengaluru · 2 hrs from Mysuru</p>
+                        <p class="dest-desc">Backwater-facing wildlife lodges on the edge of Nagarhole. Small room counts keep groups intimate, which makes this ideal for a leadership offsite where the point is fewer people talking more honestly.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>20–120</strong></li>
+                            <li><span>Best for</span><strong>2N-3D retreats</strong></li>
+                            <li><span>Season</span><strong>Oct–May</strong></li>
+                            <li><span>Terrain</span><strong>Backwaters, forest</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>Evolve Back Kabini, The Serai Kabini, Kabini River Lodge</p>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+
+        <!-- ---------------- TELANGANA ---------------- -->
+        <div class="state-block" data-state="Telangana">
+            <div class="state-head">
+                <h3>Telangana</h3>
+                <span>Hyderabad has the largest single-venue capacity of any Indian metro's outskirts.</span>
+            </div>
+            <div class="dest-grid">
+
+                <article class="resort-card reveal" data-hub="hyderabad">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Shamirpet_lake.jpg/960px-Shamirpet_lake.jpg" alt="Shamirpet lake near Hyderabad with wooded banks and open sky" loading="lazy" width="960" height="720">
+                        <span class="dest-state">Telangana</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Shamirpet</h4>
+                        <p class="dest-drive">1 hr from Hitec City · 45 min from Secunderabad</p>
+                        <p class="dest-desc">If your group runs into four figures, this is where it goes. Convention-scale properties with multiple halls, sports grounds, adventure zones and enough parking for a coach fleet — all inside an hour of the office.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>50–2000</strong></li>
+                            <li><span>Best for</span><strong>Day / 1N-2D</strong></li>
+                            <li><span>Season</span><strong>Sep–Mar</strong></li>
+                            <li><span>Terrain</span><strong>Lake, parkland</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>Leonia Holistic Destination, Aalankrita Resort &amp; Convention, Shamirpet-road resorts</p>
+                    </div>
+                </article>
+
+                <article class="resort-card reveal" data-hub="hyderabad">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Sunset_on_Osman_sagar_%281%29.jpg/960px-Sunset_on_Osman_sagar_%281%29.jpg" alt="Sunset over Osman Sagar lake near Gandipet, Hyderabad" loading="lazy" width="960" height="640">
+                        <span class="dest-state">Telangana</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Gandipet, Moinabad &amp; Chevella</h4>
+                        <p class="dest-drive">45 min–1 hr from Gachibowli</p>
+                        <p class="dest-desc">The west-side farm resort belt, and the natural pick for teams based in Gachibowli or the Financial District. Mango-orchard properties, lake views and day-use rates that keep a half-day outing sensible.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>25–400</strong></li>
+                            <li><span>Best for</span><strong>Half-day / Day</strong></li>
+                            <li><span>Season</span><strong>Sep–Mar</strong></li>
+                            <li><span>Terrain</span><strong>Farms, lakes</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>Golkonda Resorts &amp; Spa, Mrugavani Resort &amp; Spa, farm resorts along the Chevella and Moinabad roads</p>
+                    </div>
+                </article>
+
+                <article class="resort-card reveal" data-hub="hyderabad">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Ananthagiri_Hills_Trekking_Area.jpg/960px-Ananthagiri_Hills_Trekking_Area.jpg" alt="Forest trekking trail through dense trees in Ananthagiri Hills, Vikarabad" loading="lazy" width="960" height="720">
+                        <span class="dest-state">Telangana</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Ananthagiri Hills, Vikarabad</h4>
+                        <p class="dest-drive">2 hrs from Hyderabad</p>
+                        <p class="dest-desc">Real forest within two hours of the city — noticeably cooler, with proper trekking trails. Accommodation is simpler than the Shamirpet resorts, which suits an outdoors-led programme better than a formal conference.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>20–150</strong></li>
+                            <li><span>Best for</span><strong>Day / 1N-2D</strong></li>
+                            <li><span>Season</span><strong>Jul–Feb</strong></li>
+                            <li><span>Terrain</span><strong>Forest hills</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>Haritha Hill Resort (Telangana Tourism), forest guest houses and camps around Vikarabad</p>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+
+        <!-- ---------------- TAMIL NADU & PUDUCHERRY ---------------- -->
+        <div class="state-block" data-state="Tamil Nadu &amp; Puducherry">
+            <div class="state-head">
+                <h3>Tamil Nadu &amp; Puducherry</h3>
+                <span>Chennai's offsite map runs south along the coast and west into the hills.</span>
+            </div>
+            <div class="dest-grid">
+
+                <article class="resort-card reveal" data-hub="chennai">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Mahabalipuram-Shore_Temple-WUS01811.jpg/960px-Mahabalipuram-Shore_Temple-WUS01811.jpg" alt="The Shore Temple at Mahabalipuram standing on the Bay of Bengal coastline" loading="lazy" width="960" height="640">
+                        <span class="dest-state">Tamil Nadu</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>ECR &amp; Mahabalipuram</h4>
+                        <p class="dest-drive">1–1.5 hrs from Chennai on the East Coast Road</p>
+                        <p class="dest-desc">Chennai's default. Beachfront resorts with banquet halls and large lawns, a straight run down the ECR, and enough five-star inventory that a 400-person offsite is a routine booking rather than a project.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>30–600</strong></li>
+                            <li><span>Best for</span><strong>Day / 1N-2D</strong></li>
+                            <li><span>Season</span><strong>Oct–Mar</strong></li>
+                            <li><span>Terrain</span><strong>Beachfront</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>Radisson Blu Resort Temple Bay, Sheraton Grand Chennai Resort &amp; Spa, InterContinental Chennai Mahabalipuram, Chariot Beach Resort, Ideal Beach Resort</p>
+                    </div>
+                </article>
+
+                <article class="resort-card reveal" data-hub="chennai bengaluru">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/India_-_Yelagiri_Hills_Adventure_Camp_-_The_climbing_tower_-_13_%284031057949%29.jpg/960px-India_-_Yelagiri_Hills_Adventure_Camp_-_The_climbing_tower_-_13_%284031057949%29.jpg" alt="A climbing tower at an adventure camp in the Yelagiri hills, Tamil Nadu" loading="lazy" width="960" height="720">
+                        <span class="dest-state">Tamil Nadu</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Yelagiri</h4>
+                        <p class="dest-drive">4 hrs from Chennai · 3 hrs from Bengaluru</p>
+                        <p class="dest-desc">A small hill station with something rare: purpose-built adventure camps with permanent climbing towers, rope courses and rappelling walls. If the brief is "make it challenging", this saves a lot of rigging.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>25–250</strong></li>
+                            <li><span>Best for</span><strong>1N-2D</strong></li>
+                            <li><span>Season</span><strong>Sep–Mar</strong></li>
+                            <li><span>Terrain</span><strong>Hills, rock</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>Sterling Yelagiri, hill resorts around Athanavur, dedicated adventure camps</p>
+                    </div>
+                </article>
+
+                <article class="resort-card reveal" data-hub="chennai">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Yercaud_lake.jpg/960px-Yercaud_lake.jpg" alt="Boats on Yercaud lake surrounded by trees in the Shevaroy hills" loading="lazy" width="960" height="491">
+                        <span class="dest-state">Tamil Nadu</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Yercaud</h4>
+                        <p class="dest-drive">6 hrs from Chennai · 1 hr from Salem</p>
+                        <p class="dest-desc">Coffee slopes and a quiet lake in the Shevaroy hills. Far less crowded than Ooty, and a sensible choice if your team is spread across Salem, Coimbatore and Chennai rather than concentrated in one city.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>25–200</strong></li>
+                            <li><span>Best for</span><strong>1N-2D / 2N-3D</strong></li>
+                            <li><span>Season</span><strong>Oct–May</strong></li>
+                            <li><span>Terrain</span><strong>Coffee hills</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>Sterling Yercaud, GRT Nature Trails Sky Rocca, lake-road hill resorts</p>
+                    </div>
+                </article>
+
+                <article class="resort-card reveal" data-hub="chennai">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Pondicherry%2C_Promenade_Beach%2C_Rock_Beach%2C_India.jpg/960px-Pondicherry%2C_Promenade_Beach%2C_Rock_Beach%2C_India.jpg" alt="The rock-lined Promenade Beach seafront at Puducherry" loading="lazy" width="960" height="640">
+                        <span class="dest-state">Puducherry</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Puducherry</h4>
+                        <p class="dest-drive">3 hrs from Chennai on the ECR</p>
+                        <p class="dest-desc">Beach resorts on the outskirts for the activity block, and the French Quarter for a walking treasure hunt in the evening. The change of texture between the two halves is what makes a two-day format here work so well.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>25–300</strong></li>
+                            <li><span>Best for</span><strong>1N-2D</strong></li>
+                            <li><span>Season</span><strong>Oct–Mar</strong></li>
+                            <li><span>Terrain</span><strong>Beach, heritage town</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>Le Pondy, Sterling Puducherry, The Promenade, beach resorts on the Cuddalore road</p>
+                    </div>
+                </article>
+
+                <article class="resort-card reveal" data-hub="chennai bengaluru fly">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Ooty_Tea_Gardens.jpg/960px-Ooty_Tea_Gardens.jpg" alt="Neatly terraced tea gardens on the slopes around Ooty in the Nilgiris" loading="lazy" width="960" height="443">
+                        <span class="dest-state">Tamil Nadu</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Ooty &amp; Coonoor</h4>
+                        <p class="dest-drive">Fly to Coimbatore + 3 hrs · 6 hrs from Bengaluru</p>
+                        <p class="dest-desc">Cool enough to run outdoor activities at midday in April, which almost nowhere else in South India manages. Tea gardens, the Nilgiri toy train and colonial-era hotels for a slower, conversation-led offsite.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>25–250</strong></li>
+                            <li><span>Best for</span><strong>2N-3D</strong></li>
+                            <li><span>Season</span><strong>Year round</strong></li>
+                            <li><span>Terrain</span><strong>Tea hills</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>Sterling Ooty, Taj Savoy Ooty, Club Mahindra Derby Green, Coonoor plantation stays</p>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+
+        <!-- ---------------- WEST BENGAL ---------------- -->
+        <div class="state-block" data-state="West Bengal">
+            <div class="state-head">
+                <h3>West Bengal</h3>
+                <span>Kolkata's options run along the Hooghly, down to the beach and out to the delta.</span>
+            </div>
+            <div class="dest-grid">
+
+                <article class="resort-card reveal" data-hub="kolkata">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Ganges_River_at_Raichak.jpg/960px-Ganges_River_at_Raichak.jpg" alt="The wide Hooghly river at Raichak with boats near the bank" loading="lazy" width="960" height="720">
+                        <span class="dest-state">West Bengal</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Raichak &amp; Diamond Harbour</h4>
+                        <p class="dest-drive">1.5–2 hrs from Kolkata</p>
+                        <p class="dest-desc">Riverfront resorts looking out over the Hooghly, with lawns big enough for a full activity day and halls for the evening. The closest genuinely resort-grade option to the city, plus Vedic Village at Rajarhat for a shorter run.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>25–300</strong></li>
+                            <li><span>Best for</span><strong>Day / 1N-2D</strong></li>
+                            <li><span>Season</span><strong>Oct–Mar</strong></li>
+                            <li><span>Terrain</span><strong>Riverfront</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>The Ffort Raichak, Ganga Kutir, Vedic Village (Rajarhat, 1 hr)</p>
+                    </div>
+                </article>
+
+                <article class="resort-card reveal" data-hub="kolkata">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Mandarmani_Sea_Beach.jpg/960px-Mandarmani_Sea_Beach.jpg" alt="The long flat sand beach at Mandarmani, West Bengal" loading="lazy" width="960" height="459">
+                        <span class="dest-state">West Bengal</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Mandarmani &amp; Digha</h4>
+                        <p class="dest-drive">4 hrs from Kolkata</p>
+                        <p class="dest-desc">Bengal's beach belt. Mandarmani's hard, drivable sand gives you an unusually large flat playing surface at low tide — genuinely useful for large-group games that need space more than scenery.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>25–300</strong></li>
+                            <li><span>Best for</span><strong>1N-2D</strong></li>
+                            <li><span>Season</span><strong>Oct–Mar</strong></li>
+                            <li><span>Terrain</span><strong>Beach</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>Beachfront resorts at Mandarmani, Tajpur and New Digha</p>
+                    </div>
+                </article>
+
+                <article class="resort-card reveal" data-hub="kolkata">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Shantiniketan_Bari_of_Rabindranath_Tagore.jpg/960px-Shantiniketan_Bari_of_Rabindranath_Tagore.jpg" alt="A heritage building among trees at Shantiniketan, West Bengal" loading="lazy" width="960" height="720">
+                        <span class="dest-state">West Bengal</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Shantiniketan</h4>
+                        <p class="dest-drive">3.5 hrs from Kolkata</p>
+                        <p class="dest-desc">A culture-led offsite rather than an adventure one. Baul music evenings, craft villages at Sonajhuri and open red-earth grounds — a good fit when the group is senior and the brief is "something with substance".</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>20–200</strong></li>
+                            <li><span>Best for</span><strong>1N-2D</strong></li>
+                            <li><span>Season</span><strong>Oct–Mar</strong></li>
+                            <li><span>Terrain</span><strong>Open country</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>Resorts along the Bolpur–Prantik road, heritage-style guest houses near Sonajhuri</p>
+                    </div>
+                </article>
+
+                <article class="resort-card reveal" data-hub="kolkata">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Tourist_Boat_in_Sundarbans%2C_West_Bengal%2C_India_03.jpg/960px-Tourist_Boat_in_Sundarbans%2C_West_Bengal%2C_India_03.jpg" alt="A wooden tourist boat cruising a wide channel in the Sundarbans" loading="lazy" width="960" height="640">
+                        <span class="dest-state">West Bengal</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Sundarbans</h4>
+                        <p class="dest-drive">3 hrs to Godkhali + boat transfer</p>
+                        <p class="dest-desc">A boat-based offsite in the mangrove delta — everyone on one vessel for two days, which forces the kind of unstructured conversation an agenda never produces. Small groups only, and the logistics need real lead time.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>15–80</strong></li>
+                            <li><span>Best for</span><strong>1N-2D</strong></li>
+                            <li><span>Season</span><strong>Nov–Mar</strong></li>
+                            <li><span>Terrain</span><strong>Mangrove delta</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>Licensed cruise boats, eco-resorts at Pakhiralay and Dayapur</p>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+
+        <!-- ---------------- GUJARAT ---------------- -->
+        <div class="state-block" data-state="Gujarat">
+            <div class="state-head">
+                <h3>Gujarat</h3>
+                <span>Ahmedabad, Vadodara and Surat teams have a genuinely distinctive set of options.</span>
+            </div>
+            <div class="dest-grid">
+
+                <article class="resort-card reveal" data-hub="ahmedabad">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Statue_of_Unity_-_View_from_the_other_bank_of_Narmada.jpg/960px-Statue_of_Unity_-_View_from_the_other_bank_of_Narmada.jpg" alt="The Statue of Unity seen across the Narmada river at Kevadia" loading="lazy" width="960" height="720">
+                        <span class="dest-state">Gujarat</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Kevadia (Statue of Unity)</h4>
+                        <p class="dest-drive">3.5 hrs from Ahmedabad · 2 hrs from Vadodara</p>
+                        <p class="dest-desc">A purpose-built tourism township with tent accommodation at scale, a jungle safari park, river rafting and cycling trails. Rare in India: a destination where the infrastructure was designed for large organised groups from day one.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>40–600</strong></li>
+                            <li><span>Best for</span><strong>1N-2D / 2N-3D</strong></li>
+                            <li><span>Season</span><strong>Oct–Mar</strong></li>
+                            <li><span>Terrain</span><strong>River, hills</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>Tent City Narmada, hotels in the Kevadia township, riverside resorts on the Narmada</p>
+                    </div>
+                </article>
+
+                <article class="resort-card reveal" data-hub="ahmedabad">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Polo_forest%2C_Gujarat.jpg/960px-Polo_forest%2C_Gujarat.jpg" alt="Carved wooden entrance arch to the Polo Forest campsite in Vijaynagar, Gujarat" loading="lazy" width="960" height="720">
+                        <span class="dest-state">Gujarat</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Polo Forest, Vijaynagar</h4>
+                        <p class="dest-drive">3 hrs from Ahmedabad</p>
+                        <p class="dest-desc">Dry deciduous forest with fifteenth-century temple ruins scattered through it. Camping and eco-lodge stays rather than resorts — best treated as an outdoors programme with a heritage trek built into day two.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>20–150</strong></li>
+                            <li><span>Best for</span><strong>1N-2D camping</strong></li>
+                            <li><span>Season</span><strong>Jul–Feb</strong></li>
+                            <li><span>Terrain</span><strong>Forest, ruins</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>Forest department campsites, eco-resorts and tented camps around Vijaynagar</p>
+                    </div>
+                </article>
+
+                <article class="resort-card reveal" data-hub="ahmedabad mumbai">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Saputara_view_from_table_top.jpg/960px-Saputara_view_from_table_top.jpg" alt="View over green valleys from the table top viewpoint at Saputara" loading="lazy" width="960" height="720">
+                        <span class="dest-state">Gujarat</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Saputara</h4>
+                        <p class="dest-drive">4 hrs from Surat · 7 hrs from Ahmedabad</p>
+                        <p class="dest-desc">Gujarat's only hill station, sitting on the Maharashtra border. Modest hotels rather than luxury resorts, but a boating lake, ropeway and cool monsoon weather make it a solid, affordable two-day option for South Gujarat teams.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>25–200</strong></li>
+                            <li><span>Best for</span><strong>1N-2D</strong></li>
+                            <li><span>Season</span><strong>Jul–Feb</strong></li>
+                            <li><span>Terrain</span><strong>Hills, lake</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>Hill-view hotels and Gujarat Tourism resorts around Saputara lake</p>
+                    </div>
+                </article>
+
+                <article class="resort-card reveal" data-hub="ahmedabad">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/White_salt_desert_at_Rann_of_Kutch.jpg/960px-White_salt_desert_at_Rann_of_Kutch.jpg" alt="The flat white salt expanse of the Rann of Kutch stretching to the horizon" loading="lazy" width="960" height="540">
+                        <span class="dest-state">Gujarat</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Rann of Kutch (Dhordo)</h4>
+                        <p class="dest-drive">7 hrs from Ahmedabad · fly to Bhuj + 1.5 hrs</p>
+                        <p class="dest-desc">A white salt desert under a full moon is about as memorable as an offsite backdrop gets. Tent City runs only in the winter season, so this is a November-to-February decision made months in advance — not a flexible one.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>40–500</strong></li>
+                            <li><span>Best for</span><strong>2N-3D</strong></li>
+                            <li><span>Season</span><strong>Nov–Feb only</strong></li>
+                            <li><span>Terrain</span><strong>Salt desert</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>Tent City Dhordo (Rann Utsav), resorts and homestays around Bhuj and Hodka</p>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+
+        <!-- ---------------- GOA ---------------- -->
+        <div class="state-block" data-state="Goa">
+            <div class="state-head">
+                <h3>Goa</h3>
+                <span>The most-requested annual offsite in the country, and the easiest to get wrong.</span>
+            </div>
+            <div class="dest-grid">
+
+                <article class="resort-card reveal" data-hub="fly mumbai">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Palolem_Beach%2C_South_Goa.jpg/960px-Palolem_Beach%2C_South_Goa.jpg" alt="The curved palm-fringed bay at Palolem Beach in South Goa" loading="lazy" width="960" height="540">
+                        <span class="dest-state">Goa</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>North &amp; South Goa</h4>
+                        <p class="dest-drive">Direct flights from every metro · 10 hrs by road from Mumbai</p>
+                        <p class="dest-desc">Everything an annual offsite needs in one place — conference halls, beach lawns, water sports and a night-out that plans itself. Our advice: pick South Goa if the agenda matters, North Goa if the evenings do.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>30–800</strong></li>
+                            <li><span>Best for</span><strong>2N-3D</strong></li>
+                            <li><span>Season</span><strong>Oct–Mar</strong></li>
+                            <li><span>Terrain</span><strong>Beaches</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>Taj Fort Aguada, Grand Hyatt Goa, Novotel Goa, Cidade de Goa, beach resorts at Cavelossim and Varca</p>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+
+        <!-- ---------------- KERALA ---------------- -->
+        <div class="state-block" data-state="Kerala">
+            <div class="state-head">
+                <h3>Kerala</h3>
+                <span>Three completely different offsites inside one state — hills, water and forest.</span>
+            </div>
+            <div class="dest-grid">
+
+                <article class="resort-card reveal" data-hub="fly bengaluru">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Tea_Estate_Munnar.jpg/960px-Tea_Estate_Munnar.jpg" alt="Rolling tea estates covering the hillsides around Munnar, Kerala" loading="lazy" width="960" height="640">
+                        <span class="dest-state">Kerala</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Munnar</h4>
+                        <p class="dest-drive">Fly to Kochi + 4 hrs</p>
+                        <p class="dest-desc">Tea country at 1,600 metres, so the weather stays pleasant when the rest of South India does not. The drive up is long and winding — plan an arrival evening with nothing scheduled and start properly the next morning.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>25–250</strong></li>
+                            <li><span>Best for</span><strong>2N-3D</strong></li>
+                            <li><span>Season</span><strong>Sep–May</strong></li>
+                            <li><span>Terrain</span><strong>Tea hills</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>Club Mahindra Munnar, KTDC Tea County, plantation resorts on the Chithirapuram road</p>
+                    </div>
+                </article>
+
+                <article class="resort-card reveal" data-hub="fly">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Kerala_backwaters%2C_Houseboats%2C_India.jpg/960px-Kerala_backwaters%2C_Houseboats%2C_India.jpg" alt="Traditional houseboats moored along the Kerala backwaters" loading="lazy" width="960" height="640">
+                        <span class="dest-state">Kerala</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Alleppey &amp; Kumarakom</h4>
+                        <p class="dest-drive">Fly to Kochi + 1.5–2 hrs</p>
+                        <p class="dest-desc">Lake resorts for the sessions and a houseboat fleet for the afternoon — splitting a group across six or seven boats and giving each one a challenge is one of the better formats we run anywhere in India.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>20–200</strong></li>
+                            <li><span>Best for</span><strong>2N-3D</strong></li>
+                            <li><span>Season</span><strong>Sep–Mar</strong></li>
+                            <li><span>Terrain</span><strong>Backwaters</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>Kumarakom Lake Resort, Vembanad lake resorts, licensed houseboat operators at Alappuzha</p>
+                    </div>
+                </article>
+
+                <article class="resort-card reveal" data-hub="fly bengaluru">
+                    <div class="dest-media">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Soochipara_Falls%2C_Wayanad_Kerala%2C_2013_%28Landscape%29.jpeg/960px-Soochipara_Falls%2C_Wayanad_Kerala%2C_2013_%28Landscape%29.jpeg" alt="Soochipara waterfall dropping through dense forest in Wayanad, Kerala" loading="lazy" width="960" height="717">
+                        <span class="dest-state">Kerala</span>
+                    </div>
+                    <div class="dest-body">
+                        <h4>Wayanad</h4>
+                        <p class="dest-drive">Fly to Kozhikode/Kannur + 2 hrs · 6 hrs from Bengaluru</p>
+                        <p class="dest-desc">Forest, waterfalls and plantation stays, with treehouse properties for smaller groups. Reachable by road from Bengaluru, which makes it a useful middle option between a day outing and a full fly-out offsite.</p>
+                        <ul class="dest-facts">
+                            <li><span>Group size</span><strong>25–200</strong></li>
+                            <li><span>Best for</span><strong>2N-3D</strong></li>
+                            <li><span>Season</span><strong>Sep–May</strong></li>
+                            <li><span>Terrain</span><strong>Forest, plantations</strong></li>
+                        </ul>
+                        <p class="dest-props"><strong>Properties in this belt</strong>Vythiri Resort, Windflower Resorts Wayanad, plantation bungalows around Kalpetta</p>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+
+        <p class="dest-note reveal">Property names are listed so you know what kind of inventory a destination holds. We are independent — we have no tie-up with any resort chain and earn nothing on your room booking. We'll recommend whatever genuinely fits your group size, budget and date, and we're equally happy to run the programme at a venue you've already chosen.</p>
+    </section>
+
+    <!-- ==================================================================
+         The venues we're asked about most
+         ================================================================== -->
+    <section class="venues-section">
+        <p class="eyebrow reveal">Familiar ground</p>
+        <h2 class="section-heading reveal">Venues We Know Inside Out</h2>
+        <p class="section-sub reveal">These are the properties clients ask us about most often — we already know their lawn dimensions, hall capacities and what their kitchens can turn around at short notice.</p>
+        <div class="venues-grid">
+
+            <div class="program-card reveal">
+                <div class="venue-banner" style="background: linear-gradient(135deg, #2d5a27, #4a9e3f);">🌿</div>
+                <div class="venue-body">
+                    <div class="venue-name">Natventure Camp</div>
+                    <span class="venue-location">Wada, Maharashtra</span>
+                    <p class="venue-desc">A natural getaway built for outdoor activity days — open ground, nature trails and space to run a large group without tripping over the next station.</p>
+                    <a href="https://wa.me/919210804078" class="cta-button block">Enquire Now</a>
+                </div>
+            </div>
+
+            <div class="program-card reveal">
+                <div class="venue-banner" style="background: linear-gradient(135deg, #1a5276, #2e86c1);">🎡</div>
+                <div class="venue-body">
+                    <div class="venue-name">Visava Amusement Park</div>
+                    <span class="venue-location">Panvel, Maharashtra</span>
+                    <p class="venue-desc">Close to Mumbai with amusement and water facilities on site — an easy day-outing pick when the brief is high energy and low logistics.</p>
+                    <a href="https://wa.me/919210804078" class="cta-button block">Enquire Now</a>
+                </div>
+            </div>
+
+            <div class="program-card reveal">
+                <div class="venue-banner" style="background: linear-gradient(135deg, #7b241c, #cb4335);">🏖️</div>
+                <div class="venue-body">
+                    <div class="venue-name">Club Mahindra Resorts</div>
+                    <span class="venue-location">Pan India</span>
+                    <p class="venue-desc">Consistent standards across Lonavala, Coorg, Munnar, Corbett and more — useful when a distributed team needs the same experience in different cities.</p>
+                    <a href="https://wa.me/919210804078" class="cta-button block">Enquire Now</a>
+                </div>
+            </div>
+
+            <div class="program-card reveal">
+                <div class="venue-banner" style="background: linear-gradient(135deg, #4a235a, #7d3c98);">🏙️</div>
+                <div class="venue-body">
+                    <div class="venue-name">Peninsula Redpine</div>
+                    <span class="venue-location">Mumbai</span>
+                    <p class="venue-desc">An in-city option for teams that can't spare a travel day — banquet-led programmes with a refreshing break from the office floor.</p>
+                    <a href="https://wa.me/919210804078" class="cta-button block">Enquire Now</a>
+                </div>
+            </div>
+
+            <div class="program-card reveal">
+                <div class="venue-banner" style="background: linear-gradient(135deg, #784212, #d35400);">🌄</div>
+                <div class="venue-body">
+                    <div class="venue-name">Treat Resorts</div>
+                    <span class="venue-location">Maharashtra</span>
+                    <p class="venue-desc">Comfortable, well-equipped and reliable for half-day and full-day programmes where the priority is a smooth run rather than a showpiece venue.</p>
+                    <a href="https://wa.me/919210804078" class="cta-button block">Enquire Now</a>
+                </div>
+            </div>
+
+            <div class="program-card reveal">
+                <div class="venue-banner" style="background: linear-gradient(135deg, #1b2631, #2e4057);">⭐</div>
+                <div class="venue-body">
+                    <div class="venue-name">Westin Hotels &amp; Resorts</div>
+                    <span class="venue-location">Pan India</span>
+                    <p class="venue-desc">Premium conference infrastructure across metros and resort towns — the safe choice when leadership and clients are both in the room.</p>
+                    <a href="https://wa.me/919210804078" class="cta-button block">Enquire Now</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ==================================================================
+         Recce checklist
+         ================================================================== -->
+    <section class="check-section">
+        <h2 class="section-heading reveal">What We Check Before We Say Yes To A Venue</h2>
+        <p class="section-sub reveal">A resort that looks perfect in photographs can still be wrong for your programme. This is the list we run through — feel free to use it yourself if you're shortlisting on your own.</p>
+        <div class="check-grid">
+            <div class="check-item reveal"><h3>1. Usable lawn area</h3><p>Not total green cover — flat, unbroken ground with no flower beds or parked cars in the middle of it.</p></div>
+            <div class="check-item reveal"><h3>2. Hall capacity at theatre style</h3><p>The number the sales sheet quotes and the number that fits comfortably are rarely the same. We ask for both.</p></div>
+            <div class="check-item reveal"><h3>3. Power and AV</h3><p>Enough points near the activity ground, a working generator, and whether a mic and projector are included or billed extra.</p></div>
+            <div class="check-item reveal"><h3>4. Kitchen turnaround</h3><p>Can they serve the full group inside 45 minutes? A slow buffet has ended more agendas than bad weather.</p></div>
+            <div class="check-item reveal"><h3>5. Washrooms near the ground</h3><p>If they're a five-minute walk from where the group is playing, you lose fifteen minutes every single break.</p></div>
+            <div class="check-item reveal"><h3>6. Coach access and parking</h3><p>Whether a 45-seater can actually reach the porch, or your team is walking the last 400 metres with their bags.</p></div>
+            <div class="check-item reveal"><h3>7. Alcohol and music policy</h3><p>Permit status, bar timings and the local sound cut-off — best confirmed in writing before the DJ is booked.</p></div>
+            <div class="check-item reveal"><h3>8. Medical distance</h3><p>How far the nearest hospital is, and whether the resort has a doctor on call. Non-negotiable for adventure formats.</p></div>
+        </div>
+    </section>
+
+    <!-- ==================================================================
+         FAQ
+         ================================================================== -->
+    <section class="faq-section">
+        <h2 class="section-heading reveal">Questions Companies Ask Us First</h2>
+        <p class="section-sub reveal">The practical ones, answered plainly.</p>
+        <div class="faq-list">
+            <details class="faq-item reveal">
+                <summary>Do you own these resorts, or book them for us?</summary>
+                <div class="faq-answer">Neither. We're a team building company — we design and run the programme. We'll shortlist venues that suit your brief, share honest pros and cons, and coordinate with the property on activity space, timings and setup. Most clients book the resort directly, which keeps the commercials transparent. If you'd rather we handle the booking end-to-end, we can arrange that too.</div>
+            </details>
+            <details class="faq-item reveal">
+                <summary>We've already picked a venue. Will you still come?</summary>
+                <div class="faq-answer">Yes, and it happens often. Send us the venue name and we'll check the ground and hall against your group size, then design the programme around what's actually available there. If something genuinely won't work — say, no wet-weather backup for a 200-person outdoor day in July — we'll tell you before you sign, not after.</div>
+            </details>
+            <details class="faq-item reveal">
+                <summary>What's the minimum group size?</summary>
+                <div class="faq-answer">We run programmes from about 15 people upward. Below that, most resorts won't offer group pricing and the activity dynamics change — small teams usually get more from an in-office or half-day format than a full outbound day.</div>
+            </details>
+            <details class="faq-item reveal">
+                <summary>Which venue works for 200+ people?</summary>
+                <div class="faq-answer">Shamirpet near Hyderabad, Manesar in NCR, the ECR belt near Chennai, Lonavala near Mumbai and Devanahalli near Bengaluru all have properties that comfortably handle 200–600. Above that, you're looking at convention-grade venues — Shamirpet, Jaipur and Goa are the reliable options.</div>
+            </details>
+            <details class="faq-item reveal">
+                <summary>What happens if it rains?</summary>
+                <div class="faq-answer">Every venue we clear has an indoor hall that seats the full group, and every outdoor programme we design has an indoor version of the same arc. We decide on the morning itself, in consultation with your coordinator. Nobody stands around waiting for the sky to make up its mind.</div>
+            </details>
+            <details class="faq-item reveal">
+                <summary>How far in advance should we book?</summary>
+                <div class="faq-answer">Four to six weeks for a day outing, six to eight for an overnight, and eight to twelve for an annual offsite in peak season (October to February). Goa, Coorg, Corbett and Rann of Kutch need the longest lead — their season is short and inventory goes early.</div>
+            </details>
+            <details class="faq-item reveal">
+                <summary>Can you run something at a venue not on this list?</summary>
+                <div class="faq-answer">Certainly. This list covers the destinations we're asked about most, not the limit of where we travel. We've run programmes at company guest houses, factory grounds, farmhouses and hotel banquet halls. Tell us the location and we'll tell you honestly what will and won't work there.</div>
+            </details>
+        </div>
+    </section>
+
     <section class="cta-strip">
-        <h2 class="reveal">Planning an Offsite?</h2>
-        <a href="https://wa.me/919210804078" class="cta-button cta-strip-button reveal">Get Expert Advice</a>
+        <h2 class="reveal">Tell Us The Brief. We'll Send You A Shortlist.</h2>
+        <p class="reveal">Group size, city, budget range and the dates you're considering — that's all we need to come back with three venues that genuinely fit, and a programme built for the ground each one has.</p>
+        <div class="cta-strip-actions reveal">
+            <a href="https://wa.me/919210804078" class="cta-button">WhatsApp Us</a>
+            <a href="contact.html" class="cta-button ghost">Book A Free Consultation</a>
+        </div>
     </section>
 
     <footer>
         <div class="footer-grid">
             <div>
                 <div class="footer-logo">
-                    <img src="https://static.wixstatic.com/media/9e0902_b8e2795e4f484602a2294b7410e3f4e5~mv2.png/v1/fill/w_112,h_44,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/2209_Woosh%20Biz%20update%20final%20white%20logo_PNG.png" alt="Woosh Biz">
+                    <img src="images/wix/wix-b8e2795e.png" alt="Woosh Biz">
                 </div>
                 <p style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 20px; line-height: 1.6;">No Gyaan. Just Fun With Learning.</p>
                 <div class="footer-socials">
-                    <a href="https://www.facebook.com/people/Woosh-Biz-by-HTI/100083456102229/" class="social-icon" title="Facebook"><img src="https://static.wixstatic.com/media/11062b_ef6a6ac194704911951645990055c2ce~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_ef6a6ac194704911951645990055c2ce~mv2.png" alt="FB"></a>
-                    <a href="https://www.instagram.com/wooshbiz/" class="social-icon" title="Instagram"><img src="https://static.wixstatic.com/media/11062b_cef3b719166a4815b446d4dcfcb6120d~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_cef3b719166a4815b446d4dcfcb6120d~mv2.png" alt="IG"></a>
-                    <a href="https://www.linkedin.com/company/woosh-biz-by-hti/" class="social-icon" title="LinkedIn"><img src="https://static.wixstatic.com/media/11062b_b5690303a8ff470e9b1c03a24aff140b~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_b5690303a8ff470e9b1c03a24aff140b~mv2.png" alt="LI"></a>
-                    <a href="https://www.youtube.com/channel/UC9BdT9tzf4841P1B-R7P-Qg" class="social-icon" title="YouTube"><img src="https://static.wixstatic.com/media/11062b_fe985b889c144b348eefc7bbc67018b4~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_fe985b889c144b348eefc7bbc67018b4~mv2.png" alt="YT"></a>
+                    <a href="https://www.facebook.com/people/Woosh-Biz-by-HTI/100083456102229/" class="social-icon" title="Facebook"><img src="images/wix/wix-ef6a6ac1.png" alt="FB"></a>
+                    <a href="https://www.instagram.com/wooshbiz/" class="social-icon" title="Instagram"><img src="images/wix/wix-cef3b719.png" alt="IG"></a>
+                    <a href="https://www.linkedin.com/company/woosh-biz-by-hti/" class="social-icon" title="LinkedIn"><img src="images/wix/wix-b5690303.png" alt="LI"></a>
+                    <a href="https://www.youtube.com/channel/UC9BdT9tzf4841P1B-R7P-Qg" class="social-icon" title="YouTube"><img src="images/wix/wix-fe985b88.png" alt="YT"></a>
                 </div>
             </div>
             <div class="footer-column">
@@ -271,6 +1581,59 @@
                 <div class="footer-rating">⭐ 4.5 | 150 Ratings</div>
             </div>
         </div>
+
+        <details class="credits">
+            <summary>Destination photograph credits</summary>
+            <div class="credits-body">
+                Destination photographs are by Wikimedia Commons contributors, reused under Creative Commons licences. In order of appearance:
+                <a href="https://commons.wikimedia.org/wiki/File:Beautiful_view_at_Pawna_Lake,_Lonavala.jpg">Pawna Lake</a> — Anurag Singh, CC BY-SA 4.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:Taj,_The_Gateway_Resort,_Damdama_Lake.jpg">Damdama resort</a> — Slyronit, CC BY-SA 4.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:Bhushi_Dam_-_Lonavala.jpg">Bhushi Dam</a> — Vivek Shrivastava, CC BY-SA 3.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:Ulhas_River_and_the_Western_Ghats.jpg">Ulhas River</a> — Betame, CC0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:Pawna_lake_reservoir.jpg">Pawna reservoir</a> — Bodkedd, CC BY-SA 4.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:Alibaug_Beach.jpg">Alibaug Beach</a> — Rishi Darak, CC BY-SA 4.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:Manas_Resort,_Igatpuri_-_panoramio.jpg">Igatpuri</a> — Tejas Itraj, CC BY-SA 3.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:Up_hill,_Sahyadri_mountain_-_panoramio.jpg">Sahyadri ghat road</a> — Omar AV, CC BY 3.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:Mulashi-2.JPG">Mulshi</a> — Vishalsdhumal, public domain ·
+                <a href="https://commons.wikimedia.org/wiki/File:Lavasahills.jpg">Lavasa</a> — Arjun Singh Kulkarni, CC BY-SA 2.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:MAHABALESWAR_LANDSCAPE.jpg">Mahabaleshwar</a> — Amitban77, CC BY 4.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:A_Pathway_at_Sultanpur_National_Park.jpg">Sultanpur National Park</a> — Slyronit, CC BY-SA 4.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:Sunrise_at_Damdama_lake.jpg">Damdama Lake</a> — Shaz.syed13, CC BY-SA 4.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:Neemrana_fort.jpg">Neemrana Fort</a> — Archit Ratan, CC BY 2.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:East_facade_Hawa_Mahal_Jaipur_from_ground_level_(July_2022)_-_img_01.jpg">Hawa Mahal</a> — Chainwit., CC BY-SA 4.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:Taj_Lake_Palace_Udaipur_from_City_Palace.jpg">Udaipur</a> — Navneet Sharma, CC BY-SA 4.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:On_the_way_to_corbett.jpg">Jim Corbett</a> — Ranjith Kumar, CC BY-SA 4.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:Rafting_in_Rishikesh.jpg">Rishikesh rafting</a> — Amna Maurya, CC BY-SA 4.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:Kasauli,_Himachal_Pradesh.jpg">Kasauli</a> — Numerounovedant, CC BY 3.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:Sunrise_at_Nandi_Hills.jpg">Nandi Hills</a> — JzG, CC BY-SA 4.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:Kanakapura_hill_top_trek.jpg">Kanakapura</a> — Shruti.morabad, CC BY-SA 4.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:Savandurga_Hill_01.jpg">Savandurga</a> — Pravega, CC BY-SA 4.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:Tadiandamol_Valley,_Western_Ghats.jpg">Coorg</a> — Jyotirmoy, CC BY-SA 4.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:Hills_in_Chikmagalur.jpg">Chikmagalur</a> — Pramodv1993, CC BY-SA 4.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:Kabani_River.jpg">Kabini</a> — Vinodnellackal, CC BY-SA 3.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:Shamirpet_lake.jpg">Shamirpet</a> — Pavankalyan5239, CC BY-SA 4.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:Sunset_on_Osman_sagar_(1).jpg">Osman Sagar</a> — iMahesh, CC BY-SA 4.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:Ananthagiri_Hills_Trekking_Area.jpg">Ananthagiri Hills</a> — Tanukusreeharsha, CC BY-SA 4.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:Mahabalipuram-Shore_Temple-WUS01811.jpg">Mahabalipuram</a> — Rainer Halama, CC BY-SA 4.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:India_-_Yelagiri_Hills_Adventure_Camp_-_The_climbing_tower_-_13_(4031057949).jpg">Yelagiri</a> — McKay Savage, CC BY 2.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:Yercaud_lake.jpg">Yercaud</a> — Riju K, CC BY-SA 2.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:Pondicherry,_Promenade_Beach,_Rock_Beach,_India.jpg">Puducherry</a> — Vyacheslav Argenberg, CC BY 4.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:Ooty_Tea_Gardens.jpg">Ooty</a> — Rukmini Induru, CC0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:Ganges_River_at_Raichak.jpg">Raichak</a> — Letsgo's, CC BY-SA 4.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:Mandarmani_Sea_Beach.jpg">Mandarmani</a> — Joydeep, CC BY-SA 3.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:Shantiniketan_Bari_of_Rabindranath_Tagore.jpg">Shantiniketan</a> — Billjones94, CC BY-SA 4.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:Tourist_Boat_in_Sundarbans,_West_Bengal,_India_03.jpg">Sundarbans</a> — Kingshuk Mondal, CC BY 4.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:Statue_of_Unity_-_View_from_the_other_bank_of_Narmada.jpg">Kevadia</a> — Pradeep717, CC BY-SA 4.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:Polo_forest,_Gujarat.jpg">Polo Forest</a> — Gannu03, CC BY-SA 4.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:Saputara_view_from_table_top.jpg">Saputara</a> — Master purav, CC BY 3.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:White_salt_desert_at_Rann_of_Kutch.jpg">Rann of Kutch</a> — Prof Ranga Sai, CC BY-SA 4.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:Palolem_Beach,_South_Goa.jpg">Palolem Beach</a> — iMahesh, CC BY-SA 4.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:Tea_Estate_Munnar.jpg">Munnar</a> — Nikolas Becker, CC BY-SA 3.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:Kerala_backwaters,_Houseboats,_India.jpg">Kerala backwaters</a> — Vyacheslav Argenberg, CC BY 4.0 ·
+                <a href="https://commons.wikimedia.org/wiki/File:Soochipara_Falls,_Wayanad_Kerala,_2013_(Landscape).jpeg">Wayanad</a> — Yjenith, CC BY-SA 3.0.
+            </div>
+        </details>
+
         <div class="footer-bottom">© 2024 Woosh Biz by HTI India Pvt Ltd. All rights reserved.</div>
     </footer>
 
@@ -301,6 +1664,52 @@
             scrollToTopBtn.classList.toggle('visible', window.scrollY > 300);
         });
         scrollToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+        /* --------------------------------------------------------------
+           Destination filter. Cards carry a space-separated data-hub list
+           because plenty of destinations serve two cities — Lonavala is a
+           Mumbai and a Pune answer, Yelagiri is a Chennai and a Bengaluru
+           one. A state block hides itself once all its cards are out.
+           -------------------------------------------------------------- */
+        (function () {
+            const chips = document.querySelectorAll('.filter-chip');
+            const cards = document.querySelectorAll('.resort-card[data-hub]');
+            const blocks = document.querySelectorAll('.state-block');
+            const countEl = document.getElementById('filterCount');
+            const total = cards.length;
+
+            function apply(hub) {
+                let shown = 0;
+                cards.forEach(card => {
+                    const hubs = card.getAttribute('data-hub').split(' ');
+                    const match = hub === 'all' || hubs.indexOf(hub) !== -1;
+                    card.style.display = match ? '' : 'none';
+                    if (match) {
+                        shown++;
+                        // Filtered-in cards may never have crossed the observer,
+                        // so reveal them directly rather than leaving them blank.
+                        card.classList.add('visible');
+                    }
+                });
+                blocks.forEach(block => {
+                    const live = block.querySelectorAll('.resort-card[data-hub]:not([style*="display: none"])');
+                    block.style.display = live.length ? '' : 'none';
+                });
+                countEl.textContent = hub === 'all'
+                    ? 'Showing all ' + total + ' destinations'
+                    : 'Showing ' + shown + ' of ' + total + ' destinations';
+            }
+
+            chips.forEach(chip => {
+                chip.addEventListener('click', () => {
+                    chips.forEach(c => c.classList.remove('active'));
+                    chip.classList.add('active');
+                    apply(chip.getAttribute('data-hub'));
+                });
+            });
+
+            countEl.textContent = 'Showing all ' + total + ' destinations';
+        })();
     </script>
 </body>
 </html>
