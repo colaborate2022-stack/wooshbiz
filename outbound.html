@@ -184,7 +184,11 @@
         .press-section { padding: 60px 0 70px; background: #fdf0f9; overflow: hidden; }
         .press-heading { font-size: 1.6rem; font-weight: 800; color: #871e6c; text-align: center; margin-bottom: 36px; padding: 0 1.5rem; }
         .press-section .marquee-track { gap: 60px; animation-duration: 40s; }
-        .press-section .marquee-track img { height: 40px; opacity: 1; }
+        /* Originals are served untransformed, so the mastheads arrive at their
+           own aspect ratios and sizes. width:auto + object-fit:contain keeps
+           each one whole and undistorted at a common height — the letterboxing
+           Wix's `fit` transform used to do server-side. */
+        .press-section .marquee-track img { height: 40px; width: auto; object-fit: contain; opacity: 1; }
 
         .faq-section { padding: 80px 3rem; background: white; }
         .faq-heading { font-size: 2rem; font-weight: 800; text-align: center; color: #871e6c; margin-bottom: 50px; }
@@ -662,7 +666,6 @@
         // ---- Client logo marquee ----
         // [wix media id, brand name] — split across two counter-scrolling rows.
         const BRANDS = [
-            ['9e0902_330579c67eb1445c939d52c8837cacde', 'EY'],
             ['9e0902_572678def7084fefbfc664709f737e0d', 'Air India'],
             ['9e0902_950c2ae7bd274dc781ee9af9da2d1ef3', 'Jio Studio'],
             ['9e0902_9a50dbc288904b778b73ed948889347b', 'RPG Pvt Ltd'],
@@ -717,15 +720,14 @@
         ];
 
         function logoUrl(id) {
-            return 'https://static.wixstatic.com/media/' + id +
-                '~mv2.png/v1/fill/w_134,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/logo.png';
+            return 'images/wix/wix-' + id.slice(7, 15) + '.png';
         }
 
-        // Press mastheads come in wildly different aspect ratios — letterbox
-        // them with `fit` instead of `fill` so nothing gets cropped.
+        // Press mastheads come in wildly different aspect ratios. Wix used to
+        // letterbox them server-side with `fit`; now that the originals are
+        // served as-is, the .press-section img rule does that job instead.
         function pressUrl(id) {
-            return 'https://static.wixstatic.com/media/' + id +
-                '~mv2.png/v1/fit/w_220,h_60,al_c,q_85,enc_auto/logo.png';
+            return 'images/wix/wix-' + id.slice(7, 15) + '.png';
         }
 
         function fillTrack(el, list, urlFor) {

@@ -670,7 +670,6 @@
         // ---- Client logo marquee ----
         // [wix media id, brand name] — split across two counter-scrolling rows.
         const BRANDS = [
-            ['9e0902_330579c67eb1445c939d52c8837cacde', 'EY'],
             ['9e0902_572678def7084fefbfc664709f737e0d', 'Air India'],
             ['9e0902_950c2ae7bd274dc781ee9af9da2d1ef3', 'Jio Studio'],
             ['9e0902_9a50dbc288904b778b73ed948889347b', 'RPG Pvt Ltd'],
@@ -724,10 +723,13 @@
             ['9e0902_e03da0b96e004cb1be899cba8daaea37', 'Featured in'],
         ];
 
+        // Logos are served from images/wix/ now, not resized by Wix. The w/h
+        // args are still passed through to the img width/height attributes to
+        // reserve layout space; the CSS (height + width:auto + object-fit)
+        // does the actual sizing, so the untransformed original is not
+        // stretched to the old fill box.
         function logoUrl(id, w, h) {
-            return 'https://static.wixstatic.com/media/' + id +
-                '~mv2.png/v1/fill/w_' + w + ',h_' + h +
-                ',al_c,q_85,usm_0.66_1.00_0.01,enc_auto/logo.png';
+            return 'images/wix/wix-' + id.slice(7, 15) + '.png';
         }
 
         function fillTrack(el, list, w, h) {
