@@ -456,14 +456,9 @@
       color: #777;
     }
 
-    .badge.layout-timeline {
-      background: #1a1a1a;
-      color: #fff;
-      font-size: 11px;
-    }
-
-    .badge.layout-story {
-      background: #2c3e50;
+    /* Flags a legacy post that still sends visitors away from the template. */
+    .badge.layout-redirected {
+      background: #b3261e;
       color: #fff;
       font-size: 11px;
     }
@@ -586,29 +581,15 @@
               <option value="Case Study">Case Study</option>
             </select>
           </div>
-          <!-- Layout selector -->
+          <!-- Layout selector — Rich Article is the only layout the site has. -->
           <div class="field">
             <label for="layoutInput">Page Layout</label>
             <select id="layoutInput">
-              <option value="standard">Rich Article — Standard Blog (default)</option>
-              <option value="timeline">Timeline (e.g. Sanjay Vazirani)</option>
-              <option value="story-interview">Story Interview (e.g. Agnibh Mudi)</option>
-              <option value="news-announcement">News / Announcement</option>
+              <option value="standard">Rich Article — Standard Blog</option>
             </select>
             <p style="font-size:12px; color:#888; margin-top:6px;">
-              <b>Rich Article</b> is the site-wide blog template (<code>blog-post.html</code>) — plum hero,
-              cover card, sticky contents, share rail, author card and 3 “More From Us” suggestions.
-              Every regular post should stay on it. Only choose <b>Timeline</b> or <b>Story Interview</b>
-              for one-off story pages that have their own hand-built HTML file — then fill in the Redirect URL below.
-            </p>
-          </div>
-
-          <!-- Redirect URL (only relevant for Timeline / Story Interview) -->
-          <div class="field" id="redirectUrlField" style="display:none;">
-            <label for="redirectUrlInput">Redirect URL <span style="color:#888; font-weight:400;">(filename only, e.g. sanjay-vazirani.html)</span></label>
-            <input type="text" id="redirectUrlInput" placeholder="e.g. sanjay-vazirani.html" />
-            <p style="font-size:12px; color:#888; margin-top:6px;">
-              When a visitor opens this blog post, they will be redirected to this page instead of the standard blog layout.
+              Every post uses <b>Rich Article</b>, the site-wide blog template (<code>blog-post.html</code>) —
+              plum hero, cover card, sticky contents, share rail, author card and 3 “More From Us” suggestions.
             </p>
           </div>
           <div class="field">
@@ -782,12 +763,14 @@
         created_at: "2026-06-20"
       },
       {
-        title: "In-Office vs Outbound vs Virtual: Which Team Event Fits You?",
+        title: "In-Office vs Outdoors vs Virtual: Which Team Event Fits You?",
+        // Slug stays on the old wording — it is a live, indexed URL. Renaming it
+        // would 404 every existing link and throw away the ranking it has.
         slug: "in-office-vs-outbound-vs-virtual",
         category: "Corporate Events",
         author: "Team Woosh Biz",
         cover_image: "https://static.wixstatic.com/media/9e0902_b8e2795e4f484602a2294b7410e3f4e5~mv2.png",
-        body: `<p>Not every team needs the same kind of event. Here's how to pick the right format for your team's size, budget and goals.</p><h2>In-Office Events</h2><p>Best when you want zero travel time and maximum participation. Great for quick energy boosts between busy sprints.</p><h2>Outbound Events</h2><p>Best when you want a genuine change of scenery — a full day (or more) away from desks, screens and routine. Ideal for teams that are due a real reset.</p><h2>Virtual Events</h2><p>Best for distributed and remote-first teams. A well-run virtual session can build just as much connection as an in-person one, minus the logistics.</p><h2>Our Take</h2><p>We design all three formats around the same idea: no gyaan, just fun with learning. Tell us your team size and goal, and we'll recommend the format that fits.</p>`,
+        body: `<p>Not every team needs the same kind of event. Here's how to pick the right format for your team's size, budget and goals.</p><h2>In-Office Events</h2><p>Best when you want zero travel time and maximum participation. Great for quick energy boosts between busy sprints.</p><h2>Outdoors Events</h2><p>Best when you want a genuine change of scenery — a full day (or more) away from desks, screens and routine. Ideal for teams that are due a real reset.</p><h2>Virtual Events</h2><p>Best for distributed and remote-first teams. A well-run virtual session can build just as much connection as an in-person one, minus the logistics.</p><h2>Our Take</h2><p>We design all three formats around the same idea: no gyaan, just fun with learning. Tell us your team size and goal, and we'll recommend the format that fits.</p>`,
         is_published: true,
         created_at: "2026-06-05"
       },
@@ -853,16 +836,12 @@
             <td>${formatDate(p.created_at)}</td>
             <td><span class="badge ${pub ? 'pub' : 'draft'}">${pub ? 'Published' : 'Draft'}</span></td>
             <td>
-              ${p.layout === 'timeline'
-                ? '<span class="badge layout-timeline">Timeline</span>'
-                : p.layout === 'story-interview'
-                ? '<span class="badge layout-story">Story Interview</span>'
-                : '<span class="badge layout-standard">Rich Article</span>'}
-              ${p.redirect_url ? `<span class="badge layout-story" title="Redirects to ${escapeHtml(p.redirect_url)}">Redirected</span>` : ''}
+              <span class="badge layout-standard">Rich Article</span>
+              ${p.redirect_url ? `<span class="badge layout-redirected" title="Sends visitors to ${escapeHtml(p.redirect_url)} instead of the template. Re-save this post to clear it.">Redirected</span>` : ''}
             </td>
             <td>
               <div class="row-actions">
-                <a class="mini-btn" href="${escapeHtml(p.redirect_url || `blog-post.html?id=${p.id}`)}" target="_blank" rel="noopener">View</a>
+                <a class="mini-btn" href="blog-post.html?id=${p.id}" target="_blank" rel="noopener">View</a>
                 <button class="mini-btn" onclick="editPost('${p.id}')">Edit</button>
                 <button class="mini-btn" onclick="togglePublish('${p.id}', ${pub})">${pub ? 'Unpublish' : 'Publish'}</button>
                 <button class="mini-btn danger" onclick="deletePost('${p.id}', this)">Delete</button>
@@ -890,14 +869,6 @@
       }
     }
     $('coverInput').addEventListener('input', updateCoverPreview);
-    // Show redirect URL field only when a special layout is chosen
-    $('layoutInput').addEventListener('change', function() {
-      const isSpecial = this.value !== 'standard';
-      $('redirectUrlField').style.display = isSpecial ? 'block' : 'none';
-      if (!isSpecial) $('redirectUrlInput').value = '';
-      // Auto-fill the redirect target for the News / Announcement layout
-      if (this.value === 'news-announcement') $('redirectUrlInput').value = 'news-announcement.html';
-    });
     // hide preview if the image fails to load
     $('coverPreviewImg').addEventListener('error', () => {
       if ($('coverPreviewImg').src) $('coverPreview').style.display = 'none';
@@ -916,7 +887,9 @@
         author: $('authorInput').value.trim() || 'Team Woosh Biz',
         cover_image: $('coverInput').value.trim(),
         layout: $('layoutInput').value || 'standard',
-        redirect_url: $('redirectUrlInput').value.trim() || '',
+        // Rich Article is the only layout, so saving always clears any legacy
+        // redirect and keeps the post on the site-wide template.
+        redirect_url: '',
         // rich HTML straight from the editor
         body: isQuillEmpty() ? '' : quill.root.innerHTML
       };
@@ -929,8 +902,6 @@
       $('authorInput').value = 'Team Woosh Biz';
       $('coverInput').value = '';
       $('layoutInput').value = 'standard';
-      $('redirectUrlInput').value = '';
-      $('redirectUrlField').style.display = 'none';
       quill.setContents([]);
       updateCoverPreview();
       $('formHeading').textContent = 'Write New Post';
@@ -990,9 +961,7 @@
         $('categoryInput').value = validCats.includes(p.category) ? p.category : 'General';
         $('authorInput').value = p.author || 'Team Woosh Biz';
         $('coverInput').value = p.cover_image || '';
-        $('layoutInput').value = p.layout || 'standard';
-        $('redirectUrlInput').value = p.redirect_url || '';
-        $('redirectUrlField').style.display = (p.layout && p.layout !== 'standard') ? 'block' : 'none';
+        $('layoutInput').value = 'standard';
         updateCoverPreview();
         // load existing HTML into the rich text editor
         quill.setContents([]);
