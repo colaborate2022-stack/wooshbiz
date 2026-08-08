@@ -91,11 +91,16 @@
     top: 0;
     left: 0;
     height: 3px;
-    width: 0%;
+    width: 100%;
     background: linear-gradient(90deg, #f47920, #8E2158, #871e6c);
     z-index: 9998;
     pointer-events: none;
-    transition: width 0.08s linear;
+    /* Driven by scaleX, not width. `width` is a layout property — animating it
+       from a scroll handler relayouts the page on every frame; a scaleX runs
+       entirely on the compositor. */
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    transition: transform 0.08s linear;
 }
 
 /* Where there is a nav, the line rides its bottom edge instead — so it inherits
@@ -128,12 +133,16 @@ nav.w3d-stuck,
    re-rasterised against moving content, which on mobile GPUs shows up as the
    bar flickering or half-vanishing on the way down. Every nav here already
    sits on solid white, so the filter was buying nothing anyway.
-   The translate that pins the bar is written by the engine — see woosh-3d.js. */
+   The pin distance is written by the engine as --w3d-nav-y — see woosh-3d.js.
+   It is composed here rather than written as an inline transform so page CSS
+   can still add its own (a hide-on-scroll nav composes as
+   `translate3d(0, calc(var(--w3d-nav-y, 0px) - 100%), 0)`). */
 .w3d-nav {
     -webkit-backdrop-filter: none;
             backdrop-filter: none;
     -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
+    transform: translate3d(0, var(--w3d-nav-y, 0px), 0);
 }
 
 /* `transition: all` on a nav animates whatever a scroll-triggered class happens

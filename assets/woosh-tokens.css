@@ -1,0 +1,86 @@
+/* ==========================================================================
+   Woosh Biz — design tokens
+   --------------------------------------------------------------------------
+   The only file allowed to hold raw colour, size and easing values. Everything
+   else references these. Load it first, before every other stylesheet.
+
+   Direction: "Cinematic Stage" — a dark plum theatre, with lit scenes cut into
+   it. Gold is the highlight; orange is the accent that marks progress and
+   interaction.
+   ========================================================================== */
+
+:root {
+    /* ---- Surfaces ---- */
+    --night:    #140610;   /* page ground */
+    --deep:     #2d0a24;   /* raised dark surface */
+    --dusk:     #1d0818;   /* between the two */
+    --paper:    #fdf8fb;   /* lit scene ground, and text on dark */
+    --paper-2:  #f6ecf2;   /* lit scene, second surface */
+
+    /* ---- Brand ---- */
+    --plum:     #871e6c;
+    --plum-l:   #b73a94;
+    --plum-d:   #5c1349;
+    --orange:   #f47920;
+    --gold:     #f6c88a;
+    --whatsapp: #25d366;
+
+    /* ---- Ink ---- */
+    --ink:      #1b0813;   /* text on light */
+    --ink-2:    #6b5563;   /* muted text on light */
+    --dim:      rgba(253, 248, 251, .62);   /* muted text on dark */
+    --line:     rgba(253, 248, 251, .14);   /* hairline on dark */
+    --line-lit: rgba(27, 8, 19, .12);       /* hairline on light */
+
+    /* ---- Type ---- */
+    --disp: 'Playfair Display', Georgia, 'Times New Roman', serif;
+    --body: 'Outfit', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+    /* ---- Rhythm ---- */
+    --gut:  clamp(20px, 5vw, 68px);   /* page side padding */
+    --maxw: 1280px;
+    --nav-h: 72px;
+    --scene-y: clamp(70px, 8vw, 110px);
+
+    /* ---- Shape ---- */
+    --r-sm: 12px;
+    --r:    18px;
+    --r-lg: 22px;
+    --r-pill: 100px;
+
+    /* ---- Depth ---- */
+    --sh-1: 0 20px 44px -30px rgba(0, 0, 0, .7);
+    --sh-2: 0 30px 70px -40px rgba(0, 0, 0, .85);
+    --sh-3: 0 46px 100px -40px rgba(135, 30, 108, .75);
+    --sh-lit-1: 0 14px 34px -22px rgba(27, 8, 19, .3);
+    --sh-lit-2: 0 30px 70px -34px rgba(27, 8, 19, .5);
+
+    /* ---- Motion ---- */
+    --ease: cubic-bezier(.2, .7, .2, 1);
+    --t-fast: .22s;
+    --t:      .35s;
+    --t-slow: .6s;
+
+    /* ---- Stacking ---- */
+    --z-nav: 9999;
+    --z-menu: 10000;
+    --z-top: 9990;
+
+    /* ======================================================================
+       Legacy aliases — DO NOT REMOVE.
+
+       blog.html and blog-post.html were built against these names and are out
+       of scope for the redesign. They declare their own :root too, which wins
+       on source order; these exist so the blog keeps rendering correctly even
+       if that inline block is ever trimmed.
+       ====================================================================== */
+    --wb-primary:      #871e6c;
+    --wb-primary-dark: #6b1756;
+    --wb-plum:         #8E2158;
+    --wb-deep:         #5c1349;
+    --wb-accent:       #f47920;
+    --wb-text:         #1a1a1a;
+    --wb-muted:        #6b6b6b;
+    --wb-line:         #ecdfe8;
+    --wb-bg:           #faf7f9;
+}

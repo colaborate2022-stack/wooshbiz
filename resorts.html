@@ -4,341 +4,243 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resorts Recommended - Woosh Biz Team Building Venues</title>
-    <style>
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&display=swap");
-        @import url('https://fonts.cdnfonts.com/css/gilroy-free');
-
-        html { scroll-behavior: smooth; }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Gilroy', sans-serif; color: #1a1a1a; overflow-x: hidden; line-height: 1.6; }
-
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.7s ease; }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
-        .reveal:nth-child(2) { transition-delay: 0.1s; }
-        .reveal:nth-child(3) { transition-delay: 0.2s; }
-        .reveal:nth-child(4) { transition-delay: 0.3s; }
-        .reveal:nth-child(5) { transition-delay: 0.4s; }
-        .reveal:nth-child(6) { transition-delay: 0.5s; }
-
-        .navbar { position: fixed; top: 0; left: 0; width: 100%; background: #fff; z-index: 9999; transition: box-shadow 0.3s ease; }
-        .navbar::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(to right, transparent, #871e6c, transparent);
-            transition: opacity 0.2s ease;
-        }
-        .navbar.scrolled::after { opacity: 0; }
-        /* No backdrop-filter here: the nav already sits on solid white, and
-           filtering a fixed bar makes mobile GPUs flicker it half-away as you
-           scroll past content. A shadow gives the same lift for free. */
-        .navbar.scrolled { box-shadow: 0 10px 30px -18px rgba(28, 10, 24, 0.55); }
-        .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; height: 70px; display: flex; align-items: center; justify-content: space-between; }
-        .nav-logo img { height: 40px; width: auto; display: block; }
-        .nav-links { display: flex; align-items: center; gap: 24px; list-style: none; margin: 0; padding: 0; }
-        .nav-links a { color: #1a1a1a; text-decoration: none; font-weight: 700; font-size: 15px; transition: color 0.2s; white-space: nowrap; }
-        .nav-links a:hover { color: #871e6c; }
-        .dropdown { position: relative; }
-        /* Anchored right, not left — a left-anchored menu on the last nav item
-           runs off the edge of the viewport. */
-        .dropdown-menu { display: none; position: absolute; top: 100%; right: 0; background: white; border-radius: 12px; box-shadow: 0 8px 40px rgba(0,0,0,0.12); padding: 8px; min-width: 220px; list-style: none; z-index: 10000; }
-        .dropdown:hover .dropdown-menu { display: block; }
-        .dropdown-menu li a { display: block; padding: 12px 16px; color: #1a1a1a; border-radius: 8px; font-size: 14px; }
-        .dropdown-menu li a:hover { background: #fdf0f9; color: #871e6c; }
-        .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; z-index: 10001; }
-        .hamburger span { display: block; width: 26px; height: 3px; background: #1a1a1a; border-radius: 3px; transition: all 0.3s ease; }
-        .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-        .hamburger.active span:nth-child(2) { opacity: 0; }
-        .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
-
-        .hero { min-height: 70vh; background: linear-gradient(135deg, #871e6c 0%, #5c1349 100%); color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 160px 3rem 100px; text-align: center; }
-        .badge { background: rgba(255, 255, 255, 0.2); color: white; width: fit-content; padding: 10px 24px; border-radius: 50px; font-size: 14px; font-weight: 700; margin-bottom: 20px; animation: slideDownFade 0.5s ease 0.2s both; }
-        @keyframes slideDownFade { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-        .hero h1 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; line-height: 1.15; margin-bottom: 16px; animation: fadeUpAnimation 0.6s ease 0.3s both; }
-        @keyframes fadeUpAnimation { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        .hero p { font-size: 1.1rem; opacity: 0.9; animation: fadeUpAnimation 0.6s ease 0.4s both; }
-
-        .resorts-section { padding: 80px 3rem; background: white; }
-        .section-heading { font-size: 2.5rem; font-weight: 800; color: #1a1a1a; text-align: center; margin-bottom: 50px; }
-        .resorts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; max-width: 1400px; margin: 0 auto; }
-
-        .resort-card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08); transition: all 0.3s ease; }
-        .resort-card:hover { transform: translateY(-8px); box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15); }
-
-        .resort-banner { width: 100%; height: 160px; display: flex; align-items: center; justify-content: center; font-size: 4rem; }
-        .resort-content { padding: 28px; }
-        .resort-name { font-size: 1.2rem; font-weight: 800; color: #1a1a1a; margin-bottom: 8px; }
-        .resort-location { font-size: 0.85rem; background: #fdf0f9; color: #871e6c; border-radius: 50px; padding: 4px 16px; display: inline-block; margin-bottom: 16px; font-weight: 600; }
-        .resort-description { font-size: 0.95rem; color: #555; line-height: 1.7; margin-bottom: 20px; }
-        .cta-button { background: #f47920; color: white; padding: 14px 28px; border-radius: 50px; font-weight: 800; font-size: 0.95rem; border: none; cursor: pointer; transition: all 0.3s ease; text-decoration: none; display: inline-block; width: 100%; text-align: center; }
-        .cta-button:hover { background: #d96a10; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(244, 121, 32, 0.3); }
-
-        .cta-strip { background: linear-gradient(135deg, #871e6c 0%, #5c1349 100%); color: white; padding: 60px 3rem; text-align: center; }
-        .cta-strip h2 { font-size: 2.2rem; font-weight: 800; margin-bottom: 24px; }
-        .cta-strip-button { background: #f47920; }
-        .cta-strip-button:hover { background: #d96a10; }
-
-        footer { background: #871e6c; color: white; padding: 60px 3rem 30px; }
-        .footer-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr 1fr; gap: 3rem; max-width: 1400px; margin: 0 auto 40px; }
-        .footer-logo img { height: 40px; width: auto; }
-        .footer-socials { display: flex; gap: 1rem; margin-top: 8px; }
-        .social-icon { width: 36px; height: 36px; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; transition: transform 0.2s ease; }
-        .social-icon:hover { transform: scale(1.2); }
-        .social-icon img { width: 100%; height: 100%; object-fit: cover; }
-        .footer-column h4 { font-size: 0.85rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px; opacity: 0.9; }
-        .footer-column a { display: block; color: rgba(255, 255, 255, 0.75); text-decoration: none; font-size: 0.9rem; margin-bottom: 10px; transition: all 0.3s ease; }
-        .footer-column a:hover { opacity: 1; text-decoration: underline; }
-        .footer-contact { font-size: 1.2rem; font-weight: 800; }
-        .footer-rating { font-size: 0.85rem; opacity: 0.8; margin-top: 12px; }
-        .footer-bottom { border-top: 1px solid rgba(255, 255, 255, 0.2); padding-top: 20px; text-align: center; color: rgba(255, 255, 255, 0.6); font-size: 0.85rem; }
-
-        .scroll-to-top { position: fixed; bottom: 30px; right: 30px; width: 48px; height: 48px; border-radius: 50%; background: #871e6c; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem; cursor: pointer; z-index: 9998; opacity: 0; visibility: hidden; transition: all 0.3s ease; border: none; }
-        .scroll-to-top.visible { opacity: 1; visibility: visible; }
-        .scroll-to-top:hover { background: #6b1857; transform: scale(1.1); }
-
-        @media (max-width: 1024px) {
-            .resorts-grid { grid-template-columns: repeat(2, 1fr); }
-            .footer-grid { grid-template-columns: 1fr 1fr; }
-            .hamburger { display: flex; }
-            .nav-links { display: none; }
-        }
-        @media (max-width: 768px) {
-            body { overflow-x: hidden; }
-            .hamburger { display: flex !important; }
-            .nav-links { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: #fff; flex-direction: column; align-items: center; justify-content: center; gap: 24px; z-index: 9998; padding: 80px 24px 40px; }
-            .nav-links.open { display: flex !important; }
-            .nav-links a { font-size: 1.3rem; }
-            .dropdown-menu { position: static !important; display: none; box-shadow: none; background: #fdf0f9; border-radius: 12px; padding: 8px; margin-top: 8px; width: 100%; }
-            .dropdown.open .dropdown-menu { display: block; }
-            .dropdown-menu li a { font-size: 1rem; text-align: center; }
-            .hero { padding: 120px 1.5rem 40px; }
-            .hero h1 { font-size: 1.8rem; }
-            .resorts-section { padding: 36px 1.5rem; }
-            .resorts-grid { grid-template-columns: 1fr; }
-            .section-heading { font-size: 1.8rem; margin-bottom: 30px; }
-            footer { padding: 40px 1.5rem 20px; }
-            .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
-        }
-    /* Global font override — all text uses Playfair Display */
-* { font-family: "Playfair Display", Georgia, serif !important; }
-
-        /* ==================================================================
-           Scroll-focus states — mirrors of the :hover rules above.
-           assets/woosh-3d.js applies .w3d-focus to whichever cards are
-           crossing the middle of the viewport, so these fire on touch too.
-           The lift itself is handled in 3D by the engine.
-           ================================================================== */
-        .resort-card.w3d-focus { box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15); }
-        .resort-card.w3d-focus .resort-location { background: #871e6c; color: #fff; }
-        .resort-location { transition: background 0.35s ease, color 0.35s ease; }
-</style>
-    <!-- Scroll-driven 3D motion — works on touch and desktop alike -->
+    <meta name="description" content="Resorts we recommend for corporate offsites and team building — hand-picked venues across Maharashtra, Mumbai and Pan India.">
+    <link rel="canonical" href="https://wooshbiz.com/resorts.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Woosh Biz">
+    <meta property="og:title" content="Resorts Recommended - Woosh Biz Team Building Venues">
+    <meta property="og:description" content="Resorts we recommend for corporate offsites and team building — hand-picked venues across Maharashtra, Mumbai and Pan India.">
+    <meta property="og:url" content="https://wooshbiz.com/resorts.html">
+    <meta property="og:image" content="https://wooshbiz.com/images/og-default.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon-180.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="images/favicon-512.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600;1,700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/woosh-tokens.css">
+    <link rel="stylesheet" href="assets/woosh-base.css">
+    <link rel="stylesheet" href="assets/woosh-chrome.css">
+    <link rel="stylesheet" href="assets/woosh-components.css">
     <link rel="stylesheet" href="assets/woosh-3d.css">
     <script defer src="assets/woosh-3d.js"></script>
+    <script defer src="assets/woosh-ui.js"></script>
 </head>
 <body>
 
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="nav-logo">
-                <img src="images/wix/wix-2f36ed41.png" alt="Woosh Biz" height="40">
-            </a>
-            <button class="hamburger" id="hamburger" aria-label="Menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="high-octane.html">In-Office</a></li>
-                <li><a href="outdoors.html">Outdoors</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle">Get In Touch ▾</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="about.html">About Us</a></li>
-                        <li><a href="blog.html">Blogs</a></li>
-                        <li><a href="contact.html">Free Consultation</a></li>
-                        <li><a href="resorts.html">Resorts Recommended</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </nav>
+<!-- @partial:nav active="resorts" -->
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="index.html" class="nav-logo" aria-label="Woosh Biz — home">
+            <img src="images/wix/wix-2f36ed41.png" alt="Woosh Biz" width="1182" height="466">
+        </a>
+        <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false" aria-controls="navLinks">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="high-octane.html">In-Office</a></li>
+            <li><a href="outdoors.html">Outdoors</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle">More</a>
+                <ul class="dropdown-menu">
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="blog.html">Blogs</a></li>
+                    <li><a href="contact.html">Free Consultation</a></li>
+                    <li><a href="resorts.html" class="active" aria-current="page">Resorts Recommended</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
+<!-- @end:nav -->
 
-    <section class="hero">
-        <div class="badge reveal">🏨 Hand-Picked by Woosh Biz</div>
-        <h1 class="reveal">Resorts We Recommend</h1>
-        <p class="reveal">Carefully selected venues for the best team building offsite experiences</p>
-    </section>
-
-    <section class="resorts-section">
-        <h2 class="section-heading reveal">Premium Venues for Your Offsite</h2>
-        <div class="resorts-grid">
-            <div class="resort-card reveal">
-                <div class="resort-banner" style="background: linear-gradient(135deg, #2d5a27, #4a9e3f);">🌿</div>
-                <div class="resort-content">
-                    <div class="resort-name">Natventure Camp</div>
-                    <div class="resort-location">Wada, Maharashtra</div>
-                    <p class="resort-description">A beautiful natural getaway perfect for outdoor team activities and nature immersion.</p>
-                    <a href="https://wa.me/919210804078" class="cta-button">Enquire Now</a>
-                </div>
-            </div>
-
-            <div class="resort-card reveal">
-                <div class="resort-banner" style="background: linear-gradient(135deg, #1a5276, #2e86c1);">🎡</div>
-                <div class="resort-content">
-                    <div class="resort-name">Visava Amusement Park</div>
-                    <div class="resort-location">Panvel, Maharashtra</div>
-                    <p class="resort-description">Fun-filled resort with amusement facilities perfect for energetic team building days.</p>
-                    <a href="https://wa.me/919210804078" class="cta-button">Enquire Now</a>
-                </div>
-            </div>
-
-            <div class="resort-card reveal">
-                <div class="resort-banner" style="background: linear-gradient(135deg, #7b241c, #cb4335);">🏖️</div>
-                <div class="resort-content">
-                    <div class="resort-name">Club Mahindra Resorts</div>
-                    <div class="resort-location">Pan India</div>
-                    <p class="resort-description">Premium resort chain offering excellent facilities for corporate offsites.</p>
-                    <a href="https://wa.me/919210804078" class="cta-button">Enquire Now</a>
-                </div>
-            </div>
-
-            <div class="resort-card reveal">
-                <div class="resort-banner" style="background: linear-gradient(135deg, #4a235a, #7d3c98);">🏙️</div>
-                <div class="resort-content">
-                    <div class="resort-name">Peninsula Redpine</div>
-                    <div class="resort-location">Mumbai</div>
-                    <p class="resort-description">Urban resort offering a refreshing escape for city-based corporate teams.</p>
-                    <a href="https://wa.me/919210804078" class="cta-button">Enquire Now</a>
-                </div>
-            </div>
-
-            <div class="resort-card reveal">
-                <div class="resort-banner" style="background: linear-gradient(135deg, #784212, #d35400);">🌄</div>
-                <div class="resort-content">
-                    <div class="resort-name">Treat Resorts</div>
-                    <div class="resort-location">Maharashtra</div>
-                    <p class="resort-description">Comfortable resort with great amenities for half-day and full-day programs.</p>
-                    <a href="https://wa.me/919210804078" class="cta-button">Enquire Now</a>
-                </div>
-            </div>
-
-            <div class="resort-card reveal">
-                <div class="resort-banner" style="background: linear-gradient(135deg, #1b2631, #2e4057);">⭐</div>
-                <div class="resort-content">
-                    <div class="resort-name">Westin Hotels</div>
-                    <div class="resort-location">Pan India</div>
-                    <p class="resort-description">Luxury hotel chain perfect for premium corporate team building experiences.</p>
-                    <a href="https://wa.me/919210804078" class="cta-button">Enquire Now</a>
-                </div>
+<header class="scene-hero">
+    <span class="glow a"></span><span class="glow b"></span>
+    <div class="wrap hero-inner">
+        <div>
+            <p class="crumbs"><a href="index.html">Home</a><span>/</span>Resorts</p>
+            <p class="eyebrow" data-w3d="rise" data-w3d-fade>Hand-picked by Woosh Biz</p>
+            <h1 class="display" data-w3d="rise" data-w3d-fade>Venues we'd send<br>our own team to.</h1>
+            <p class="lede dim" data-w3d="rise" data-w3d-fade>
+                We've run programmes at all of these. They're on this list because the lawns are big
+                enough, the logistics don't fight you, and the staff have done it before.
+            </p>
+            <div class="hero-acts">
+                <a class="act" data-magnetic href="https://wa.me/919210804078" target="_blank" rel="noopener">
+                    <span class="wa"><svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413"/></svg></span>
+                    <span>Enquire now</span>
+                </a>
+                <a class="act ghost" href="outdoors.html"><span>See outdoor programmes</span></a>
             </div>
         </div>
-    </section>
 
-    <section class="cta-strip">
-        <h2 class="reveal">Planning an Offsite?</h2>
-        <a href="https://wa.me/919210804078" class="cta-button cta-strip-button reveal">Get Expert Advice</a>
-    </section>
+        <div class="deck">
+            <span class="deck-plate p1"></span>
+            <span class="deck-plate p2"></span>
+            <figure class="deck-art" data-w3d="layer">
+                <img src="images/resorts/hero-offsite.jpg"
+                     alt="Corporate teams gathered under open-air umbrellas on a resort lawn with hills behind"
+                     width="1600" height="900" fetchpriority="high">
+                <figcaption class="deck-cap">Open-air venues built for a full day of team building.</figcaption>
+            </figure>
+        </div>
+    </div>
+</header>
 
-    <footer>
-        <div class="footer-grid">
+<section class="scene lit">
+    <div class="wrap">
+        <div class="scene-head">
+            <p class="eyebrow" data-w3d="rise" data-w3d-fade>The list</p>
+            <h2 class="display" data-w3d="rise" data-w3d-fade>Premium venues for your offsite.</h2>
+            <p class="dim" data-w3d="rise" data-w3d-fade>Filter by location or search by name — tap any photo to see it full size.</p>
+        </div>
+
+        <div class="venue-tools">
+            <div class="filter-chips" data-filter-for="venueList" data-filter-key="region" role="group" aria-label="Filter venues by location"></div>
+            <div class="venue-search">
+                <span class="search-icon" aria-hidden="true">&#128269;</span>
+                <input type="search" data-filter-search="venueList" placeholder="Search venues&hellip;" aria-label="Search venues by name or location">
+            </div>
+        </div>
+
+        <div class="venues-list" id="venueList">
+            <article class="panel venue-card flush" data-w3d="card" data-region="Maharashtra">
+                <button class="venue-shot" type="button" data-lightbox="images/resorts/natventure-camp.jpg" data-caption="Natventure Camp — Wada, Maharashtra" aria-label="View a larger photo of Natventure Camp">
+                    <img src="images/resorts/natventure-camp.jpg" alt="Campsite among tall forest trees with seating set out in a clearing" width="1200" height="675" loading="lazy" decoding="async">
+                    <span class="shot-emoji" aria-hidden="true">&#127807;</span>
+                </button>
+                <div class="venue-body">
+                    <h3>Natventure Camp</h3>
+                    <span class="venue-where">Wada, Maharashtra</span>
+                    <p>A beautiful natural getaway perfect for outdoor team activities and nature immersion.</p>
+                    <a class="act small" href="https://wa.me/919210804078" target="_blank" rel="noopener"><span>Enquire now</span></a>
+                </div>
+            </article>
+
+            <article class="panel venue-card flush" data-w3d="card" data-region="Maharashtra">
+                <button class="venue-shot" type="button" data-lightbox="images/resorts/visava-park.jpg" data-caption="Visava Amusement Park — Panvel, Maharashtra" aria-label="View a larger photo of Visava Amusement Park">
+                    <img src="images/resorts/visava-park.jpg" alt="Water park pool with colourful slides and palm trees under a clear sky" width="1200" height="675" loading="lazy" decoding="async">
+                    <span class="shot-emoji" aria-hidden="true">&#127905;</span>
+                </button>
+                <div class="venue-body">
+                    <h3>Visava Amusement Park</h3>
+                    <span class="venue-where">Panvel, Maharashtra</span>
+                    <p>Fun-filled resort with amusement facilities perfect for energetic team building days.</p>
+                    <a class="act small" href="https://wa.me/919210804078" target="_blank" rel="noopener"><span>Enquire now</span></a>
+                </div>
+            </article>
+
+            <article class="panel venue-card flush" data-w3d="card" data-region="Pan India">
+                <button class="venue-shot" type="button" data-lightbox="images/resorts/club-mahindra.jpg" data-caption="Club Mahindra Resorts — Pan India" aria-label="View a larger photo of Club Mahindra Resorts">
+                    <img src="images/resorts/club-mahindra.jpg" alt="Resort swimming pool ringed by cottages and palm trees with hills in the distance" width="1200" height="675" loading="lazy" decoding="async">
+                    <span class="shot-emoji" aria-hidden="true">&#127958;&#65039;</span>
+                </button>
+                <div class="venue-body">
+                    <h3>Club Mahindra Resorts</h3>
+                    <span class="venue-where">Pan India</span>
+                    <p>Premium resort chain offering excellent facilities for corporate offsites.</p>
+                    <a class="act small" href="https://wa.me/919210804078" target="_blank" rel="noopener"><span>Enquire now</span></a>
+                </div>
+            </article>
+
+            <article class="panel venue-card flush" data-w3d="card" data-region="Mumbai">
+                <button class="venue-shot" type="button" data-lightbox="images/resorts/peninsula-redpine.jpg" data-caption="Peninsula Redpine — Mumbai" aria-label="View a larger photo of Peninsula Redpine">
+                    <img src="images/resorts/peninsula-redpine.jpg" alt="Rooftop pool on a city hotel deck looking out over the skyline" width="1200" height="675" loading="lazy" decoding="async">
+                    <span class="shot-emoji" aria-hidden="true">&#127961;&#65039;</span>
+                </button>
+                <div class="venue-body">
+                    <h3>Peninsula Redpine</h3>
+                    <span class="venue-where">Mumbai</span>
+                    <p>Urban resort offering a refreshing escape for city-based corporate teams.</p>
+                    <a class="act small" href="https://wa.me/919210804078" target="_blank" rel="noopener"><span>Enquire now</span></a>
+                </div>
+            </article>
+
+            <article class="panel venue-card flush" data-w3d="card" data-region="Maharashtra">
+                <button class="venue-shot" type="button" data-lightbox="images/resorts/treat-resorts.jpg" data-caption="Treat Resorts — Maharashtra" aria-label="View a larger photo of Treat Resorts">
+                    <img src="images/resorts/treat-resorts.jpg" alt="Row of wooden resort cottages along a wide green lawn at golden hour" width="1200" height="675" loading="lazy" decoding="async">
+                    <span class="shot-emoji" aria-hidden="true">&#127748;</span>
+                </button>
+                <div class="venue-body">
+                    <h3>Treat Resorts</h3>
+                    <span class="venue-where">Maharashtra</span>
+                    <p>Comfortable resort with great amenities for half-day and full-day programs.</p>
+                    <a class="act small" href="https://wa.me/919210804078" target="_blank" rel="noopener"><span>Enquire now</span></a>
+                </div>
+            </article>
+
+            <article class="panel venue-card flush" data-w3d="card" data-region="Pan India">
+                <button class="venue-shot" type="button" data-lightbox="images/resorts/westin-hotels.jpg" data-caption="Westin Hotels — Pan India" aria-label="View a larger photo of Westin Hotels">
+                    <img src="images/resorts/westin-hotels.jpg" alt="Large luxury hotel wing overlooking landscaped pools at dusk with hills behind" width="1200" height="675" loading="lazy" decoding="async">
+                    <span class="shot-emoji" aria-hidden="true">&#11088;</span>
+                </button>
+                <div class="venue-body">
+                    <h3>Westin Hotels</h3>
+                    <span class="venue-where">Pan India</span>
+                    <p>Luxury hotel chain perfect for premium corporate team building experiences.</p>
+                    <a class="act small" href="https://wa.me/919210804078" target="_blank" rel="noopener"><span>Enquire now</span></a>
+                </div>
+            </article>
+        </div>
+
+        <p class="no-results" data-filter-empty="venueList" hidden>No venues match that search. Try a different name or clear the filter.</p>
+    </div>
+</section>
+
+<section class="closing">
+    <span class="glow a"></span>
+    <div class="wrap">
+        <h2 class="display" data-w3d="rise" data-w3d-fade>Not sure which one <em>fits</em>?</h2>
+        <p data-w3d="rise" data-w3d-fade>Tell us your team size, budget and dates — we'll shortlist three.</p>
+        <a class="act" data-magnetic href="https://wa.me/919210804078" target="_blank" rel="noopener">
+            <span class="wa"><svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413"/></svg></span>
+            <span>Get a shortlist in 30 mins</span>
+        </a>
+    </div>
+</section>
+
+<!-- @partial:footer -->
+<footer class="site-footer">
+    <div class="wrap">
+        <div class="foot">
             <div>
-                <div class="footer-logo">
-                    <img src="https://static.wixstatic.com/media/9e0902_b8e2795e4f484602a2294b7410e3f4e5~mv2.png/v1/fill/w_112,h_44,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/2209_Woosh%20Biz%20update%20final%20white%20logo_PNG.png" alt="Woosh Biz">
-                </div>
-                <p style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 20px; line-height: 1.6;">No Gyaan. Just Fun With Learning.</p>
-                <div class="footer-socials">
-                    <a href="https://www.facebook.com/people/Woosh-Biz-by-HTI/100083456102229/" class="social-icon" title="Facebook"><img src="https://static.wixstatic.com/media/11062b_ef6a6ac194704911951645990055c2ce~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_ef6a6ac194704911951645990055c2ce~mv2.png" alt="FB"></a>
-                    <a href="https://www.instagram.com/wooshbiz/" class="social-icon" title="Instagram"><img src="https://static.wixstatic.com/media/11062b_cef3b719166a4815b446d4dcfcb6120d~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_cef3b719166a4815b446d4dcfcb6120d~mv2.png" alt="IG"></a>
-                    <a href="https://www.linkedin.com/company/woosh-biz-by-hti/" class="social-icon" title="LinkedIn"><img src="https://static.wixstatic.com/media/11062b_b5690303a8ff470e9b1c03a24aff140b~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_b5690303a8ff470e9b1c03a24aff140b~mv2.png" alt="LI"></a>
-                    <a href="https://www.youtube.com/channel/UC9BdT9tzf4841P1B-R7P-Qg" class="social-icon" title="YouTube"><img src="https://static.wixstatic.com/media/11062b_fe985b889c144b348eefc7bbc67018b4~mv2.png/v1/fill/w_39,h_39,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_fe985b889c144b348eefc7bbc67018b4~mv2.png" alt="YT"></a>
+                <img class="foot-mark" src="images/wix/wix-b8e2795e.png" alt="Woosh Biz" width="1182" height="466">
+                <p class="foot-tag">No gyaan. Just fun with learning.</p>
+                <div class="socials">
+                    <a href="https://www.facebook.com/people/Woosh-Biz-by-HTI/100083456102229/" target="_blank" rel="noopener" title="Facebook"><img src="images/wix/wix-ef6a6ac1.png" alt="Facebook" width="201" height="201"></a>
+                    <a href="https://www.instagram.com/wooshbiz/" target="_blank" rel="noopener" title="Instagram"><img src="images/wix/wix-cef3b719.png" alt="Instagram" width="201" height="201"></a>
+                    <a href="https://www.linkedin.com/company/woosh-biz-by-hti/" target="_blank" rel="noopener" title="LinkedIn"><img src="images/wix/wix-b5690303.png" alt="LinkedIn" width="201" height="201"></a>
+                    <a href="https://www.youtube.com/channel/UC9BdT9tzf4841P1B-R7P-Qg" target="_blank" rel="noopener" title="YouTube"><img src="images/wix/wix-fe985b88.png" alt="YouTube" width="201" height="201"></a>
                 </div>
             </div>
-            <div class="footer-column">
-                <h4>Quick Links</h4>
+            <div>
+                <h3>Company</h3>
                 <a href="about.html">About Us</a>
                 <a href="contact.html">Get In Touch</a>
-                <a href="contact.html">Free Consultation Call</a>
+                <a href="contact.html">Free Consultation</a>
                 <a href="blog.html">Blogs</a>
             </div>
-            <div class="footer-column">
-                <h4>Programs</h4>
+            <div>
+                <h3>Programmes</h3>
                 <a href="high-octane.html">In-Office</a>
                 <a href="outdoors.html">Outdoors</a>
+                <a href="resorts.html">Resorts Recommended</a>
             </div>
-            <div class="footer-column">
-                <h4>Contact</h4>
-                <div class="footer-contact">+91 9210804078</div>
-                <div class="footer-rating">⭐ 4.5 | 150 Ratings</div>
+            <div>
+                <h3>Contact</h3>
+                <a href="tel:+919210804078">+91 92108 04078</a>
+                <a href="mailto:info@wooshbiz.com">info@wooshbiz.com</a>
+                <span class="foot-rating">&#11088; 4.5 &middot; 150 ratings</span>
             </div>
         </div>
-        <div class="footer-bottom">© 2024 Woosh Biz by HTI India Pvt Ltd. All rights reserved.</div>
-    </footer>
+        <div class="foot-end">&copy; 2026 Woosh Biz by HTI India Pvt Ltd. All rights reserved.</div>
+    </div>
+</footer>
+<!-- @end:footer -->
 
-    <button class="scroll-to-top" id="scrollToTop" title="Scroll to top">↑</button>
+<button class="scroll-to-top" id="scrollToTop" title="Scroll to top" aria-label="Scroll to top">&uarr;</button>
 
-    <script>
-
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            navbar.classList.toggle('scrolled', window.scrollY > 80);
-        });
-
-        // Hamburger menu & mobile nav
-        const hamburger = document.getElementById('hamburger');
-        const navLinks = document.getElementById('navLinks');
-        const dropdownToggle = document.querySelector('.dropdown-toggle');
-        const dropdown = document.querySelector('.dropdown');
-
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navLinks.classList.toggle('open');
-            document.body.style.overflow = navLinks.classList.contains('open') ? 'hidden' : '';
-        });
-
-        // Close menu when a link is clicked
-        navLinks.querySelectorAll('a:not(.dropdown-toggle)').forEach(link => {
-            link.addEventListener('click', () => {
-                hamburger.classList.remove('active');
-                navLinks.classList.remove('open');
-                document.body.style.overflow = '';
-            });
-        });
-
-        // Mobile dropdown toggle
-        if (dropdownToggle) {
-            dropdownToggle.addEventListener('click', (e) => {
-                if (window.innerWidth <= 768) {
-                    e.preventDefault();
-                    dropdown.classList.toggle('open');
-                }
-            });
-        }
-
-        // Close menu on outside click
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.navbar')) {
-                hamburger.classList.remove('active');
-                navLinks.classList.remove('open');
-                document.body.style.overflow = '';
-            }
-        });
-
-        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
-        }, observerOptions);
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-        const scrollToTopBtn = document.getElementById('scrollToTop');
-        window.addEventListener('scroll', () => {
-            scrollToTopBtn.classList.toggle('visible', window.scrollY > 300);
-        });
-        scrollToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-    </script>
 </body>
 </html>

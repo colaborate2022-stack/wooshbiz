@@ -25,8 +25,23 @@
      • It only ever writes CSS custom properties, never `transform`, so page
        CSS keeps full control of composition.
 
+   Opting in
+     data-w3d="card"   full depth pass + scroll-focus + pointer tilt
+     data-w3d="rise"   gentle lift that settles and stays put (for copy)
+     data-w3d="layer"  continuous turn; must sit inside a `perspective` parent
+     data-w3d-fade     also hand opacity to the engine (element must start hidden)
+
+   The long selector lists further down are the legacy alias layer, kept so the
+   not-yet-migrated pages and the blog's CMS HTML — which cannot carry
+   attributes — keep working. New markup should use the attribute.
+
    Opt out of a whole page with <html data-w3d-off>.
-   Opt a single element out with class="w3d-static".
+   Opt a single element out with class="w3d-static" or data-w3d="off".
+
+   Debugging
+     wooshMotion.count()   { card, rise, layer, skipped }
+     wooshMotion.audit()   what registered, and every skip with its reason
+     ?w3d-debug            logs and outlines each skipped element
    ========================================================================== */
 (function () {
     'use strict';
@@ -64,14 +79,29 @@
         D.body.appendChild(bar);
     }
 
+    // scrollHeight is a forced synchronous layout. Reading it on every scroll
+    // event put a layout pass on the scroll path of all ten pages, so it is
+    // cached here and only re-measured when the document can actually change
+    // height: on resize, and when late-loading images reflow the page.
+    var docSpan = 0;
+    function measureDoc() { docSpan = root.scrollHeight - W.innerHeight; }
+    measureDoc();
+
     function chrome() {
         var y = W.pageYOffset || root.scrollTop || 0;
-        var span = root.scrollHeight - W.innerHeight;
-        bar.style.width = (span > 0 ? (y / span) * 100 : 0) + '%';
+        var p = docSpan > 0 ? y / docSpan : 0;
+        bar.style.transform = 'scaleX(' + (p < 0 ? 0 : p > 1 ? 1 : p).toFixed(4) + ')';
         if (nav) nav.classList.toggle('w3d-stuck', y > 8);
     }
 
     W.addEventListener('scroll', chrome, { passive: true });
+    W.addEventListener('resize', function () { measureDoc(); chrome(); }, { passive: true });
+    W.addEventListener('load', function () { measureDoc(); chrome(); });
+
+    if (W.ResizeObserver) {
+        new ResizeObserver(function () { measureDoc(); chrome(); }).observe(D.body);
+    }
+
     chrome();
 
     /* ----------------------------------------------------------------------
@@ -96,11 +126,16 @@
         var navFixed = getComputedStyle(nav).position === 'fixed';
         var pinned = -1;
 
+        // Written as a custom property, not an inline transform. An inline
+        // `style="transform:..."` out-ranks every stylesheet rule, so writing
+        // it directly would silently clobber any page CSS that wants to move
+        // the nav (hide-on-scroll, scale-on-scroll, an entrance animation).
+        // .w3d-nav composes this in CSS instead — see woosh-3d.css.
         var pin = function () {
             var t = (navFixed && vv) ? Math.max(0, vv.offsetTop) : 0;
             if (t === pinned) return;
             pinned = t;
-            nav.style.transform = 'translate3d(0,' + t + 'px,0)';
+            nav.style.setProperty('--w3d-nav-y', t + 'px');
         };
 
         pin();
@@ -152,19 +187,40 @@
 
     // Never animate anything living inside these.
     var SKIP_IN = '.marquee, .lightbox, .navbar, nav, .dropdown-menu,' +
-                  '.carousel-nav, .scroll-to-top, .w3d-static';
+                  '.carousel-nav, .scroll-to-top, .w3d-static, [data-w3d="off"]';
 
     /* ----------------------------------------------------------------------
        Item registry
+
+       Two ways in. `data-w3d="card|rise|layer|off"` is the contract for
+       anything written from here on: it says what an element wants in the
+       markup, next to the element, and it survives a rename. The selector
+       lists above are the legacy alias layer — they keep every page that has
+       not been migrated (and the blog, whose CMS HTML cannot carry attributes)
+       working unchanged. New components use the attribute and are NOT added to
+       the lists, so the lists only ever shrink.
        ---------------------------------------------------------------------- */
 
     var items = [];
     var live = [];           // items currently near the viewport
     var scrollers = [];      // horizontal carousels we listen to
+    var skipped = [];        // {el, kind, reason} — surfaced by audit()
+
+    var debug = /(^|[?&])w3d-debug($|[=&])/.test(W.location.search);
+
+    function drop(el, kind, reason) {
+        skipped.push({ el: el, kind: kind, reason: reason });
+        if (debug) {
+            // Silent exclusions are the single easiest way to lose an element's
+            // motion during a redesign, so under ?w3d-debug they are loud.
+            console.warn('[w3d] skipped (' + reason + ')', el);
+            el.style.outline = '2px dashed #f47920';
+        }
+    }
 
     function register(el, kind) {
         if (!el || el.__w3d) return;
-        if (el.closest(SKIP_IN)) return;
+        if (el.closest(SKIP_IN)) { drop(el, kind, 'inside a skip zone'); return; }
 
         // Nesting two depth passes would move the inner element twice, so
         // whichever one is registered first wins. Cards are registered before
@@ -173,17 +229,27 @@
         // the card carries the depth pass, the layer turns inside it.
         var NEST = '.w3d-card, .w3d-rise';
         if (kind !== 'layer') {
-            if (el.parentNode && el.parentNode.closest && el.parentNode.closest(NEST)) return;
-            if (el.querySelector(NEST)) return;
+            if (el.parentNode && el.parentNode.closest && el.parentNode.closest(NEST)) {
+                drop(el, kind, 'nested inside another registered element'); return;
+            }
+            if (el.querySelector(NEST)) {
+                drop(el, kind, 'contains another registered element'); return;
+            }
         }
 
         var cs = getComputedStyle(el);
 
         // Anything with its own CSS animation already owns its transform —
         // fighting it would break the existing entrance animations.
-        if (kind !== 'layer' && cs.animationName !== 'none') return;
-        if (cs.position === 'fixed' || cs.position === 'sticky') return;
-        if (cs.display === 'inline') return;
+        if (kind !== 'layer' && cs.animationName !== 'none') {
+            drop(el, kind, 'has a CSS animation: ' + cs.animationName); return;
+        }
+        // `sticky` is fine: it is laid out in flow and only offset by the
+        // scroll container, so a transform composes with it rather than
+        // fighting it. `fixed` is not — transforming it would fight the very
+        // thing that pins it. Sticky scroll-scenes depend on this.
+        if (cs.position === 'fixed') { drop(el, kind, 'position: fixed'); return; }
+        if (cs.display === 'inline') { drop(el, kind, 'display: inline'); return; }
 
         var it = {
             el: el,
@@ -192,7 +258,8 @@
             // so a JS failure can never leave visible content stuck at zero.
             fades: el.classList.contains('reveal') ||
                    el.classList.contains('reveal-3d') ||
-                   el.classList.contains('rv'),
+                   el.classList.contains('rv') ||
+                   el.hasAttribute('data-w3d-fade'),
             offset: 0,      // per-item stagger
             scroller: null, // horizontal carousel, if any
             focus: false,
@@ -221,15 +288,30 @@
         items.push(it);
     }
 
-    // A layer sits inside an element that already declares `perspective`, and
-    // .illustration-3d ships a float animation that would fight the transform.
-    D.querySelectorAll(LAYERS).forEach(function (el) {
-        el.style.animation = 'none';
-        register(el, 'layer');
-    });
+    // Registration order matters: layers first (a layer inside a card is the
+    // whole point), then cards, then text — so a card always beats the text
+    // block wrapping it when both would match.
+    function registerAll(scope) {
+        function attr(kind) {
+            return scope.querySelectorAll('[data-w3d="' + kind + '"]');
+        }
 
-    D.querySelectorAll(CARDS).forEach(function (el) { register(el, 'card'); });
-    D.querySelectorAll(RISE).forEach(function (el) { register(el, 'rise'); });
+        // A layer sits inside an element that already declares `perspective`,
+        // and .illustration-3d ships a float animation that would fight the
+        // transform.
+        function asLayer(el) { el.style.animation = 'none'; register(el, 'layer'); }
+
+        attr('layer').forEach(asLayer);
+        scope.querySelectorAll(LAYERS).forEach(asLayer);
+
+        attr('card').forEach(function (el) { register(el, 'card'); });
+        scope.querySelectorAll(CARDS).forEach(function (el) { register(el, 'card'); });
+
+        attr('rise').forEach(function (el) { register(el, 'rise'); });
+        scope.querySelectorAll(RISE).forEach(function (el) { register(el, 'rise'); });
+    }
+
+    registerAll(D);
 
     if (!items.length) return;
 
@@ -264,27 +346,46 @@
        Pointer tilt — additive, fine pointers only, never load-bearing
        ---------------------------------------------------------------------- */
 
+    // One delegated listener, and no measuring here. The old version attached a
+    // pair of listeners per item and called getBoundingClientRect() inside the
+    // move handler — a forced synchronous layout on every mouse move, in the
+    // one place this file's own header promises there isn't one. Now the
+    // pointer position is just recorded; the rect it needs is the one tick()
+    // already reads for that element in its batched read pass.
+    var hovered = null;
+    var pointerX = 0, pointerY = 0;
+
     if (fine) {
-        items.forEach(function (it) {
-            if (it.kind === 'rise') return;
-            var host = it.kind === 'layer' ? (it.el.parentNode || it.el) : it.el;
+        D.addEventListener('mousemove', function (e) {
+            var el = e.target && e.target.closest ? e.target.closest('.w3d-card, .w3d-layer') : null;
+            var it = null;
 
-            host.addEventListener('mousemove', function (e) {
-                var r = host.getBoundingClientRect();
-                var px = (e.clientX - r.left) / r.width - 0.5;
-                var py = (e.clientY - r.top) / r.height - 0.5;
-                var amp = it.kind === 'layer' ? 20 : 11;
-                it.trx = -py * amp;
-                it.try_ = px * (amp + 4);
-                kick();
-            });
+            if (el) {
+                it = el.__w3d;
+                // A layer is tilted from its parent's box, not its own.
+                if (it && it.kind === 'layer') it.hostEl = it.el.parentNode || it.el;
+            }
 
-            host.addEventListener('mouseleave', function () {
-                it.trx = 0;
-                it.try_ = 0;
-                kick();
-            });
-        });
+            if (hovered && hovered !== it) { hovered.trx = 0; hovered.try_ = 0; }
+            hovered = (it && it.kind !== 'rise') ? it : null;
+            pointerX = e.clientX;
+            pointerY = e.clientY;
+            kick();
+        }, { passive: true });
+
+        D.addEventListener('mouseleave', function () {
+            if (hovered) { hovered.trx = 0; hovered.try_ = 0; hovered = null; kick(); }
+        }, { passive: true });
+    }
+
+    // Called from tick()'s read pass, where `r` is already measured.
+    function aimPointer(it, r) {
+        if (it !== hovered || !r || !r.width || !r.height) return;
+        var px = (pointerX - r.left) / r.width - 0.5;
+        var py = (pointerY - r.top) / r.height - 0.5;
+        var amp = it.kind === 'layer' ? 20 : 11;
+        it.trx = -py * amp;
+        it.try_ = px * (amp + 4);
     }
 
     /* ----------------------------------------------------------------------
@@ -472,6 +573,14 @@
         for (i = 0; i < n; i++) {
             rects[i] = live[i].el.getBoundingClientRect();
             boxes[i] = live[i].scroller ? live[i].scroller.getBoundingClientRect() : null;
+            // Pointer tilt resolves here, off the rect we just took, so the
+            // mousemove handler never has to measure anything itself. A layer
+            // tilts from its parent's box, which costs one extra read — for
+            // the single hovered element, still inside the read pass.
+            if (live[i] === hovered) {
+                aimPointer(hovered, hovered.hostEl ? hovered.hostEl.getBoundingClientRect() : rects[i]);
+                busy = true;
+            }
         }
 
         /* ---- write pass ---- */
@@ -522,14 +631,29 @@
     W.addEventListener('load', kick);
 
     // Handle for checking what got picked up on a page:
-    //   wooshMotion.count()  ->  { card: n, rise: n, layer: n }
+    //   wooshMotion.count()  ->  { card: n, rise: n, layer: n, skipped: n }
+    //   wooshMotion.audit()  ->  { registered: [...], skipped: [{el, reason}] }
+    // Load any page with ?w3d-debug to have every skip logged and outlined.
     W.wooshMotion = {
         items: items,
         count: function () {
-            var out = { card: 0, rise: 0, layer: 0 };
+            var out = { card: 0, rise: 0, layer: 0, skipped: skipped.length };
             items.forEach(function (it) { out[it.kind]++; });
             return out;
         },
+
+        // The engine drops elements silently for four different reasons, which
+        // is the easiest way to lose a component's motion during a redesign
+        // and never notice. This is how you check.
+        audit: function () {
+            return {
+                registered: items.map(function (it) {
+                    return { el: it.el, kind: it.kind, fades: it.fades };
+                }),
+                skipped: skipped.slice()
+            };
+        },
+
         refresh: kick,
 
         // Pick up elements that arrived after load — the blog grid renders its
@@ -539,8 +663,7 @@
         scan: function (root) {
             var scope = root || D;
             var before = items.length;
-            scope.querySelectorAll(CARDS).forEach(function (el) { register(el, 'card'); });
-            scope.querySelectorAll(RISE).forEach(function (el) { register(el, 'rise'); });
+            registerAll(scope);
             var added = items.slice(before);
             if (added.length) { prime(added); kick(); }
             return added.length;

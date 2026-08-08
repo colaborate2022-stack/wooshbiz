@@ -1,0 +1,24 @@
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="{{base}}index.html" class="nav-logo" aria-label="Woosh Biz — home">
+            <img src="{{base}}images/wix/wix-2f36ed41.png" alt="Woosh Biz" width="1182" height="466">
+        </a>
+        <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false" aria-controls="navLinks">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="{{base}}index.html"{{active:home}}>Home</a></li>
+            <li><a href="{{base}}high-octane.html"{{active:in-office}}>In-Office</a></li>
+            <li><a href="{{base}}outdoors.html"{{active:outdoors}}>Outdoors</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle">More</a>
+                <ul class="dropdown-menu">
+                    <li><a href="{{base}}about.html"{{active:about}}>About Us</a></li>
+                    <li><a href="{{base}}blog.html"{{active:blog}}>Blogs</a></li>
+                    <li><a href="{{base}}contact.html"{{active:contact}}>Free Consultation</a></li>
+                    <li><a href="{{base}}resorts.html"{{active:resorts}}>Resorts Recommended</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>

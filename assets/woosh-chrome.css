@@ -1,0 +1,201 @@
+/* ==========================================================================
+   Woosh Biz — chrome: navbar, footer, back-to-top
+   --------------------------------------------------------------------------
+   Deliberately its own file. These two partials appear on all ten pages and
+   are the most visible thing on the site, so a components refactor must not
+   be able to reach them.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Navbar
+   -------------------------------------------------------------------------- */
+
+.navbar {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: var(--z-nav);
+    /* Nearly opaque on purpose. At .72 the bar reads as muddy grey wherever it
+       sits over a light section — most visibly over the white frozen hero on
+       the homepage. The blur is buying almost nothing at this alpha; the solid
+       bar is what makes the seam crisp. */
+    background: rgba(18, 6, 15, .95);
+    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+            backdrop-filter: blur(14px) saturate(1.4);
+    border-bottom: 1px solid var(--line);
+}
+/* woosh-3d.js forces backdrop-filter off via .w3d-nav on mobile, where it
+   causes the bar to flicker. Restore it only where it is safe. */
+@media (min-width: 969px) {
+    .navbar.w3d-nav {
+        -webkit-backdrop-filter: blur(14px) saturate(1.4);
+                backdrop-filter: blur(14px) saturate(1.4);
+    }
+}
+
+.nav-container {
+    max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gut);
+    height: var(--nav-h);
+    display: flex; align-items: center; justify-content: space-between;
+}
+
+.nav-logo { display: block; }
+.nav-logo img { height: 32px; width: auto; filter: brightness(0) invert(1); }
+
+.nav-links { display: flex; align-items: center; gap: 30px; list-style: none; }
+/* Colour is declared, never inherited. The blog pages are light-themed and set
+   their own dark `.nav-links a` colour; without an explicit value here the bar
+   renders dark text on the dark bar. The chrome has to stand on its own. */
+.nav-links > li > a {
+    position: relative; display: block; padding: 5px 0;
+    color: var(--paper);
+    font-family: var(--body);
+    font-size: .84rem; font-weight: 500; letter-spacing: .04em;
+    text-decoration: none;
+    transition: color var(--t-fast);
+}
+.nav-links > li > a:hover { color: var(--gold); }
+.nav-links > li > a::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 1px;
+    background: linear-gradient(90deg, var(--orange), var(--plum-l));
+    transform: scaleX(0); transform-origin: left;
+    transition: transform var(--t) var(--ease);
+}
+.nav-links > li > a:hover::after,
+.nav-links > li > a.active::after { transform: scaleX(1); }
+.nav-links > li > a.active { color: var(--gold); }
+
+.dropdown { position: relative; }
+.dropdown-toggle::before { content: ''; position: absolute; inset: -8px -12px -18px -12px; }
+.dropdown-menu {
+    display: none; position: absolute; top: 100%; right: 0; margin-top: 12px;
+    min-width: 232px; padding: 8px;
+    background: var(--deep); border: 1px solid var(--line);
+    border-radius: var(--r); box-shadow: var(--sh-2);
+    z-index: var(--z-menu);
+}
+.dropdown:hover .dropdown-menu,
+.dropdown.open .dropdown-menu { display: block; }
+.dropdown-menu a {
+    display: block; padding: 11px 14px; border-radius: var(--r-sm);
+    color: var(--paper); font-family: var(--body); font-size: .88rem;
+    font-weight: 500; text-decoration: none;
+    transition: background var(--t-fast), color var(--t-fast);
+}
+.dropdown-menu a::after { display: none; }
+.dropdown-menu a:hover { background: rgba(183, 58, 148, .18); color: var(--gold); }
+
+.hamburger {
+    display: none; flex-direction: column; gap: 5px;
+    background: none; border: 0; cursor: pointer; padding: 8px;
+    z-index: calc(var(--z-menu) + 1);
+}
+.hamburger span {
+    display: block; width: 24px; height: 2px; border-radius: 2px;
+    background: var(--paper); transition: transform var(--t), opacity var(--t);
+}
+.hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* --------------------------------------------------------------------------
+   Footer
+   -------------------------------------------------------------------------- */
+
+/* Same rule as the navbar: every colour here is declared, not inherited, so
+   the footer looks identical on the light-themed blog pages. */
+.site-footer { background: #0d0409; color: var(--dim); padding: 0 0 32px; font-family: var(--body); }
+/* .wrap lives in woosh-base.css, which the blog pages deliberately do not
+   load. Redeclaring it here — scoped to the footer — is what keeps the chrome
+   working on a page that only takes tokens + chrome. */
+.site-footer .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gut); }
+.site-footer p, .site-footer span, .site-footer address { color: var(--dim); }
+.foot {
+    display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 38px;
+    padding-top: 58px;
+}
+.foot-mark { height: 34px; width: auto; margin-bottom: 15px; }
+.foot-tag { font-size: .9rem; max-width: 34ch; }
+/* h3, not h4: the last content heading on most pages is an h2, and jumping
+   straight to h4 is a heading-hierarchy break that screen readers and SEO
+   audits both flag. */
+.foot h3 {
+    font-family: var(--body);
+    font-size: .72rem; font-weight: 600; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--paper); margin-bottom: 15px;
+}
+.foot a {
+    display: block; padding: 5px 0; margin: 0;
+    color: var(--dim); font-size: .9rem; font-weight: 400; text-decoration: none;
+    transition: color var(--t-fast);
+}
+.foot a:hover { color: var(--gold); padding-left: 0; }
+.foot-rating { display: block; padding: 5px 0; font-size: .9rem; }
+
+.socials { display: flex; gap: 10px; margin-top: 18px; }
+.socials a {
+    width: 34px; height: 34px; padding: 0; border-radius: 50%;
+    border: 1px solid var(--line); display: grid; place-items: center;
+    transition: background var(--t-fast), border-color var(--t-fast);
+}
+.socials a:hover { background: var(--plum); border-color: var(--plum); }
+.socials img { width: 15px; height: 15px; filter: brightness(0) invert(1); opacity: .8; }
+
+.foot-end {
+    margin-top: 42px; padding-top: 22px;
+    border-top: 1px solid var(--line);
+    font-size: .8rem; opacity: .6;
+}
+
+/* --------------------------------------------------------------------------
+   Back to top
+   -------------------------------------------------------------------------- */
+
+.scroll-to-top {
+    position: fixed; right: 22px; bottom: 22px; z-index: var(--z-top);
+    width: 46px; height: 46px; border-radius: 50%;
+    border: 1px solid var(--line); background: var(--deep); color: var(--paper);
+    font-size: 1.1rem; cursor: pointer;
+    opacity: 0; visibility: hidden;
+    transition: opacity var(--t), visibility var(--t), background var(--t);
+}
+.scroll-to-top.visible { opacity: 1; visibility: visible; }
+.scroll-to-top:hover { background: var(--plum); }
+
+/* --------------------------------------------------------------------------
+   Mobile
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 968px) {
+    .hamburger { display: flex; }
+
+    .nav-links {
+        position: fixed; inset: var(--nav-h) 0 0 0;
+        flex-direction: column; align-items: stretch; justify-content: flex-start;
+        gap: 0; padding: 20px var(--gut);
+        background: var(--night);
+        transform: translateX(100%);
+        transition: transform var(--t) var(--ease);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+    }
+    .nav-links.open { transform: translateX(0); }
+    .nav-links > li > a {
+        padding: 18px 0; font-size: 1rem;
+        border-bottom: 1px solid var(--line);
+    }
+    .nav-links > li > a::after { display: none; }
+
+    .dropdown-menu {
+        position: static; display: none;
+        border: 0; box-shadow: none; background: transparent;
+        margin: 0; padding: 0 0 8px 14px; min-width: 0;
+    }
+    .dropdown:hover .dropdown-menu { display: none; }
+    .dropdown.open .dropdown-menu { display: block; }
+
+    .foot { grid-template-columns: 1fr 1fr; gap: 28px; }
+}
+
+@media (max-width: 640px) {
+    .foot { grid-template-columns: 1fr; }
+}

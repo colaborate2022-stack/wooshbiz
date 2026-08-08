@@ -18,314 +18,17 @@
     <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
     <link rel="apple-touch-icon" sizes="180x180" href="images/favicon-180.png">
     <link rel="icon" type="image/png" sizes="512x512" href="images/favicon-512.png">
-    <style>
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&display=swap");
-        @import url('https://fonts.cdnfonts.com/css/gilroy-free');
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600;1,700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/woosh-tokens.css">
+    <link rel="stylesheet" href="assets/woosh-base.css">
+    <link rel="stylesheet" href="assets/woosh-chrome.css">
+    <link rel="stylesheet" href="assets/woosh-components.css">
+    <link rel="stylesheet" href="assets/woosh-3d.css">
+    <script defer src="assets/woosh-3d.js"></script>
+    <script defer src="assets/woosh-ui.js"></script>
 
-        html { scroll-behavior: smooth; overflow-x: hidden; }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Gilroy', sans-serif; color: #1a1a1a; overflow-x: hidden; line-height: 1.6; }
-
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.7s ease; }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
-        .reveal:nth-child(2) { transition-delay: 0.1s; }
-        .reveal:nth-child(3) { transition-delay: 0.2s; }
-        .reveal:nth-child(4) { transition-delay: 0.3s; }
-        .reveal:nth-child(5) { transition-delay: 0.4s; }
-
-        .navbar { position: fixed; top: 0; left: 0; width: 100%; background: #fff; z-index: 9999; }
-        .navbar::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(to right, transparent, #871e6c, transparent);
-        }
-        .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; height: 70px; display: flex; align-items: center; justify-content: space-between; }
-        .nav-logo img { height: 40px; width: auto; display: block; }
-        .nav-links { display: flex; align-items: center; gap: 24px; list-style: none; margin: 0; padding: 0; }
-        .nav-links a { color: #1a1a1a; text-decoration: none; font-weight: 700; font-size: 15px; font-family: 'Gilroy', sans-serif; transition: color 0.2s; white-space: nowrap; }
-        .nav-links a:hover { color: #871e6c; }
-        /* Current page marker — In-Office is this page */
-        .nav-links > li > a.active { color: #871e6c; position: relative; }
-        .nav-links > li > a.active::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: -6px;
-            height: 3px;
-            border-radius: 3px;
-            background: #f47920;
-        }
-        .dropdown { position: relative; }
-        .dropdown-menu { display: none; position: absolute; top: 100%; right: 0; background: white; border-radius: 12px; box-shadow: 0 8px 40px rgba(0,0,0,0.12); padding: 8px; min-width: 220px; list-style: none; z-index: 10000; }
-        .dropdown:hover .dropdown-menu { display: block; }
-        .dropdown-menu li a { display: block; padding: 12px 16px; color: #1a1a1a; border-radius: 8px; font-size: 14px; }
-        .dropdown-menu li a:hover { background: #fdf0f9; color: #871e6c; }
-        .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; z-index: 10001; }
-        .hamburger span { display: block; width: 26px; height: 3px; background: #1a1a1a; border-radius: 3px; transition: all 0.3s ease; }
-        .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-        .hamburger.active span:nth-child(2) { opacity: 0; }
-        .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
-
-        /* ==================================================================
-           WhatsApp quote CTA — identical to the homepage button. Every place
-           it appears on this page now sits on a light background, so it needs
-           no outline or shadow tweaks to stay legible.
-           ================================================================== */
-        .cta-button { background: linear-gradient(135deg, #8E2158 0%, #6b1a46 100%); color: white; padding: 14px 30px; border-radius: 50px; font-weight: 600; font-size: 0.95rem; letter-spacing: 0.3px; border: none; cursor: pointer; transition: all 0.3s ease; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 9px; position: relative; overflow: hidden; box-shadow: 0 6px 18px rgba(142, 33, 88, 0.28); }
-        .cta-button::before { content: ''; position: absolute; top: 0; left: -120%; width: 60%; height: 100%; background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.35), transparent); transform: skewX(-20deg); transition: left 0.6s ease; pointer-events: none; z-index: 3; }
-        .cta-button:hover::before { left: 140%; }
-        .cta-button:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(142, 33, 88, 0.4); }
-        .cta-button .wa-icon { width: 26px; height: 26px; background: #25D366; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .cta-button .wa-icon svg { width: 16px; height: 16px; flex-shrink: 0; }
-
-        /* ---------- Hero ----------
-           This page is the *indoor* half of the offer, and the outdoor page sits
-           one nav item away, so the hero has to say "indoor" three ways before a
-           visitor scrolls: the badge, the copy, and — most of all — a photo shot
-           inside four walls. Anything with grass or sky in it belongs on
-           outdoors.html, not here. */
-        .hero { background: #fff; color: #1a1a1a; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 130px 3rem 70px; text-align: center; position: relative; }
-        .hero .badge { display: inline-flex; align-items: center; gap: 8px; background: #fdf0f9; color: #8E2158; border: 1px solid #f0d3e6; padding: 9px 20px; border-radius: 50px; font-size: 0.85rem; font-weight: 800; letter-spacing: 0.2px; margin-bottom: 18px; animation: fadeUpAnimation 0.5s ease 0.1s both; }
-        .hero h1 { font-size: clamp(1.9rem, 4vw, 3.1rem); font-weight: 800; line-height: 1.25; margin-bottom: 8px; max-width: 20ch; animation: fadeUpAnimation 0.6s ease 0.2s both; }
-        .hero h1 .hl { color: #8E2158; }
-        .hero h1 .sub { display: block; color: #1a1a1a; }
-        .hero-lede { max-width: 660px; margin: 12px auto 0; color: #4a4a4a; font-size: 1.05rem; line-height: 1.8; animation: fadeUpAnimation 0.6s ease 0.3s both; }
-        .hero-lede b { color: #1a1a1a; }
-        @keyframes fadeUpAnimation { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        .hero-gif { width: min(560px, 100%); border-radius: 18px; overflow: hidden; margin: 22px 0 22px; box-shadow: 0 18px 44px rgba(0, 0, 0, 0.22); animation: fadeUpAnimation 0.7s ease 0.4s both; position: relative; }
-        .hero-gif img { display: block; width: 100%; height: auto; }
-        /* Caption sits on the photo so the "this is indoors" point lands even if
-           someone only ever sees the image. */
-        .hero-gif figcaption {
-            position: absolute; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0));
-            color: #fff; font-size: 0.85rem; font-weight: 700;
-            padding: 30px 16px 12px; text-align: left;
-        }
-
-        /* Venue chips — the concrete answer to "but where would we even do it?" */
-        .venue-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; max-width: 720px; margin: 0 0 26px; padding: 0; list-style: none; animation: fadeUpAnimation 0.6s ease 0.5s both; }
-        .venue-chips li { display: inline-flex; align-items: center; gap: 8px; background: #fff; border: 1px solid #ecdcea; border-radius: 50px; padding: 9px 18px; font-size: 0.88rem; font-weight: 700; color: #3c3c3c; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); }
-        .venue-chips svg { width: 17px; height: 17px; flex-shrink: 0; stroke: #8E2158; stroke-width: 1.9; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-
-        /* ---------- Brand marquee ---------- */
-        .brands-section { padding: 50px 0 60px; background: white; overflow: hidden; }
-        .brands-heading { font-size: 1.6rem; font-weight: 800; color: #1a1a1a; text-align: center; margin-bottom: 40px; padding: 0 1.5rem; }
-        .marquee { position: relative; width: 100%; overflow: hidden; -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent); }
-        .marquee + .marquee { margin-top: 20px; }
-        .marquee-track { display: flex; align-items: center; gap: 48px; width: max-content; animation: marqueeScroll 55s linear infinite; }
-        .marquee.reverse .marquee-track { animation-direction: reverse; }
-        .marquee:hover .marquee-track { animation-play-state: paused; }
-        @keyframes marqueeScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-        .marquee-track img { height: 52px; width: auto; object-fit: contain; transition: transform 0.3s ease; }
-        .marquee-track img:hover { transform: scale(1.1); }
-
-        /* ---------- Stats ---------- */
-        .stats-band { background: linear-gradient(135deg, #871e6c 0%, #5c1349 100%); color: white; padding: 60px 3rem; text-align: center; }
-        .stats-band h2 { font-size: 2rem; font-weight: 800; margin-bottom: 18px; }
-        /* Sized up from 150px — at that width the faces in the team photo were
-           unreadable. Capped with min() so it never overflows a narrow screen. */
-        .stats-figure { width: min(420px, 100%); margin: 0 auto 34px; border-radius: 16px; overflow: hidden; box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3); }
-        .stats-figure img { width: 100%; height: auto; display: block; }
-        .stats-section { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; max-width: 1000px; margin: 0 auto; }
-        .stat-item { padding: 8px; }
-        .stat-number { font-size: 2.6rem; font-weight: 800; line-height: 1.1; }
-        .stat-label { font-size: 0.95rem; opacity: 0.85; margin-top: 6px; }
-
-        /* ---------- Power of play ---------- */
-        .play-section { padding: 80px 3rem; background: #fdf0f9; }
-        .play-container { max-width: 900px; margin: 0 auto; text-align: center; }
-        .play-container p { font-size: 1.05rem; color: #3c3c3c; line-height: 1.9; margin-bottom: 22px; }
-        .play-container p:last-child { margin-bottom: 0; }
-
-        /* ---------- Games ---------- */
-        .features-section { padding: 80px 3rem; background: white; }
-        .section-heading { font-size: 2.5rem; font-weight: 800; color: #1a1a1a; text-align: center; margin-bottom: 12px; }
-        .section-sub { text-align: center; color: #555; max-width: 820px; margin: 0 auto 50px; font-size: 1.02rem; }
-        .features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; max-width: 1400px; margin: 0 auto; }
-        .feature-card { background: white; border-radius: 20px; padding: 34px 26px; box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07); border-top: 4px solid #871e6c; transition: all 0.3s ease; text-align: center; display: flex; flex-direction: column; }
-        .feature-card:hover { transform: translateY(-10px); box-shadow: 0 12px 48px rgba(135, 30, 108, 0.15); border-top-color: #f47920; }
-        .game-tag { display: inline-block; align-self: center; background: #fdf0f9; color: #871e6c; font-size: 0.72rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; padding: 5px 14px; border-radius: 50px; margin-bottom: 12px; }
-        .feature-card h3 { font-size: 1.3rem; font-weight: 800; color: #1a1a1a; margin-bottom: 12px; }
-        .feature-card p { color: #555; line-height: 1.75; font-size: 0.93rem; }
-        .game-list { list-style: none; margin: 18px 0 0; padding: 18px 0 0; border-top: 1px dashed #e7cfe0; text-align: left; }
-        .game-list li { font-size: 0.9rem; color: #3c3c3c; padding: 6px 0 6px 20px; position: relative; }
-        .game-list li::before { content: '›'; position: absolute; left: 4px; top: 5px; color: #8E2158; font-weight: 800; }
-        .games-note { text-align: center; margin-top: 34px; }
-        .games-note .more-pill { display: inline-block; background: linear-gradient(135deg, #f47920 0%, #d96a10 100%); color: white; font-weight: 800; font-size: 0.95rem; padding: 10px 26px; border-radius: 50px; box-shadow: 0 6px 18px rgba(244, 121, 32, 0.32); }
-        .games-cta { text-align: center; margin-top: 40px; }
-
-        /* ==================================================================
-           Click-to-play video facade — same as outdoors.html.
-           A YouTube thumbnail plus a play button; the real iframe is only
-           injected on click. Keeps the page fast, and gives us a place to
-           fall back to opening YouTube when an embed can't run (e.g. the
-           file:// origin YouTube rejects with "Error 153").
-           ================================================================== */
-        .card-video { margin: -10px -6px 18px; border-radius: 14px; overflow: hidden; }
-        /* Game card stills. These must be shot indoors — the earlier gifs here
-           were outdoor-lawn footage shared with outdoors.html, which made the
-           in-office page read as an outdoor offer. Lazy-loaded; they are below
-           the fold on every viewport. */
-        .card-gif { margin: -10px -6px 18px; border-radius: 14px; overflow: hidden; background: #1a1a1a; }
-        /* height:auto is load-bearing — the <img> tags carry width/height
-           attributes for layout stability, and a bare aspect-ratio loses to the
-           attribute height, which stretches the card into a portrait strip. */
-        .card-gif img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
-        .yt { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #1a1a1a; cursor: pointer; display: block; overflow: hidden; border: 0; padding: 0; }
-        .yt img.yt-thumb { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease, opacity 0.3s ease; }
-        .yt:hover img.yt-thumb { transform: scale(1.06); opacity: 0.85; }
-        .yt .yt-play {
-            position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
-            width: 62px; height: 62px; border-radius: 50%;
-            background: rgba(244, 121, 32, 0.94); color: white;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.4rem; line-height: 1; padding-left: 4px;
-            box-shadow: 0 8px 26px rgba(0, 0, 0, 0.45);
-            transition: transform 0.3s ease, background 0.3s ease;
-        }
-        .yt:hover .yt-play, .yt:focus-visible .yt-play { transform: translate(-50%, -50%) scale(1.12); background: #f47920; }
-        .yt.playing { cursor: default; }
-        .yt iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
-
-        /* ---------- Testimonial videos ---------- */
-        .testimonials-section { padding: 80px 3rem; background: #fdf0f9; }
-        .video-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; max-width: 1200px; margin: 0 auto; }
-        /* The whole testimonial card is one link out to YouTube — clicking
-           anywhere on it opens the clip, so no embed can fail in place. */
-        .video-card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08); transition: all 0.3s ease; display: block; text-decoration: none; color: inherit; }
-        .video-card:hover { transform: translateY(-8px); box-shadow: 0 14px 46px rgba(135, 30, 108, 0.18); }
-        .video-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #1a1a1a; overflow: hidden; }
-        .video-frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease, opacity 0.3s ease; }
-        .video-card:hover .video-frame img { transform: scale(1.06); opacity: 0.85; }
-        .video-frame .yt-play {
-            position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
-            width: 62px; height: 62px; border-radius: 50%;
-            background: rgba(244, 121, 32, 0.94); color: white;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.4rem; line-height: 1; padding-left: 4px;
-            box-shadow: 0 8px 26px rgba(0, 0, 0, 0.45);
-            transition: transform 0.3s ease, background 0.3s ease;
-        }
-        .video-card:hover .video-frame .yt-play { transform: translate(-50%, -50%) scale(1.12); background: #f47920; }
-        .video-meta { padding: 20px 22px 24px; text-align: center; }
-        /* Speaker portrait moved out of the thumbnail — over the frame the
-           avatar would cover the YouTube controls. */
-        .video-avatar { width: 62px; height: 62px; border-radius: 50%; object-fit: cover; margin: 0 auto 10px; display: block; border: 3px solid #fdf0f9; background: #fdf0f9; }
-        .video-meta h4 { font-size: 1.1rem; font-weight: 800; color: #871e6c; margin-bottom: 4px; }
-        .video-meta span { font-size: 0.88rem; color: #666; }
-        .video-brand { height: 30px; width: auto; margin-top: 14px; opacity: 0.75; }
-        .video-watch { display: block; margin-top: 14px; font-size: 0.82rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: #f47920; }
-
-        /* ---------- Featured in ---------- */
-        .featured-section { padding: 70px 0; background: white; overflow: hidden; }
-        .featured-heading { font-size: 1.5rem; font-weight: 800; color: #1a1a1a; text-align: center; margin-bottom: 34px; }
-        .featured-section .marquee-track img { height: 58px; }
-
-        /* ---------- FAQ ---------- */
-        .faq-section { padding: 80px 3rem; background: #fdf0f9; }
-        .faq-heading { font-size: 2rem; font-weight: 800; text-align: center; color: #871e6c; margin-bottom: 50px; }
-        .faq-container { max-width: 860px; margin: 0 auto; }
-        .faq-item { background: white; border-radius: 12px; padding: 20px 24px; margin-bottom: 12px; cursor: pointer; transition: all 0.3s ease; }
-        .faq-item.active { box-shadow: 0 4px 20px rgba(135, 30, 108, 0.15); }
-        .faq-question { font-weight: 700; color: #1a1a1a; display: flex; justify-content: space-between; align-items: center; gap: 16px; transition: color 0.3s ease; }
-        .faq-question::after { content: '+'; font-size: 1.5rem; color: #871e6c; transition: transform 0.3s ease; flex-shrink: 0; }
-        .faq-item.active .faq-question::after { content: '×'; transform: rotate(180deg); }
-        .faq-item:hover .faq-question { color: #871e6c; }
-        .faq-answer { display: none; max-height: 0; overflow: hidden; color: #555; padding-top: 0; transition: all 0.3s ease; line-height: 1.8; }
-        .faq-item.active .faq-answer { display: block; max-height: 600px; padding-top: 12px; }
-
-        /* ---------- Closing CTA ---------- */
-        .cta-strip { background: white; color: #1a1a1a; padding: 70px 3rem 80px; text-align: center; }
-        .cta-strip h2 { font-size: 2.1rem; font-weight: 800; margin-bottom: 10px; }
-        .cta-strip h2 .hl { color: #8E2158; }
-        .cta-strip p { font-size: 1.03rem; color: #555; margin-bottom: 28px; }
-
-        footer { background: #871e6c; color: white; padding: 60px 3rem 30px; }
-        .footer-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr 1fr; gap: 3rem; max-width: 1400px; margin: 0 auto 40px; }
-        .footer-logo img { height: 40px; width: auto; }
-        .footer-socials { display: flex; gap: 1rem; margin-top: 8px; }
-        .social-icon { width: 36px; height: 36px; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; transition: transform 0.2s ease; }
-        .social-icon:hover { transform: scale(1.2); }
-        .social-icon img { width: 100%; height: 100%; object-fit: cover; }
-        .footer-column h4 { font-size: 0.85rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px; opacity: 0.9; }
-        .footer-column a { display: block; color: rgba(255, 255, 255, 0.75); text-decoration: none; font-size: 0.9rem; margin-bottom: 10px; transition: all 0.3s ease; }
-        .footer-column a:hover { opacity: 1; text-decoration: underline; }
-        .footer-contact { font-size: 1.2rem; font-weight: 800; }
-        .footer-rating { font-size: 0.85rem; opacity: 0.8; margin-top: 12px; }
-        .footer-bottom { border-top: 1px solid rgba(255, 255, 255, 0.2); padding-top: 20px; text-align: center; color: rgba(255, 255, 255, 0.6); font-size: 0.85rem; }
-
-        .scroll-to-top { position: fixed; bottom: 30px; right: 30px; width: 48px; height: 48px; border-radius: 50%; background: #871e6c; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem; cursor: pointer; z-index: 9998; opacity: 0; visibility: hidden; transition: all 0.3s ease; border: none; }
-        .scroll-to-top.visible { opacity: 1; visibility: visible; }
-        .scroll-to-top:hover { background: #6b1857; transform: scale(1.1); }
-
-        @media (max-width: 1200px) {
-            .features-grid { grid-template-columns: repeat(2, 1fr); }
-            .video-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (max-width: 1024px) {
-            .footer-grid { grid-template-columns: 1fr 1fr; }
-            .hamburger { display: flex; }
-            .nav-links { display: none; }
-            .stats-section { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (max-width: 768px) {
-            body { overflow-x: hidden; }
-            .hamburger { display: flex !important; }
-            .nav-links { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: #fff; flex-direction: column; align-items: center; justify-content: center; gap: 24px; z-index: 9998; padding: 80px 24px 40px; }
-            .nav-links.open { display: flex !important; }
-            .nav-links a { font-size: 1.3rem; }
-            .nav-links > li > a.active::after { bottom: -8px; }
-            .dropdown-menu { position: static !important; display: none; box-shadow: none; background: #fdf0f9; border-radius: 12px; padding: 8px; margin-top: 8px; width: 100%; }
-            .dropdown.open .dropdown-menu { display: block; }
-            .dropdown-menu li a { font-size: 1rem; text-align: center; }
-            section, [class*="section"] { padding: 36px 20px !important; }
-            .hero { padding: 100px 20px 40px !important; }
-            .hero h1 { max-width: none; }
-            .features-grid, .faq-container, .video-grid, [class*="grid"] { grid-template-columns: 1fr !important; }
-            .stats-section { grid-template-columns: 1fr 1fr !important; }
-            .hero h1, .section-heading, .faq-heading { font-size: 1.8rem !important; }
-            .cta-button { width: 100% !important; }
-            .yt .yt-play, .video-frame .yt-play { width: 54px; height: 54px; font-size: 1.15rem; }
-            .card-video { margin: -6px 0 16px; }
-            footer { padding: 40px 1.5rem 20px; }
-            .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
-            .brands-section, .featured-section { padding: 40px 0 !important; }
-            .marquee-track { gap: 32px; }
-            .marquee-track img { height: 40px; }
-            .featured-section .marquee-track img { height: 44px; }
-            .stats-band { padding: 46px 1.5rem !important; }
-            .stat-number { font-size: 2rem; }
-            .play-section, .features-section, .testimonials-section, .faq-section { padding: 56px 1.5rem !important; }
-            .cta-strip { padding: 50px 1.5rem 56px !important; }
-        }
-
-        @media (max-width: 480px) {
-            .stats-section { grid-template-columns: 1fr 1fr !important; }
-            .footer-grid { grid-template-columns: 1fr !important; }
-            section { padding: 50px 16px !important; }
-        }
-    /* Global font override — all text uses Playfair Display */
-* { font-family: "Playfair Display", Georgia, serif !important; }
-
-        /* ==================================================================
-           Scroll-focus states — mirrors of the :hover rules above.
-           assets/woosh-3d.js applies .w3d-focus to whichever cards are
-           crossing the middle of the viewport, so these fire on touch too.
-           The lift itself is handled in 3D by the engine.
-           ================================================================== */
-        .feature-card.w3d-focus {
-            box-shadow: 0 12px 48px rgba(135, 30, 108, 0.15);
-            border-top-color: #f47920;
-        }
-        .video-card.w3d-focus { box-shadow: 0 14px 46px rgba(135, 30, 108, 0.18); }
-        .faq-item.w3d-focus .faq-question { color: #871e6c; }
-</style>
     <!-- Tells search engines in machine-readable form what the page says in
          words: this service is delivered indoors, at the client's own site. -->
     <script type="application/ld+json">
@@ -356,586 +59,297 @@
       }
     }
     </script>
-    <!-- Scroll-driven 3D motion — works on touch and desktop alike -->
-    <link rel="stylesheet" href="assets/woosh-3d.css">
-    <script defer src="assets/woosh-3d.js"></script>
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="nav-logo">
-                <img src="images/wix/wix-2f36ed41.png" alt="Woosh Biz" height="40">
-            </a>
-            <button class="hamburger" id="hamburger" aria-label="Menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="high-octane.html" class="active" aria-current="page">In-Office</a></li>
-                <li><a href="outdoors.html">Outdoors</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle">Get In Touch ▾</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="about.html">About Us</a></li>
-                        <li><a href="blog.html">Blogs</a></li>
-                        <li><a href="contact.html">Free Consultation</a></li>
-                        <li><a href="resorts.html">Resorts Recommended</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
-    <section class="hero">
-        <p class="badge">🏢 Indoor Team Building · Inside Your Own Office · 2-4 Hours</p>
-        <h1>
-            Let's <span class="hl">Skyrocket Your Team's Spirit Indoors!!</span>
-            <span class="sub">Here's what we can do&hellip;</span>
-        </h1>
-        <p class="hero-lede">
-            Every activity on this page is an <b>indoor team building activity</b> — we bring the
-            games, the props and the energy <b>into your office</b> and run the whole session under
-            your own roof. <b>No ground, no travel, no weather to plan around.</b>
-        </p>
-        <figure class="hero-gif">
-            <img src="images/wix/wix-16413d55.jpg"
-                 alt="A corporate team playing an indoor team building game on the floor of an office banquet hall with Woosh Biz"
-                 width="1600" height="900" fetchpriority="high">
-            <figcaption>Indoors, on your floor — a full team session run inside an office hall.</figcaption>
-        </figure>
-        <ul class="venue-chips">
-            <li>
-                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="7" width="16" height="12" rx="2"/><path d="M9 7V5h6v2M8 12h8M8 15h5"/></svg>
-                Your boardroom
-            </li>
-            <li>
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V9l8-5 8 5v11z"/><path d="M9 20v-6h6v6"/></svg>
-                Office cafeteria
-            </li>
-            <li>
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20h18M5 20V8l7-4 7 4v12"/><path d="M9 20v-5h6v5"/><path d="M9 11h.01M15 11h.01"/></svg>
-                Banquet or training hall
-            </li>
-            <li>
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/><circle cx="12" cy="12" r="4"/></svg>
-                Air-conditioned &amp; rain-proof
+<!-- @partial:nav active="in-office" -->
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="index.html" class="nav-logo" aria-label="Woosh Biz — home">
+            <img src="images/wix/wix-2f36ed41.png" alt="Woosh Biz" width="1182" height="466">
+        </a>
+        <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false" aria-controls="navLinks">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="high-octane.html" class="active" aria-current="page">In-Office</a></li>
+            <li><a href="outdoors.html">Outdoors</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle">More</a>
+                <ul class="dropdown-menu">
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="blog.html">Blogs</a></li>
+                    <li><a href="contact.html">Free Consultation</a></li>
+                    <li><a href="resorts.html">Resorts Recommended</a></li>
+                </ul>
             </li>
         </ul>
-        <a href="https://wa.me/919210804078" target="_blank" rel="noopener" class="cta-button">
-            <span class="wa-icon">
-                <svg viewBox="0 0 24 24" fill="#ffffff" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413"/>
-                </svg>
-            </span>
-            Get a Quote in 30 mins
-        </a>
-    </section>
+    </div>
+</nav>
+<!-- @end:nav -->
 
-    <section class="brands-section">
-        <h2 class="brands-heading reveal">We've rocked the Team Building scene, serving 60+ legendary brands</h2>
-        <div class="marquee"><div class="marquee-track" id="brandTrackA"></div></div>
-        <div class="marquee reverse"><div class="marquee-track" id="brandTrackB"></div></div>
-    </section>
-
-    <section class="stats-band">
-        <h2 class="reveal">Woosh Biz</h2>
-        <div class="stats-figure reveal">
-            <img src="images/wix/wix-d78bb8ac.png"
-                 alt="Woosh Biz team" width="420" height="394" loading="lazy">
-        </div>
-        <div class="stats-section">
-            <div class="stat-item reveal">
-                <div class="stat-number" data-count="840" data-suffix="K+">840K+</div>
-                <div class="stat-label">Number of Hours</div>
+<!-- ==================== HERO ==================== -->
+<header class="scene-hero">
+    <span class="glow a"></span><span class="glow b"></span>
+    <div class="wrap hero-inner">
+        <div>
+            <p class="eyebrow" data-w3d="rise" data-w3d-fade>Indoor &middot; 2&ndash;4 hours &middot; Your office</p>
+            <h1 class="display" data-w3d="rise" data-w3d-fade>The room they<br>sit in every day.<br><em>Unrecognisable.</em></h1>
+            <p class="lede dim" data-w3d="rise" data-w3d-fade>
+                Every activity here is an <strong>indoor team building activity</strong>. We arrive with the
+                games, the props, the music and the noise, and run the whole thing under your own roof.
+                No ground to book. No travel. No weather.
+            </p>
+            <div class="hero-meta" data-w3d="rise" data-w3d-fade>
+                <span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="7" width="16" height="12" rx="1.5"/><path d="M9 7V5h6v2"/></svg> Boardroom</span>
+                <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V9l8-5 8 5v11z"/><path d="M9 20v-6h6v6"/></svg> Cafeteria</span>
+                <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20h18M5 20V8l7-4 7 4v12"/></svg> Banquet hall</span>
+                <span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/></svg> Rain-proof</span>
             </div>
-            <div class="stat-item reveal">
-                <div class="stat-number" data-count="2000" data-suffix="+">2000+</div>
-                <div class="stat-label">Number of Participants</div>
-            </div>
-            <div class="stat-item reveal">
-                <div class="stat-number" data-count="20" data-suffix="+">20+</div>
-                <div class="stat-label">Number of Programs</div>
-            </div>
-            <div class="stat-item reveal">
-                <div class="stat-number" data-count="5" data-suffix="+">5+</div>
-                <div class="stat-label">Number of Countries</div>
-            </div>
-        </div>
-    </section>
-
-    <section class="play-section">
-        <div class="play-container">
-            <p class="reveal">At Woosh Biz, we believe in the power of play — and we bring it indoors, to you. Unleash your team's potential through engaging games that stimulate subconscious learning, all inside your own four walls.</p>
-            <p class="reveal">Experience the corporate work environment with strategic thinking and creative problem-solving. Adaptability and resilience are the keys to winning (and a little cheeky cheating doesn't hurt)!</p>
-            <p class="reveal">Watch Woosh Biz in action for a transformation like no other. Join us for fun, growth, and unforgettable memories. Let's play, learn, and succeed together at Woosh Biz!</p>
-        </div>
-    </section>
-
-    <section class="features-section">
-        <h2 class="section-heading reveal">The Games</h2>
-        <p class="section-sub reveal">Pick 2 categories out of the 4 different categories of games tried and tested with 100+ businesses and 10000+ participants. Every one of them is designed to run indoors, on a hall or cafeteria floor — no ground and no open space required.</p>
-        <div class="features-grid">
-            <div class="feature-card reveal">
-                <div class="card-gif">
-                    <img src="images/wix/wix-a42524b3.jpg" alt="Indoor Art Attack team building game — colleagues dancing with props inside a decorated office hall" width="1600" height="900" loading="lazy">
-                </div>
-                <div class="game-tag">Game 1</div>
-                <h3>Art Attack</h3>
-                <p>Unleash your creativity and let your imagination run wild with our artistic extravaganza!</p>
-                <ul class="game-list">
-                    <li>Get in your T-shirt</li>
-                    <li>T-shirt painting</li>
-                    <li>Drama</li>
-                    <li>Dance Mania</li>
-                </ul>
-            </div>
-            <div class="feature-card reveal">
-                <div class="card-gif">
-                    <img src="images/wix/wix-6ad6f4a0.jpg" alt="Indoor Brain Sprain puzzle game — a team solving a paper challenge around a conference table inside the office" width="1600" height="900" loading="lazy">
-                </div>
-                <div class="game-tag">Game 2</div>
-                <h3>Brain Sprain</h3>
-                <p>Prepare for hilarious tumbles, twisted giggles, and brain-tingling challenges that'll keep you on your toes!</p>
-                <ul class="game-list">
-                    <li>Match Stick Puzzle</li>
-                    <li>Picture Puzzle</li>
-                    <li>Maze</li>
-                    <li>Mensa</li>
-                </ul>
-            </div>
-            <div class="feature-card reveal">
-                <div class="card-gif">
-                    <img src="images/wix/wix-16413d55.jpg" alt="Indoor Carnival Masti game — a team playing a taped floor maze inside an office banquet hall" width="1600" height="900" loading="lazy">
-                </div>
-                <div class="game-tag">Game 3</div>
-                <h3>Carnival Masti</h3>
-                <p>Crush the competition and conquer the carnival with your unrivaled coordination skills, leaving a trail of defeated opponents in your wake!</p>
-                <ul class="game-list">
-                    <li>Zat Pat Yoga</li>
-                    <li>Bhaag Milke Bhaag</li>
-                    <li>Loop Da Hoop</li>
-                    <li>Code Breaker</li>
-                </ul>
-            </div>
-            <div class="feature-card reveal">
-                <div class="card-gif">
-                    <img src="images/wix/wix-591876af.jpg" alt="Indoor Sports Carnival — a team celebrating a win inside an air-conditioned office hall" width="1600" height="900" loading="lazy">
-                </div>
-                <div class="game-tag">Game 4</div>
-                <h3>Sports Carnival</h3>
-                <p>Prepare for a relentless clash of titans, where only the fiercest competitors will claim victory in the arena of sports!</p>
-                <ul class="game-list">
-                    <li>Nut Jus Kricket</li>
-                    <li>Human Foosball</li>
-                    <li>Tug of War</li>
-                    <li>Bhaag Milke Bhaag</li>
-                </ul>
-            </div>
-        </div>
-        <div class="games-note reveal"><span class="more-pill">+15 Games</span></div>
-        <div class="games-cta reveal">
-            <a href="https://wa.me/919210804078" target="_blank" rel="noopener" class="cta-button">
-                <span class="wa-icon">
-                    <svg viewBox="0 0 24 24" fill="#ffffff" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413"/>
-                    </svg>
-                </span>
-                Get a Quote in 30 mins
+            <a class="act" data-magnetic href="https://wa.me/919210804078" target="_blank" rel="noopener">
+                <span class="wa"><svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413"/></svg></span>
+                <span>Get a quote in 30 mins</span>
             </a>
         </div>
-    </section>
 
-    <section class="testimonials-section">
-        <h2 class="section-heading reveal">What our happy alumni say about the experience!</h2>
-        <p class="section-sub reveal">Straight from the people who lived it — tap a card to watch on YouTube.</p>
-        <div class="video-grid">
-            <a class="video-card reveal" href="https://www.youtube.com/watch?v=0LXwBcbDXO8" target="_blank" rel="noopener">
-                <div class="video-frame">
-                    <img src="https://i.ytimg.com/vi/0LXwBcbDXO8/hqdefault.jpg" alt="Vijay Rajput — Woosh Biz feedback" loading="lazy">
-                    <span class="yt-play" aria-hidden="true">&#9654;</span>
+        <div class="deck">
+            <span class="deck-plate p1"></span>
+            <span class="deck-plate p2"></span>
+            <figure class="deck-art" data-w3d="layer">
+                <img src="images/wix/wix-16413d55.jpg"
+                     alt="A corporate team playing an indoor team building game on the floor of an office banquet hall with Woosh Biz"
+                     width="1600" height="900" fetchpriority="high">
+                <figcaption class="deck-cap">Indoors, on your floor — a full session run inside an office hall.</figcaption>
+            </figure>
+        </div>
+    </div>
+</header>
+
+<!-- ==================== BRANDS ==================== -->
+<section class="strip">
+    <p class="strip-label">Trusted by 60+ teams across India</p>
+    <div class="marquee"><div class="marquee-track" data-logos="brands-a" data-logo-w="134" data-logo-h="62"></div></div>
+    <div class="marquee rev"><div class="marquee-track" data-logos="brands-b" data-logo-w="134" data-logo-h="62"></div></div>
+</section>
+
+<!-- ==================== 01 THE GAMES ==================== -->
+<section class="scene lit">
+    <div class="wrap scene-grid">
+        <div class="scene-title">
+            <p class="scene-count">01 / 04</p>
+            <h2 class="display" data-w3d="rise" data-w3d-fade>Four ways to<br>take the room.</h2>
+            <p class="dim" data-w3d="rise" data-w3d-fade>Pick two categories. Tested with 100+ businesses and
+            10,000+ participants — and every one of them runs on a hall or cafeteria floor, with no ground
+            and no open space required.</p>
+        </div>
+
+        <div class="reel">
+            <article class="frame" data-w3d="card">
+                <span class="frame-no">01</span>
+                <img src="images/wix/wix-a42524b3.jpg" alt="Indoor Art Attack team building game — colleagues dancing with props inside a decorated office hall" width="1600" height="900" loading="lazy">
+                <div class="frame-body">
+                    <h3>Art Attack</h3>
+                    <p>Creativity with the brakes off. Find out who has been hiding a whole personality behind a spreadsheet.</p>
+                    <div class="tags"><span>Get in your T-shirt</span><span>T-shirt painting</span><span>Drama</span><span>Dance Mania</span></div>
                 </div>
-                <div class="video-meta">
-                    <img class="video-avatar" src="images/wix/wix-9bbb420b.png" alt="Vijay Rajput" loading="lazy">
-                    <h4>Vijay Rajput</h4>
-                    <span>IP Services</span>
-                    <div><img class="video-brand" src="images/wix/wix-e7877f20.png" alt="IP Services" loading="lazy"></div>
-                    <span class="video-watch">Watch on YouTube →</span>
+            </article>
+
+            <article class="frame" data-w3d="card">
+                <span class="frame-no">02</span>
+                <img src="images/wix/wix-6ad6f4a0.jpg" alt="Indoor Brain Sprain puzzle game — a team solving a paper challenge around a conference table inside the office" width="1600" height="900" loading="lazy">
+                <div class="frame-body">
+                    <h3>Brain Sprain</h3>
+                    <p>Puzzles that look easy for about forty seconds. Built for the moment a team stops talking over each other and starts listening.</p>
+                    <div class="tags"><span>Match Stick Puzzle</span><span>Picture Puzzle</span><span>Maze</span><span>Mensa</span></div>
                 </div>
+            </article>
+
+            <article class="frame" data-w3d="card">
+                <span class="frame-no">03</span>
+                <img src="images/wix/wix-16413d55.jpg" alt="Indoor Carnival Masti game — a team playing a taped floor maze inside an office banquet hall" width="1600" height="900" loading="lazy">
+                <div class="frame-body">
+                    <h3>Carnival Masti</h3>
+                    <p>Coordination, chaos and a floor marked out in tape. The loudest twenty minutes of the day, reliably.</p>
+                    <div class="tags"><span>Zat Pat Yoga</span><span>Bhaag Milke Bhaag</span><span>Loop Da Hoop</span><span>Code Breaker</span><span>+15 games</span></div>
+                </div>
+            </article>
+
+            <article class="frame" data-w3d="card">
+                <span class="frame-no">04</span>
+                <img src="images/wix/wix-591876af.jpg" alt="Indoor Sports Carnival — a team celebrating a win inside an air-conditioned office hall" width="1600" height="900" loading="lazy">
+                <div class="frame-body">
+                    <h3>Sports Carnival</h3>
+                    <p>All the competition of a sports day, shrunk to fit a hall — and rigged so the quietest person on the team decides it.</p>
+                    <div class="tags"><span>Nut Jus Kricket</span><span>Human Foosball</span><span>Tug of War</span><span>Bhaag Milke Bhaag</span></div>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== 02 NUMBERS ==================== -->
+<section class="scene">
+    <span class="glow c"></span>
+    <div class="wrap scene-grid">
+        <div class="scene-title">
+            <p class="scene-count">02 / 04</p>
+            <h2 class="display" data-w3d="rise" data-w3d-fade>Fourteen years<br>of <em>rooms like yours</em>.</h2>
+            <p class="dim" data-w3d="rise" data-w3d-fade>Nobody remembers a slide. Everybody remembers the
+            game they nearly won — and underneath the noise, each format is built around something
+            measurable: communication under pressure, trust between functions, how a team behaves when
+            the plan stops working.</p>
+        </div>
+        <div class="counters">
+            <div class="counter" data-w3d="card"><div class="stat-number" data-count="840" data-suffix="K+">840K+</div><p>Hours run</p></div>
+            <div class="counter" data-w3d="card"><div class="stat-number" data-count="2000" data-suffix="+">2000+</div><p>Participants</p></div>
+            <div class="counter" data-w3d="card"><div class="stat-number" data-count="20" data-suffix="+">20+</div><p>Programmes</p></div>
+            <div class="counter" data-w3d="card"><div class="stat-number" data-count="5" data-suffix="+">5+</div><p>Countries</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== 03 VOICES ==================== -->
+<section class="scene lit">
+    <div class="wrap scene-grid">
+        <div class="scene-title">
+            <p class="scene-count">03 / 04</p>
+            <h2 class="display" data-w3d="rise" data-w3d-fade>Straight from<br>the people<br>who lived it.</h2>
+            <p class="dim" data-w3d="rise" data-w3d-fade>Tap any card to watch the whole thing on YouTube.</p>
+        </div>
+        <div class="voices">
+            <a class="voice" data-w3d="card" href="https://www.youtube.com/watch?v=0LXwBcbDXO8" target="_blank" rel="noopener">
+                <div class="voice-frame"><img src="https://i.ytimg.com/vi/0LXwBcbDXO8/hqdefault.jpg" alt="Vijay Rajput — Woosh Biz feedback" width="480" height="360" loading="lazy"><span class="voice-play" aria-hidden="true">&#9654;</span></div>
+                <div><h3>Vijay Rajput</h3><small>IP Services</small><img class="voice-brand" src="images/wix/wix-e7877f20.png" alt="IP Services" width="136" height="64" loading="lazy"></div>
             </a>
-            <a class="video-card reveal" href="https://www.youtube.com/watch?v=24UVuhVgcGk" target="_blank" rel="noopener">
-                <div class="video-frame">
-                    <img src="https://i.ytimg.com/vi/24UVuhVgcGk/hqdefault.jpg" alt="Aditi Khanna — Woosh Biz feedback" loading="lazy">
-                    <span class="yt-play" aria-hidden="true">&#9654;</span>
-                </div>
-                <div class="video-meta">
-                    <img class="video-avatar" src="images/wix/wix-26ddb95f.png" alt="Aditi Khanna" loading="lazy">
-                    <h4>Aditi Khanna</h4>
-                    <span>Partner at FutureSkomp LLP</span>
-                    <div><img class="video-brand" src="images/wix/wix-cc6177f2.png" alt="FutureSkomp LLP" loading="lazy"></div>
-                    <span class="video-watch">Watch on YouTube →</span>
-                </div>
+            <a class="voice" data-w3d="card" href="https://www.youtube.com/watch?v=24UVuhVgcGk" target="_blank" rel="noopener">
+                <div class="voice-frame"><img src="https://i.ytimg.com/vi/24UVuhVgcGk/hqdefault.jpg" alt="Aditi Khanna — Woosh Biz feedback" width="480" height="360" loading="lazy"><span class="voice-play" aria-hidden="true">&#9654;</span></div>
+                <div><h3>Aditi Khanna</h3><small>Partner at FutureSkomp LLP</small><img class="voice-brand" src="images/wix/wix-cc6177f2.png" alt="FutureSkomp LLP" width="136" height="64" loading="lazy"></div>
             </a>
-            <a class="video-card reveal" href="https://www.youtube.com/watch?v=dnEX3EFsFWU" target="_blank" rel="noopener">
-                <div class="video-frame">
-                    <img src="https://i.ytimg.com/vi/dnEX3EFsFWU/hqdefault.jpg" alt="Saloni Thakkar — Woosh Biz feedback" loading="lazy">
-                    <span class="yt-play" aria-hidden="true">&#9654;</span>
-                </div>
-                <div class="video-meta">
-                    <img class="video-avatar" src="images/wix/wix-cf7e26a5.png" alt="Saloni Thakkar" loading="lazy">
-                    <h4>Saloni Thakkar</h4>
-                    <span>Senior Manager Training</span>
-                    <div><img class="video-brand" src="images/wix/wix-72cbf69a.png" alt="Employer logo" loading="lazy"></div>
-                    <span class="video-watch">Watch on YouTube →</span>
-                </div>
+            <a class="voice" data-w3d="card" href="https://www.youtube.com/watch?v=dnEX3EFsFWU" target="_blank" rel="noopener">
+                <div class="voice-frame"><img src="https://i.ytimg.com/vi/dnEX3EFsFWU/hqdefault.jpg" alt="Saloni Thakkar — Woosh Biz feedback" width="480" height="360" loading="lazy"><span class="voice-play" aria-hidden="true">&#9654;</span></div>
+                <div><h3>Saloni Thakkar</h3><small>Senior Manager Training</small><img class="voice-brand" src="images/wix/wix-72cbf69a.png" alt="Employer logo" width="136" height="64" loading="lazy"></div>
             </a>
-            <a class="video-card reveal" href="https://www.youtube.com/watch?v=ezc0rHC3qls" target="_blank" rel="noopener">
-                <div class="video-frame">
-                    <img src="https://i.ytimg.com/vi/ezc0rHC3qls/hqdefault.jpg" alt="Dr R. Chandran — Woosh Biz feedback" loading="lazy">
-                    <span class="yt-play" aria-hidden="true">&#9654;</span>
-                </div>
-                <div class="video-meta">
-                    <img class="video-avatar" src="images/wix/wix-46772eef.png" alt="Dr R. Chandran" loading="lazy">
-                    <h4>Dr R. Chandran</h4>
-                    <span>Director</span>
-                    <div><img class="video-brand" src="images/wix/wix-ac47178e.png" alt="Pillai College of Engineering" loading="lazy"></div>
-                    <span class="video-watch">Watch on YouTube →</span>
-                </div>
+            <a class="voice" data-w3d="card" href="https://www.youtube.com/watch?v=ezc0rHC3qls" target="_blank" rel="noopener">
+                <div class="voice-frame"><img src="https://i.ytimg.com/vi/ezc0rHC3qls/hqdefault.jpg" alt="Dr R. Chandran — Woosh Biz feedback" width="480" height="360" loading="lazy"><span class="voice-play" aria-hidden="true">&#9654;</span></div>
+                <div><h3>Dr R. Chandran</h3><small>Director</small><img class="voice-brand" src="images/wix/wix-ac47178e.png" alt="Pillai College of Engineering" width="136" height="64" loading="lazy"></div>
             </a>
-            <a class="video-card reveal" href="https://www.youtube.com/watch?v=geojIntTGiA" target="_blank" rel="noopener">
-                <div class="video-frame">
-                    <img src="https://i.ytimg.com/vi/geojIntTGiA/hqdefault.jpg" alt="Sanjay — Woosh Biz feedback" loading="lazy">
-                    <span class="yt-play" aria-hidden="true">&#9654;</span>
-                </div>
-                <div class="video-meta">
-                    <img class="video-avatar" src="images/wix/wix-1c049d65.png" alt="Sanjay" loading="lazy">
-                    <h4>Sanjay</h4>
-                    <span>Creative Director for Films</span>
-                    <div><img class="video-brand" src="images/wix/wix-12d557bd.png" alt="Jio Studio" loading="lazy"></div>
-                    <span class="video-watch">Watch on YouTube →</span>
-                </div>
+            <a class="voice" data-w3d="card" href="https://www.youtube.com/watch?v=geojIntTGiA" target="_blank" rel="noopener">
+                <div class="voice-frame"><img src="https://i.ytimg.com/vi/geojIntTGiA/hqdefault.jpg" alt="Sanjay — Woosh Biz feedback" width="480" height="360" loading="lazy"><span class="voice-play" aria-hidden="true">&#9654;</span></div>
+                <div><h3>Sanjay</h3><small>Creative Director for Films</small><img class="voice-brand" src="images/wix/wix-12d557bd.png" alt="Jio Studio" width="136" height="64" loading="lazy"></div>
             </a>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section class="featured-section">
-        <h2 class="featured-heading reveal">Featured in</h2>
-        <div class="marquee"><div class="marquee-track" id="pressTrack"></div></div>
-    </section>
+<!-- ==================== PRESS ==================== -->
+<section class="strip">
+    <p class="strip-label">Featured in</p>
+    <div class="marquee rev"><div class="marquee-track" data-logos="press" data-logo-w="150" data-logo-h="70"></div></div>
+</section>
 
-    <section class="faq-section">
-        <h2 class="faq-heading reveal">Frequently Asked Questions</h2>
-        <div class="faq-container">
-            <div class="faq-item reveal">
-                <div class="faq-question">Do I have to be athletic or super competitive to participate in team building activities?</div>
-                <div class="faq-answer">Team-building with Woosh Biz unlocks the inner child of an adult - hidden potential, enhances collaboration, and boosts productivity, resulting in a more cohesive and successful team.</div>
-            </div>
-            <div class="faq-item reveal">
-                <div class="faq-question">How do I justify the cost of team-building to upper management?</div>
-                <div class="faq-answer">Research shows that team-building results in improved team dynamics, increased collaboration, and reduced conflicts, leading to a measurable return on investment.</div>
-            </div>
-            <div class="faq-item reveal">
-                <div class="faq-question">Are the activities only for large corporate groups or can small teams also participate?</div>
-                <div class="faq-answer">Small teams, big teams, and everything in between - all are welcome! Our team building activities are scalable and customizable to accommodate groups of various sizes. Whether you're a startup, a department within a company, or a large organization, we've got the perfect activities for you.</div>
-            </div>
-            <div class="faq-item reveal">
-                <div class="faq-question">Will an indoor session feel like a typical day at the office?</div>
-                <div class="faq-answer">Definitely not! We take over the space and change it completely — props, music, floor games, team colours. Your team stays in the building, but the room stops feeling like the room they sit in every day. That's the whole point of running it indoors: all of the energy, none of the travel.</div>
-            </div>
-            <div class="faq-item reveal">
-                <div class="faq-question">Can team building activities really improve our team's performance and productivity?</div>
-                <div class="faq-answer">Absolutely! Team building activities have been proven to enhance team work, collaboration, and communication skills. By participating in these activities, your team will strengthen bonds, learn to trust one another, and develop effective strategies for problem-solving. All of these factors contribute to a more productive and efficient team.</div>
-            </div>
-            <div class="faq-item reveal">
+<!-- ==================== 04 FAQ ==================== -->
+<section class="scene lit">
+    <div class="wrap scene-grid">
+        <div class="scene-title">
+            <p class="scene-count">04 / 04</p>
+            <h2 class="display" data-w3d="rise" data-w3d-fade>Before<br>you book.</h2>
+            <p class="dim" data-w3d="rise" data-w3d-fade>The things people ask us most often.</p>
+        </div>
+        <div class="faq">
+            <div class="faq-item">
                 <div class="faq-question">Is everything on this page an indoor activity?</div>
                 <div class="faq-answer">Yes. Every game listed here is built to run indoors — a boardroom, a cafeteria, a training room or a banquet hall is all we need, and we bring the rest. Nobody steps outside and nothing depends on the weather. If you'd rather take the team out into the open air instead, that's our <a href="outdoors.html">outdoor team building programmes</a>.</div>
             </div>
-            <div class="faq-item reveal">
+            <div class="faq-item">
+                <div class="faq-question">Will an indoor session feel like a typical day at the office?</div>
+                <div class="faq-answer">Definitely not! We take over the space and change it completely — props, music, floor games, team colours. Your team stays in the building, but the room stops feeling like the room they sit in every day. That's the whole point of running it indoors: all of the energy, none of the travel.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Do I have to be athletic or super competitive to participate?</div>
+                <div class="faq-answer">Team-building with Woosh Biz unlocks the inner child of an adult - hidden potential, enhances collaboration, and boosts productivity, resulting in a more cohesive and successful team. Fitness has nothing to do with it.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">How do I justify the cost of team-building to upper management?</div>
+                <div class="faq-answer">Research shows that team-building results in improved team dynamics, increased collaboration, and reduced conflicts, leading to a measurable return on investment.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Are the activities only for large corporate groups or can small teams also participate?</div>
+                <div class="faq-answer">Small teams, big teams, and everything in between - all are welcome! Our team building activities are scalable and customizable to accommodate groups of various sizes. Whether you're a startup, a department within a company, or a large organization, we've got the perfect activities for you.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Can team building activities really improve our team's performance and productivity?</div>
+                <div class="faq-answer">Absolutely! Team building activities have been proven to enhance team work, collaboration, and communication skills. By participating in these activities, your team will strengthen bonds, learn to trust one another, and develop effective strategies for problem-solving. All of these factors contribute to a more productive and efficient team.</div>
+            </div>
+            <div class="faq-item">
                 <div class="faq-question">Can we customize the team building activities to align with our specific goals?</div>
                 <div class="faq-answer">Absolutely! We understand that every team has unique objectives and desired outcomes. Our team of experienced facilitators will collaborate with you to tailor the activities, challenges, and debrief sessions to address your specific goals and foster the growth and development you're aiming for.</div>
             </div>
-            <div class="faq-item reveal">
+            <div class="faq-item">
                 <div class="faq-question">What if someone on my team has physical limitations or disabilities?</div>
                 <div class="faq-answer">Inclusivity is incredibly important to us. We can adapt our activities to accommodate individuals with physical limitations or disabilities, ensuring that everyone can participate and contribute to the team building experience. Let us know about any specific requirements, and we'll work together to create an enjoyable and inclusive event.</div>
             </div>
-            <div class="faq-item reveal">
+            <div class="faq-item">
                 <div class="faq-question">Can we have team building activities where family members and spouses can also participate?</div>
-                <div class="faq-answer">Absolutely! We believe in the power of bringing families together and strengthening relationships beyond the workplace. We offer team building activities that are specifically designed to include family members and spouses. Whether it's a fun-filled day of games, a picnic, or a special event, we can create memorable experiences that involve your loved ones and help build stronger connections both at work and at home. Let's make it a truly inclusive and unforgettable experience for everyone!</div>
+                <div class="faq-answer">Absolutely! We believe in the power of bringing families together and strengthening relationships beyond the workplace. We offer team building activities that are specifically designed to include family members and spouses. Whether it's a fun-filled day of games, a picnic, or a special event, we can create memorable experiences that involve your loved ones and help build stronger connections both at work and at home.</div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section class="cta-strip">
-        <h2 class="reveal">Let's <span class="hl">Skyrocket Your Team's Spirit Indoors!!</span></h2>
-        <p class="reveal">No Gyaan. Just Fun With Learning.</p>
-        <a href="https://wa.me/919210804078" target="_blank" rel="noopener" class="cta-button reveal">
-            <span class="wa-icon">
-                <svg viewBox="0 0 24 24" fill="#ffffff" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413"/>
-                </svg>
-            </span>
-            Get a Quote in 30 mins
+<!-- ==================== CLOSING ==================== -->
+<section class="closing">
+    <span class="glow a"></span>
+    <div class="wrap">
+        <h2 class="display" data-w3d="rise" data-w3d-fade>Let's skyrocket your team's<br>spirit <em>indoors</em>.</h2>
+        <p data-w3d="rise" data-w3d-fade>No Gyaan. Just Fun With Learning.</p>
+        <a class="act" data-magnetic href="https://wa.me/919210804078" target="_blank" rel="noopener">
+            <span class="wa"><svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413"/></svg></span>
+            <span>Get a quote in 30 mins</span>
         </a>
-    </section>
+    </div>
+</section>
 
-    <footer>
-        <div class="footer-grid">
+<!-- @partial:footer -->
+<footer class="site-footer">
+    <div class="wrap">
+        <div class="foot">
             <div>
-                <div class="footer-logo">
-                    <img src="images/wix/wix-b8e2795e.png" alt="Woosh Biz">
-                </div>
-                <p style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 20px; line-height: 1.6;">No Gyaan. Just Fun With Learning.</p>
-                <div class="footer-socials">
-                    <a href="https://www.facebook.com/people/Woosh-Biz-by-HTI/100083456102229/" class="social-icon" title="Facebook"><img src="images/wix/wix-ef6a6ac1.png" alt="FB"></a>
-                    <a href="https://www.instagram.com/wooshbiz/" class="social-icon" title="Instagram"><img src="images/wix/wix-cef3b719.png" alt="IG"></a>
-                    <a href="https://www.linkedin.com/company/woosh-biz-by-hti/" class="social-icon" title="LinkedIn"><img src="images/wix/wix-b5690303.png" alt="LI"></a>
-                    <a href="https://www.youtube.com/channel/UC9BdT9tzf4841P1B-R7P-Qg" class="social-icon" title="YouTube"><img src="images/wix/wix-fe985b88.png" alt="YT"></a>
+                <img class="foot-mark" src="images/wix/wix-b8e2795e.png" alt="Woosh Biz" width="1182" height="466">
+                <p class="foot-tag">No gyaan. Just fun with learning.</p>
+                <div class="socials">
+                    <a href="https://www.facebook.com/people/Woosh-Biz-by-HTI/100083456102229/" target="_blank" rel="noopener" title="Facebook"><img src="images/wix/wix-ef6a6ac1.png" alt="Facebook" width="201" height="201"></a>
+                    <a href="https://www.instagram.com/wooshbiz/" target="_blank" rel="noopener" title="Instagram"><img src="images/wix/wix-cef3b719.png" alt="Instagram" width="201" height="201"></a>
+                    <a href="https://www.linkedin.com/company/woosh-biz-by-hti/" target="_blank" rel="noopener" title="LinkedIn"><img src="images/wix/wix-b5690303.png" alt="LinkedIn" width="201" height="201"></a>
+                    <a href="https://www.youtube.com/channel/UC9BdT9tzf4841P1B-R7P-Qg" target="_blank" rel="noopener" title="YouTube"><img src="images/wix/wix-fe985b88.png" alt="YouTube" width="201" height="201"></a>
                 </div>
             </div>
-            <div class="footer-column">
-                <h4>Quick Links</h4>
+            <div>
+                <h3>Company</h3>
                 <a href="about.html">About Us</a>
                 <a href="contact.html">Get In Touch</a>
-                <a href="contact.html">Free Consultation Call</a>
+                <a href="contact.html">Free Consultation</a>
                 <a href="blog.html">Blogs</a>
             </div>
-            <div class="footer-column">
-                <h4>Programs</h4>
+            <div>
+                <h3>Programmes</h3>
                 <a href="high-octane.html">In-Office</a>
                 <a href="outdoors.html">Outdoors</a>
+                <a href="resorts.html">Resorts Recommended</a>
             </div>
-            <div class="footer-column">
-                <h4>Contact</h4>
-                <div class="footer-contact">+91 9210804078</div>
-                <div class="footer-rating">⭐ 4.5 | 150 Ratings</div>
+            <div>
+                <h3>Contact</h3>
+                <a href="tel:+919210804078">+91 92108 04078</a>
+                <a href="mailto:info@wooshbiz.com">info@wooshbiz.com</a>
+                <span class="foot-rating">&#11088; 4.5 &middot; 150 ratings</span>
             </div>
         </div>
-        <div class="footer-bottom">© 2024 Woosh Biz by HTI India Pvt Ltd. All rights reserved.</div>
-    </footer>
+        <div class="foot-end">&copy; 2026 Woosh Biz by HTI India Pvt Ltd. All rights reserved.</div>
+    </div>
+</footer>
+<!-- @end:footer -->
 
-    <button class="scroll-to-top" id="scrollToTop" title="Scroll to top">↑</button>
+<button class="scroll-to-top" id="scrollToTop" title="Scroll to top" aria-label="Scroll to top">&uarr;</button>
 
-    <script>
-
-        // Hamburger menu & mobile nav
-        const hamburger = document.getElementById('hamburger');
-        const navLinks = document.getElementById('navLinks');
-        const dropdownToggle = document.querySelector('.dropdown-toggle');
-        const dropdown = document.querySelector('.dropdown');
-
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navLinks.classList.toggle('open');
-            document.body.style.overflow = navLinks.classList.contains('open') ? 'hidden' : '';
-        });
-
-        // Close menu when a link is clicked
-        navLinks.querySelectorAll('a:not(.dropdown-toggle)').forEach(link => {
-            link.addEventListener('click', () => {
-                hamburger.classList.remove('active');
-                navLinks.classList.remove('open');
-                document.body.style.overflow = '';
-            });
-        });
-
-        // Mobile dropdown toggle
-        if (dropdownToggle) {
-            dropdownToggle.addEventListener('click', (e) => {
-                if (window.innerWidth <= 768) {
-                    e.preventDefault();
-                    dropdown.classList.toggle('open');
-                }
-            });
-        }
-
-        // Close menu on outside click
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.navbar')) {
-                hamburger.classList.remove('active');
-                navLinks.classList.remove('open');
-                document.body.style.overflow = '';
-            }
-        });
-
-        // ---- Client logo marquee ----
-        // [wix media id, brand name] — split across two counter-scrolling rows.
-        const BRANDS = [
-            ['9e0902_572678def7084fefbfc664709f737e0d', 'Air India'],
-            ['9e0902_950c2ae7bd274dc781ee9af9da2d1ef3', 'Jio Studio'],
-            ['9e0902_9a50dbc288904b778b73ed948889347b', 'RPG Pvt Ltd'],
-            ['9e0902_8144f80fa1dc4df18e39de7825df1ffc', 'Accor Hotels'],
-            ['9e0902_1e1761e2a547428fab15023e4bb66126', 'Westin Hotels'],
-            ['9e0902_62f68fef408d4e91840ccdd1f2bb9d50', 'Ginger Hotels'],
-            ['9e0902_9093a13813bd489780094e1adb97bc67', 'Club Mahindra Resorts'],
-            ['9e0902_3133b82e317d494ba51ecb3dfbb2fa77', 'Speciality Restaurants'],
-            ['9e0902_1994cb4e024045699d77648434ac92df', 'Mainland China'],
-            ['9e0902_9a1d5c82b4b443e1bfe560f70afdfcff', 'Azure Hospitality'],
-            ['9e0902_8cc8588e585d4dddbf62160436f5d2e6', 'ABNAH — Yauatcha, Cin Cin, Nara Thai, Hakkasan'],
-            ['9e0902_46a954ccc1e64a8eb2554f8c120fe58d', "Jolie's Club by Aditya Birla"],
-            ['9e0902_8b54c69644be4ec1b213c7842f80b9b7', 'Treat Resorts'],
-            ['9e0902_5e57c5fca3e5434ca2b01e0822e12b41', 'Peninsula Redpine'],
-            ['9e0902_b8c7da6efd554487b41920cc36fc947d', 'VITS Select'],
-            ['9e0902_e2c6ea07a1444d91afb5298d22445e1a', 'Nesco'],
-            ['9e0902_9d9169771e284f23b912cf71ecdaa20b', 'PolyPeptide'],
-            ['9e0902_3f95d02a349b41ab892a531394e60ed6', 'Idemitsu Lube India Pvt. Ltd.'],
-            ['9e0902_40256a2ac2b34d02ad7f623e2a04c809', 'Valmet'],
-            ['9e0902_6af006b66d7540258eb58571a8117910', 'Nelito Systems'],
-            ['9e0902_35da620727ed47e297638230dad4fd14', 'Itochu Parekh ISPL'],
-            ['9e0902_cba075cd2af0455abf9536a5d59ab356', 'Parekh Integrated Services Pvt Ltd'],
-            ['9e0902_2c317fb4db7e44beb9d1ec412e9fdeb6', 'Swastik Tins'],
-            ['9e0902_418cf1d301c84ff8bb8145b78ca2e880', 'Arete'],
-            ['9e0902_cf04087a715d4447956473dea8f6c3f5', 'Wyntronix Innovations'],
-            ['9e0902_9cd097fc62d44c9eb1f404f15ee7cf2e', 'Noble Protective Systems'],
-            ['9e0902_b10ae94bc79d4caaa905eda78c87c33a', 'Reviv'],
-            ['9e0902_70ef67702dd046a8b2adea28a35673dd', 'Dr Store'],
-            ['9e0902_b6ac6f9372834edc99f825d108fb8e1e', 'The Club'],
-            ['9e0902_13898748420e4fdea8df56447596810c', 'BBT'],
-            ['9e0902_1fbe05b60d4840568978bc6bddc96045', 'KBT'],
-            ['9e0902_1195b5d2424d4284aaef71064409df2e', 'Pillai College of Management Studies'],
-            ['9e0902_3c8c0071b20c4c74a47d43634a6f911c', 'Kohinoor College'],
-            ['9e0902_972c1a763b6144acab69a9e8a2000171', 'MET College'],
-            ['9e0902_3a87c541088c43ab8da5941704089e6a', 'Hiranandani School'],
-            ['9e0902_c9db98c1d920478a89ceff5ceee4f46a', 'ITM IHM'],
-            ['9e0902_42d5e29830a5448aa071c9c46355badf', 'Apeejay Institute Of Hospitality'],
-            ['9e0902_ef7945b9673d4759849683ed11a25eb4', 'Anjuman-I-Islam IHMCT'],
-            ['9e0902_5ea0b217ab4a48c7b9523e94a41cb76c', 'Cona & Osum'],
-        ];
-
-        // Press logos behind the "Featured in" strip.
-        const PRESS = [
-            ['9e0902_948917f015634f51a3a9906399455ddc', 'Featured in'],
-            ['9e0902_ade98c7a43e54cc7a129ce91c79d3be6', 'Featured in'],
-            ['9e0902_4a24a4b8ce4e4700acafd53cd481d6a4', 'Featured in'],
-            ['9e0902_d89495a5b1e94780a322d1f4066f7785', 'Featured in'],
-            ['9e0902_290c424799334208b8e70ca51af4a18d', 'Featured in'],
-            ['9e0902_97aea2775dc745e09b271a271364abe9', 'Featured in'],
-            ['9e0902_9e0a91025eaf4de0accdcda657333d29', 'Featured in'],
-            ['9e0902_e03da0b96e004cb1be899cba8daaea37', 'Featured in'],
-        ];
-
-        // Logos are served from images/wix/ now, not resized by Wix. The w/h
-        // args are still passed through to the img width/height attributes to
-        // reserve layout space; the CSS (height + width:auto + object-fit)
-        // does the actual sizing, so the untransformed original is not
-        // stretched to the old fill box.
-        function logoUrl(id, w, h) {
-            return 'images/wix/wix-' + id.slice(7, 15) + '.png';
-        }
-
-        function fillTrack(el, list, w, h) {
-            // Rendered twice so the -50% keyframe loops seamlessly.
-            const html = list.map(([id, name]) => {
-                const safe = name.replace(/"/g, '&quot;');
-                return '<img src="' + logoUrl(id, w, h) + '" alt="' + safe + '" title="' + safe +
-                    '" loading="lazy" width="' + w + '" height="' + h + '" data-logo>';
-            }).join('');
-            el.innerHTML = html + html;
-        }
-
-        const half = Math.ceil(BRANDS.length / 2);
-        fillTrack(document.getElementById('brandTrackA'), BRANDS.slice(0, half), 134, 62);
-        fillTrack(document.getElementById('brandTrackB'), BRANDS.slice(half), 134, 62);
-        fillTrack(document.getElementById('pressTrack'), PRESS, 150, 70);
-
-        // If the CDN drops a logo, pull it out of the strip rather than showing
-        // a broken-image glyph mid-marquee.
-        document.querySelectorAll('img[data-logo]').forEach(img => {
-            img.addEventListener('error', () => { img.style.display = 'none'; });
-        });
-
-        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
-        }, observerOptions);
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-        // Count-up on the stats band, once, when it scrolls into view.
-        const statObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (!entry.isIntersecting) return;
-                statObserver.unobserve(entry.target);
-                const el = entry.target;
-                const target = parseInt(el.dataset.count, 10);
-                const suffix = el.dataset.suffix || '';
-                const start = performance.now();
-                const dur = 1400;
-                (function tick(now) {
-                    const p = Math.min((now - start) / dur, 1);
-                    const eased = 1 - Math.pow(1 - p, 3);
-                    el.textContent = Math.round(target * eased) + suffix;
-                    if (p < 1) requestAnimationFrame(tick);
-                })(start);
-            });
-        }, { threshold: 0.4 });
-        document.querySelectorAll('.stat-number').forEach(el => statObserver.observe(el));
-
-        document.querySelectorAll('.faq-item').forEach(item => {
-            item.addEventListener('click', () => {
-                const wasActive = item.classList.contains('active');
-                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
-                if (!wasActive) item.classList.add('active');
-            });
-        });
-
-        const scrollToTopBtn = document.getElementById('scrollToTop');
-        window.addEventListener('scroll', () => {
-            scrollToTopBtn.classList.toggle('visible', window.scrollY > 300);
-        });
-        scrollToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-
-        // ---- Click-to-play YouTube facades ----
-        // Every [data-yt] renders as a thumbnail + play button and only loads
-        // the real player on click, so the page stays light.
-        //
-        // YouTube refuses to run an embed when the page origin is file:// — it
-        // replaces the player with "Error 153". So on that protocol we skip the
-        // iframe entirely and open the clip on youtube.com instead, which is a
-        // working video rather than an error box. Served over http(s) — how the
-        // live site runs — the player is embedded inline on the page as normal.
-        // data-start, when present, is the second to begin playback at.
-        const CAN_EMBED = location.protocol === 'http:' || location.protocol === 'https:';
-
-        document.querySelectorAll('[data-yt]').forEach(host => {
-            const id = host.dataset.yt;
-            const title = host.dataset.title || 'Woosh Biz video';
-            const start = parseInt(host.dataset.start, 10);
-            const esc = title.replace(/"/g, '&quot;');
-            const watchUrl = 'https://www.youtube.com/watch?v=' + id +
-                (start > 0 ? '&t=' + start + 's' : '');
-
-            const btn = document.createElement('button');
-            btn.type = 'button';
-            btn.className = 'yt';
-            btn.setAttribute('aria-label', 'Play: ' + title);
-            btn.innerHTML =
-                '<img class="yt-thumb" src="https://i.ytimg.com/vi/' + id + '/hqdefault.jpg" alt="' +
-                esc + '" loading="lazy">' +
-                '<span class="yt-play" aria-hidden="true">&#9654;</span>';
-
-            btn.addEventListener('click', () => {
-                if (btn.classList.contains('playing')) return;
-
-                if (!CAN_EMBED) {
-                    window.open(watchUrl, '_blank', 'noopener');
-                    return;
-                }
-
-                btn.classList.add('playing');
-
-                const params = 'autoplay=1&rel=0&playsinline=1' +
-                    (start > 0 ? '&start=' + start : '');
-
-                btn.innerHTML =
-                    '<iframe src="https://www.youtube.com/embed/' + id + '?' + params +
-                    '" title="' + esc +
-                    '" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"' +
-                    ' referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
-            });
-
-            host.appendChild(btn);
-        });
-    </script>
 </body>
 </html>

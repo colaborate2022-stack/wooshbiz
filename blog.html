@@ -17,11 +17,11 @@
     <link rel="apple-touch-icon" sizes="180x180" href="images/favicon-180.png">
     <link rel="icon" type="image/png" sizes="512x512" href="images/favicon-512.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,600;1,700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&display=swap");
-        @import url('https://fonts.cdnfonts.com/css/gilroy-free');
-
+        
         :root {
             --wb-primary: #871e6c;
             --wb-plum: #8E2158;
@@ -336,35 +336,40 @@
         .blog-card.w3d-focus .blog-card-title { color: var(--wb-primary); }
 </style>
     <!-- Scroll-driven 3D motion — works on touch and desktop alike -->
+    <link rel="stylesheet" href="assets/woosh-tokens.css">
+    <link rel="stylesheet" href="assets/woosh-chrome.css">
     <link rel="stylesheet" href="assets/woosh-3d.css">
     <script defer src="assets/woosh-3d.js"></script>
+    <script defer src="assets/woosh-ui.js"></script>
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="nav-logo">
-                <img src="images/wix/wix-2f36ed41.png" alt="Woosh Biz" height="40">
-            </a>
-            <button class="hamburger" id="hamburger" aria-label="Menu">
-                <span></span><span></span><span></span>
-            </button>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="high-octane.html">In-Office</a></li>
-                <li><a href="outdoors.html">Outdoors</a></li>
-                <li class="dropdown" id="navDropdown">
-                    <a href="#" class="dropdown-toggle">Get In Touch ▾</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="about.html">About Us</a></li>
-                        <li><a href="blog.html">Blogs</a></li>
-                        <li><a href="contact.html">Free Consultation</a></li>
-                        <li><a href="resorts.html">Resorts Recommended</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </nav>
+<!-- @partial:nav active="blog" -->
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="index.html" class="nav-logo" aria-label="Woosh Biz — home">
+            <img src="images/wix/wix-2f36ed41.png" alt="Woosh Biz" width="1182" height="466">
+        </a>
+        <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false" aria-controls="navLinks">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="high-octane.html">In-Office</a></li>
+            <li><a href="outdoors.html">Outdoors</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle">More</a>
+                <ul class="dropdown-menu">
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="blog.html" class="active" aria-current="page">Blogs</a></li>
+                    <li><a href="contact.html">Free Consultation</a></li>
+                    <li><a href="resorts.html">Resorts Recommended</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
+<!-- @end:nav -->
 
     <div class="blog-hero">
         <div class="blog-hero-inner">
@@ -407,40 +412,44 @@
 
     <button class="scroll-to-top" id="toTop" aria-label="Back to top">↑</button>
 
-    <footer>
-        <div class="footer-grid">
+<!-- @partial:footer -->
+<footer class="site-footer">
+    <div class="wrap">
+        <div class="foot">
             <div>
-                <div class="footer-logo">
-                    <img src="images/wix/wix-b8e2795e.png" alt="Woosh Biz">
-                </div>
-                <p class="footer-tagline">No Gyaan. Just Fun With Learning.</p>
-                <div class="footer-socials">
-                    <a href="https://www.facebook.com/people/Woosh-Biz-by-HTI/100083456102229/" title="Facebook"><img src="images/wix/wix-ef6a6ac1.png" alt="FB"></a>
-                    <a href="https://www.instagram.com/wooshbiz/" title="Instagram"><img src="images/wix/wix-cef3b719.png" alt="IG"></a>
-                    <a href="https://www.linkedin.com/company/woosh-biz-by-hti/" title="LinkedIn"><img src="images/wix/wix-b5690303.png" alt="LI"></a>
-                    <a href="https://www.youtube.com/channel/UC9BdT9tzf4841P1B-R7P-Qg" title="YouTube"><img src="images/wix/wix-fe985b88.png" alt="YT"></a>
+                <img class="foot-mark" src="images/wix/wix-b8e2795e.png" alt="Woosh Biz" width="1182" height="466">
+                <p class="foot-tag">No gyaan. Just fun with learning.</p>
+                <div class="socials">
+                    <a href="https://www.facebook.com/people/Woosh-Biz-by-HTI/100083456102229/" target="_blank" rel="noopener" title="Facebook"><img src="images/wix/wix-ef6a6ac1.png" alt="Facebook" width="201" height="201"></a>
+                    <a href="https://www.instagram.com/wooshbiz/" target="_blank" rel="noopener" title="Instagram"><img src="images/wix/wix-cef3b719.png" alt="Instagram" width="201" height="201"></a>
+                    <a href="https://www.linkedin.com/company/woosh-biz-by-hti/" target="_blank" rel="noopener" title="LinkedIn"><img src="images/wix/wix-b5690303.png" alt="LinkedIn" width="201" height="201"></a>
+                    <a href="https://www.youtube.com/channel/UC9BdT9tzf4841P1B-R7P-Qg" target="_blank" rel="noopener" title="YouTube"><img src="images/wix/wix-fe985b88.png" alt="YouTube" width="201" height="201"></a>
                 </div>
             </div>
             <div>
-                <h4>Quick Links</h4>
+                <h3>Company</h3>
                 <a href="about.html">About Us</a>
                 <a href="contact.html">Get In Touch</a>
-                <a href="contact.html">Free Consultation Call</a>
+                <a href="contact.html">Free Consultation</a>
                 <a href="blog.html">Blogs</a>
             </div>
             <div>
-                <h4>Programs</h4>
+                <h3>Programmes</h3>
                 <a href="high-octane.html">In-Office</a>
                 <a href="outdoors.html">Outdoors</a>
+                <a href="resorts.html">Resorts Recommended</a>
             </div>
             <div>
-                <h4>Contact</h4>
-                <div class="footer-contact">+91 9210804078</div>
-                <div>⭐ 4.5 | 150 Ratings</div>
+                <h3>Contact</h3>
+                <a href="tel:+919210804078">+91 92108 04078</a>
+                <a href="mailto:info@wooshbiz.com">info@wooshbiz.com</a>
+                <span class="foot-rating">&#11088; 4.5 &middot; 150 ratings</span>
             </div>
         </div>
-        <div class="footer-bottom">© 2026 Woosh Biz by HTI India Pvt Ltd. All rights reserved.</div>
-    </footer>
+        <div class="foot-end">&copy; 2026 Woosh Biz by HTI India Pvt Ltd. All rights reserved.</div>
+    </div>
+</footer>
+<!-- @end:footer -->
 
     <script>
         const SUPABASE_URL = "https://ytthcgdsbfagvwcopoaj.supabase.co";
@@ -690,21 +699,10 @@
 
         loadBlogs();
 
-        (function () {
-            document.getElementById('hamburger').addEventListener('click', () => {
-                document.getElementById('navLinks').classList.toggle('open');
-            });
-            const dd = document.getElementById('navDropdown');
-            dd.querySelector('.dropdown-toggle').addEventListener('click', (e) => {
-                if (window.innerWidth <= 900) { e.preventDefault(); dd.classList.toggle('open'); }
-            });
-
-            const toTop = document.getElementById('toTop');
-            window.addEventListener('scroll', () => {
-                toTop.classList.toggle('visible', window.scrollY > 600);
-            }, { passive: true });
-            toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-        })();
+        // The hamburger, the nav dropdown and the back-to-top button are all
+        // handled by assets/woosh-ui.js now — it binds to .scroll-to-top and to
+        // the shared nav partial. The local copies that used to live here
+        // referenced #navDropdown, which the shared navbar does not have.
     </script>
 </body>
 </html>

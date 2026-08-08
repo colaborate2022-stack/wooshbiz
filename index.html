@@ -17,1713 +17,220 @@
     <link rel="apple-touch-icon" sizes="180x180" href="images/favicon-180.png">
     <link rel="icon" type="image/png" sizes="512x512" href="images/favicon-512.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;800&display=swap" rel="stylesheet">
-    <style>
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&display=swap");
-        @import url('https://fonts.cdnfonts.com/css/gilroy-free');
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Gilroy', sans-serif;
-            color: #1a1a1a;
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-
-        /* Scroll Animations */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.7s ease;
-        }
-
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .reveal:nth-child(2) { transition-delay: 0.1s; }
-        .reveal:nth-child(3) { transition-delay: 0.2s; }
-        .reveal:nth-child(4) { transition-delay: 0.3s; }
-        .reveal:nth-child(5) { transition-delay: 0.4s; }
-        .reveal:nth-child(6) { transition-delay: 0.5s; }
-
-        /* ===== 3D entrance + tilt + accents ===== */
-        /* Cards rotate up into place as they scroll in */
-        .reveal-3d {
-            opacity: 0;
-            transform: perspective(1000px) rotateX(-45deg) translateY(90px);
-            transform-origin: 50% 100%;
-            transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
-            will-change: transform, opacity;
-        }
-        .reveal-3d.visible {
-            opacity: 1;
-            transform: perspective(1000px) rotateX(0deg) translateY(0);
-        }
-        /* Depth shadow when a 3D card is hovered */
-        .video-card.tilt-3d,
-        .program-card.tilt-3d {
-            transition: box-shadow 0.3s ease;
-        }
-        .video-card.tilt-3d:hover,
-        .program-card.tilt-3d:hover {
-            box-shadow: 0 40px 70px -30px rgba(135, 30, 108, 0.65);
-        }
-
-        /* Classy: animated underline on nav links */
-        .nav-links a { position: relative; }
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            left: 0; bottom: -5px;
-            width: 100%; height: 2px;
-            background: linear-gradient(90deg, #871e6c, #f47920);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.3s ease;
-        }
-        .nav-links a:hover::after { transform: scaleX(1); }
-
-        /* Classy: sheen sweep across buttons on hover */
-        .cta-button::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -120%;
-            width: 60%; height: 100%;
-            background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.35), transparent);
-            transform: skewX(-20deg);
-            transition: left 0.6s ease;
-            pointer-events: none;
-            z-index: 3;
-        }
-        .cta-button:hover::before { left: 140%; }
-
-        /* Classy: slowly shifting gradient on the colored bands */
-        .stats-section {
-            background: linear-gradient(120deg, #871e6c, #8E2158, #6b1a46, #871e6c);
-            background-size: 300% 300%;
-            animation: gradientShift 14s ease infinite;
-        }
-        .cta-strip {
-            background: linear-gradient(120deg, #871e6c, #5c1349, #8E2158, #5c1349);
-            background-size: 300% 300%;
-            animation: gradientShift 16s ease infinite;
-        }
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        .reveal-3d:nth-child(2) { transition-delay: 0.08s; }
-        .reveal-3d:nth-child(3) { transition-delay: 0.16s; }
-        .reveal-3d:nth-child(4) { transition-delay: 0.24s; }
-        .reveal-3d:nth-child(5) { transition-delay: 0.32s; }
-
-        .tilt-3d { will-change: transform; }
-
-        /* Pulsing accent dot */
-        .pulse-dot {
-            display: inline-block;
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
-            background: #f47920;
-            margin-right: 10px;
-            vertical-align: middle;
-            animation: accentPulse 2s infinite;
-        }
-        @keyframes accentPulse {
-            0% { box-shadow: 0 0 0 0 rgba(244, 121, 32, 0.5); }
-            70% { box-shadow: 0 0 0 11px rgba(244, 121, 32, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(244, 121, 32, 0); }
-        }
-
-        /* The scroll progress line is built and styled by assets/woosh-3d.*,
-           which every page loads, so it looks and behaves the same everywhere.
-           It rides the bottom edge of the navbar rather than a fixed offset. */
-
-        /* Animated gradient shimmer on the hero highlight */
-        .hero-headline .highlight {
-            background: linear-gradient(100deg, #8E2158 0%, #f47920 35%, #871e6c 70%, #8E2158 100%);
-            background-size: 250% 100%;
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shimmerText 5s linear infinite;
-        }
-        @keyframes shimmerText {
-            to { background-position: -250% 0; }
-        }
-
-        /* Stats: 3D depth for tilt */
-        .stats-section {
-            perspective: 1000px;
-        }
-        .stat-item {
-            transform-style: preserve-3d;
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            .reveal-3d { opacity: 1 !important; transform: none !important; }
-            .pulse-dot,
-            .hero-headline .highlight,
-            .stats-section,
-            .cta-strip { animation: none; }
-            .hero-headline .highlight {
-                -webkit-text-fill-color: #8E2158;
-                color: #8E2158;
-            }
-        }
-
-        /* Navbar */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: #fff;
-            z-index: 9999;
-        }
-        /* Static underline — shown at the top, hidden once the scroll line appears */
-        .navbar::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(to right, transparent, #871e6c, transparent);
-            transition: opacity 0.2s ease;
-        }
-        .navbar.scrolled::after { opacity: 0; }
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
-            height: 70px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .nav-logo img { height: 40px; width: auto; display: block; }
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 24px;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-        .nav-links a {
-            color: #1a1a1a;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 15px;
-            font-family: 'Gilroy', sans-serif;
-            transition: color 0.2s;
-            white-space: nowrap;
-        }
-        .nav-links a:hover { color: #871e6c; }
-        .dropdown { position: relative; }
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 8px 40px rgba(0,0,0,0.12);
-            padding: 8px;
-            min-width: 220px;
-            list-style: none;
-            z-index: 10000;
-        }
-        .dropdown:hover .dropdown-menu { display: block; }
-        .dropdown-menu li a {
-            display: block;
-            padding: 12px 16px;
-            color: #1a1a1a;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-        .dropdown-menu li a:hover {
-            background: #fdf0f9;
-            color: #871e6c;
-        }
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 8px;
-            z-index: 10001;
-        }
-        .hamburger span {
-            display: block;
-            width: 26px;
-            height: 3px;
-            background: #1a1a1a;
-            border-radius: 3px;
-            transition: all 0.3s ease;
-        }
-        .hamburger.active span:nth-child(1) {
-            transform: translateY(8px) rotate(45deg);
-        }
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;
-        }
-        .hamburger.active span:nth-child(3) {
-            transform: translateY(-8px) rotate(-45deg);
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: auto;
-            background: white;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 90px 2rem 24px;
-            gap: 0.75rem;
-        }
-
-        .hero-headline {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-size: clamp(1.6rem, 4vw, 2.4rem);
-            font-weight: 700;
-            color: #111;
-            text-align: center;
-            max-width: 760px;
-            line-height: 1.25;
-            margin: 0;
-        }
-
-        .hero-headline .highlight {
-            color: #8E2158;
-        }
-
-        .hero-subtext {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-size: clamp(0.9rem, 2vw, 1.1rem);
-            font-weight: 400;
-            color: #222;
-            text-align: center;
-            max-width: 900px;
-            line-height: 1.5;
-            margin: 0;
-        }
-
-        .phone-hero {
-            position: relative;
-            max-width: 620px;
-            width: 100%;
-            margin: -3% auto 0;
-            perspective: 1300px;
-            animation: phoneFloat 6s ease-in-out infinite;
-        }
-
-        @keyframes phoneFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-16px); }
-        }
-
-        /* 3D layer — flat at rest, tilts only on hover */
-        .phone-3d {
-            position: relative;
-            transform-style: preserve-3d;
-            transform: rotateX(0deg) rotateY(0deg);
-            transition: transform 0.4s ease-out;
-            will-change: transform;
-        }
-
-        .hands-img {
-            display: block;
-            width: 100%;
-            height: auto;
-            filter: drop-shadow(0 26px 36px rgba(0, 0, 0, 0.3));
-        }
-
-        .phone-video {
-            position: absolute;
-            /* Mapped to the phone's actual inner screen so the frame/sides stay visible */
-            left: 27.4%;
-            top: 25.4%;
-            width: 44.2%;
-            height: 41.6%;
-            object-fit: cover;
-            border-radius: 7px;
-            z-index: 2;
-            /* Coplanar with the hands so it lines up exactly with the screen,
-               and tilts together with them for the 3D effect */
-            transform: translateZ(0);
-        }
-
-        .hero-cta-container {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-top: -2%;
-        }
-
-        .cta-button {
-            background: linear-gradient(135deg, #8E2158 0%, #6b1a46 100%);
-            color: white;
-            padding: 11px 26px;
-            border-radius: 50px;
-            font-family: 'Poppins', 'Segoe UI', sans-serif;
-            font-weight: 600;
-            font-size: 0.95rem;
-            letter-spacing: 0.3px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 9px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 6px 18px rgba(142, 33, 88, 0.28);
-        }
-
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 24px rgba(142, 33, 88, 0.4);
-        }
-
-        .cta-button .wa-icon {
-            width: 26px;
-            height: 26px;
-            background: #25D366;
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .cta-button .wa-icon svg {
-            width: 16px;
-            height: 16px;
-            flex-shrink: 0;
-        }
-
-        /* On the purple CTA strip the maroon pill sits too close to its own
-           background, so it gets a white rim there. The hero button keeps its
-           rimless look — it sits on white and needs no help. */
-        .cta-strip .cta-button:not(.cta-secondary) {
-            border: 2px solid rgba(255, 255, 255, 0.92);
-            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
-        }
-        .cta-strip .cta-button:not(.cta-secondary):hover { box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35); }
-
-        /* Stats Section */
-        .stats-section {
-            background: #871e6c;
-            color: white;
-            padding: 22px 3rem;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
-            text-align: center;
-        }
-
-        .stat-item {
-            transition: transform 0.3s ease;
-        }
-
-        .stat-item:hover {
-            transform: scale(1.05);
-        }
-
-        .stat-number {
-            font-size: 2.6rem;
-            font-weight: 800;
-            margin-bottom: 4px;
-            counter-increment: stat-counter;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            opacity: 0.85;
-        }
-
-        /* Brand Logos Section */
-        .brands-section {
-            background: white;
-            padding: 60px 3rem;
-            text-align: center;
-        }
-
-        .section-label {
-            color: #871e6c;
-            font-size: 0.9rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 40px;
-        }
-
-        .marquee-container {
-            overflow: hidden;
-            margin: 20px 0;
-        }
-
-        .marquee {
-            display: flex;
-            gap: 2rem;
-            animation: marqueeLeft 16s linear infinite;
-        }
-
-        .marquee.reverse {
-            animation: marqueeRight 18s linear infinite;
-        }
-
-        .marquee:hover {
-            animation-play-state: paused;
-        }
-
-        @keyframes marqueeLeft {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
-        @keyframes marqueeRight {
-            0% { transform: translateX(-50%); }
-            100% { transform: translateX(0); }
-        }
-
-        .logo-item {
-            flex-shrink: 0;
-            height: 45px;
-            display: flex;
-            align-items: center;
-        }
-
-        /* Logos ride in full colour — no grayscale wash. */
-        .logo-item img {
-            max-height: 45px;
-            width: auto;
-            object-fit: contain;
-            opacity: 1;
-            transition: transform 0.3s ease;
-        }
-
-        .logo-item:hover img {
-            transform: scale(1.08);
-        }
-
-        /* Video Section */
-        .video-section {
-            background: #1a1a1a;
-            color: white;
-            padding: 80px 3rem;
-            text-align: center;
-        }
-
-        .section-heading {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 8px;
-        }
-
-        .section-subheading {
-            font-size: 1.1rem;
-            color: rgba(255, 255, 255, 0.6);
-            margin-bottom: 50px;
-        }
-
-        .videos-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
-            gap: 1.5rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .video-card {
-            border-radius: 16px;
-            overflow: hidden;
-            cursor: pointer;
-            position: relative;
-            height: 400px;
-            grid-row: span 2;
-        }
-
-        .video-card:not(:first-child) {
-            height: auto;
-            aspect-ratio: 16 / 9;
-            grid-row: auto;
-        }
-
-        .video-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.4s ease;
-        }
-
-        .video-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 60%);
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 24px;
-            transition: background 0.3s ease;
-        }
-
-        .video-card:hover img {
-            transform: scale(1.02);
-        }
-
-        .video-card:hover .video-overlay {
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, transparent 50%);
-        }
-
-        .play-button {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 64px;
-            height: 64px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
-            50% { box-shadow: 0 0 0 20px rgba(255, 255, 255, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
-        }
-
-        .video-card:hover .play-button {
-            transform: translate(-50%, -50%) scale(1.15);
-        }
-
-        .video-title {
-            color: white;
-            font-weight: 700;
-            font-size: 0.95rem;
-            margin-top: auto;
-        }
-
-        .video-duration {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: rgba(0, 0, 0, 0.6);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
-        }
-
-        /* Programs Section */
-        .programs-section {
-            background: white;
-            padding: 80px 3rem;
-            text-align: center;
-        }
-
-        .programs-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            max-width: 1200px;
-            margin: 50px auto;
-        }
-
-        .program-card {
-            height: 450px;
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
-            cursor: pointer;
-        }
-
-        .program-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center top;
-            transform-origin: center top;
-            transition: transform 0.4s ease;
-        }
-
-        .program-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(135, 30, 108, 0.85) 0%, transparent 50%);
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 32px;
-            transition: background 0.3s ease;
-        }
-
-        .program-card:hover img {
-            transform: scale(1.08);
-        }
-
-        .program-card:hover .program-overlay {
-            background: linear-gradient(to top, rgba(135, 30, 108, 0.95) 0%, transparent 40%);
-        }
-
-        .program-label {
-            color: white;
-            font-size: 1.6rem;
-            font-weight: 800;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: transform 0.3s ease;
-        }
-
-        .program-card:hover .program-label {
-            transform: translateY(-8px);
-        }
-
-        /* Featured Section */
-        .featured-section {
-            background: #fdf0f9;
-            padding: 60px 3rem;
-        }
-
-        /* Duration Section */
-        .duration-section {
-            background: white;
-            padding: 80px 3rem;
-            text-align: center;
-        }
-
-        .duration-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.5rem;
-            max-width: 1400px;
-            margin: 50px auto;
-        }
-
-        .duration-card {
-            background: white;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .duration-card:hover {
-            transform: translateY(-12px);
-            box-shadow: 0 20px 40px rgba(135, 30, 108, 0.15);
-            border: 2px solid #871e6c;
-        }
-
-        .duration-image {
-            width: 100%;
-            height: 280px;
-            object-fit: cover;
-        }
-
-        .duration-label {
-            padding: 20px;
-            font-size: 1.1rem;
-            font-weight: 800;
-            color: #1a1a1a;
-        }
-
-        .duration-tag {
-            font-size: 0.85rem;
-            color: #f47920;
-        }
-
-        /* Gallery Section */
-        .gallery-section {
-            background: #1a1a1a;
-            color: white;
-            padding: 80px 3rem;
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.5rem;
-            max-width: 1400px;
-            margin: 50px auto;
-        }
-
-        .gallery-item {
-            border-radius: 12px;
-            overflow: hidden;
-            cursor: pointer;
-            height: 250px;
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: all 0.3s ease;
-        }
-
-        .gallery-item:hover img {
-            brightness: 1.1;
-            transform: scale(1.04);
-        }
-
-        /* Lightbox */
-        .lightbox {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.95);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .lightbox.active {
-            display: flex;
-        }
-
-        .lightbox-content {
-            position: relative;
-            max-width: 90vw;
-            max-height: 90vh;
-        }
-
-        .lightbox-content img {
-            width: 100%;
-            height: auto;
-            border-radius: 12px;
-        }
-
-        .lightbox-close {
-            position: absolute;
-            top: -40px;
-            right: 0;
-            color: white;
-            font-size: 2.5rem;
-            cursor: pointer;
-            background: none;
-            border: none;
-        }
-
-        /* ==================================================================
-           Testimonials Section
-           Each card is a link to that person's video, so the whole card —
-           photo, name, role, logo — is one click target. The depth motion is
-           driven by assets/woosh-3d.js (scroll position + carousel position),
-           so it behaves the same on a phone as on a desktop.
-           ================================================================== */
-        .testimonials-section {
-            position: relative;
-            background: linear-gradient(180deg, #ffffff 0%, #fdf6fb 45%, #ffffff 100%);
-            padding: 90px 3rem 80px;
-            overflow: hidden;
-        }
-
-        /* Soft brand glow behind the heading. The section clips its overflow,
-           so the ellipse is sized to have already faded out by every edge it
-           meets — otherwise the clip shows up as a hard seam. */
-        .testimonials-section::before {
-            content: '';
-            position: absolute;
-            top: -80px;
-            left: 50%;
-            width: min(900px, 130%);
-            height: 520px;
-            transform: translateX(-50%);
-            background: radial-gradient(ellipse at center, rgba(135, 30, 108, 0.10), transparent 65%);
-            pointer-events: none;
-        }
-
-        .testimonials-section > * { position: relative; }
-
-        /* Heading, sub-line and the card strip all share one 1400px measure, so
-           the copy lines up with the first card instead of drifting left of it
-           on wide screens. */
-        .testimonials-section > .section-heading,
-        .testimonials-sub {
-            max-width: 1400px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .testimonials-sub {
-            margin-top: 0;
-            color: #8a7f87;
-            font-size: 1.02rem;
-            line-height: 1.6;
-            max-width: 1400px;
-        }
-
-        .testimonials-container {
-            display: flex;
-            gap: 1.75rem;
-            overflow-x: auto;
-            overflow-y: hidden;
-            padding: 44px 6px 48px;
-            max-width: 1400px;
-            margin: 0 auto;
-            scrollbar-width: none;
-            scroll-snap-type: x proximity;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .testimonials-container::-webkit-scrollbar {
-            display: none;
-        }
-
-        .testimonial-card {
-            position: relative;
-            display: block;
-            flex-shrink: 0;
-            width: 320px;
-            scroll-snap-align: center;
-            background: #fff;
-            border: 1px solid rgba(135, 30, 108, 0.09);
-            border-radius: 22px;
-            padding: 26px 26px 20px;
-            overflow: hidden;
-            text-decoration: none;
-            color: inherit;
-            box-shadow: 0 12px 32px -14px rgba(28, 10, 24, 0.20),
-                        0 2px 6px rgba(28, 10, 24, 0.04);
-            transition: box-shadow 0.4s cubic-bezier(0.22, 0.61, 0.36, 1),
-                        border-color 0.4s ease;
-        }
-
-        /* Gradient accent stripe, replacing the flat border-left. */
-        .testimonial-card::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 4px;
-            background: linear-gradient(180deg, #871e6c 0%, #8E2158 55%, #f47920 100%);
-            transition: width 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
-        }
-
-        /* Quote watermark. */
-        .testimonial-card::after {
-            content: '\201C';
-            position: absolute;
-            top: 2px;
-            right: 20px;
-            font-size: 5.5rem;
-            line-height: 1;
-            color: rgba(135, 30, 108, 0.07);
-            pointer-events: none;
-        }
-
-        .testimonial-card:hover {
-            box-shadow: 0 28px 54px -24px rgba(135, 30, 108, 0.45);
-            border-color: rgba(244, 121, 32, 0.35);
-        }
-
-        .testimonial-card:hover::before {
-            width: 7px;
-        }
-
-        /* The card is now a link, so it is tab-reachable — say so. */
-        .testimonial-card:focus-visible {
-            outline: 2px solid #f47920;
-            outline-offset: 3px;
-        }
-
-        .testimonial-header {
-            display: flex;
-            gap: 1.05rem;
-            align-items: center;
-        }
-
-        /* Gradient ring around the photo; the padding is the ring. */
-        .testimonial-photo {
-            position: relative;
-            width: 86px;
-            height: 104px;
-            border-radius: 15px;
-            padding: 3px;
-            background: linear-gradient(140deg, #f47920 0%, #871e6c 100%);
-            flex-shrink: 0;
-            cursor: pointer;
-        }
-
-        .testimonial-photo img {
-            display: block;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 12px;
-            transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
-        }
-
-        /* Always-visible play badge — the card is a video, and it says so. */
-        .testimonial-photo::after {
-            content: '▶';
-            position: absolute;
-            right: -7px;
-            bottom: -7px;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            background: #e11d2f;
-            border: 2px solid #fff;
-            color: #fff;
-            font-size: 9px;
-            line-height: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 5px 12px rgba(225, 29, 47, 0.45);
-            transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1),
-                        box-shadow 0.35s ease;
-        }
-
-        .testimonial-card:hover .testimonial-photo::after {
-            transform: scale(1.18);
-            box-shadow: 0 8px 18px rgba(225, 29, 47, 0.55);
-        }
-
-        .testimonial-info h3 {
-            font-size: 1.05rem;
-            font-weight: 800;
-            color: #1a1a1a;
-            margin-bottom: 4px;
-            letter-spacing: 0.2px;
-        }
-
-        /* Grows in as the card takes focus. */
-        .testimonial-info h3::after {
-            content: '';
-            display: block;
-            width: 0;
-            height: 2px;
-            margin-top: 6px;
-            border-radius: 2px;
-            background: linear-gradient(90deg, #f47920, #871e6c);
-            transition: width 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
-        }
-
-        .testimonial-card:hover .testimonial-info h3::after {
-            width: 44px;
-        }
-
-        .testimonial-info p {
-            font-size: 0.82rem;
-            color: #8d8590;
-            line-height: 1.4;
-        }
-
-        .testimonial-foot {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            margin-top: 22px;
-            padding-top: 16px;
-            border-top: 1px solid rgba(28, 10, 24, 0.07);
-        }
-
-        .testimonial-logo {
-            display: flex;
-            align-items: center;
-            height: 34px;
-        }
-
-        .testimonial-logo img {
-            max-height: 34px;
-            max-width: 115px;
-            width: auto;
-            opacity: 1;
-            transition: transform 0.45s ease;
-        }
-
-        .testimonial-card:hover .testimonial-logo img {
-            transform: scale(1.06);
-        }
-
-        .testimonial-watch {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            flex-shrink: 0;
-            font-size: 0.68rem;
-            font-weight: 700;
-            letter-spacing: 0.09em;
-            text-transform: uppercase;
-            color: #871e6c;
-            white-space: nowrap;
-            transition: color 0.35s ease, gap 0.35s ease;
-        }
-
-        .testimonial-watch span {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: rgba(135, 30, 108, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 8px;
-            transition: background 0.35s ease, transform 0.35s ease;
-        }
-
-        .testimonial-card:hover .testimonial-watch {
-            color: #f47920;
-            gap: 10px;
-        }
-
-        .testimonial-card:hover .testimonial-watch span {
-            background: rgba(244, 121, 32, 0.16);
-            transform: translateX(2px);
-        }
-
-        /* Carousel controls + scroll rail */
-        .carousel-nav {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            align-items: center;
-            margin-top: 8px;
-        }
-
-        .carousel-rail {
-            width: 140px;
-            height: 4px;
-            border-radius: 4px;
-            background: rgba(135, 30, 108, 0.12);
-            overflow: hidden;
-        }
-
-        .carousel-rail-fill {
-            display: block;
-            width: 25%;
-            height: 100%;
-            border-radius: 4px;
-            background: linear-gradient(90deg, #f47920, #871e6c);
-            transition: transform 0.15s linear;
-        }
-
-        .carousel-nav button {
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            background: #fff;
-            border: 1.5px solid rgba(135, 30, 108, 0.25);
-            color: #871e6c;
-            cursor: pointer;
-            font-size: 1.15rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
-            box-shadow: 0 8px 20px -10px rgba(135, 30, 108, 0.45);
-        }
-
-        .carousel-nav button:hover {
-            background: linear-gradient(135deg, #f47920 0%, #871e6c 100%);
-            border-color: transparent;
-            color: #fff;
-            transform: translateY(-3px) scale(1.06);
-            box-shadow: 0 14px 26px -10px rgba(135, 30, 108, 0.6);
-        }
-
-        .carousel-nav button:active {
-            transform: scale(0.95);
-        }
-
-        /* CTA Strip */
-        .cta-strip {
-            background: linear-gradient(135deg, #871e6c 0%, #5c1349 100%);
-            color: white;
-            padding: 60px 3rem;
-            text-align: center;
-        }
-
-        .cta-strip h2 {
-            font-size: 2.2rem;
-            font-weight: 800;
-            margin-bottom: 12px;
-        }
-
-        .cta-strip p {
-            font-size: 1.05rem;
-            opacity: 0.85;
-            margin-bottom: 30px;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .cta-secondary {
-            background: transparent;
-            border: 2px solid white;
-            color: white;
-        }
-
-        .cta-secondary:hover {
-            background: white;
-            color: #871e6c;
-            border-color: white;
-        }
-
-        /* Footer */
-        footer {
-            background: #871e6c;
-            color: white;
-            padding: 60px 3rem 30px;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 1.2fr 1fr 1fr 1fr;
-            gap: 3rem;
-            max-width: 1400px;
-            margin: 0 auto 40px;
-        }
-
-        .footer-logo {
-            margin-bottom: 16px;
-        }
-
-        .footer-logo img {
-            height: 40px;
-            width: auto;
-        }
-
-        .footer-tagline {
-            font-size: 0.9rem;
-            opacity: 0.8;
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
-
-        .footer-socials {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .social-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-        }
-
-        .social-icon:hover {
-            transform: scale(1.2);
-        }
-
-        .social-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .footer-column h4 {
-            font-size: 0.85rem;
-            font-weight: 800;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 16px;
-            opacity: 0.9;
-        }
-
-        .footer-column a {
-            display: block;
-            color: rgba(255, 255, 255, 0.75);
-            text-decoration: none;
-            font-size: 0.9rem;
-            margin-bottom: 10px;
-            transition: all 0.3s ease;
-        }
-
-        .footer-column a:hover {
-            opacity: 1;
-            text-decoration: underline;
-        }
-
-        .footer-contact {
-            font-size: 1.2rem;
-            font-weight: 800;
-        }
-
-        .footer-rating {
-            font-size: 0.85rem;
-            opacity: 0.8;
-            margin-top: 12px;
-        }
-
-        .footer-bottom {
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-            padding-top: 20px;
-            text-align: center;
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.85rem;
-        }
-
-        /* Floating Buttons */
-
-        .scroll-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            background: #871e6c;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.2rem;
-            cursor: pointer;
-            z-index: 9998;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            border: none;
-        }
-
-        .scroll-to-top.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .scroll-to-top:hover {
-            background: #6b1857;
-            transform: scale(1.1);
-        }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .hero {
-                grid-template-columns: 1fr;
-                padding: 120px 1.5rem 2rem;
-            }
-
-            .hero-right {
-                display: none;
-            }
-
-            .stats-section {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .videos-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .programs-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .duration-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .gallery-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .footer-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .hamburger {
-                display: flex;
-            }
-
-            .nav-links {
-                display: none;
-            }
-        }
-
-        @media (max-width: 768px) {
-            /* Global */
-            html, body { overflow-x: hidden; }
-
-            /* Navbar */
-            .hamburger { display: flex !important; }
-            .nav-links {
-                display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100vh;
-                background: #fff;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                gap: 24px;
-                z-index: 9998;
-                padding: 80px 24px 40px;
-            }
-            .nav-links.open { display: flex !important; }
-            .nav-links a { font-size: 1.3rem; }
-            .dropdown-menu {
-                position: static !important;
-                display: none;
-                box-shadow: none;
-                background: #fdf0f9;
-                border-radius: 12px;
-                padding: 8px;
-                margin-top: 8px;
-                width: 100%;
-            }
-            .dropdown.open .dropdown-menu { display: block; }
-            .dropdown-menu li a { font-size: 1rem; text-align: center; }
-
-            /* Hero — compact so the hero + "Trusted by" logos fit on one screen */
-            .hero {
-                padding: 112px 8px 0 !important;   /* clears the 70px navbar + breathing room */
-                min-height: auto !important;
-                gap: 0.25rem !important;
-                overflow: hidden !important;   /* contain the 130vw phone so it can't widen the page */
-            }
-            .hero-headline {
-                font-size: clamp(1.3rem, 4.6vw, 1.9rem) !important;
-                line-height: 1.2 !important;
-            }
-            .hero-subtext {
-                font-size: clamp(0.78rem, 2.3vw, 0.98rem) !important;
-                line-height: 1.4 !important;
-                margin-bottom: 0 !important;
-            }
-            .phone-hero {
-                /* 130vw wide, centred — trims more of the hands so the phone + video are bigger */
-                width: calc(100% + 30vw + 16px) !important;
-                max-width: none !important;
-                margin: 2px calc(-15vw - 8px) 0 !important;
-                perspective: 900px !important;
-            }
-            .phone-3d {
-                transform: rotateX(0deg) rotateY(0deg) !important;
-            }
-            .phone-video {
-                transform: translateZ(0) !important;
-                border-radius: 4px !important;
-            }
-            .hero-cta-container {
-                margin-top: 2px !important;
-            }
-
-            /* Sections */
-            section, [class*="section"] {
-                padding: 36px 20px !important;
-            }
-
-            /* Brands strip — tight, no dead space around the "Trusted by" line */
-            .brands-section {
-                padding: 0 12px 8px !important;
-            }
-            .brands-section .section-label {
-                margin-bottom: 2px !important;
-                font-size: 0.72rem !important;
-                letter-spacing: 1.5px !important;
-            }
-            .brands-section .marquee-container {
-                margin: 2px 0 0 !important;
-            }
-            .brands-section .logo-item { height: 38px !important; }
-            .brands-section .logo-item img { max-height: 38px !important; }
-
-            /* Grids */
-            .grid-3, .cards-grid, .features-grid,
-            .blog-grid, .resort-grid, [class*="grid"] {
-                grid-template-columns: 1fr !important;
-                gap: 20px !important;
-            }
-            .grid-2, .programs-grid, .two-col {
-                grid-template-columns: 1fr !important;
-                gap: 20px !important;
-            }
-
-            /* Stats strip */
-            .stats-strip, .stats-grid, [class*="stats"] {
-                grid-template-columns: 1fr 1fr !important;
-                gap: 24px !important;
-                padding: 40px 20px !important;
-            }
-            .stat-number { font-size: 2.5rem !important; }
-
-            /* Video grid */
-            .video-grid, [class*="video-grid"] {
-                grid-template-columns: 1fr !important;
-            }
-            .video-featured { grid-column: span 1 !important; }
-
-            /* Program cards */
-            .program-card {
-                height: 280px !important;
-            }
-
-            /* Duration cards */
-            .duration-grid, [class*="duration"] {
-                grid-template-columns: 1fr 1fr !important;
-                gap: 16px !important;
-            }
-
-            /* Testimonials */
-            .testimonials-row, [class*="testimonials"] {
-                gap: 18px !important;
-            }
-            .testimonials-section { padding: 60px 1.25rem 56px !important; }
-            .testimonials-container {
-                padding: 32px 4px 36px !important;
-                scroll-snap-type: x mandatory;
-            }
-            .testimonial-card {
-                width: min(300px, 82vw) !important;
-                padding: 22px 20px 18px !important;
-            }
-            .testimonial-photo { width: 76px; height: 92px; }
-            .testimonial-info h3 { font-size: 1rem; }
-            /* Keep the round arrows round — the blanket button padding above
-               would otherwise squash their glyphs. */
-            .carousel-nav button {
-                width: 48px !important;
-                height: 48px !important;
-                padding: 0 !important;
-            }
-            .carousel-rail { width: 96px; }
-
-            /* Buttons */
-            .btn, button, [class*="btn"] {
-                padding: 14px 28px !important;
-                font-size: 0.95rem !important;
-            }
-
-            /* FAQ */
-            .faq-item { padding: 16px !important; }
-
-            /* How it works steps */
-            .steps-grid, [class*="steps"] {
-                grid-template-columns: 1fr !important;
-                gap: 32px !important;
-            }
-            .step-line { display: none !important; }
-
-            /* Contact */
-            .contact-grid, [class*="contact-grid"] {
-                grid-template-columns: 1fr !important;
-            }
-
-            /* Footer */
-            .footer-grid, [class*="footer-grid"] {
-                grid-template-columns: 1fr 1fr !important;
-                gap: 32px !important;
-            }
-
-            /* Floating buttons */
-            .scroll-top { bottom: 90px !important; right: 16px !important; }
-
-            /* Gallery */
-            .gallery-grid {
-                grid-template-columns: 1fr 1fr !important;
-                gap: 12px !important;
-            }
-            .gallery-item {
-                height: 160px !important;
-            }
-
-            /* CTA strip */
-            .cta-strip, [class*="cta-strip"] {
-                padding: 60px 24px !important;
-                text-align: center !important;
-            }
-            .cta-strip h2 { font-size: 1.8rem !important; }
-            .cta-buttons {
-                flex-direction: column !important;
-                align-items: center !important;
-                gap: 12px !important;
-            }
-            .cta-buttons a { width: 100% !important; text-align: center !important; }
-
-            /* About page */
-            .philosophy-grid { grid-template-columns: 1fr !important; }
-            .team-card { padding: 32px 24px !important; }
-            .why-grid { grid-template-columns: 1fr !important; }
-
-            /* Existing fixes */
-            .hero-stat {
-                padding-right: 0;
-                border-right: none;
-                border-bottom: 2px solid #e0e0e0;
-                padding-bottom: 1rem;
-            }
-
-            .hero-stat:last-child {
-                border-bottom: none;
-                padding-bottom: 0;
-            }
-
-            .section-heading {
-                font-size: 1.8rem;
-            }
-
-            .videos-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .video-card {
-                height: auto;
-                aspect-ratio: 16 / 9;
-                grid-row: auto;
-            }
-
-            .marquee {
-                gap: 2rem;
-                animation-duration: 7s;
-            }
-            .marquee.reverse {
-                animation-duration: 7s;
-            }
-
-        }
-
-        @media (max-width: 480px) {
-            nav {
-                padding: 1rem;
-            }
-
-            .logo img {
-                height: 35px;
-            }
-
-            .hero {
-                padding: 80px 1rem 2rem;
-            }
-
-            .hero h1 {
-                font-size: 1.8rem;
-            }
-
-            .stats-section {
-                grid-template-columns: 1fr;
-            }
-
-            .gallery-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            /* Deliberately not 100vw-based: vw includes the scrollbar on some
-               browsers, which is what used to push the page sideways. */
-            .testimonial-card {
-                width: min(300px, 84vw) !important;
-            }
-
-            .scroll-to-top {
-                width: 44px;
-                height: 44px;
-                bottom: 90px;
-                right: 20px;
-            }
-        }
-    /* Global font override — all text uses Playfair Display */
-* { font-family: "Playfair Display", Georgia, serif !important; }
-
-        /* ==================================================================
-           Scroll-focus states
-           Every rule below mirrors a :hover rule further up this file. The
-           .w3d-focus class is applied by assets/woosh-3d.js to whichever
-           cards are crossing the middle of the viewport, so these effects
-           now fire on a phone — where there is no hover — as well as on a
-           desktop. The :hover versions are left in place untouched.
-           ================================================================== */
-        .video-card.w3d-focus img { transform: scale(1.02); }
-        .video-card.w3d-focus .video-overlay {
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, transparent 50%);
-        }
-        .video-card.w3d-focus .play-button {
-            transform: translate(-50%, -50%) scale(1.15);
-        }
-
-        .program-card.w3d-focus img { transform: scale(1.08); }
-        .program-card.w3d-focus .program-overlay {
-            background: linear-gradient(to top, rgba(135, 30, 108, 0.95) 0%, transparent 40%);
-        }
-        .program-card.w3d-focus .program-label { transform: translateY(-8px); }
-
-        .duration-card.w3d-focus {
-            box-shadow: 0 20px 40px rgba(135, 30, 108, 0.15);
-            border: 2px solid #871e6c;
-        }
-
-        .gallery-item.w3d-focus img { transform: scale(1.04); filter: brightness(1.1); }
-
-        /* Testimonials: the card crossing the centre of the carousel lights up
-           exactly as a hovered card does, so the effect exists on touch too. */
-        /* Doubled class deliberately: woosh-3d.css is linked after this style
-           block and carries a generic `.w3d-card.w3d-focus` shadow, so the
-           card's own focus shadow needs to out-rank it. */
-        .testimonial-card.testimonial-card.w3d-focus {
-            box-shadow: 0 28px 54px -24px rgba(135, 30, 108, 0.45);
-            border-color: rgba(244, 121, 32, 0.35);
-        }
-        .testimonial-card.w3d-focus::before { width: 7px; }
-        .testimonial-card.w3d-focus .testimonial-info h3::after { width: 44px; }
-        .testimonial-card.w3d-focus .testimonial-photo::after {
-            transform: scale(1.18);
-            box-shadow: 0 8px 18px rgba(225, 29, 47, 0.55);
-        }
-        .testimonial-card.w3d-focus .testimonial-logo img {
-            transform: scale(1.06);
-        }
-        .testimonial-card.w3d-focus .testimonial-watch {
-            color: #f47920;
-            gap: 10px;
-        }
-        .testimonial-card.w3d-focus .testimonial-watch span {
-            background: rgba(244, 121, 32, 0.16);
-            transform: translateX(2px);
-        }
-        .testimonial-card.w3d-focus .testimonial-photo img,
-        .testimonial-card:hover .testimonial-photo img { transform: scale(1.05); }
-
-</style>
-    <!-- Scroll-driven 3D motion — works on touch and desktop alike -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,600;1,700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/woosh-tokens.css">
+    <link rel="stylesheet" href="assets/woosh-base.css">
+    <link rel="stylesheet" href="assets/woosh-chrome.css">
+    <link rel="stylesheet" href="assets/woosh-components.css">
     <link rel="stylesheet" href="assets/woosh-3d.css">
     <script defer src="assets/woosh-3d.js"></script>
-    <!-- Organization, not LocalBusiness: no street address yet, and
-         LocalBusiness without one fails structured-data validation. -->
+    <script defer src="assets/woosh-ui.js"></script>
+
+    <style>
+    /* ======================================================================
+       FROZEN HERO — DO NOT EDIT
+
+       This is the one block of the site explicitly out of scope for the
+       redesign. Every rule below is carried over verbatim from the old
+       stylesheet, in source order, and scoped to `.hero` so nothing here can
+       leak into the redesigned sections underneath.
+
+       Notes for whoever touches this next:
+         • `.cta-button` lives ONLY in here now. Everything else uses `.act`,
+           so the two can diverge without the hero moving.
+         • `.phone-3d` is a woosh-3d LAYER element. The engine sets
+           `animation: none` on it at registration, which deliberately kills
+           the `phoneFloat` keyframe below and drives the motion in 3D instead.
+         • The mobile block keeps its `!important`s because it is overriding
+           the rules directly above it, not the shared stylesheets.
+       ====================================================================== */
+
+    .hero {
+        min-height: auto;
+        background: #fff;
+        color: #1a1a1a;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: calc(var(--nav-h) + 26px) 2rem 24px;
+        gap: 0.75rem;
+    }
+
+    .hero .hero-headline {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-size: clamp(1.6rem, 4vw, 2.4rem);
+        font-weight: 700;
+        color: #111;
+        text-align: center;
+        max-width: 760px;
+        line-height: 1.25;
+        margin: 0;
+    }
+
+    /* Animated gradient shimmer on the hero highlight */
+    .hero .hero-headline .highlight {
+        color: #8E2158;
+        background: linear-gradient(100deg, #8E2158 0%, #f47920 35%, #871e6c 70%, #8E2158 100%);
+        background-size: 250% 100%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shimmerText 5s linear infinite;
+    }
+    @keyframes shimmerText { to { background-position: -250% 0; } }
+
+    .hero .hero-subtext {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-size: clamp(0.9rem, 2vw, 1.1rem);
+        font-weight: 400;
+        color: #222;
+        text-align: center;
+        max-width: 900px;
+        line-height: 1.5;
+        margin: 0;
+    }
+
+    .hero .phone-hero {
+        position: relative;
+        max-width: 620px;
+        width: 100%;
+        margin: -3% auto 0;
+        perspective: 1300px;
+        animation: phoneFloat 6s ease-in-out infinite;
+    }
+    @keyframes phoneFloat {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-16px); }
+    }
+
+    /* 3D layer — flat at rest, driven by assets/woosh-3d.js */
+    .hero .phone-3d {
+        position: relative;
+        transform-style: preserve-3d;
+        transform: rotateX(0deg) rotateY(0deg);
+        transition: transform 0.4s ease-out;
+        will-change: transform;
+    }
+
+    .hero .hands-img {
+        display: block;
+        width: 100%;
+        height: auto;
+        filter: drop-shadow(0 26px 36px rgba(0, 0, 0, 0.3));
+    }
+
+    .hero .phone-video {
+        position: absolute;
+        /* Mapped to the phone's actual inner screen so the frame/sides stay visible */
+        left: 27.4%;
+        top: 25.4%;
+        width: 44.2%;
+        height: 41.6%;
+        object-fit: cover;
+        border-radius: 7px;
+        z-index: 2;
+        /* Coplanar with the hands so it lines up exactly with the screen,
+           and tilts together with them for the 3D effect */
+        transform: translateZ(0);
+    }
+
+    .hero .hero-cta-container {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-top: -2%;
+    }
+
+    .hero .cta-button {
+        background: linear-gradient(135deg, #8E2158 0%, #6b1a46 100%);
+        color: #fff;
+        padding: 11px 26px;
+        border-radius: 50px;
+        font-family: var(--body);
+        font-weight: 600;
+        font-size: 0.95rem;
+        letter-spacing: 0.3px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 6px 18px rgba(142, 33, 88, 0.28);
+    }
+    /* Sheen sweep across the button on hover */
+    .hero .cta-button::before {
+        content: '';
+        position: absolute;
+        top: 0; left: -120%;
+        width: 60%; height: 100%;
+        background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+        transform: skewX(-20deg);
+        transition: left 0.6s ease;
+        pointer-events: none;
+        z-index: 3;
+    }
+    .hero .cta-button:hover::before { left: 140%; }
+    .hero .cta-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 24px rgba(142, 33, 88, 0.4);
+    }
+    .hero .cta-button .wa-icon {
+        width: 26px; height: 26px;
+        background: #25D366;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+    .hero .cta-button .wa-icon svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+    @media (max-width: 768px) {
+        /* Compact so the hero + "Trusted by" logos fit on one screen */
+        .hero {
+            padding: calc(var(--nav-h) + 42px) 8px 0 !important;
+            min-height: auto !important;
+            gap: 0.25rem !important;
+            overflow: hidden !important;   /* contain the 130vw phone so it can't widen the page */
+        }
+        .hero .hero-headline {
+            font-size: clamp(1.3rem, 4.6vw, 1.9rem) !important;
+            line-height: 1.2 !important;
+        }
+        .hero .hero-subtext {
+            font-size: clamp(0.78rem, 2.3vw, 0.98rem) !important;
+            line-height: 1.4 !important;
+            margin-bottom: 0 !important;
+        }
+        .hero .phone-hero {
+            /* 130vw wide, centred — trims more of the hands so the phone + video are bigger */
+            width: calc(100% + 30vw + 16px) !important;
+            max-width: none !important;
+            margin: 2px calc(-15vw - 8px) 0 !important;
+            perspective: 900px !important;
+        }
+        .hero .phone-3d { transform: rotateX(0deg) rotateY(0deg) !important; }
+        .hero .phone-video { transform: translateZ(0) !important; border-radius: 4px !important; }
+        .hero .hero-cta-container { margin-top: 2px !important; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .hero .phone-hero { animation: none; }
+        .hero .hero-headline .highlight {
+            animation: none;
+            -webkit-text-fill-color: #8E2158;
+            color: #8E2158;
+        }
+    }
+    /* ===================== END FROZEN HERO ===================== */
+    </style>
+
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -1738,623 +245,287 @@
     </script>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="nav-logo">
-                <img src="images/wix/wix-2f36ed41.png" alt="Woosh Biz" height="40">
-            </a>
-            <button class="hamburger" id="hamburger" aria-label="Menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="high-octane.html">In-Office</a></li>
-                <li><a href="outdoors.html">Outdoors</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle">Get In Touch ▾</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="about.html">About Us</a></li>
-                        <li><a href="blog.html">Blogs</a></li>
-                        <li><a href="contact.html">Free Consultation</a></li>
-                        <li><a href="resorts.html">Resorts Recommended</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </nav>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <h1 class="hero-headline">Want to host the most epic team-building program ever? <span class="highlight">Let us!</span></h1>
-        <p class="hero-subtext">We host events for in-person & remote teams.<br>30+ unique events intentionally designed to build happier teams.</p>
+<!-- @partial:nav active="home" -->
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="index.html" class="nav-logo" aria-label="Woosh Biz — home">
+            <img src="images/wix/wix-2f36ed41.png" alt="Woosh Biz" width="1182" height="466">
+        </a>
+        <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false" aria-controls="navLinks">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html" class="active" aria-current="page">Home</a></li>
+            <li><a href="high-octane.html">In-Office</a></li>
+            <li><a href="outdoors.html">Outdoors</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle">More</a>
+                <ul class="dropdown-menu">
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="blog.html">Blogs</a></li>
+                    <li><a href="contact.html">Free Consultation</a></li>
+                    <li><a href="resorts.html">Resorts Recommended</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
+<!-- @end:nav -->
 
-        <div class="phone-hero" id="phoneHero">
-            <div class="phone-3d">
-                <img src="images/hands-phone.png" class="hands-img" alt="Team building event video">
-                <video class="phone-video" autoplay muted loop playsinline>
-                    <source src="videos/hero-video.mp4" type="video/mp4">
-                </video>
-            </div>
-        </div>
+<!-- ============================================================
+     FROZEN HERO — markup carried over verbatim. Out of scope.
+     ============================================================ -->
+<section class="hero">
+    <h1 class="hero-headline">Want to host the most epic team-building program ever? <span class="highlight">Let us!</span></h1>
+    <p class="hero-subtext">We host events for in-person &amp; remote teams.<br>30+ unique events intentionally designed to build happier teams.</p>
 
-        <div class="hero-cta-container">
-            <a href="https://wa.me/919210804078" target="_blank" class="cta-button">
-                <span class="wa-icon">
-                    <svg viewBox="0 0 24 24" fill="#ffffff" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413"/>
-                    </svg>
-                </span>
-                Get a Quote in 30 mins
-            </a>
-        </div>
-    </section>
-
-    <!-- Brands Section -->
-    <section class="brands-section">
-        <div class="section-label">Trusted by 60+ legendary brands</div>
-        <div class="marquee-container">
-            <div class="marquee">
-                <div class="logo-item"><img src="images/wix/wix-9a1d5c82.png" alt="Azure"></div>
-                <div class="logo-item"><img src="images/wix/wix-62f68fef.png" alt="Ginger"></div>
-                <div class="logo-item"><img src="images/wix/wix-2c317fb4.png" alt="Swastik"></div>
-                <div class="logo-item"><img src="images/wix/wix-950c2ae7.png" alt="Jio"></div>
-                <div class="logo-item"><img src="images/wix/wix-13898748.png" alt="BBT"></div>
-                <div class="logo-item"><img src="images/wix/wix-1fbe05b6.png" alt="KBT"></div>
-                <div class="logo-item"><img src="images/wix/wix-40256a2a.png" alt="Valmet"></div>
-                <div class="logo-item"><img src="images/wix/wix-418cf1d3.png" alt="Arete"></div>
-                <div class="logo-item"><img src="images/wix/wix-572678de.png" alt="Air India"></div>
-                <div class="logo-item"><img src="images/wix/wix-fde7f810.png" alt="EY"></div>
-                <div class="logo-item"><img src="images/wix/wix-9093a138.png" alt="Mahindra"></div>
-                <div class="logo-item"><img src="images/wix/wix-8144f80f.png" alt="Accor"></div>
-                <!-- Duplicate for infinite loop -->
-                <div class="logo-item"><img src="images/wix/wix-9a1d5c82.png" alt="Azure"></div>
-                <div class="logo-item"><img src="images/wix/wix-62f68fef.png" alt="Ginger"></div>
-                <div class="logo-item"><img src="images/wix/wix-2c317fb4.png" alt="Swastik"></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Stats Section -->
-    <section class="stats-section reveal">
-        <div class="stat-item tilt-3d">
-            <div class="stat-number" data-target="30">0</div>
-            <div class="stat-label">Unique Events</div>
-        </div>
-        <div class="stat-item tilt-3d">
-            <div class="stat-number" data-target="60">0</div>
-            <div class="stat-label">Legendary Brands</div>
-        </div>
-        <div class="stat-item tilt-3d">
-            <div class="stat-number" data-target="150">0</div>
-            <div class="stat-label">Happy Teams</div>
-        </div>
-        <div class="stat-item tilt-3d">
-            <div class="stat-number" data-target="10">0</div>
-            <div class="stat-label">Years Experience</div>
-        </div>
-    </section>
-
-    <!-- Video Section -->
-    <section class="video-section">
-        <h2 class="section-heading reveal">See Us In Action</h2>
-        <p class="section-subheading reveal"><span class="pulse-dot"></span>Real teams. Real results. Real fun.</p>
-        <div class="videos-grid">
-            <a href="https://youtube.com/watch?v=5CMOe_3UPhk" target="_blank" class="video-card reveal-3d tilt-3d">
-                <img src="https://i.ytimg.com/vi/5CMOe_3UPhk/maxresdefault.jpg" alt="Video 1">
-                <div class="video-overlay">
-                    <div class="play-button">▶</div>
-                    <div class="video-title">The ultimate team building challenge</div>
-                </div>
-                <div class="video-duration">02:57</div>
-            </a>
-            <a href="https://youtube.com/watch?v=aRa3-lk0ss0" target="_blank" class="video-card reveal-3d tilt-3d">
-                <img src="https://i.ytimg.com/vi/aRa3-lk0ss0/maxresdefault.jpg" alt="Video 2">
-                <div class="video-overlay">
-                    <div class="play-button">▶</div>
-                    <div class="video-title">The team that plays together</div>
-                </div>
-                <div class="video-duration">02:01</div>
-            </a>
-            <a href="https://youtube.com/watch?v=d7hAV96jBg0" target="_blank" class="video-card reveal-3d tilt-3d">
-                <img src="https://i.ytimg.com/vi/d7hAV96jBg0/maxresdefault.jpg" alt="Video 3">
-                <div class="video-overlay">
-                    <div class="play-button">▶</div>
-                    <div class="video-title">Offsite for Swastik Tins</div>
-                </div>
-                <div class="video-duration">01:52</div>
-            </a>
-            <a href="https://youtube.com/watch?v=KPirBZoTSPA" target="_blank" class="video-card reveal-3d tilt-3d">
-                <img src="https://i.ytimg.com/vi/KPirBZoTSPA/maxresdefault.jpg" alt="Video 4">
-                <div class="video-overlay">
-                    <div class="play-button">▶</div>
-                    <div class="video-title">Corporate Team Building for Arete</div>
-                </div>
-                <div class="video-duration">02:07</div>
-            </a>
-            <a href="https://youtube.com/watch?v=2cJditUwJCY" target="_blank" class="video-card reveal-3d tilt-3d">
-                <img src="https://i.ytimg.com/vi/2cJditUwJCY/maxresdefault.jpg" alt="Video 5">
-                <div class="video-overlay">
-                    <div class="play-button">▶</div>
-                    <div class="video-title">Team Building for Club Jolies</div>
-                </div>
-                <div class="video-duration">05:03</div>
-            </a>
-        </div>
-    </section>
-
-    <!-- Programs Section -->
-    <section class="programs-section">
-        <h2 class="section-heading reveal">We Conduct Team Building Programs...</h2>
-        <div class="programs-grid">
-            <!-- Two cards, two settings. They use real indoor / outdoor photos
-                 rather than line-art so the split is obvious before the click:
-                 one runs inside your office, the other out in the open. -->
-            <a href="high-octane.html" class="program-card reveal tilt-3d">
-                <img src="images/wix/wix-591876af.jpg" alt="Indoor team building — a team celebrating inside an office hall" width="1600" height="900" loading="lazy">
-                <div class="program-overlay">
-                    <div class="program-label">Indoor · In-Office <span>→</span></div>
-                </div>
-            </a>
-            <a href="outdoors.html" class="program-card reveal tilt-3d">
-                <img src="images/wix/wix-6102aff5.jpg" alt="Outdoor team building — a team playing a lawn game at an open-air offsite" width="1600" height="900" loading="lazy">
-                <div class="program-overlay">
-                    <div class="program-label">Outdoors · Offsite <span>→</span></div>
-                </div>
-            </a>
-        </div>
-    </section>
-
-    <!-- Featured Section -->
-    <section class="featured-section">
-        <div class="section-label">As seen in</div>
-        <div class="marquee-container">
-            <div class="marquee reverse">
-                <div class="logo-item"><img src="images/wix/wix-948917f0.png" alt="BS"></div>
-                <div class="logo-item"><img src="images/wix/wix-ade98c7a.png" alt="ETH"></div>
-                <div class="logo-item"><img src="images/wix/wix-4a24a4b8.png" alt="FP"></div>
-                <div class="logo-item"><img src="images/wix/wix-d89495a5.png" alt="TP"></div>
-                <div class="logo-item"><img src="images/wix/wix-290c4247.png" alt="TW"></div>
-                <div class="logo-item"><img src="images/wix/wix-97aea277.png" alt="FE"></div>
-                <div class="logo-item"><img src="images/wix/wix-9e0a9102.png" alt="DNA"></div>
-                <div class="logo-item"><img src="images/wix/wix-e03da0b9.png" alt="TOI"></div>
-                <!-- Duplicate for infinite loop -->
-                <div class="logo-item"><img src="images/wix/wix-948917f0.png" alt="BS"></div>
-                <div class="logo-item"><img src="images/wix/wix-ade98c7a.png" alt="ETH"></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Duration Section -->
-    <section class="duration-section">
-        <h2 class="section-heading reveal">How Long Do You Have?</h2>
-        <p class="section-subheading reveal">Pick your time slot — we'll make it epic.</p>
-        <div class="duration-grid">
-            <a href="contact.html" class="duration-card reveal">
-                <img class="duration-image" src="images/wix/wix-26565211.png" alt="2-4 Hours">
-                <div class="duration-label">2-4 Hours<br><span class="duration-tag">→ Book Now</span></div>
-            </a>
-            <a href="contact.html" class="duration-card reveal">
-                <img class="duration-image" src="images/wix/wix-19ec80d2.png" alt="4-6 Hours">
-                <div class="duration-label">4-6 Hours<br><span class="duration-tag">→ Book Now</span></div>
-            </a>
-            <a href="contact.html" class="duration-card reveal">
-                <img class="duration-image" src="images/wix/wix-354828c7.png" alt="1-Day">
-                <div class="duration-label">1-Day On/Off-Site<br><span class="duration-tag">→ Book Now</span></div>
-            </a>
-            <a href="contact.html" class="duration-card reveal">
-                <img class="duration-image" src="images/wix/wix-914f7012.png" alt="2-Day">
-                <div class="duration-label">2-Day On/Off-Site<br><span class="duration-tag">→ Book Now</span></div>
-            </a>
-        </div>
-        <div style="text-align: center; margin-top: 40px;">
-            <a href="https://wa.me/919210804078" target="_blank" rel="noopener" class="cta-button">
-                <span class="wa-icon">
-                    <svg viewBox="0 0 24 24" fill="#ffffff" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413"/>
-                    </svg>
-                </span>
-                Get a Quote in 30 mins
-            </a>
-        </div>
-    </section>
-
-    <!-- Gallery Section -->
-    <section class="gallery-section">
-        <h2 class="section-heading reveal" style="color: white;">No Gyaan; Just Fun With Learning!</h2>
-        <div class="gallery-grid">
-            <div class="gallery-item reveal" onclick="openLightbox('images/wix/wix-98d6b846.jpg')">
-                <img src="images/wix/wix-98d6b846.jpg" alt="Gallery 1">
-            </div>
-            <div class="gallery-item reveal" onclick="openLightbox('images/wix/wix-591876af.jpg')">
-                <img src="images/wix/wix-591876af.jpg" alt="Gallery 2">
-            </div>
-            <div class="gallery-item reveal" onclick="openLightbox('images/wix/wix-ecc67c2a.jpg')">
-                <img src="images/wix/wix-ecc67c2a.jpg" alt="Gallery 3">
-            </div>
-            <div class="gallery-item reveal" onclick="openLightbox('images/wix/wix-6102aff5.jpg')">
-                <img src="images/wix/wix-6102aff5.jpg" alt="Gallery 4">
-            </div>
-            <div class="gallery-item reveal" onclick="openLightbox('images/wix/wix-16413d55.jpg')">
-                <img src="images/wix/wix-16413d55.jpg" alt="Gallery 5">
-            </div>
-            <div class="gallery-item reveal" onclick="openLightbox('images/wix/wix-6ad6f4a0.jpg')">
-                <img src="images/wix/wix-6ad6f4a0.jpg" alt="Gallery 6">
-            </div>
-            <div class="gallery-item reveal" onclick="openLightbox('images/wix/wix-bd532f2c.jpg')">
-                <img src="images/wix/wix-bd532f2c.jpg" alt="Gallery 7">
-            </div>
-            <div class="gallery-item reveal" onclick="openLightbox('images/wix/wix-a42524b3.jpg')">
-                <img src="images/wix/wix-a42524b3.jpg" alt="Gallery 8">
-            </div>
-        </div>
-    </section>
-
-    <!-- Lightbox -->
-    <div class="lightbox" id="lightbox">
-        <div class="lightbox-content">
-            <button class="lightbox-close" onclick="closeLightbox()">✕</button>
-            <img id="lightbox-img" src="" alt="">
+    <div class="phone-hero" id="phoneHero">
+        <div class="phone-3d">
+            <img src="images/hands-phone.png" class="hands-img" alt="Team building event video">
+            <video class="phone-video" autoplay muted loop playsinline>
+                <source src="videos/hero-video.mp4" type="video/mp4">
+            </video>
         </div>
     </div>
 
-    <!-- Testimonials Section -->
-    <section class="testimonials-section">
-        <h2 class="section-heading reveal">What Our Happy Alumni Say</h2>
-        <p class="testimonials-sub reveal">Real teams, real stories. Tap any card to watch them tell it themselves.</p>
-        <div class="testimonials-container" id="testimonialsTrack">
-            <a class="testimonial-card reveal" href="https://www.youtube.com/watch?v=0LXwBcbDXO8" target="_blank" rel="noopener" aria-label="Watch Vijay Rajput's testimonial on YouTube">
-                <div class="testimonial-header">
-                    <div class="testimonial-photo">
-                        <img src="images/wix/wix-9bbb420b.png" alt="Vijay Rajput">
-                    </div>
-                    <div class="testimonial-info">
-                        <h3>Vijay Rajput</h3>
-                        <p>IP Services</p>
-                    </div>
-                </div>
-                <div class="testimonial-foot">
-                    <div class="testimonial-logo">
-                        <img src="images/wix/wix-e7877f20.png" alt="IP Services logo">
-                    </div>
-                    <div class="testimonial-watch">Watch <span>▶</span></div>
+    <div class="hero-cta-container">
+        <a href="https://wa.me/919210804078" target="_blank" class="cta-button">
+            <span class="wa-icon">
+                <svg viewBox="0 0 24 24" fill="#ffffff" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413"/>
+                </svg>
+            </span>
+            Get a Quote in 30 mins
+        </a>
+    </div>
+</section>
+<!-- ===================== END FROZEN HERO ===================== -->
+
+<!-- ==================== BRANDS ==================== -->
+<section class="strip lit">
+    <p class="strip-label">Trusted by 60+ teams across India</p>
+    <div class="marquee"><div class="marquee-track" data-logos="brands-a" data-logo-w="134" data-logo-h="62"></div></div>
+    <div class="marquee rev"><div class="marquee-track" data-logos="brands-b" data-logo-w="134" data-logo-h="62"></div></div>
+</section>
+
+<!-- ==================== 01 PROGRAMMES ==================== -->
+<section class="scene">
+    <span class="glow a"></span>
+    <div class="wrap scene-grid">
+        <div class="scene-title">
+            <p class="scene-count">01 / 05</p>
+            <h2 class="display" data-w3d="rise" data-w3d-fade>Two settings.<br>Same <em>noise</em>.</h2>
+            <p class="dim" data-w3d="rise" data-w3d-fade>Whether we come to your office or take the team out to a
+            lawn, every format is built around the same idea: no gyaan, just fun with learning.</p>
+        </div>
+        <div class="reel two">
+            <a class="frame" data-w3d="card" href="high-octane.html">
+                <img src="images/wix/wix-591876af.jpg" alt="Indoor team building — a team celebrating inside an office hall" width="1600" height="900" loading="lazy">
+                <div class="frame-body">
+                    <h3>Indoor &middot; In-Office</h3>
+                    <p>We bring the games into your boardroom, cafeteria or banquet hall. 2&ndash;4 hours, no travel, no weather.</p>
+                    <div class="tags"><span>See indoor programmes &rarr;</span></div>
                 </div>
             </a>
-
-            <a class="testimonial-card reveal" href="https://www.youtube.com/watch?v=24UVuhVgcGk" target="_blank" rel="noopener" aria-label="Watch Aditi Khanna's testimonial on YouTube">
-                <div class="testimonial-header">
-                    <div class="testimonial-photo">
-                        <img src="images/wix/wix-26ddb95f.png" alt="Aditi Khanna">
-                    </div>
-                    <div class="testimonial-info">
-                        <h3>Aditi Khanna</h3>
-                        <p>Partner at FutureSkomp</p>
-                    </div>
-                </div>
-                <div class="testimonial-foot">
-                    <div class="testimonial-logo">
-                        <img src="images/wix/wix-cc6177f2.png" alt="FutureSkomp logo">
-                    </div>
-                    <div class="testimonial-watch">Watch <span>▶</span></div>
-                </div>
-            </a>
-
-            <a class="testimonial-card reveal" href="https://www.youtube.com/watch?v=dnEX3EFsFWU" target="_blank" rel="noopener" aria-label="Watch Saloni Thakkar's testimonial on YouTube">
-                <div class="testimonial-header">
-                    <div class="testimonial-photo">
-                        <img src="images/wix/wix-cf7e26a5.png" alt="Saloni Thakkar">
-                    </div>
-                    <div class="testimonial-info">
-                        <h3>Saloni Thakkar</h3>
-                        <p>Senior Manager Training</p>
-                    </div>
-                </div>
-                <div class="testimonial-foot">
-                    <div class="testimonial-logo">
-                        <img src="images/wix/wix-72cbf69a.png" alt="Client logo">
-                    </div>
-                    <div class="testimonial-watch">Watch <span>▶</span></div>
-                </div>
-            </a>
-
-            <a class="testimonial-card reveal" href="https://www.youtube.com/watch?v=ezc0rHC3qls" target="_blank" rel="noopener" aria-label="Watch Dr R. Chandran's testimonial on YouTube">
-                <div class="testimonial-header">
-                    <div class="testimonial-photo">
-                        <img src="images/wix/wix-46772eef.png" alt="Dr R. Chandran">
-                    </div>
-                    <div class="testimonial-info">
-                        <h3>Dr R. Chandran</h3>
-                        <p>Director</p>
-                    </div>
-                </div>
-                <div class="testimonial-foot">
-                    <div class="testimonial-logo">
-                        <img src="images/wix/wix-ac47178e.png" alt="PCE logo">
-                    </div>
-                    <div class="testimonial-watch">Watch <span>▶</span></div>
-                </div>
-            </a>
-
-            <a class="testimonial-card reveal" href="https://www.youtube.com/watch?v=geojIntTGiA" target="_blank" rel="noopener" aria-label="Watch Sanjay's testimonial on YouTube">
-                <div class="testimonial-header">
-                    <div class="testimonial-photo">
-                        <img src="images/wix/wix-1c049d65.png" alt="Sanjay">
-                    </div>
-                    <div class="testimonial-info">
-                        <h3>Sanjay</h3>
-                        <p>Creative Director</p>
-                    </div>
-                </div>
-                <div class="testimonial-foot">
-                    <div class="testimonial-logo">
-                        <img src="images/wix/wix-12d557bd.png" alt="Studios logo">
-                    </div>
-                    <div class="testimonial-watch">Watch <span>▶</span></div>
+            <a class="frame" data-w3d="card" href="outdoors.html">
+                <img src="images/wix/wix-6102aff5.jpg" alt="Outdoor team building — a team playing a lawn game at an open-air offsite" width="1600" height="900" loading="lazy">
+                <div class="frame-body">
+                    <h3>Outdoors &middot; Offsite</h3>
+                    <p>Lawns, resorts and hill-top venues. Half a day through to a full multi-day offsite.</p>
+                    <div class="tags"><span>See outdoor programmes &rarr;</span></div>
                 </div>
             </a>
         </div>
-        <div class="carousel-nav">
-            <button onclick="scrollTestimonials('left')" aria-label="Previous testimonial">←</button>
-            <div class="carousel-rail"><span class="carousel-rail-fill" id="testimonialsRail"></span></div>
-            <button onclick="scrollTestimonials('right')" aria-label="Next testimonial">→</button>
-        </div>
-    </section>
+    </div>
+</section>
 
-    <!-- CTA Strip -->
-    <section class="cta-strip">
-        <h2 class="reveal">Ready to Build an Epic Team?</h2>
-        <p class="reveal">Get a quote in 30 minutes. No commitment.</p>
-        <div class="cta-buttons reveal">
-            <a href="https://wa.me/919210804078" target="_blank" rel="noopener" class="cta-button">
-                <span class="wa-icon">
-                    <svg viewBox="0 0 24 24" fill="#ffffff" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413"/>
-                    </svg>
-                </span>
-                Get a Quote on WhatsApp
+<!-- ==================== NUMBERS ==================== -->
+<section class="scene lit tight">
+    <div class="wrap">
+        <div class="counters four">
+            <div class="counter" data-w3d="card"><div class="stat-number" data-count="30" data-suffix="+">30+</div><p>Unique events</p></div>
+            <div class="counter" data-w3d="card"><div class="stat-number" data-count="60" data-suffix="+">60+</div><p>Legendary brands</p></div>
+            <div class="counter" data-w3d="card"><div class="stat-number" data-count="150" data-suffix="+">150+</div><p>Happy teams</p></div>
+            <div class="counter" data-w3d="card"><div class="stat-number" data-count="10" data-suffix="+">10+</div><p>Years experience</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== 02 IN ACTION ==================== -->
+<section class="scene">
+    <span class="glow c"></span>
+    <div class="wrap scene-grid">
+        <div class="scene-title">
+            <p class="scene-count">02 / 05</p>
+            <h2 class="display" data-w3d="rise" data-w3d-fade>See us<br><em>in action</em>.</h2>
+            <p class="dim" data-w3d="rise" data-w3d-fade>Real teams. Real results. Real fun. Press play &mdash; the
+            video only loads when you ask for it.</p>
+        </div>
+        <div class="reel two">
+            <article class="frame stack" data-w3d="card"><div data-yt="5CMOe_3UPhk" data-title="The ultimate team building challenge"></div></article>
+            <article class="frame stack" data-w3d="card"><div data-yt="aRa3-lk0ss0" data-title="The team that plays together"></div></article>
+            <article class="frame stack" data-w3d="card"><div data-yt="d7hAV96jBg0" data-title="Offsite for Swastik Tins"></div></article>
+            <article class="frame stack" data-w3d="card"><div data-yt="KPirBZoTSPA" data-title="Corporate Team Building for Arete"></div></article>
+            <article class="frame stack" data-w3d="card"><div data-yt="2cJditUwJCY" data-title="Team Building for Club Jolies"></div></article>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== 03 DURATION ==================== -->
+<section class="scene lit">
+    <div class="wrap">
+        <div class="scene-head">
+            <p class="eyebrow" data-w3d="rise" data-w3d-fade>03 / 05 &middot; Time</p>
+            <h2 class="display" data-w3d="rise" data-w3d-fade>How long do you have?</h2>
+            <p class="dim" data-w3d="rise" data-w3d-fade>Pick your slot &mdash; we'll make it epic.</p>
+        </div>
+        <div class="panels">
+            <a class="panel link-panel flush" data-w3d="card" href="contact.html">
+                <span class="panel-media"><img src="images/wix/wix-26565211.png" alt="A team playing a parachute game — 2 to 4 hour programme" width="260" height="328" loading="lazy"></span>
+                <span class="panel-body"><h3>2&ndash;4 Hours</h3><span class="go">Book now &rarr;</span></span>
             </a>
-            <a href="contact.html" class="cta-button cta-secondary">Free Consultation Call</a>
+            <a class="panel link-panel flush" data-w3d="card" href="contact.html">
+                <span class="panel-media"><img src="images/wix/wix-19ec80d2.png" alt="A team in yellow ponchos playing a lawn game — 4 to 6 hour programme" width="260" height="328" loading="lazy"></span>
+                <span class="panel-body"><h3>4&ndash;6 Hours</h3><span class="go">Book now &rarr;</span></span>
+            </a>
+            <a class="panel link-panel flush" data-w3d="card" href="contact.html">
+                <span class="panel-media"><img src="images/wix/wix-354828c7.png" alt="A team in pink at an outdoor carnival station — 1 day on or off site" width="260" height="328" loading="lazy"></span>
+                <span class="panel-body"><h3>1-Day On/Off-Site</h3><span class="go">Book now &rarr;</span></span>
+            </a>
+            <a class="panel link-panel flush" data-w3d="card" href="contact.html">
+                <span class="panel-media"><img src="images/wix/wix-914f7012.png" alt="Two teams competing on a lawn — 2 day on or off site" width="260" height="328" loading="lazy"></span>
+                <span class="panel-body"><h3>2-Day On/Off-Site</h3><span class="go">Book now &rarr;</span></span>
+            </a>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-grid">
+<!-- ==================== 04 GALLERY ==================== -->
+<section class="scene">
+    <span class="glow b"></span>
+    <div class="wrap">
+        <div class="scene-head">
+            <p class="eyebrow" data-w3d="rise" data-w3d-fade>04 / 05 &middot; The proof</p>
+            <h2 class="display" data-w3d="rise" data-w3d-fade>No gyaan. <em>Just fun with learning.</em></h2>
+            <p class="dim" data-w3d="rise" data-w3d-fade>Tap any photo to see it full size.</p>
+        </div>
+        <div class="gallery">
+            <a class="gallery-item" data-w3d="card" data-caption="Team building in progress" href="images/wix/wix-98d6b846.jpg" data-lightbox>
+                <img src="images/wix/wix-98d6b846.jpg" alt="A Woosh Biz facilitator running an activity with a corporate team" width="366" height="207" loading="lazy"></a>
+            <a class="gallery-item" data-w3d="card" data-caption="An indoor session in full flow" href="images/wix/wix-591876af.jpg" data-lightbox>
+                <img src="images/wix/wix-591876af.jpg" alt="A team in orange T-shirts cheering inside an office hall" width="1600" height="900" loading="lazy"></a>
+            <a class="gallery-item" data-w3d="card" data-caption="A hill-top offsite" href="images/wix/wix-ecc67c2a.jpg" data-lightbox>
+                <img src="images/wix/wix-ecc67c2a.jpg" alt="Two teams moving under coloured tarpaulins at a hill-top venue" width="1600" height="900" loading="lazy"></a>
+            <a class="gallery-item" data-w3d="card" data-caption="Lawn cricket, corporate edition" href="images/wix/wix-6102aff5.jpg" data-lightbox>
+                <img src="images/wix/wix-6102aff5.jpg" alt="A team playing a bat-and-ball game on a lawn" width="1600" height="900" loading="lazy"></a>
+            <a class="gallery-item" data-w3d="card" data-caption="An indoor floor maze" href="images/wix/wix-16413d55.jpg" data-lightbox>
+                <img src="images/wix/wix-16413d55.jpg" alt="A colleague crossing a taped floor maze inside an office banquet hall" width="1600" height="900" loading="lazy"></a>
+            <a class="gallery-item" data-w3d="card" data-caption="Puzzles around a conference table" href="images/wix/wix-6ad6f4a0.jpg" data-lightbox>
+                <img src="images/wix/wix-6ad6f4a0.jpg" alt="A team folding paper puzzles around a round conference table" width="1600" height="900" loading="lazy"></a>
+            <a class="gallery-item" data-w3d="card" data-caption="Six hundred people, one circle" href="images/wix/wix-bd532f2c.jpg" data-lightbox>
+                <img src="images/wix/wix-bd532f2c.jpg" alt="Aerial view of hundreds of employees in coloured rows holding hands on a lawn" width="1600" height="900" loading="lazy"></a>
+            <a class="gallery-item" data-w3d="card" data-caption="Indoor carnival, full volume" href="images/wix/wix-a42524b3.jpg" data-lightbox>
+                <img src="images/wix/wix-a42524b3.jpg" alt="Colleagues dancing with props inside a decorated office hall" width="1600" height="900" loading="lazy"></a>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== 05 VOICES ==================== -->
+<section class="scene lit">
+    <div class="wrap scene-grid">
+        <div class="scene-title">
+            <p class="scene-count">05 / 05</p>
+            <h2 class="display" data-w3d="rise" data-w3d-fade>What our<br>happy alumni<br>say.</h2>
+            <p class="dim" data-w3d="rise" data-w3d-fade>Real teams, real stories. Tap any card to watch them tell it themselves.</p>
+        </div>
+        <div class="voices">
+            <a class="voice" data-w3d="card" href="https://www.youtube.com/watch?v=0LXwBcbDXO8" target="_blank" rel="noopener">
+                <div class="voice-frame"><img src="https://i.ytimg.com/vi/0LXwBcbDXO8/hqdefault.jpg" alt="Vijay Rajput — Woosh Biz feedback" width="480" height="360" loading="lazy"><span class="voice-play" aria-hidden="true">&#9654;</span></div>
+                <div><h3>Vijay Rajput</h3><small>IP Services</small><img class="voice-brand" src="images/wix/wix-e7877f20.png" alt="IP Services" width="136" height="64" loading="lazy"></div>
+            </a>
+            <a class="voice" data-w3d="card" href="https://www.youtube.com/watch?v=24UVuhVgcGk" target="_blank" rel="noopener">
+                <div class="voice-frame"><img src="https://i.ytimg.com/vi/24UVuhVgcGk/hqdefault.jpg" alt="Aditi Khanna — Woosh Biz feedback" width="480" height="360" loading="lazy"><span class="voice-play" aria-hidden="true">&#9654;</span></div>
+                <div><h3>Aditi Khanna</h3><small>Partner at FutureSkomp LLP</small><img class="voice-brand" src="images/wix/wix-cc6177f2.png" alt="FutureSkomp LLP" width="136" height="64" loading="lazy"></div>
+            </a>
+            <a class="voice" data-w3d="card" href="https://www.youtube.com/watch?v=dnEX3EFsFWU" target="_blank" rel="noopener">
+                <div class="voice-frame"><img src="https://i.ytimg.com/vi/dnEX3EFsFWU/hqdefault.jpg" alt="Saloni Thakkar — Woosh Biz feedback" width="480" height="360" loading="lazy"><span class="voice-play" aria-hidden="true">&#9654;</span></div>
+                <div><h3>Saloni Thakkar</h3><small>Senior Manager Training</small><img class="voice-brand" src="images/wix/wix-72cbf69a.png" alt="Employer logo" width="136" height="64" loading="lazy"></div>
+            </a>
+            <a class="voice" data-w3d="card" href="https://www.youtube.com/watch?v=ezc0rHC3qls" target="_blank" rel="noopener">
+                <div class="voice-frame"><img src="https://i.ytimg.com/vi/ezc0rHC3qls/hqdefault.jpg" alt="Dr R. Chandran — Woosh Biz feedback" width="480" height="360" loading="lazy"><span class="voice-play" aria-hidden="true">&#9654;</span></div>
+                <div><h3>Dr R. Chandran</h3><small>Director</small><img class="voice-brand" src="images/wix/wix-ac47178e.png" alt="Pillai College of Engineering" width="136" height="64" loading="lazy"></div>
+            </a>
+            <a class="voice" data-w3d="card" href="https://www.youtube.com/watch?v=geojIntTGiA" target="_blank" rel="noopener">
+                <div class="voice-frame"><img src="https://i.ytimg.com/vi/geojIntTGiA/hqdefault.jpg" alt="Sanjay — Woosh Biz feedback" width="480" height="360" loading="lazy"><span class="voice-play" aria-hidden="true">&#9654;</span></div>
+                <div><h3>Sanjay</h3><small>Creative Director for Films</small><img class="voice-brand" src="images/wix/wix-12d557bd.png" alt="Jio Studio" width="136" height="64" loading="lazy"></div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== PRESS ==================== -->
+<section class="strip">
+    <p class="strip-label">As seen in</p>
+    <div class="marquee rev"><div class="marquee-track" data-logos="press" data-logo-w="150" data-logo-h="70"></div></div>
+</section>
+
+<!-- ==================== CLOSING ==================== -->
+<section class="closing">
+    <span class="glow a"></span>
+    <div class="wrap">
+        <h2 class="display" data-w3d="rise" data-w3d-fade>Ready to build an <em>epic team</em>?</h2>
+        <p data-w3d="rise" data-w3d-fade>Get a quote in 30 minutes. No commitment.</p>
+        <div class="hero-acts" style="justify-content:center;">
+            <a class="act" data-magnetic href="https://wa.me/919210804078" target="_blank" rel="noopener">
+                <span class="wa"><svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413"/></svg></span>
+                <span>Get a quote on WhatsApp</span>
+            </a>
+            <a class="act ghost" href="contact.html"><span>Free consultation call</span></a>
+        </div>
+    </div>
+</section>
+
+<!-- @partial:footer -->
+<footer class="site-footer">
+    <div class="wrap">
+        <div class="foot">
             <div>
-                <div class="footer-logo">
-                    <img src="images/wix/wix-b8e2795e.png" alt="Woosh Biz">
-                </div>
-                <p class="footer-tagline">No Gyaan. Just Fun With Learning.</p>
-                <div class="footer-socials">
-                    <a href="https://www.facebook.com/people/Woosh-Biz-by-HTI/100083456102229/" class="social-icon" title="Facebook">
-                        <img src="images/wix/wix-ef6a6ac1.png" alt="FB">
-                    </a>
-                    <a href="https://www.instagram.com/wooshbiz/" class="social-icon" title="Instagram">
-                        <img src="images/wix/wix-cef3b719.png" alt="IG">
-                    </a>
-                    <a href="https://www.linkedin.com/company/woosh-biz-by-hti/" class="social-icon" title="LinkedIn">
-                        <img src="images/wix/wix-b5690303.png" alt="LI">
-                    </a>
-                    <a href="https://www.youtube.com/channel/UC9BdT9tzf4841P1B-R7P-Qg" class="social-icon" title="YouTube">
-                        <img src="images/wix/wix-fe985b88.png" alt="YT">
-                    </a>
+                <img class="foot-mark" src="images/wix/wix-b8e2795e.png" alt="Woosh Biz" width="1182" height="466">
+                <p class="foot-tag">No gyaan. Just fun with learning.</p>
+                <div class="socials">
+                    <a href="https://www.facebook.com/people/Woosh-Biz-by-HTI/100083456102229/" target="_blank" rel="noopener" title="Facebook"><img src="images/wix/wix-ef6a6ac1.png" alt="Facebook" width="201" height="201"></a>
+                    <a href="https://www.instagram.com/wooshbiz/" target="_blank" rel="noopener" title="Instagram"><img src="images/wix/wix-cef3b719.png" alt="Instagram" width="201" height="201"></a>
+                    <a href="https://www.linkedin.com/company/woosh-biz-by-hti/" target="_blank" rel="noopener" title="LinkedIn"><img src="images/wix/wix-b5690303.png" alt="LinkedIn" width="201" height="201"></a>
+                    <a href="https://www.youtube.com/channel/UC9BdT9tzf4841P1B-R7P-Qg" target="_blank" rel="noopener" title="YouTube"><img src="images/wix/wix-fe985b88.png" alt="YouTube" width="201" height="201"></a>
                 </div>
             </div>
-            <div class="footer-column">
-                <h4>Quick Links</h4>
+            <div>
+                <h3>Company</h3>
                 <a href="about.html">About Us</a>
                 <a href="contact.html">Get In Touch</a>
-                <a href="contact.html">Free Consultation Call</a>
+                <a href="contact.html">Free Consultation</a>
                 <a href="blog.html">Blogs</a>
             </div>
-            <div class="footer-column">
-                <h4>Programs</h4>
+            <div>
+                <h3>Programmes</h3>
                 <a href="high-octane.html">In-Office</a>
                 <a href="outdoors.html">Outdoors</a>
+                <a href="resorts.html">Resorts Recommended</a>
             </div>
-            <div class="footer-column">
-                <h4>Contact</h4>
-                <div class="footer-contact">+91 9210804078</div>
-                <div class="footer-rating">⭐ 4.5 | 150 Ratings</div>
+            <div>
+                <h3>Contact</h3>
+                <a href="tel:+919210804078">+91 92108 04078</a>
+                <a href="mailto:info@wooshbiz.com">info@wooshbiz.com</a>
+                <span class="foot-rating">&#11088; 4.5 &middot; 150 ratings</span>
             </div>
         </div>
-        <div class="footer-bottom">© 2024 Woosh Biz by HTI India Pvt Ltd. All rights reserved.</div>
-    </footer>
+        <div class="foot-end">&copy; 2026 Woosh Biz by HTI India Pvt Ltd. All rights reserved.</div>
+    </div>
+</footer>
+<!-- @end:footer -->
 
-    <!-- Floating Buttons -->
-    <button class="scroll-to-top" id="scrollToTop" title="Scroll to top">↑</button>
+<button class="scroll-to-top" id="scrollToTop" title="Scroll to top" aria-label="Scroll to top">&uarr;</button>
 
-    <script>
-
-        // The hero phone's 3D tilt now lives in assets/woosh-3d.js, driven by
-        // scroll position so it also works on touch. Mouse tilt is layered on
-        // there too, so nothing is lost on desktop.
-
-        // Hamburger menu & mobile nav
-        const hamburger = document.getElementById('hamburger');
-        const navLinks = document.getElementById('navLinks');
-        const dropdownToggle = document.querySelector('.dropdown-toggle');
-        const dropdown = document.querySelector('.dropdown');
-
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navLinks.classList.toggle('open');
-            document.body.style.overflow = navLinks.classList.contains('open') ? 'hidden' : '';
-        });
-
-        // Close menu when a link is clicked
-        navLinks.querySelectorAll('a:not(.dropdown-toggle)').forEach(link => {
-            link.addEventListener('click', () => {
-                hamburger.classList.remove('active');
-                navLinks.classList.remove('open');
-                document.body.style.overflow = '';
-            });
-        });
-
-        // Mobile dropdown toggle
-        if (dropdownToggle) {
-            dropdownToggle.addEventListener('click', (e) => {
-                if (window.innerWidth <= 768) {
-                    e.preventDefault();
-                    dropdown.classList.toggle('open');
-                }
-            });
-        }
-
-        // Close menu on outside click
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.navbar')) {
-                hamburger.classList.remove('active');
-                navLinks.classList.remove('open');
-                document.body.style.overflow = '';
-            }
-        });
-
-        // IntersectionObserver for reveal animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    // Reveal once, then stop observing so cards stay settled and identical
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.reveal, .reveal-3d').forEach(el => observer.observe(el));
-
-        // Card tilt is handled by assets/woosh-3d.js: driven by scroll position
-        // on every device, with mouse tilt added on top for fine pointers.
-
-        // ===== Rich effects: magnetic buttons =====
-        // The scroll progress line itself is drawn by assets/woosh-3d.js, which
-        // hangs it off the bottom of the navbar on every page. All that is left
-        // here is swapping the static underline out once it appears.
-        const navBar = document.querySelector('.navbar');
-
-        window.addEventListener('scroll', function () {
-            const st = window.scrollY || document.documentElement.scrollTop;
-            if (navBar) navBar.classList.toggle('scrolled', st > 0);
-        }, { passive: true });
-
-        // Magnetic pull on buttons (desktop pointers only)
-        if (window.matchMedia('(pointer: fine)').matches) {
-            document.querySelectorAll('.cta-button').forEach(function (btn) {
-                btn.addEventListener('mousemove', function (e) {
-                    const r = btn.getBoundingClientRect();
-                    const x = (e.clientX - r.left - r.width / 2) * 0.3;
-                    const y = (e.clientY - r.top - r.height / 2) * 0.4;
-                    btn.style.transform = `translate(${x}px, ${y}px)`;
-                });
-                btn.addEventListener('mouseleave', function () {
-                    btn.style.transform = '';
-                });
-            });
-        }
-
-        // Stats counter
-        const statsSection = document.querySelector('.stats-section');
-        let countersStarted = false;
-
-        const statsObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && !countersStarted) {
-                    countersStarted = true;
-                    document.querySelectorAll('.stat-number').forEach(el => {
-                        const target = parseInt(el.dataset.target);
-                        let current = 0;
-                        const increment = target / 20;
-                        const interval = setInterval(() => {
-                            current += increment;
-                            if (current >= target) {
-                                el.textContent = target + '+';
-                                clearInterval(interval);
-                            } else {
-                                el.textContent = Math.floor(current) + '+';
-                            }
-                        }, 100);
-                    });
-                }
-            });
-        }, { threshold: 0.5 });
-
-        if (statsSection) statsObserver.observe(statsSection);
-
-        // Lightbox
-        function openLightbox(src) {
-            const lightbox = document.getElementById('lightbox');
-            document.getElementById('lightbox-img').src = src;
-            lightbox.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeLightbox() {
-            const lightbox = document.getElementById('lightbox');
-            lightbox.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-
-        document.getElementById('lightbox')?.addEventListener('click', (e) => {
-            if (e.target.id === 'lightbox') closeLightbox();
-        });
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeLightbox();
-        });
-
-        /* Testimonials carousel — steps by one real card width (whatever the
-           breakpoint made it) and keeps the little rail in sync with the
-           scroll position, so there is always a sense of where you are. */
-        function scrollTestimonials(direction) {
-            const container = document.getElementById('testimonialsTrack');
-            if (!container) return;
-            const card = container.querySelector('.testimonial-card');
-            const gap = parseFloat(getComputedStyle(container).columnGap) || 28;
-            const step = card ? card.offsetWidth + gap : 320;
-            container.scrollBy({ left: direction === 'left' ? -step : step, behavior: 'smooth' });
-        }
-
-        (function testimonialRail() {
-            const track = document.getElementById('testimonialsTrack');
-            const fill = document.getElementById('testimonialsRail');
-            if (!track || !fill) return;
-
-            function update() {
-                const span = track.scrollWidth - track.clientWidth;
-                // Thumb width is the share of the strip currently on screen;
-                // it then travels the rest of the rail as you scroll.
-                const share = Math.min(1, track.clientWidth / track.scrollWidth);
-                const pos = span > 0 ? track.scrollLeft / span : 0;
-                fill.style.width = (share * 100) + '%';
-                fill.style.transform = 'translateX(' + (pos * (100 / share - 100)) + '%)';
-            }
-
-            track.addEventListener('scroll', update, { passive: true });
-            window.addEventListener('resize', update);
-            window.addEventListener('load', update);
-            update();
-        })();
-
-        // Scroll to top button
-        const scrollToTopBtn = document.getElementById('scrollToTop');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
-                scrollToTopBtn.classList.add('visible');
-            } else {
-                scrollToTopBtn.classList.remove('visible');
-            }
-        });
-
-        scrollToTopBtn?.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-    </script>
 </body>
 </html>
