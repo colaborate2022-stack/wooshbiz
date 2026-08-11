@@ -412,7 +412,7 @@
             mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
 }
 .marquee + .marquee { margin-top: 18px; }
-.marquee-track { display: flex; align-items: center; gap: 54px; width: max-content; animation: wooshSlide 58s linear infinite; }
+.marquee-track { display: flex; align-items: center; gap: 26px; width: max-content; animation: wooshSlide 58s linear infinite; }
 .marquee.rev .marquee-track { animation-direction: reverse; }
 .marquee:hover .marquee-track { animation-play-state: paused; }
 @keyframes wooshSlide { to { transform: translateX(-50%); } }
@@ -423,8 +423,37 @@
     transition: opacity var(--t);
 }
 .marquee-track img:hover { opacity: 1; }
-.strip.lit .marquee-track img { filter: grayscale(1); opacity: .55; }
-.strip.lit .marquee-track img:hover { filter: none; opacity: 1; }
+
+/* Client logos keep their own colours — they are the proof line, so they are
+   deliberately the loudest thing in the strip.
+
+   Every brand PNG is 24-bit with an opaque white ground baked in, so painting
+   one straight onto the page draws a white card around it. `multiply` is what
+   dissolves that: white multiplied by the strip colour IS the strip colour, so
+   the ground disappears and only the artwork survives. It only works on a lit
+   strip — on a dark one multiply would swallow the logo along with its ground,
+   which is why the brand strip on every page is `.strip.lit`.
+
+   The mask on .marquee makes it an isolated blending group, so the backdrop the
+   logos multiply against has to live on .marquee itself, not on the section.
+
+   The press mastheads are alpha PNGs on a dark strip and keep the older
+   knock-out treatment, which is why this is keyed off the track's data-logos
+   rather than .marquee-track. */
+.strip.lit .marquee-track[data-logos^="brands"] { background: var(--paper-2); }
+.strip.lit .marquee-track[data-logos^="brands"] img {
+    height: 66px;
+    filter: none;
+    opacity: 1;
+    mix-blend-mode: multiply;
+    transition: transform var(--t);
+}
+.strip.lit .marquee-track[data-logos^="brands"] img:hover { transform: scale(1.06); }
+
+@media (max-width: 760px) {
+    .marquee-track { gap: 18px; }
+    .strip.lit .marquee-track[data-logos^="brands"] img { height: 52px; }
+}
 
 @media (prefers-reduced-motion: reduce) {
     .marquee-track { animation: none; }

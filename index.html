@@ -231,6 +231,121 @@
     /* ===================== END FROZEN HERO ===================== */
     </style>
 
+    <style>
+    /* ======================================================================
+       Home-page section tweaks
+
+       Two sections on this page need more than the shared components give
+       them, and both fixes are about legibility rather than decoration:
+
+         • .choice  — scene 01 used the overlay .frame, where the copy sits on
+           top of the photo behind a gradient. With two sentences of copy the
+           gradient swallowed the heading and the reader could not tell what
+           the two cards were offering. Switched to the .stack variant (photo
+           on top, copy on a solid card below) and laid the body out as a flex
+           column so both CTAs land on the same line no matter which card has
+           the longer paragraph.
+
+         • .durations — the four time-slot cards each hold a 260x328 PNG with
+           the duration burnt into it. The shared 4:3 crop cut the top and
+           bottom off those badges and left the four cards visually ragged.
+           A square crop shows every badge whole, and an equal-height flex
+           body pins title, note and CTA to the same baseline across the row.
+       ====================================================================== */
+
+    /* ---------- 01 · Indoor / outdoors choice cards ---------- */
+
+    /* The two cards carry real copy now, so the sidebar gives up some width to
+       them. The 968px collapse is restated because this rule sits in the page
+       and would otherwise out-order the shared responsive block. */
+    .choice-grid { grid-template-columns: minmax(220px, .68fr) 1.42fr; }
+    @media (max-width: 968px) { .choice-grid { grid-template-columns: 1fr; } }
+
+    .choice .frame.stack { background: rgba(253, 248, 251, .05); }
+    .choice .frame.stack > img { aspect-ratio: 16 / 10; }
+
+    .choice .frame.stack .frame-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: clamp(20px, 2.4vw, 30px);
+    }
+
+    .choice .choice-kicker {
+        font-size: .68rem;
+        font-weight: 600;
+        letter-spacing: .2em;
+        text-transform: uppercase;
+        color: var(--orange);
+        margin-bottom: 12px;
+    }
+
+    .choice .frame-body h3 {
+        font-family: var(--disp);
+        font-weight: 700;
+        font-size: clamp(1.4rem, 2.1vw, 1.95rem);
+        line-height: 1.12;
+        letter-spacing: -.01em;
+    }
+
+    .choice .frame-body p {
+        color: var(--dim);
+        font-size: .95rem;
+        line-height: 1.6;
+        margin: 12px 0 22px;
+        max-width: 44ch;
+    }
+
+    /* margin-top:auto is what keeps the two buttons level — it pushes each
+       CTA to the bottom of its own card, and the grid already stretches both
+       cards to the same height. */
+    .choice .go {
+        display: inline-flex;
+        align-items: center;
+        margin-top: auto;
+        padding: 11px 20px;
+        border: 1px solid var(--line);
+        border-radius: var(--r-pill);
+        background: rgba(253, 248, 251, .07);
+        font-size: .84rem;
+        font-weight: 600;
+        color: var(--gold);
+        transition: background var(--t), border-color var(--t), color var(--t);
+    }
+    .choice .frame:hover .go,
+    .choice .frame.w3d-focus .go {
+        background: var(--plum);
+        border-color: var(--plum-l);
+        color: var(--paper);
+    }
+
+    /* ---------- 03 · Duration cards ---------- */
+    .durations { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    @media (max-width: 980px) { .durations { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 460px) { .durations { grid-template-columns: 1fr; } }
+
+    .durations .panel.link-panel { display: flex; flex-direction: column; }
+
+    /* 260x328 is the native size of all four source PNGs. Matching it exactly
+       means `cover` has nothing left to crop, so the burnt-in duration badge
+       and the photo around it arrive whole — the earlier 4:3 and 1:1 crops both
+       sliced the frame and made the row read as four cut-off pictures. */
+    .durations .panel-media img { aspect-ratio: 260 / 328; }
+
+    .durations .panel-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 18px 16px 20px;
+    }
+    .durations .panel-body h3 { font-size: 1.22rem; margin-bottom: 2px; }
+    .durations .panel-note { font-size: .84rem; color: var(--ink-2); }
+    .durations .panel.link-panel .go { margin-top: auto; padding-top: 14px; }
+    </style>
+
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -305,35 +420,40 @@
 <!-- ==================== BRANDS ==================== -->
 <section class="strip lit">
     <p class="strip-label">Trusted by 60+ teams across India</p>
-    <div class="marquee"><div class="marquee-track" data-logos="brands-a" data-logo-w="134" data-logo-h="62"></div></div>
-    <div class="marquee rev"><div class="marquee-track" data-logos="brands-b" data-logo-w="134" data-logo-h="62"></div></div>
+    <div class="marquee"><div class="marquee-track" data-logos="brands-a" data-logo-w="157" data-logo-h="74"></div></div>
+    <div class="marquee rev"><div class="marquee-track" data-logos="brands-b" data-logo-w="157" data-logo-h="74"></div></div>
 </section>
 
 <!-- ==================== 01 PROGRAMMES ==================== -->
 <section class="scene">
     <span class="glow a"></span>
-    <div class="wrap scene-grid">
+    <div class="wrap scene-grid choice-grid">
         <div class="scene-title">
             <p class="scene-count">01 / 05</p>
-            <h2 class="display" data-w3d="rise" data-w3d-fade>Two settings.<br>Same <em>noise</em>.</h2>
-            <p class="dim" data-w3d="rise" data-w3d-fade>Whether we come to your office or take the team out to a
-            lawn, every format is built around the same idea: no gyaan, just fun with learning.</p>
+            <h2 class="display" data-w3d="rise" data-w3d-fade>Pick where<br>it <em>happens</em>.</h2>
+            <p class="dim" data-w3d="rise" data-w3d-fade>Every Woosh Biz programme runs in one of two settings.
+            Either we come to your office, or we take the whole team out. Same games, same noise &mdash; choose
+            whichever suits your calendar.</p>
         </div>
-        <div class="reel two">
-            <a class="frame" data-w3d="card" href="high-octane.html">
+        <div class="reel two choice">
+            <a class="frame stack" data-w3d="card" href="high-octane.html">
                 <img src="images/wix/wix-591876af.jpg" alt="Indoor team building — a team celebrating inside an office hall" width="1600" height="900" loading="lazy">
                 <div class="frame-body">
-                    <h3>Indoor &middot; In-Office</h3>
-                    <p>We bring the games into your boardroom, cafeteria or banquet hall. 2&ndash;4 hours, no travel, no weather.</p>
-                    <div class="tags"><span>See indoor programmes &rarr;</span></div>
+                    <p class="choice-kicker">We come to you</p>
+                    <h3>Indoors, at your office</h3>
+                    <p>We turn your boardroom, cafeteria or banquet hall into the arena. Runs in 2&ndash;4 hours,
+                    so nobody loses a working day &mdash; no travel, no weather, no logistics on your plate.</p>
+                    <span class="go">See in-office programmes &rarr;</span>
                 </div>
             </a>
-            <a class="frame" data-w3d="card" href="outdoors.html">
+            <a class="frame stack" data-w3d="card" href="outdoors.html">
                 <img src="images/wix/wix-6102aff5.jpg" alt="Outdoor team building — a team playing a lawn game at an open-air offsite" width="1600" height="900" loading="lazy">
                 <div class="frame-body">
-                    <h3>Outdoors &middot; Offsite</h3>
-                    <p>Lawns, resorts and hill-top venues. Half a day through to a full multi-day offsite.</p>
-                    <div class="tags"><span>See outdoor programmes &rarr;</span></div>
+                    <p class="choice-kicker">We take you out</p>
+                    <h3>Outdoors, on an offsite</h3>
+                    <p>Lawns, resorts and hill-top venues within driving distance of your city. Half a day, a full
+                    day, or a multi-day offsite &mdash; we handle the venue, the food and the games.</p>
+                    <span class="go">See outdoor programmes &rarr;</span>
                 </div>
             </a>
         </div>
@@ -380,22 +500,38 @@
             <h2 class="display" data-w3d="rise" data-w3d-fade>How long do you have?</h2>
             <p class="dim" data-w3d="rise" data-w3d-fade>Pick your slot &mdash; we'll make it epic.</p>
         </div>
-        <div class="panels">
+        <div class="panels durations">
             <a class="panel link-panel flush" data-w3d="card" href="contact.html">
                 <span class="panel-media"><img src="images/wix/wix-26565211.png" alt="A team playing a parachute game — 2 to 4 hour programme" width="260" height="328" loading="lazy"></span>
-                <span class="panel-body"><h3>2&ndash;4 Hours</h3><span class="go">Book now &rarr;</span></span>
+                <span class="panel-body">
+                    <h3>2&ndash;4 Hours</h3>
+                    <span class="panel-note">In-office energiser</span>
+                    <span class="go">Book now &rarr;</span>
+                </span>
             </a>
             <a class="panel link-panel flush" data-w3d="card" href="contact.html">
                 <span class="panel-media"><img src="images/wix/wix-19ec80d2.png" alt="A team in yellow ponchos playing a lawn game — 4 to 6 hour programme" width="260" height="328" loading="lazy"></span>
-                <span class="panel-body"><h3>4&ndash;6 Hours</h3><span class="go">Book now &rarr;</span></span>
+                <span class="panel-body">
+                    <h3>4&ndash;6 Hours</h3>
+                    <span class="panel-note">Half-day programme</span>
+                    <span class="go">Book now &rarr;</span>
+                </span>
             </a>
             <a class="panel link-panel flush" data-w3d="card" href="contact.html">
                 <span class="panel-media"><img src="images/wix/wix-354828c7.png" alt="A team in pink at an outdoor carnival station — 1 day on or off site" width="260" height="328" loading="lazy"></span>
-                <span class="panel-body"><h3>1-Day On/Off-Site</h3><span class="go">Book now &rarr;</span></span>
+                <span class="panel-body">
+                    <h3>1 Day</h3>
+                    <span class="panel-note">On-site or off-site</span>
+                    <span class="go">Book now &rarr;</span>
+                </span>
             </a>
             <a class="panel link-panel flush" data-w3d="card" href="contact.html">
                 <span class="panel-media"><img src="images/wix/wix-914f7012.png" alt="Two teams competing on a lawn — 2 day on or off site" width="260" height="328" loading="lazy"></span>
-                <span class="panel-body"><h3>2-Day On/Off-Site</h3><span class="go">Book now &rarr;</span></span>
+                <span class="panel-body">
+                    <h3>2 Days</h3>
+                    <span class="panel-note">Overnight offsite</span>
+                    <span class="go">Book now &rarr;</span>
+                </span>
             </a>
         </div>
     </div>
@@ -436,7 +572,7 @@
     <div class="wrap scene-grid">
         <div class="scene-title">
             <p class="scene-count">05 / 05</p>
-            <h2 class="display" data-w3d="rise" data-w3d-fade>What our<br>happy alumni<br>say.</h2>
+            <h2 class="display" data-w3d="rise" data-w3d-fade>What our<br>happy clients<br>say.</h2>
             <p class="dim" data-w3d="rise" data-w3d-fade>Real teams, real stories. Tap any card to watch them tell it themselves.</p>
         </div>
         <div class="voices">
