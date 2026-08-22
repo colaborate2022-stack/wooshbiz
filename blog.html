@@ -78,7 +78,12 @@
         .blog-hero {
             position: relative;
             text-align: center;
-            padding: 62px 24px 42px;
+            /* The shared woosh-chrome navbar is position:fixed, not the sticky
+               one this page's own .navbar rule describes, so it is out of flow
+               and the hero starts underneath it. The flat 62px that used to be
+               here was less than --nav-h (72px), which slid the eyebrow pill
+               under the bar and clipped its top edge. */
+            padding: calc(var(--nav-h) + 46px) 24px 42px;
             background: linear-gradient(180deg, #fbf1f8 0%, #fff 100%);
             overflow: hidden;
         }
@@ -337,11 +342,32 @@
 </style>
     <!-- Scroll-driven 3D motion — works on touch and desktop alike -->
     <link rel="stylesheet" href="assets/woosh-tokens.css">
-    <link rel="stylesheet" href="assets/woosh-base.css">
     <link rel="stylesheet" href="assets/woosh-chrome.css">
     <link rel="stylesheet" href="assets/woosh-3d.css">
     <script defer src="assets/woosh-3d.js"></script>
     <script defer src="assets/woosh-ui.js"></script>
+
+    <style>
+    /* ------------------------------------------------------------------
+       Light-page guard.
+
+       The shared sheets are deliberately loaded AFTER this page's own
+       style block, so that woosh-chrome can dress the nav and footer partials
+       without the stale nav rules above fighting it. The cost of that order
+       is that any *page-level* rule in a shared sheet also wins here -- and
+       woosh-base.css carries `body { background: var(--night); color:
+       var(--paper) }` plus `ul, ol { list-style: none }`, which drop the
+       whole blog onto the dark theatre ground, leave the ink dark grey on
+       near-black. (The ordered-list guard lives in blog-post.html, which is the
+       page that actually renders article bodies.)
+
+       This page is light-themed and needs none of woosh-base -- its only
+       .wrap is the footer's, and woosh-chrome declares `.site-footer .wrap`
+       itself -- so that link is gone. These lines re-assert the ground
+       anyway, so the page cannot go dark again if it is ever restored.
+       ------------------------------------------------------------------ */
+    body { background: #fff; color: var(--wb-text); font-family: 'Gilroy', sans-serif; line-height: 1.6; }
+    </style>
 </head>
 <body>
 

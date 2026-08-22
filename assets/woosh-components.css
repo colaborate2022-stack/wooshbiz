@@ -601,6 +601,14 @@
 .chip.active { background: var(--plum); border-color: var(--plum); color: #fff; }
 .chip .chip-count { opacity: .6; font-size: .82em; margin-left: 5px; }
 
+/* The venue list is the one filterable grid that sits in a *lit* scene, so the
+   chips and the search field have to invert. Without this pass they keep the
+   dark-scene treatment -- paper-white ink on a 6%-white fill -- which on the
+   paper ground is white on white: the filters read as an empty gap. */
+.lit .chip { background: rgba(27, 8, 19, .04); color: var(--ink); border-color: var(--line-lit); }
+.lit .chip:hover { border-color: var(--plum); }
+.lit .chip.active { background: var(--plum); border-color: var(--plum); color: #fff; }
+
 .venue-search { position: relative; }
 .venue-search input {
     width: 260px; max-width: 100%; padding: 11px 18px 11px 42px;
@@ -609,6 +617,11 @@
     color: var(--paper); font-size: .9rem;
 }
 .venue-search input:focus { outline: none; border-color: var(--plum-l); }
+.lit .venue-search input {
+    background: #fff; border-color: var(--line-lit); color: var(--ink);
+}
+.lit .venue-search input::placeholder { color: var(--ink-2); }
+.lit .venue-search input:focus { border-color: var(--plum); }
 .venue-search .search-icon {
     position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
     font-size: .9rem; pointer-events: none; opacity: .7;
@@ -646,6 +659,7 @@
 .venue-body .act { margin-top: auto; width: 100%; }
 
 .no-results { text-align: center; color: var(--dim); padding: 40px 0 10px; }
+.lit .no-results { color: var(--ink-2); }
 
 @media (max-width: 1024px) { .venues-list { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 700px) {
