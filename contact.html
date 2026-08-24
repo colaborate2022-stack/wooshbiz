@@ -32,6 +32,58 @@
     <link rel="stylesheet" href="assets/woosh-chrome.css">
     <link rel="stylesheet" href="assets/woosh-components.css">
     <link rel="stylesheet" href="assets/woosh-3d.css">
+    <style>
+        /* ---- Enquiry form -------------------------------------------------
+           Sits on a lit scene, so controls are drawn on paper with ink text
+           rather than the dark-scene treatment used elsewhere on the site.
+           Everything is scoped to .enq- so it cannot leak into other pages
+           that share the same stylesheets. ---------------------------------- */
+        .enq-grid { display: grid; gap: 18px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .enq-field.full { grid-column: 1 / -1; }
+        @media (max-width: 720px) { .enq-grid { grid-template-columns: 1fr; } }
+        .enq-field label { display: block; font-size: .86rem; font-weight: 600; margin-bottom: 7px; }
+        .enq-req { color: var(--plum); }
+        .enq-opt { color: var(--ink-2); font-weight: 400; }
+        .enq-field input,
+        .enq-field select,
+        .enq-field textarea {
+            width: 100%; padding: 13px 15px; border-radius: var(--r-sm);
+            border: 1px solid var(--line-lit); background: #fff; color: var(--ink);
+            font-family: var(--body); font-size: .95rem;
+            transition: border-color var(--t-fast), box-shadow var(--t-fast);
+        }
+        .enq-field textarea { min-height: 132px; resize: vertical; }
+        .enq-field input:focus,
+        .enq-field select:focus,
+        .enq-field textarea:focus {
+            outline: none; border-color: var(--plum-l);
+            box-shadow: 0 0 0 3px rgba(183, 58, 148, .16);
+        }
+        .enq-field input::placeholder, .enq-field textarea::placeholder { color: var(--ink-2); opacity: .7; }
+        .enq-field.is-bad input,
+        .enq-field.is-bad select,
+        .enq-field.is-bad textarea { border-color: #c2334d; }
+        .enq-field.is-bad input:focus { box-shadow: 0 0 0 3px rgba(194, 51, 77, .16); }
+        .enq-err { margin: 7px 0 0; font-size: .82rem; color: #c2334d; }
+        /* Honeypot. Positioned off-screen rather than display:none — a bot that
+           skips hidden inputs also skips this one, but the ones that read the
+           DOM and fill everything they find will trip it. */
+        .enq-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+        .enq-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; margin-top: 26px; }
+        .enq-note { font-size: .84rem; margin: 0; flex: 1 1 220px; }
+        #enqSubmit[disabled] { opacity: .6; cursor: progress; box-shadow: none; }
+        .enq-status { margin: 20px 0 0; padding: 14px 16px; border-radius: var(--r-sm); font-size: .9rem; }
+        .enq-status.bad { background: rgba(194, 51, 77, .09); border: 1px solid rgba(194, 51, 77, .3); color: #8d1f33; }
+        .enq-status.bad a { color: #8d1f33; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+        .enq-done { text-align: center; padding: 6px 0; }
+        .enq-done .enq-tick {
+            width: 58px; height: 58px; margin: 0 auto 18px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(37, 211, 102, .14); color: #1a8f47; font-size: 1.7rem;
+        }
+        .enq-done h3 { font-family: var(--disp); font-size: clamp(1.35rem, 2.4vw, 1.85rem); margin: 0 0 10px; }
+        .enq-done .act { margin-top: 22px; }
+    </style>
     <script defer src="assets/woosh-3d.js"></script>
     <script defer src="assets/woosh-ui.js"></script>
 
@@ -212,6 +264,83 @@
     </div>
 </section>
 
+
+<!-- ==================== ENQUIRY FORM ==================== -->
+<section class="scene lit" id="enquiry">
+    <div class="wrap-narrow">
+        <div class="scene-head">
+            <p class="eyebrow" data-w3d="rise" data-w3d-fade>Send a brief</p>
+            <h2 class="display" data-w3d="rise" data-w3d-fade>Or tell us about it <em>here</em>.</h2>
+            <p class="dim" data-w3d="rise" data-w3d-fade>Two minutes, and we reply within 24 hours. Prefer not to type? WhatsApp is faster.</p>
+        </div>
+
+        <div class="panel" data-w3d="card" id="enqPanel">
+            <!-- No action/method on purpose. A native submit would reload the
+                 page and throw the visitor out of the scroll position; the
+                 handler below posts to Supabase and never lets that happen. -->
+            <form id="enqForm" novalidate>
+                <div class="enq-grid">
+                    <div class="enq-field" data-for="name">
+                        <label for="enqName">Your name <span class="enq-req" aria-hidden="true">*</span></label>
+                        <input id="enqName" name="name" type="text" autocomplete="name" maxlength="120" required aria-describedby="enqNameErr" placeholder="Priya Sharma">
+                        <p class="enq-err" id="enqNameErr" hidden></p>
+                    </div>
+                    <div class="enq-field" data-for="email">
+                        <label for="enqEmail">Email <span class="enq-req" aria-hidden="true">*</span></label>
+                        <input id="enqEmail" name="email" type="email" autocomplete="email" maxlength="180" required aria-describedby="enqEmailErr" placeholder="priya@company.com">
+                        <p class="enq-err" id="enqEmailErr" hidden></p>
+                    </div>
+                    <div class="enq-field" data-for="phone">
+                        <label for="enqPhone">Phone <span class="enq-req" aria-hidden="true">*</span></label>
+                        <input id="enqPhone" name="phone" type="tel" autocomplete="tel" maxlength="30" required aria-describedby="enqPhoneErr" placeholder="+91 98765 43210">
+                        <p class="enq-err" id="enqPhoneErr" hidden></p>
+                    </div>
+                    <div class="enq-field" data-for="company">
+                        <label for="enqCompany">Company <span class="enq-opt">(optional)</span></label>
+                        <input id="enqCompany" name="company" type="text" autocomplete="organization" maxlength="140" placeholder="Acme Pvt Ltd">
+                    </div>
+                    <div class="enq-field" data-for="team_size">
+                        <label for="enqTeamSize">Team size <span class="enq-opt">(optional)</span></label>
+                        <select id="enqTeamSize" name="team_size">
+                            <option value="">Select a range</option>
+                            <option value="1-10">1-10</option>
+                            <option value="11-25">11-25</option>
+                            <option value="26-50">26-50</option>
+                            <option value="51-100">51-100</option>
+                            <option value="100+">100+</option>
+                        </select>
+                    </div>
+                    <div class="enq-field" data-for="program_interest">
+                        <label for="enqProgram">Programme of interest <span class="enq-opt">(optional)</span></label>
+                        <select id="enqProgram" name="program_interest">
+                            <option value="">Select a programme</option>
+                            <option value="In-Office">In-Office</option>
+                            <option value="Outdoors">Outdoors</option>
+                            <option value="Offsite / Retreat">Offsite / Retreat</option>
+                            <option value="Not sure yet">Not sure yet</option>
+                        </select>
+                    </div>
+                    <div class="enq-field full" data-for="message">
+                        <label for="enqMessage">Anything else? <span class="enq-opt">(optional)</span></label>
+                        <textarea id="enqMessage" name="message" maxlength="2000" placeholder="Dates you have in mind, venue, budget, what you want the day to achieve."></textarea>
+                    </div>
+                </div>
+
+                <div class="enq-hp" aria-hidden="true">
+                    <label for="enqWebsite">Leave this field empty</label>
+                    <input id="enqWebsite" name="website" type="text" tabindex="-1" autocomplete="off">
+                </div>
+
+                <div class="enq-actions">
+                    <button class="act" type="submit" id="enqSubmit" data-magnetic><span>Send enquiry</span></button>
+                    <p class="enq-note dim">We use this to reply to you and nothing else. No lists, no forwarding.</p>
+                </div>
+                <p class="enq-status" id="enqStatus" role="status" aria-live="polite" hidden></p>
+            </form>
+        </div>
+    </div>
+</section>
+
 <!-- ==================== LET'S CHAT ==================== -->
 <section class="scene lit tight" id="lets-chat">
     <div class="wrap-narrow">
@@ -276,6 +405,187 @@
 <!-- @end:footer -->
 
 <button class="scroll-to-top" id="scrollToTop" title="Scroll to top" aria-label="Scroll to top">&uarr;</button>
+
+
+<script>
+/* ==========================================================================
+   Enquiry form -> public.wooshbiz_leads
+   --------------------------------------------------------------------------
+   Posts straight to the Supabase REST API with the anon key. That key is
+   public by design and safe to ship here: RLS on wooshbiz_leads carries an
+   INSERT-only policy for anon, so this key can write an enquiry but cannot
+   read a single one back. Confirmed against the live API before shipping —
+   a GET returns [] and a POST asking for return=representation is refused
+   outright, because handing the row back would need SELECT.
+
+   Never put the secret service-role key in this file. It bypasses RLS and
+   would hand every enquiry to anyone who opens View Source.
+   ========================================================================== */
+(function () {
+    'use strict';
+
+    const SUPABASE_URL      = "https://ytthcgdsbfagvwcopoaj.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl0dGhjZ2RzYmZhZ3Z3Y29wb2FqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMzMjk5MTMsImV4cCI6MjA5ODkwNTkxM30.JIDahcRTu3VbFpZ55Ti5hHg_JrHobk0zh8PSaj9lWLc";
+    const LEADS_REST = SUPABASE_URL + '/rest/v1/wooshbiz_leads';
+
+    const WHATSAPP = 'https://wa.me/919210804078';
+    const MAILBOX  = 'javed@hti-india.com';
+
+    const form   = document.getElementById('enqForm');
+    if (!form) return;
+    const panel  = document.getElementById('enqPanel');
+    const btn    = document.getElementById('enqSubmit');
+    const status = document.getElementById('enqStatus');
+
+    /* ---------- validation ---------- */
+    const RULES = {
+        enqName: v => v.trim() ? '' : 'Please tell us your name.',
+        enqEmail: v => {
+            if (!v.trim()) return 'We need an email address to send the quote to.';
+            return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim())
+                ? '' : 'That email address does not look quite right.';
+        },
+        enqPhone: v => {
+            if (!v.trim()) return 'A phone number lets us call you back.';
+            return v.replace(/\D/g, '').length >= 7
+                ? '' : 'That phone number looks too short.';
+        }
+    };
+
+    function showError(id, message) {
+        const input = document.getElementById(id);
+        const field = input.closest('.enq-field');
+        const err   = document.getElementById(id + 'Err');
+        if (message) {
+            field.classList.add('is-bad');
+            input.setAttribute('aria-invalid', 'true');
+            err.textContent = message;
+            err.hidden = false;
+        } else {
+            field.classList.remove('is-bad');
+            input.removeAttribute('aria-invalid');
+            err.textContent = '';
+            err.hidden = true;
+        }
+    }
+
+    function validate() {
+        let firstBad = null;
+        Object.keys(RULES).forEach(id => {
+            const message = RULES[id](document.getElementById(id).value);
+            showError(id, message);
+            if (message && !firstBad) firstBad = id;
+        });
+        if (firstBad) document.getElementById(firstBad).focus();
+        return !firstBad;
+    }
+
+    // Clear a field's error as soon as it is corrected, so the form stops
+    // scolding the visitor while they are still fixing it.
+    Object.keys(RULES).forEach(id => {
+        const input = document.getElementById(id);
+        input.addEventListener('input', () => {
+            if (input.closest('.enq-field').classList.contains('is-bad')) {
+                showError(id, RULES[id](input.value));
+            }
+        });
+    });
+
+    /* ---------- states ---------- */
+    function setStatus(html) {
+        if (!html) { status.hidden = true; status.innerHTML = ''; return; }
+        status.className = 'enq-status bad';
+        status.innerHTML = html;
+        status.hidden = false;
+    }
+
+    function pending(on) {
+        btn.disabled = on;
+        btn.querySelector('span').textContent = on ? 'Sending…' : 'Send enquiry';
+    }
+
+    function succeed(name) {
+        const first = (name || '').trim().split(/\s+/)[0] || 'there';
+        panel.innerHTML =
+            '<div class="enq-done">' +
+                '<div class="enq-tick" aria-hidden="true">&#10003;</div>' +
+                '<h3>Thanks, ' + escapeHtml(first) + ' — that reached us.</h3>' +
+                '<p class="dim">Someone from the team will reply within 24 hours, usually sooner. ' +
+                'If you would rather not wait, WhatsApp gets you an answer in minutes.</p>' +
+                '<a class="act" data-magnetic href="' + WHATSAPP + '" target="_blank" rel="noopener">' +
+                    '<span>Continue on WhatsApp</span>' +
+                '</a>' +
+            '</div>';
+        panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function escapeHtml(str) {
+        return String(str || '').replace(/[&<>"\']/g, c => ({
+            '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+        }[c]));
+    }
+
+    /* ---------- submit ---------- */
+    form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        // Honeypot. A human never sees this field, so anything in it means a
+        // bot. Show the success state and drop the payload on the floor —
+        // telling a bot it failed only invites it to retry.
+        if (document.getElementById('enqWebsite').value.trim()) {
+            succeed(document.getElementById('enqName').value);
+            return;
+        }
+
+        setStatus('');
+        if (!validate()) return;
+
+        const name = document.getElementById('enqName').value.trim();
+        const payload = {
+            name: name,
+            email: document.getElementById('enqEmail').value.trim(),
+            phone: document.getElementById('enqPhone').value.trim(),
+            source_page: window.location.pathname
+        };
+        // Optional fields are omitted rather than sent empty, so the table
+        // holds nulls instead of a column full of empty strings.
+        [['company', 'enqCompany'], ['team_size', 'enqTeamSize'],
+         ['program_interest', 'enqProgram'], ['message', 'enqMessage']]
+            .forEach(([column, id]) => {
+                const value = document.getElementById(id).value.trim();
+                if (value) payload[column] = value;
+            });
+
+        pending(true);
+        try {
+            const res = await fetch(LEADS_REST, {
+                method: 'POST',
+                headers: {
+                    apikey: SUPABASE_ANON_KEY,
+                    Authorization: 'Bearer ' + SUPABASE_ANON_KEY,
+                    'Content-Type': 'application/json',
+                    // return=minimal matters: anon has no SELECT, so asking
+                    // for the row back would make the whole insert fail.
+                    Prefer: 'return=minimal'
+                },
+                body: JSON.stringify(payload)
+            });
+            if (!res.ok) throw new Error('Insert failed: ' + res.status);
+            succeed(name);
+        } catch (err) {
+            console.error(err);
+            // Never fail silently — an enquiry that vanishes is a lost job.
+            setStatus(
+                'That did not send — something on our end. Please WhatsApp us on ' +
+                '<a href="' + WHATSAPP + '" target="_blank" rel="noopener">+91 92108 04078</a> ' +
+                'or email <a href="mailto:' + MAILBOX + '">' + MAILBOX + '</a>, ' +
+                'and we will pick it up straight away.'
+            );
+            pending(false);
+        }
+    });
+})();
+</script>
 
 </body>
 </html>
