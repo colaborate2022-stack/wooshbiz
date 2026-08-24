@@ -18,6 +18,20 @@
     <meta property="og:title" id="ogTitle" content="Blog | Woosh Biz">
     <meta property="og:description" id="ogDesc" content="Read the latest from Woosh Biz on team building, corporate events, and workplace culture.">
     <meta property="og:image" id="ogImage" content="https://wooshbiz.com/images/og-default.png">
+    <meta property="og:url" id="ogUrl" content="https://wooshbiz.com/blog-post.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <!--
+      Placeholders only. loadPost() overwrites every one of these from the post
+      record, so each ?id= URL ends up with its own title, description, image
+      and JSON-LD instead of the byte-identical shell Google was filing as 28
+      duplicate pages.
+
+      There is deliberately NO <link rel="canonical"> here. If the fetch fails
+      the page never learns which post it is, and a static canonical would
+      point every broken load at the same wrong URL. loadPost() adds the
+      canonical once it knows the id; fail() sets robots=noindex instead.
+    -->
+    <script type="application/ld+json" id="ldJson">{"@context":"https://schema.org","@type":"Article","headline":"Woosh Biz Blog","publisher":{"@type":"Organization","name":"Woosh Biz"}}</script>
     <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
     <link rel="apple-touch-icon" sizes="180x180" href="images/favicon-180.png">
     <link rel="icon" type="image/png" sizes="512x512" href="images/favicon-512.png">
@@ -906,6 +920,47 @@
             const text = stripHtml(html);
             return text.length > len ? text.slice(0, len).trim() + '…' : text;
         }
+        /* Meta descriptions are read by humans on the results page, so cut on a
+           word boundary — one ending mid-word reads as a bug. Falls back to a
+           hard cut if the last 40% of the window holds no space at all. */
+        function metaDescription(html, len) {
+            const text = stripHtml(html);
+            if (text.length <= len) return text;
+            const cut = text.slice(0, len);
+            const sp = cut.lastIndexOf(' ');
+            const kept = sp > len * 0.6 ? cut.slice(0, sp) : cut;
+            return kept.replace(/[\s,;:.\u2013\u2014-]+$/, '') + '…';
+        }
+        /* The canonical is absent from the static head on purpose, so it has to
+           be created on first use rather than merely updated. */
+        function setCanonical(href) {
+            let el = document.head.querySelector('link[rel="canonical"]');
+            if (!el) {
+                el = document.createElement('link');
+                el.setAttribute('rel', 'canonical');
+                document.head.appendChild(el);
+            }
+            el.setAttribute('href', href);
+        }
+        function setRobots(value) {
+            let el = document.head.querySelector('meta[name="robots"]');
+            if (!el) {
+                el = document.createElement('meta');
+                el.setAttribute('name', 'robots');
+                document.head.appendChild(el);
+            }
+            el.setAttribute('content', value);
+        }
+        function setJsonLd(data) {
+            let el = document.getElementById('ldJson');
+            if (!el) {
+                el = document.createElement('script');
+                el.type = 'application/ld+json';
+                el.id = 'ldJson';
+                document.head.appendChild(el);
+            }
+            el.textContent = JSON.stringify(data, null, 2);
+        }
         function readTime(html) {
             const words = stripHtml(html).split(/\s+/).filter(Boolean).length;
             return Math.max(1, Math.round(words / 200)) + ' min read';
@@ -933,6 +988,9 @@
             if (el) el.setAttribute('content', value);
         }
         function fail(message) {
+            // No id, no such post, or the fetch died. Whatever the cause, this
+            // is an empty shell, and an empty shell must never be indexed.
+            setRobots('noindex');
             document.getElementById('pageStatus').innerHTML =
                 escapeHtml(message) + ' <a href="blog.html">Back to all blogs</a>';
         }
@@ -1135,17 +1193,46 @@
             const title = b.title || 'Untitled';
             const category = b.category || 'General';
             const author = b.author || 'Team Woosh Biz';
-            const summary = excerpt(b.body || '', 155);
+            const summary = metaDescription(b.body || '', 155);
+
+            // og:image and the JSON-LD image must be absolute — cover_image is
+            // stored relative since the Wix migration, and some scrapers skip
+            // relative URLs outright.
+            const image = b.cover_image
+                ? (/^https?:\/\//i.test(b.cover_image)
+                    ? b.cover_image
+                    : 'https://wooshbiz.com/' + b.cover_image.replace(/^\/+/, ''))
+                : 'https://wooshbiz.com/images/og-default.png';
+            // Trust the id on the row over the one in the query string, so
+            // ?id=17&utm_source=... still canonicalises to the clean URL.
+            const canonical = 'https://wooshbiz.com/blog-post.html?id=' +
+                encodeURIComponent(b.id != null ? b.id : id);
 
             document.title = title + ' | Woosh Biz';
             setMeta('metaDesc', summary);
             setMeta('ogTitle', title + ' | Woosh Biz');
             setMeta('ogDesc', summary);
-            // og:image must be absolute — cover_image is stored relative since
-            // the Wix migration, and some scrapers skip relative URLs outright.
-            if (b.cover_image) setMeta('ogImage', /^https?:\/\//i.test(b.cover_image)
-                ? b.cover_image
-                : 'https://wooshbiz.com/' + b.cover_image.replace(/^\/+/, ''));
+            setMeta('ogImage', image);
+            setMeta('ogUrl', canonical);
+            setCanonical(canonical);
+            setJsonLd({
+                '@context': 'https://schema.org',
+                '@type': 'Article',
+                headline: title,
+                description: summary,
+                image: image,
+                datePublished: b.created_at || undefined,
+                author: { '@type': 'Person', name: author },
+                publisher: {
+                    '@type': 'Organization',
+                    name: 'Woosh Biz',
+                    logo: {
+                        '@type': 'ImageObject',
+                        url: 'https://wooshbiz.com/images/wix/wix-2f36ed41.png'
+                    }
+                },
+                mainEntityOfPage: { '@type': 'WebPage', '@id': canonical }
+            });
 
             document.getElementById('crumbCat').textContent = category;
             document.getElementById('artTag').textContent = category;
