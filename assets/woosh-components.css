@@ -645,6 +645,12 @@
 .venue-card.w3d-focus .shot-emoji { transform: scale(1.1) rotate(-6deg); }
 .venue-body { padding: 22px 24px 24px; display: flex; flex-direction: column; flex: 1; }
 .venue-body h3 { font-family: var(--disp); font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; }
+/* The venue name links to the venue's own site. The global reset makes an
+   anchor look like plain text, so without this the link is undiscoverable —
+   underline on hover is enough of a cue without turning the card headings
+   into a row of blue links at rest. */
+.venue-body h3 a:hover,
+.venue-body h3 a:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
 .venue-where {
     align-self: flex-start; font-size: .78rem; font-weight: 600;
     background: rgba(183, 58, 148, .18); color: var(--gold);
