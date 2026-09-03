@@ -645,12 +645,30 @@
 .venue-card.w3d-focus .shot-emoji { transform: scale(1.1) rotate(-6deg); }
 .venue-body { padding: 22px 24px 24px; display: flex; flex-direction: column; flex: 1; }
 .venue-body h3 { font-family: var(--disp); font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; }
-/* The venue name links to the venue's own site. The global reset makes an
-   anchor look like plain text, so without this the link is undiscoverable —
-   underline on hover is enough of a cue without turning the card headings
-   into a row of blue links at rest. */
+/* The venue name links to the venue's own site. The global reset renders an
+   anchor as plain text, and a hover-only underline was not enough: on a card
+   whose photo is already clickable, nothing told a reader the heading went
+   anywhere, so the links may as well not have been there. The trailing arrow
+   is the affordance — it reads as "opens their site" at a glance, and being
+   a ::after it stays out of the anchor text, which should remain just the
+   venue's name. */
+/* Same light/dark split .venue-where already uses: gold reads on the dark
+   scene, plum on .lit. The venue list is inside a .lit section today, but the
+   card should not break if it is ever dropped on a dark one. */
+.venue-body h3 a { color: var(--gold); }
+.lit .venue-body h3 a { color: var(--plum); }
+.venue-body h3 a::after {
+    content: "\2197";                 /* ↗ */
+    display: inline-block;
+    margin-left: 5px;
+    font-size: .8em;
+    opacity: .65;
+    transition: transform .18s ease, opacity .18s ease;
+}
 .venue-body h3 a:hover,
 .venue-body h3 a:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
+.venue-body h3 a:hover::after,
+.venue-body h3 a:focus-visible::after { transform: translate(2px, -2px); opacity: 1; }
 .venue-where {
     align-self: flex-start; font-size: .78rem; font-weight: 600;
     background: rgba(183, 58, 148, .18); color: var(--gold);
