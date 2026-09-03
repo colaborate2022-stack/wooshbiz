@@ -901,14 +901,45 @@
         </div>
     </article>
 
-    <section class="more-section" id="moreSection" hidden>
+    <section class="more-section" id="moreSection">
         <div class="more-inner">
             <div class="more-head">
                 <span class="section-label">Keep Reading</span>
                 <h2>More From <span>Us</span></h2>
                 <p>Three more reads picked for you from the Woosh Biz blog.</p>
             </div>
-            <div class="blog-grid" id="moreGrid"></div>
+            <div class="blog-grid" id="moreGrid">
+                    <a class="blog-card" href="/signs-your-team-needs-team-bonding/">
+                        <img class="blog-cover" src="/images/blog/blog-25237aee.png" alt="5 Signs Your Team Needs Team Bonding ASAP" loading="lazy">
+                        <div class="blog-card-body">
+                            <div class="blog-cat">Leadership</div>
+                            <h3 class="blog-card-title">5 Signs Your Team Needs Team Bonding ASAP</h3>
+                            <p class="blog-excerpt">Is your team feeling disconnected or low on energy? Here are 5 clear signs your workplace needs team bonding — and fast.…</p>
+                            <div class="blog-author">Andrea Costabir</div>
+                            <div class="blog-meta">25 Jun 2026<span class="dot">&bull;</span>2 min read</div>
+                        </div>
+                    </a>
+                    <a class="blog-card" href="/fun-team-building-activities-employee-engagement-programs/">
+                        <img class="blog-cover" src="/images/blog/blog-3d2206c6.png" alt="Fun Team Building Activities &amp; Employee Engagement Programs" loading="lazy">
+                        <div class="blog-card-body">
+                            <div class="blog-cat">Leadership</div>
+                            <h3 class="blog-card-title">Fun Team Building Activities &amp; Employee Engagement Programs</h3>
+                            <p class="blog-excerpt">Woosh Biz creates fun and impactful team building activities, employee engagement programs, and experiential learning ex…</p>
+                            <div class="blog-author">Andrea Costabir</div>
+                            <div class="blog-meta">13 Jul 2026<span class="dot">&bull;</span>3 min read</div>
+                        </div>
+                    </a>
+                    <a class="blog-card" href="/play-for-team-success/">
+                        <img class="blog-cover" src="/images/blog/blog-6f3da14a.jpg" alt="Play for Team Success" loading="lazy">
+                        <div class="blog-card-body">
+                            <div class="blog-cat">Leadership</div>
+                            <h3 class="blog-card-title">Play for Team Success</h3>
+                            <p class="blog-excerpt">Play together for team growth. Discover the significance of team play. It’s easy to lose yourself in the world of taking…</p>
+                            <div class="blog-author">Team Woosh Biz</div>
+                            <div class="blog-meta">20 Jun 2022<span class="dot">&bull;</span>2 min read</div>
+                        </div>
+                    </a>
+                </div>
             <div class="more-all">
                 <a href="/blog.html" class="ghost-btn">View all blogs</a>
             </div>
@@ -1376,7 +1407,12 @@
             if (window.wooshMotion && window.wooshMotion.scan) {
                 window.wooshMotion.scan(document.getElementById('post'));
             }
-            loadRecommendations(POST);
+            /* No loadRecommendations() — the strip below is pre-rendered as
+               real links. Re-running it would replace them with onclick cards
+               and undo the only inbound links these articles have. */
+            if (window.wooshMotion && window.wooshMotion.scan) {
+                window.wooshMotion.scan(document.getElementById('moreSection'));
+            }
         })();
 
         /* ---------- Mobile nav ----------

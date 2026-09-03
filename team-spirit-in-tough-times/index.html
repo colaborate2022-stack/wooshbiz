@@ -901,14 +901,45 @@
         </div>
     </article>
 
-    <section class="more-section" id="moreSection" hidden>
+    <section class="more-section" id="moreSection">
         <div class="more-inner">
             <div class="more-head">
                 <span class="section-label">Keep Reading</span>
                 <h2>More From <span>Us</span></h2>
                 <p>Three more reads picked for you from the Woosh Biz blog.</p>
             </div>
-            <div class="blog-grid" id="moreGrid"></div>
+            <div class="blog-grid" id="moreGrid">
+                    <a class="blog-card" href="/bond-for-success/">
+                        <img class="blog-cover" src="/images/blog/blog-d8e08209.jpg" alt="Bond for Success" loading="lazy">
+                        <div class="blog-card-body">
+                            <div class="blog-cat">Leadership</div>
+                            <h3 class="blog-card-title">Bond for Success</h3>
+                            <p class="blog-excerpt">Boost success by strengthening team bonds. Actionable tips for results. Here’s how… 1. Set Goals Goal-setting gives the…</p>
+                            <div class="blog-author">Team Woosh Biz</div>
+                            <div class="blog-meta">14 Jul 2022<span class="dot">&bull;</span>1 min read</div>
+                        </div>
+                    </a>
+                    <a class="blog-card" href="/be-part-of-greatness/">
+                        <img class="blog-cover" src="/images/blog/blog-c166dd4f.jpg" alt="Be Part of Greatness" loading="lazy">
+                        <div class="blog-card-body">
+                            <div class="blog-cat">Leadership</div>
+                            <h3 class="blog-card-title">Be Part of Greatness</h3>
+                            <p class="blog-excerpt">Join a phenomenal team. Explore the journey to greatness. To be part of a great team, first you have to be a great team…</p>
+                            <div class="blog-author">Team Woosh Biz</div>
+                            <div class="blog-meta">23 Jul 2022<span class="dot">&bull;</span>1 min read</div>
+                        </div>
+                    </a>
+                    <a class="blog-card" href="/better-arguments-team-mates/">
+                        <img class="blog-cover" src="/images/blog/blog-d7e87496.jpeg" alt="Better Team Arguments" loading="lazy">
+                        <div class="blog-card-body">
+                            <div class="blog-cat">Leadership</div>
+                            <h3 class="blog-card-title">Better Team Arguments</h3>
+                            <p class="blog-excerpt">Master the art of arguing with team-mates. Strengthen teamwork through healthy debates. In the social media age, it migh…</p>
+                            <div class="blog-author">Team Woosh Biz</div>
+                            <div class="blog-meta">03 Sept 2022<span class="dot">&bull;</span>3 min read</div>
+                        </div>
+                    </a>
+                </div>
             <div class="more-all">
                 <a href="/blog.html" class="ghost-btn">View all blogs</a>
             </div>
@@ -1376,7 +1407,12 @@
             if (window.wooshMotion && window.wooshMotion.scan) {
                 window.wooshMotion.scan(document.getElementById('post'));
             }
-            loadRecommendations(POST);
+            /* No loadRecommendations() — the strip below is pre-rendered as
+               real links. Re-running it would replace them with onclick cards
+               and undo the only inbound links these articles have. */
+            if (window.wooshMotion && window.wooshMotion.scan) {
+                window.wooshMotion.scan(document.getElementById('moreSection'));
+            }
         })();
 
         /* ---------- Mobile nav ----------

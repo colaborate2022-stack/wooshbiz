@@ -901,14 +901,45 @@
         </div>
     </article>
 
-    <section class="more-section" id="moreSection" hidden>
+    <section class="more-section" id="moreSection">
         <div class="more-inner">
             <div class="more-head">
                 <span class="section-label">Keep Reading</span>
                 <h2>More From <span>Us</span></h2>
                 <p>Three more reads picked for you from the Woosh Biz blog.</p>
             </div>
-            <div class="blog-grid" id="moreGrid"></div>
+            <div class="blog-grid" id="moreGrid">
+                    <a class="blog-card" href="/customized-team-building-industries/">
+                        <img class="blog-cover" src="/images/blog/blog-12395b1e.png" alt="Tailor Team Building &amp; Boost Unity Across Industries" loading="lazy">
+                        <div class="blog-card-body">
+                            <div class="blog-cat">Team Building</div>
+                            <h3 class="blog-card-title">Tailor Team Building &amp; Boost Unity Across Industries</h3>
+                            <p class="blog-excerpt">Explore the power of customized team building. Check out 8 ways to tailor team building for diverse industries. Understa…</p>
+                            <div class="blog-author">Team Woosh Biz</div>
+                            <div class="blog-meta">02 Mar 2024<span class="dot">&bull;</span>2 min read</div>
+                        </div>
+                    </a>
+                    <a class="blog-card" href="/master-team-dynamics/">
+                        <img class="blog-cover" src="/images/blog/blog-e4fe2c46.png" alt="Master Team Dynamics, Build An Effective Team" loading="lazy">
+                        <div class="blog-card-body">
+                            <div class="blog-cat">Team Building</div>
+                            <h3 class="blog-card-title">Master Team Dynamics, Build An Effective Team</h3>
+                            <p class="blog-excerpt">High-performance is not built by just assembling skilled and capable individuals. In fact, the more skilled, experienced…</p>
+                            <div class="blog-author">Team Woosh Biz</div>
+                            <div class="blog-meta">30 Mar 2024<span class="dot">&bull;</span>2 min read</div>
+                        </div>
+                    </a>
+                    <a class="blog-card" href="/beyond-desks-and-chairs-team-building-activities/">
+                        <img class="blog-cover" src="/images/blog/blog-44c6428f.png" alt="Beyond Desks &amp; Chairs: A Culture &amp; Team Building Journey Through Daily Team Activities" loading="lazy">
+                        <div class="blog-card-body">
+                            <div class="blog-cat">Team Building</div>
+                            <h3 class="blog-card-title">Beyond Desks &amp; Chairs: A Culture &amp; Team Building Journey Through Daily Team Activities</h3>
+                            <p class="blog-excerpt">The workplace has been reshaped by a noisy revolution – routine makes way for a dynamic blend of culture building and te…</p>
+                            <div class="blog-author">Aaron Fernandes</div>
+                            <div class="blog-meta">30 May 2024<span class="dot">&bull;</span>3 min read</div>
+                        </div>
+                    </a>
+                </div>
             <div class="more-all">
                 <a href="/blog.html" class="ghost-btn">View all blogs</a>
             </div>
@@ -1376,7 +1407,12 @@
             if (window.wooshMotion && window.wooshMotion.scan) {
                 window.wooshMotion.scan(document.getElementById('post'));
             }
-            loadRecommendations(POST);
+            /* No loadRecommendations() — the strip below is pre-rendered as
+               real links. Re-running it would replace them with onclick cards
+               and undo the only inbound links these articles have. */
+            if (window.wooshMotion && window.wooshMotion.scan) {
+                window.wooshMotion.scan(document.getElementById('moreSection'));
+            }
         })();
 
         /* ---------- Mobile nav ----------

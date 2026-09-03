@@ -901,14 +901,45 @@
         </div>
     </article>
 
-    <section class="more-section" id="moreSection" hidden>
+    <section class="more-section" id="moreSection">
         <div class="more-inner">
             <div class="more-head">
                 <span class="section-label">Keep Reading</span>
                 <h2>More From <span>Us</span></h2>
                 <p>Three more reads picked for you from the Woosh Biz blog.</p>
             </div>
-            <div class="blog-grid" id="moreGrid"></div>
+            <div class="blog-grid" id="moreGrid">
+                    <a class="blog-card" href="/write-your-thoughts-habit/">
+                        <img class="blog-cover" src="/images/blog/blog-40efab9c.jpg" alt="Write Your Thoughts Habit" loading="lazy">
+                        <div class="blog-card-body">
+                            <div class="blog-cat">Leadership</div>
+                            <h3 class="blog-card-title">Write Your Thoughts Habit</h3>
+                            <p class="blog-excerpt">Cultivate the habit of writing your thoughts. Unlock creativity and clarity. Our thoughts impact our words, actions and…</p>
+                            <div class="blog-author">Team Woosh Biz</div>
+                            <div class="blog-meta">30 Sept 2022<span class="dot">&bull;</span>2 min read</div>
+                        </div>
+                    </a>
+                    <a class="blog-card" href="/kung-fu-panda-team-building/">
+                        <img class="blog-cover" src="/images/blog/blog-28c42e28.jpg" alt="Kung Fu &amp; Team Building" loading="lazy">
+                        <div class="blog-card-body">
+                            <div class="blog-cat">Leadership</div>
+                            <h3 class="blog-card-title">Kung Fu &amp; Team Building</h3>
+                            <p class="blog-excerpt">Discover team-building wisdom from &amp;#x27;Kung Fu Panda.&amp;#x27; Lessons for strong teams. A common misconception about tea…</p>
+                            <div class="blog-author">Team Woosh Biz</div>
+                            <div class="blog-meta">11 Nov 2022<span class="dot">&bull;</span>2 min read</div>
+                        </div>
+                    </a>
+                    <a class="blog-card" href="/leading-in-politics-power-tips/">
+                        <img class="blog-cover" src="/images/blog/blog-cae829ef.jpg" alt="Leading in Politics: Power Tips" loading="lazy">
+                        <div class="blog-card-body">
+                            <div class="blog-cat">Leadership</div>
+                            <h3 class="blog-card-title">Leading in Politics: Power Tips</h3>
+                            <p class="blog-excerpt">Navigate political waters while leading effectively. Tips to lead in today&amp;#x27;s charged age. Political allegiances dif…</p>
+                            <div class="blog-author">Team Woosh Biz</div>
+                            <div class="blog-meta">30 May 2023<span class="dot">&bull;</span>2 min read</div>
+                        </div>
+                    </a>
+                </div>
             <div class="more-all">
                 <a href="/blog.html" class="ghost-btn">View all blogs</a>
             </div>
@@ -1376,7 +1407,12 @@
             if (window.wooshMotion && window.wooshMotion.scan) {
                 window.wooshMotion.scan(document.getElementById('post'));
             }
-            loadRecommendations(POST);
+            /* No loadRecommendations() — the strip below is pre-rendered as
+               real links. Re-running it would replace them with onclick cards
+               and undo the only inbound links these articles have. */
+            if (window.wooshMotion && window.wooshMotion.scan) {
+                window.wooshMotion.scan(document.getElementById('moreSection'));
+            }
         })();
 
         /* ---------- Mobile nav ----------

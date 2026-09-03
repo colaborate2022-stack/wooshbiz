@@ -901,14 +901,45 @@
         </div>
     </article>
 
-    <section class="more-section" id="moreSection" hidden>
+    <section class="more-section" id="moreSection">
         <div class="more-inner">
             <div class="more-head">
                 <span class="section-label">Keep Reading</span>
                 <h2>More From <span>Us</span></h2>
                 <p>Three more reads picked for you from the Woosh Biz blog.</p>
             </div>
-            <div class="blog-grid" id="moreGrid"></div>
+            <div class="blog-grid" id="moreGrid">
+                    <a class="blog-card" href="/team-building-basics/">
+                        <img class="blog-cover" src="/images/blog/blog-4fff3aec.png" alt="Team Building Basics" loading="lazy">
+                        <div class="blog-card-body">
+                            <div class="blog-cat">Leadership</div>
+                            <h3 class="blog-card-title">Team Building Basics</h3>
+                            <p class="blog-excerpt">Discover why team building boosts communication, collaboration, trust and productivity in any workplace. Team Building i…</p>
+                            <div class="blog-author">Team Woosh Biz</div>
+                            <div class="blog-meta">29 Oct 2025<span class="dot">&bull;</span>1 min read</div>
+                        </div>
+                    </a>
+                    <a class="blog-card" href="/student-leadership-development-team-building-camp/">
+                        <img class="blog-cover" src="/images/blog/blog-a5401d35.png" alt="Student Leadership Development &amp; Team Building Camp" loading="lazy">
+                        <div class="blog-card-body">
+                            <div class="blog-cat">Leadership</div>
+                            <h3 class="blog-card-title">Student Leadership Development &amp; Team Building Camp</h3>
+                            <p class="blog-excerpt">Experience Jungle Out There, a fun and impactful Student Leadership Development Camp by Woosh Biz; building leadership,…</p>
+                            <div class="blog-author">Team Woosh Biz</div>
+                            <div class="blog-meta">24 Nov 2025<span class="dot">&bull;</span>1 min read</div>
+                        </div>
+                    </a>
+                    <a class="blog-card" href="/plan-a-successful-team-building-event-a-quick-fun-guide/">
+                        <img class="blog-cover" src="/images/blog/blog-286cc02c.png" alt="Plan A Successful Team Building Event: A Quick + Fun Guide" loading="lazy">
+                        <div class="blog-card-body">
+                            <div class="blog-cat">Leadership</div>
+                            <h3 class="blog-card-title">Plan A Successful Team Building Event: A Quick + Fun Guide</h3>
+                            <p class="blog-excerpt">Plan a winning team building event with this quick guide. Boost bonding, collaboration, and morale with simple, fun step…</p>
+                            <div class="blog-author">Team Woosh Biz</div>
+                            <div class="blog-meta">12 Dec 2025<span class="dot">&bull;</span>1 min read</div>
+                        </div>
+                    </a>
+                </div>
             <div class="more-all">
                 <a href="/blog.html" class="ghost-btn">View all blogs</a>
             </div>
@@ -1376,7 +1407,12 @@
             if (window.wooshMotion && window.wooshMotion.scan) {
                 window.wooshMotion.scan(document.getElementById('post'));
             }
-            loadRecommendations(POST);
+            /* No loadRecommendations() — the strip below is pre-rendered as
+               real links. Re-running it would replace them with onclick cards
+               and undo the only inbound links these articles have. */
+            if (window.wooshMotion && window.wooshMotion.scan) {
+                window.wooshMotion.scan(document.getElementById('moreSection'));
+            }
         })();
 
         /* ---------- Mobile nav ----------

@@ -901,14 +901,45 @@
         </div>
     </article>
 
-    <section class="more-section" id="moreSection" hidden>
+    <section class="more-section" id="moreSection">
         <div class="more-inner">
             <div class="more-head">
                 <span class="section-label">Keep Reading</span>
                 <h2>More From <span>Us</span></h2>
                 <p>Three more reads picked for you from the Woosh Biz blog.</p>
             </div>
-            <div class="blog-grid" id="moreGrid"></div>
+            <div class="blog-grid" id="moreGrid">
+                    <a class="blog-card" href="/employee-engagement-activities/">
+                        <img class="blog-cover" src="/images/blog/blog-3fa1ffc2.png" alt="Employee Engagement Activities To Relax, Rejuvenate &amp; Boost Workplace Culture" loading="lazy">
+                        <div class="blog-card-body">
+                            <div class="blog-cat">Leadership</div>
+                            <h3 class="blog-card-title">Employee Engagement Activities To Relax, Rejuvenate &amp; Boost Workplace Culture</h3>
+                            <p class="blog-excerpt">Discover 8 powerful employee engagement activities to relax, destress, rejuvenate teams, reduce burnout, and build a pos…</p>
+                            <div class="blog-author">Team Woosh Biz</div>
+                            <div class="blog-meta">18 Apr 2026<span class="dot">&bull;</span>1 min read</div>
+                        </div>
+                    </a>
+                    <a class="blog-card" href="/corporate-team-building-activities-to-boost-workplace-performance/">
+                        <img class="blog-cover" src="/images/blog/blog-712470da.png" alt="Corporate Team Building Activities to Boost Workplace Performance" loading="lazy">
+                        <div class="blog-card-body">
+                            <div class="blog-cat">Leadership</div>
+                            <h3 class="blog-card-title">Corporate Team Building Activities to Boost Workplace Performance</h3>
+                            <p class="blog-excerpt">Explore 8 key benefits of corporate team building to improve communication, teamwork, morale, and overall workplace prod…</p>
+                            <div class="blog-author">Team Woosh Biz</div>
+                            <div class="blog-meta">23 Apr 2026<span class="dot">&bull;</span>1 min read</div>
+                        </div>
+                    </a>
+                    <a class="blog-card" href="/leadership-development-college-students/">
+                        <img class="blog-cover" src="/images/blog/blog-0fc91fb5.png" alt="Leadership Development Programs for College Students | Student Leadership Program" loading="lazy">
+                        <div class="blog-card-body">
+                            <div class="blog-cat">Leadership</div>
+                            <h3 class="blog-card-title">Leadership Development Programs for College Students | Student Leadership Program</h3>
+                            <p class="blog-excerpt">Discover 8 key benefits of leadership development programs for college students, including confidence, teamwork, communi…</p>
+                            <div class="blog-author">Team Woosh Biz</div>
+                            <div class="blog-meta">12 May 2026<span class="dot">&bull;</span>2 min read</div>
+                        </div>
+                    </a>
+                </div>
             <div class="more-all">
                 <a href="/blog.html" class="ghost-btn">View all blogs</a>
             </div>
@@ -1376,7 +1407,12 @@
             if (window.wooshMotion && window.wooshMotion.scan) {
                 window.wooshMotion.scan(document.getElementById('post'));
             }
-            loadRecommendations(POST);
+            /* No loadRecommendations() — the strip below is pre-rendered as
+               real links. Re-running it would replace them with onclick cards
+               and undo the only inbound links these articles have. */
+            if (window.wooshMotion && window.wooshMotion.scan) {
+                window.wooshMotion.scan(document.getElementById('moreSection'));
+            }
         })();
 
         /* ---------- Mobile nav ----------

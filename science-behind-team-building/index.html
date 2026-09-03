@@ -901,14 +901,45 @@
         </div>
     </article>
 
-    <section class="more-section" id="moreSection" hidden>
+    <section class="more-section" id="moreSection">
         <div class="more-inner">
             <div class="more-head">
                 <span class="section-label">Keep Reading</span>
                 <h2>More From <span>Us</span></h2>
                 <p>Three more reads picked for you from the Woosh Biz blog.</p>
             </div>
-            <div class="blog-grid" id="moreGrid"></div>
+            <div class="blog-grid" id="moreGrid">
+                    <a class="blog-card" href="/dynamic-team-building-2025/">
+                        <img class="blog-cover" src="/images/blog/blog-0fbccd82.png" alt="Dynamic Team Building 2025" loading="lazy">
+                        <div class="blog-card-body">
+                            <div class="blog-cat">Leadership</div>
+                            <h3 class="blog-card-title">Dynamic Team Building 2025</h3>
+                            <p class="blog-excerpt">Explore 4 dynamic team building exercises for 2025 to strengthen teamwork, enhance creativity, and foster positive conne…</p>
+                            <div class="blog-author">Team Woosh Biz</div>
+                            <div class="blog-meta">19 May 2025<span class="dot">&bull;</span>1 min read</div>
+                        </div>
+                    </a>
+                    <a class="blog-card" href="/team-building-that-works/">
+                        <img class="blog-cover" src="/images/blog/blog-239c39f0.png" alt="Team Building That Works" loading="lazy">
+                        <div class="blog-card-body">
+                            <div class="blog-cat">Leadership</div>
+                            <h3 class="blog-card-title">Team Building That Works</h3>
+                            <p class="blog-excerpt">Impactful team building programs with Woosh Biz. Boost productivity, trust and collaboration for students and corporates…</p>
+                            <div class="blog-author">Team Woosh Biz</div>
+                            <div class="blog-meta">28 Aug 2025<span class="dot">&bull;</span>1 min read</div>
+                        </div>
+                    </a>
+                    <a class="blog-card" href="/team-building-basics/">
+                        <img class="blog-cover" src="/images/blog/blog-4fff3aec.png" alt="Team Building Basics" loading="lazy">
+                        <div class="blog-card-body">
+                            <div class="blog-cat">Leadership</div>
+                            <h3 class="blog-card-title">Team Building Basics</h3>
+                            <p class="blog-excerpt">Discover why team building boosts communication, collaboration, trust and productivity in any workplace. Team Building i…</p>
+                            <div class="blog-author">Team Woosh Biz</div>
+                            <div class="blog-meta">29 Oct 2025<span class="dot">&bull;</span>1 min read</div>
+                        </div>
+                    </a>
+                </div>
             <div class="more-all">
                 <a href="/blog.html" class="ghost-btn">View all blogs</a>
             </div>
@@ -1376,7 +1407,12 @@
             if (window.wooshMotion && window.wooshMotion.scan) {
                 window.wooshMotion.scan(document.getElementById('post'));
             }
-            loadRecommendations(POST);
+            /* No loadRecommendations() — the strip below is pre-rendered as
+               real links. Re-running it would replace them with onclick cards
+               and undo the only inbound links these articles have. */
+            if (window.wooshMotion && window.wooshMotion.scan) {
+                window.wooshMotion.scan(document.getElementById('moreSection'));
+            }
         })();
 
         /* ---------- Mobile nav ----------

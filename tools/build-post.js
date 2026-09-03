@@ -130,6 +130,74 @@ function abs(url) {
     return /^https?:\/\//i.test(url) ? url : SITE + '/' + String(url).replace(/^\/+/, '');
 }
 
+function excerpt(html, len) {
+    const text = stripHtml(html);
+    return text.length > len ? text.slice(0, len).trim() + '…' : text;
+}
+
+/* ---------- related posts ----------
+
+   The "More From Us" strip was the only thing linking one article to another,
+   and it did nothing for either reader-through-search or crawler: the grid
+   ships empty and loadRecommendations() fills it after load with cards whose
+   only affordance is onclick="location.href=…". A crawler runs neither the
+   fetch nor the handler, so 40 of the 44 posts had no inbound link from
+   anywhere on the site and read as orphans.
+
+   Baking the same three picks as real <a href> at build time is what turns
+   the blog into a connected set.
+
+   Deliberately NOT the client's rule. loadRecommendations() takes the newest
+   three in the category, which is right for a reader ("here is what we
+   published lately") and useless as link structure: baked out across 44 posts
+   it pointed 28 links at one article and left 36 with none, which is the
+   orphan problem again with extra steps.
+
+   Instead each category is treated as a ring ordered by id, and a post links
+   to the next three in it. Every post then receives exactly three inbound
+   links, all from its own category, and the graph is connected. The dynamic
+   page is noindex and only a redirector now, so the two no longer needing to
+   agree costs nothing. */
+function recommendations(current, all) {
+    const ordered = all.filter(p => p.is_published).sort((a, b) => a.id - b.id);
+    const sameCat = ordered.filter(p => p.category === current.category);
+
+    /* A ring needs the post plus three others to be worth walking. */
+    const pool = sameCat.length >= 4 ? sameCat : ordered;
+    const at = pool.findIndex(p => p.id === current.id);
+    if (at === -1) return ordered.filter(p => p.id !== current.id).slice(0, 3);
+
+    const picked = [];
+    for (let step = 1; picked.length < 3 && step < pool.length; step++) {
+        picked.push(pool[(at + step) % pool.length]);
+    }
+    return picked;
+}
+
+/* The card is an <a> rather than the client's <article onclick>: .blog-card is
+   already display:flex and the stylesheet resets anchor colour, so it renders
+   identically while being an actual link. */
+function recommendationCards(picked) {
+    return picked.map(b => {
+        const href = '/' + (b.slug || slugify(b.title)) + '/';
+        const cover = b.cover_image
+            ? `<img class="blog-cover" src="/${escapeHtml(String(b.cover_image).replace(/^\/+/, ''))}" alt="${escapeHtml(b.title || '')}" loading="lazy">`
+            : '<div class="blog-cover-ph"></div>';
+        const cat = b.category ? `<div class="blog-cat">${escapeHtml(b.category)}</div>` : '';
+        return `
+                    <a class="blog-card" href="${href}">
+                        ${cover}
+                        <div class="blog-card-body">
+                            ${cat}
+                            <h3 class="blog-card-title">${escapeHtml(b.title || 'Untitled')}</h3>
+                            <p class="blog-excerpt">${escapeHtml(excerpt(b.body || '', 120))}</p>
+                            <div class="blog-author">${escapeHtml(b.author || 'Team Woosh Biz')}</div>
+                            <div class="blog-meta">${formatDate(b.created_at)}<span class="dot">&bull;</span>${readTime(b.body)}</div>
+                        </div>
+                    </a>`;
+    }).join('');
+}
+
 /* ---------- body rewriting ---------- */
 
 /* Heading ids have to exist in the served HTML, not be assigned by buildToc()
@@ -257,7 +325,7 @@ function enhanceBodyImages(body) {
 
 /* ---------- page assembly ---------- */
 
-function buildPage(template, post, slug) {
+function buildPage(template, post, slug, allPosts) {
     const title = post.title || 'Untitled';
     const category = post.category || 'General';
     const author = post.author || 'Team Woosh Biz';
@@ -467,6 +535,22 @@ function buildPage(template, post, slug) {
         '`/blog-post.html?id=${encodeURIComponent(b.id)}`');
     out = out.replace('src="${escapeHtml(b.cover_image)}"', 'src="/${escapeHtml(b.cover_image)}"');
 
+    /* --- related posts ---
+       Both the empty grid and the section's hidden attribute exist because the
+       client fills them after load; pre-rendered, neither is wanted. */
+    const picked = recommendations(post, allPosts);
+    if (picked.length) {
+        out = out.replace(
+            '<div class="blog-grid" id="moreGrid"></div>',
+            `<div class="blog-grid" id="moreGrid">${recommendationCards(picked)}
+                </div>`
+        );
+        out = out.replace(
+            '<section class="more-section" id="moreSection" hidden>',
+            '<section class="more-section" id="moreSection">'
+        );
+    }
+
     /* --- script ---
        The article is already in the DOM, so loadPost() must not run: it would
        refetch the row and overwrite identical markup for nothing, and on a
@@ -485,7 +569,12 @@ function buildPage(template, post, slug) {
             if (window.wooshMotion && window.wooshMotion.scan) {
                 window.wooshMotion.scan(document.getElementById('post'));
             }
-            loadRecommendations(POST);
+            /* No loadRecommendations() — the strip below is pre-rendered as
+               real links. Re-running it would replace them with onclick cards
+               and undo the only inbound links these articles have. */
+            if (window.wooshMotion && window.wooshMotion.scan) {
+                window.wooshMotion.scan(document.getElementById('moreSection'));
+            }
         })();`
     );
 
@@ -493,6 +582,20 @@ function buildPage(template, post, slug) {
 }
 
 /* ---------- io ---------- */
+
+/* Every page needs the same list to pick its related posts from, and a run
+   builds up to 44 of them. Fetch it once. */
+let allPostsCache = null;
+async function fetchAllPosts() {
+    if (allPostsCache) return allPostsCache;
+    const key = anonKey();
+    const fields = 'id,title,author,category,cover_image,body,created_at,slug,is_published';
+    const url = `${REST}?is_published=eq.true&order=created_at.desc&select=${fields}`;
+    const res = await fetch(url, { headers: { apikey: key, Authorization: `Bearer ${key}` } });
+    if (!res.ok) throw new Error(`Supabase returned ${res.status}: ${await res.text()}`);
+    allPostsCache = await res.json();
+    return allPostsCache;
+}
 
 async function fetchPost(id) {
     const key = anonKey();
@@ -512,7 +615,7 @@ async function build(id, { check = false } = {}) {
     }
 
     const template = fs.readFileSync(TEMPLATE, 'utf8');
-    const html = buildPage(template, post, slug);
+    const html = buildPage(template, post, slug, await fetchAllPosts());
     const outFile = path.join(ROOT, slug, 'index.html');
 
     if (check) {

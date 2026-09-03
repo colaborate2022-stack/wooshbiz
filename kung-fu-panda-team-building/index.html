@@ -901,14 +901,45 @@
         </div>
     </article>
 
-    <section class="more-section" id="moreSection" hidden>
+    <section class="more-section" id="moreSection">
         <div class="more-inner">
             <div class="more-head">
                 <span class="section-label">Keep Reading</span>
                 <h2>More From <span>Us</span></h2>
                 <p>Three more reads picked for you from the Woosh Biz blog.</p>
             </div>
-            <div class="blog-grid" id="moreGrid"></div>
+            <div class="blog-grid" id="moreGrid">
+                    <a class="blog-card" href="/leading-in-politics-power-tips/">
+                        <img class="blog-cover" src="/images/blog/blog-cae829ef.jpg" alt="Leading in Politics: Power Tips" loading="lazy">
+                        <div class="blog-card-body">
+                            <div class="blog-cat">Leadership</div>
+                            <h3 class="blog-card-title">Leading in Politics: Power Tips</h3>
+                            <p class="blog-excerpt">Navigate political waters while leading effectively. Tips to lead in today&amp;#x27;s charged age. Political allegiances dif…</p>
+                            <div class="blog-author">Team Woosh Biz</div>
+                            <div class="blog-meta">30 May 2023<span class="dot">&bull;</span>2 min read</div>
+                        </div>
+                    </a>
+                    <a class="blog-card" href="/living-in-survival-mode/">
+                        <img class="blog-cover" src="/images/blog/blog-6d691e32.jpg" alt="Survival Mode: Break Free" loading="lazy">
+                        <div class="blog-card-body">
+                            <div class="blog-cat">Leadership</div>
+                            <h3 class="blog-card-title">Survival Mode: Break Free</h3>
+                            <p class="blog-excerpt">Escape survival mode and thrive. Transform your approach to life. Stress triggers a physiological response to fight or f…</p>
+                            <div class="blog-author">Team Woosh Biz</div>
+                            <div class="blog-meta">16 Jul 2023<span class="dot">&bull;</span>2 min read</div>
+                        </div>
+                    </a>
+                    <a class="blog-card" href="/science-behind-team-building/">
+                        <img class="blog-cover" src="/images/blog/blog-7ad3f9ab.png" alt="Team Building Psychology" loading="lazy">
+                        <div class="blog-card-body">
+                            <div class="blog-cat">Leadership</div>
+                            <h3 class="blog-card-title">Team Building Psychology</h3>
+                            <p class="blog-excerpt">Discover the psychology behind Team Building. Learn how trust, communication and inclusivity foster effective teams. Tea…</p>
+                            <div class="blog-author">Team Woosh Biz</div>
+                            <div class="blog-meta">18 Apr 2025<span class="dot">&bull;</span>3 min read</div>
+                        </div>
+                    </a>
+                </div>
             <div class="more-all">
                 <a href="/blog.html" class="ghost-btn">View all blogs</a>
             </div>
@@ -1376,7 +1407,12 @@
             if (window.wooshMotion && window.wooshMotion.scan) {
                 window.wooshMotion.scan(document.getElementById('post'));
             }
-            loadRecommendations(POST);
+            /* No loadRecommendations() — the strip below is pre-rendered as
+               real links. Re-running it would replace them with onclick cards
+               and undo the only inbound links these articles have. */
+            if (window.wooshMotion && window.wooshMotion.scan) {
+                window.wooshMotion.scan(document.getElementById('moreSection'));
+            }
         })();
 
         /* ---------- Mobile nav ----------

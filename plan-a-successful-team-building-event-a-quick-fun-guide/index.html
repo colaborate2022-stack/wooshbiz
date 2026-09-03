@@ -958,14 +958,45 @@
         </div>
     </article>
 
-    <section class="more-section" id="moreSection" hidden>
+    <section class="more-section" id="moreSection">
         <div class="more-inner">
             <div class="more-head">
                 <span class="section-label">Keep Reading</span>
                 <h2>More From <span>Us</span></h2>
                 <p>Three more reads picked for you from the Woosh Biz blog.</p>
             </div>
-            <div class="blog-grid" id="moreGrid"></div>
+            <div class="blog-grid" id="moreGrid">
+                    <a class="blog-card" href="/job-security-jungle-out-there/">
+                        <img class="blog-cover" src="/images/blog/blog-17fa93d0.png" alt="Looking for Job Security? “The world is a jungle — not cruel, just governed by incentives.”" loading="lazy">
+                        <div class="blog-card-body">
+                            <div class="blog-cat">Leadership</div>
+                            <h3 class="blog-card-title">Looking for Job Security? “The world is a jungle — not cruel, just governed by incentives.”</h3>
+                            <p class="blog-excerpt">Discover why real job security comes from thinking independently, leading confidently, and collaborating powerfully thro…</p>
+                            <div class="blog-author">Team Woosh Biz</div>
+                            <div class="blog-meta">22 Dec 2025<span class="dot">&bull;</span>3 min read</div>
+                        </div>
+                    </a>
+                    <a class="blog-card" href="/top-8-team-building-activities-to-boost-workplace-morale/">
+                        <img class="blog-cover" src="/images/blog/blog-f2960ecb.png" alt="Top 8 Team Building Activities To Boost Workplace Morale" loading="lazy">
+                        <div class="blog-card-body">
+                            <div class="blog-cat">Leadership</div>
+                            <h3 class="blog-card-title">Top 8 Team Building Activities To Boost Workplace Morale</h3>
+                            <p class="blog-excerpt">Discover 8 top team building activities to boost morale, enhance team bonding, and improve workplace collaboration and p…</p>
+                            <div class="blog-author">Team Woosh Biz</div>
+                            <div class="blog-meta">12 Jan 2026<span class="dot">&bull;</span>1 min read</div>
+                        </div>
+                    </a>
+                    <a class="blog-card" href="/beyond-stocks-property-the-one-investment-that-never-crashes/">
+                        <img class="blog-cover" src="/images/blog/blog-34bef9c1.png" alt="Beyond Stocks &amp; Property: The One Investment That Never Crashes" loading="lazy">
+                        <div class="blog-card-body">
+                            <div class="blog-cat">Leadership</div>
+                            <h3 class="blog-card-title">Beyond Stocks &amp; Property: The One Investment That Never Crashes</h3>
+                            <p class="blog-excerpt">Discover why true wealth goes beyond stocks and property. Learn how mental, physical, emotional, and financial health cr…</p>
+                            <div class="blog-author">Team Woosh Biz</div>
+                            <div class="blog-meta">21 Jan 2026<span class="dot">&bull;</span>4 min read</div>
+                        </div>
+                    </a>
+                </div>
             <div class="more-all">
                 <a href="/blog.html" class="ghost-btn">View all blogs</a>
             </div>
@@ -1433,7 +1464,12 @@
             if (window.wooshMotion && window.wooshMotion.scan) {
                 window.wooshMotion.scan(document.getElementById('post'));
             }
-            loadRecommendations(POST);
+            /* No loadRecommendations() — the strip below is pre-rendered as
+               real links. Re-running it would replace them with onclick cards
+               and undo the only inbound links these articles have. */
+            if (window.wooshMotion && window.wooshMotion.scan) {
+                window.wooshMotion.scan(document.getElementById('moreSection'));
+            }
         })();
 
         /* ---------- Mobile nav ----------

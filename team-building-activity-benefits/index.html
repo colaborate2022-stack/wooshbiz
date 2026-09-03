@@ -901,14 +901,45 @@
         </div>
     </article>
 
-    <section class="more-section" id="moreSection" hidden>
+    <section class="more-section" id="moreSection">
         <div class="more-inner">
             <div class="more-head">
                 <span class="section-label">Keep Reading</span>
                 <h2>More From <span>Us</span></h2>
                 <p>Three more reads picked for you from the Woosh Biz blog.</p>
             </div>
-            <div class="blog-grid" id="moreGrid"></div>
+            <div class="blog-grid" id="moreGrid">
+                    <a class="blog-card" href="/make-merry-christmas-celebrations/">
+                        <img class="blog-cover" src="/images/blog/blog-6ad7daf8.png" alt="Up The Christmas Spirit At Your Workplace!" loading="lazy">
+                        <div class="blog-card-body">
+                            <div class="blog-cat">Team Building</div>
+                            <h3 class="blog-card-title">Up The Christmas Spirit At Your Workplace!</h3>
+                            <p class="blog-excerpt">&#39;Tis the season to bring joy to the workplace by strengthening your team’s bonds. Let the holiday celebrations begin! He…</p>
+                            <div class="blog-author">Team Woosh Biz</div>
+                            <div class="blog-meta">25 Dec 2023<span class="dot">&bull;</span>2 min read</div>
+                        </div>
+                    </a>
+                    <a class="blog-card" href="/definitive-guide-team-building/">
+                        <img class="blog-cover" src="/images/blog/blog-0308757e.png" alt="The Definitive Guide To Team Building" loading="lazy">
+                        <div class="blog-card-body">
+                            <div class="blog-cat">Team Building</div>
+                            <h3 class="blog-card-title">The Definitive Guide To Team Building</h3>
+                            <p class="blog-excerpt">Team Building fosters communication, collaboration, and a positive work culture. HR professionals, let’s create a Team B…</p>
+                            <div class="blog-author">Team Woosh Biz</div>
+                            <div class="blog-meta">28 Dec 2023<span class="dot">&bull;</span>2 min read</div>
+                        </div>
+                    </a>
+                    <a class="blog-card" href="/team-building-workplace-success/">
+                        <img class="blog-cover" src="/images/blog/blog-28f14ae9.png" alt="Building Success Together: Why Team Building Matters At Work" loading="lazy">
+                        <div class="blog-card-body">
+                            <div class="blog-cat">Team Building</div>
+                            <h3 class="blog-card-title">Building Success Together: Why Team Building Matters At Work</h3>
+                            <p class="blog-excerpt">The magic of teamwork - a to-the-point blog that explores why team building is crucial for an efficient workplace. Make…</p>
+                            <div class="blog-author">Team Woosh Biz</div>
+                            <div class="blog-meta">04 Jan 2024<span class="dot">&bull;</span>1 min read</div>
+                        </div>
+                    </a>
+                </div>
             <div class="more-all">
                 <a href="/blog.html" class="ghost-btn">View all blogs</a>
             </div>
@@ -1376,7 +1407,12 @@
             if (window.wooshMotion && window.wooshMotion.scan) {
                 window.wooshMotion.scan(document.getElementById('post'));
             }
-            loadRecommendations(POST);
+            /* No loadRecommendations() — the strip below is pre-rendered as
+               real links. Re-running it would replace them with onclick cards
+               and undo the only inbound links these articles have. */
+            if (window.wooshMotion && window.wooshMotion.scan) {
+                window.wooshMotion.scan(document.getElementById('moreSection'));
+            }
         })();
 
         /* ---------- Mobile nav ----------

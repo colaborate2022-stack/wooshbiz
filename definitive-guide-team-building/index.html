@@ -901,14 +901,45 @@
         </div>
     </article>
 
-    <section class="more-section" id="moreSection" hidden>
+    <section class="more-section" id="moreSection">
         <div class="more-inner">
             <div class="more-head">
                 <span class="section-label">Keep Reading</span>
                 <h2>More From <span>Us</span></h2>
                 <p>Three more reads picked for you from the Woosh Biz blog.</p>
             </div>
-            <div class="blog-grid" id="moreGrid"></div>
+            <div class="blog-grid" id="moreGrid">
+                    <a class="blog-card" href="/team-building-workplace-success/">
+                        <img class="blog-cover" src="/images/blog/blog-28f14ae9.png" alt="Building Success Together: Why Team Building Matters At Work" loading="lazy">
+                        <div class="blog-card-body">
+                            <div class="blog-cat">Team Building</div>
+                            <h3 class="blog-card-title">Building Success Together: Why Team Building Matters At Work</h3>
+                            <p class="blog-excerpt">The magic of teamwork - a to-the-point blog that explores why team building is crucial for an efficient workplace. Make…</p>
+                            <div class="blog-author">Team Woosh Biz</div>
+                            <div class="blog-meta">04 Jan 2024<span class="dot">&bull;</span>1 min read</div>
+                        </div>
+                    </a>
+                    <a class="blog-card" href="/boosting-team-spirit-how-team-building-makes-work-better/">
+                        <img class="blog-cover" src="/images/blog/blog-8d0670e9.png" alt="Boosting Team Spirit: How Team Building Makes Work Better" loading="lazy">
+                        <div class="blog-card-body">
+                            <div class="blog-cat">Team Building</div>
+                            <h3 class="blog-card-title">Boosting Team Spirit: How Team Building Makes Work Better</h3>
+                            <p class="blog-excerpt">Make work fun and get everyone to do a great job. Let’s explore 7 simple ideas that make a team stronger and the workpla…</p>
+                            <div class="blog-author">Team Woosh Biz</div>
+                            <div class="blog-meta">20 Jan 2024<span class="dot">&bull;</span>2 min read</div>
+                        </div>
+                    </a>
+                    <a class="blog-card" href="/leading-the-way-how-leaders-boost-team-building-success/">
+                        <img class="blog-cover" src="/images/blog/blog-afe05476.png" alt="Leading the Way: How Leaders Boost Team Building Success" loading="lazy">
+                        <div class="blog-card-body">
+                            <div class="blog-cat">Team Building</div>
+                            <h3 class="blog-card-title">Leading the Way: How Leaders Boost Team Building Success</h3>
+                            <p class="blog-excerpt">Leadership is the glue that holds a team together and helps them fly! Here are 8 ways to lead. Walk The Talk Leaders lea…</p>
+                            <div class="blog-author">Team Woosh Biz</div>
+                            <div class="blog-meta">22 Jan 2024<span class="dot">&bull;</span>1 min read</div>
+                        </div>
+                    </a>
+                </div>
             <div class="more-all">
                 <a href="/blog.html" class="ghost-btn">View all blogs</a>
             </div>
@@ -1376,7 +1407,12 @@
             if (window.wooshMotion && window.wooshMotion.scan) {
                 window.wooshMotion.scan(document.getElementById('post'));
             }
-            loadRecommendations(POST);
+            /* No loadRecommendations() — the strip below is pre-rendered as
+               real links. Re-running it would replace them with onclick cards
+               and undo the only inbound links these articles have. */
+            if (window.wooshMotion && window.wooshMotion.scan) {
+                window.wooshMotion.scan(document.getElementById('moreSection'));
+            }
         })();
 
         /* ---------- Mobile nav ----------

@@ -901,14 +901,45 @@
         </div>
     </article>
 
-    <section class="more-section" id="moreSection" hidden>
+    <section class="more-section" id="moreSection">
         <div class="more-inner">
             <div class="more-head">
                 <span class="section-label">Keep Reading</span>
                 <h2>More From <span>Us</span></h2>
                 <p>Three more reads picked for you from the Woosh Biz blog.</p>
             </div>
-            <div class="blog-grid" id="moreGrid"></div>
+            <div class="blog-grid" id="moreGrid">
+                    <a class="blog-card" href="/identifying-team-building-needs/">
+                        <img class="blog-cover" src="/images/blog/blog-94de1257.png" alt="Crucial Steps: Identifying Team Building Needs For Your Team" loading="lazy">
+                        <div class="blog-card-body">
+                            <div class="blog-cat">Team Building</div>
+                            <h3 class="blog-card-title">Crucial Steps: Identifying Team Building Needs For Your Team</h3>
+                            <p class="blog-excerpt">Unlock the secret to stronger teams! We help you simplify the process of identifying team building needs for your team w…</p>
+                            <div class="blog-author">Aaron Fernandes</div>
+                            <div class="blog-meta">30 Dec 2024<span class="dot">&bull;</span>1 min read</div>
+                        </div>
+                    </a>
+                    <a class="blog-card" href="/team-building-small-business/">
+                        <img class="blog-cover" src="/images/blog/blog-f8b526a5.png" alt="Team Building For Small Businesses: Affordable, Effective, Fun Ideas!" loading="lazy">
+                        <div class="blog-card-body">
+                            <div class="blog-cat">Team Building</div>
+                            <h3 class="blog-card-title">Team Building For Small Businesses: Affordable, Effective, Fun Ideas!</h3>
+                            <p class="blog-excerpt">Who says team building is just either simple icebreakers or expensive retreats and outbounds? Small businesses build tig…</p>
+                            <div class="blog-author">Team Woosh Biz</div>
+                            <div class="blog-meta">14 Aug 2025<span class="dot">&bull;</span>2 min read</div>
+                        </div>
+                    </a>
+                    <a class="blog-card" href="/team-outing-vs-team-building/">
+                        <img class="blog-cover" src="/images/blog/team-outing-vs-team-building/cover.png" alt="Team Outing vs Team Building: Which Is Better For Your Company?" loading="lazy">
+                        <div class="blog-card-body">
+                            <div class="blog-cat">Team Building</div>
+                            <h3 class="blog-card-title">Team Outing vs Team Building: Which Is Better For Your Company?</h3>
+                            <p class="blog-excerpt">Team outing vs team building: discover the key differences, the benefits of each and how to choose the right experience…</p>
+                            <div class="blog-author">Andrea Costabir</div>
+                            <div class="blog-meta">02 Sept 2026<span class="dot">&bull;</span>3 min read</div>
+                        </div>
+                    </a>
+                </div>
             <div class="more-all">
                 <a href="/blog.html" class="ghost-btn">View all blogs</a>
             </div>
@@ -1376,7 +1407,12 @@
             if (window.wooshMotion && window.wooshMotion.scan) {
                 window.wooshMotion.scan(document.getElementById('post'));
             }
-            loadRecommendations(POST);
+            /* No loadRecommendations() — the strip below is pre-rendered as
+               real links. Re-running it would replace them with onclick cards
+               and undo the only inbound links these articles have. */
+            if (window.wooshMotion && window.wooshMotion.scan) {
+                window.wooshMotion.scan(document.getElementById('moreSection'));
+            }
         })();
 
         /* ---------- Mobile nav ----------
