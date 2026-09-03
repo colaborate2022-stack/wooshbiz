@@ -13,6 +13,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog | Woosh Biz</title>
     <meta name="description" id="metaDesc" content="Read the latest from Woosh Biz on team building, corporate events, and workplace culture.">
+    <!--
+      noindex is the correct default for THIS file. Every published post is
+      pre-rendered to its own slug by tools/build-post.js and redirect_url
+      sends ?id= there, so the only thing this shell ever serves a crawler is
+      an empty article with a generic title — the exact duplicate-page signal
+      Search Console was reporting. "follow" still passes link equity through
+      to the real article.
+
+      build-post.js REPLACES this tag with index,follow when it bakes a page.
+      Do not add a second robots tag anywhere: two tags are combined by taking
+      the most restrictive value, so a stray noindex here would deindex every
+      pre-rendered post on the site.
+    -->
+    <meta name="robots" id="shellRobots" content="noindex, follow">
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="Woosh Biz">
     <meta property="og:title" id="ogTitle" content="Blog | Woosh Biz">

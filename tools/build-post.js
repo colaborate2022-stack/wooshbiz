@@ -273,16 +273,28 @@ function buildPage(template, post, slug) {
     let out = template;
 
     /* --- head --- */
-    /* An explicit robots line rather than relying on the indexable default:
-       max-image-preview:large is what lets a result carry the cover image at
-       full width instead of a thumbnail, and max-snippet:-1 lifts the cap on
-       the description Google may quote. Neither is on by default. */
     out = out.replace(
         '<title>Blog | Woosh Biz</title>',
         `<title>${escapeHtml(title)} | Woosh Biz</title>\n` +
-        `    <link rel="canonical" href="${canonical}">\n` +
-        '    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">'
+        `    <link rel="canonical" href="${canonical}">`
     );
+
+    /* The shell defaults to noindex because an empty article with a generic
+       title is exactly the duplicate Search Console was reporting. A baked page
+       is the real article, so swap that tag out — replacing it rather than
+       adding a second one, because multiple robots tags are combined by taking
+       the most restrictive value and the page would stay noindex.
+
+       max-image-preview:large is what lets a result carry the cover at full
+       width instead of a thumbnail, and max-snippet:-1 lifts the cap on the
+       description Google may quote. Neither is on by default. */
+    const shellRobots = /\s*<!--\n      noindex is the correct default[\s\S]*?-->\n\s*<meta name="robots" id="shellRobots"[^>]*>/;
+    if (!shellRobots.test(out)) {
+        throw new Error('blog-post.html no longer carries the shellRobots tag — ' +
+            'a baked page would inherit noindex. Fix the template or this replace.');
+    }
+    out = out.replace(shellRobots,
+        '\n    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">');
     const setContent = (id, value) => {
         const re = new RegExp(`(id="${id}"[^>]*content=")[^"]*(")`);
         const re2 = new RegExp(`(content=")[^"]*("[^>]*id="${id}")`);
