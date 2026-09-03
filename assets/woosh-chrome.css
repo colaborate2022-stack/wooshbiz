@@ -168,17 +168,31 @@
 @media (max-width: 968px) {
     .hamburger { display: flex; }
 
+    /* Anchored to the navbar with `absolute`, not to the viewport with `fixed`.
+       woosh-3d puts `transform` and `backface-visibility` on .navbar (.w3d-nav,
+       for the visual-viewport pin), and either of those makes the bar the
+       containing block for any fixed descendant. A fixed drawer then resolved
+       `inset: var(--nav-h) 0 0 0` against the 72px-tall bar instead of the
+       screen and collapsed to zero height — the menu opened, the hamburger
+       became an X, and nothing was drawn. The bar is itself position:fixed, so
+       absolute here pins to the screen exactly as intended, and the drawer now
+       rides the pin offset with the bar for free. */
     .nav-links {
-        position: fixed; inset: var(--nav-h) 0 0 0;
+        position: absolute; top: 100%; left: 0; right: 0;
+        height: calc(100vh - var(--nav-h));
+        height: calc(100dvh - var(--nav-h));
         flex-direction: column; align-items: stretch; justify-content: flex-start;
         gap: 0; padding: 20px var(--gut);
         background: var(--night);
         transform: translateX(100%);
-        transition: transform var(--t) var(--ease);
+        /* Hidden while closed so the off-screen panel cannot be tabbed into or
+           add to the page's scrollable width. */
+        visibility: hidden;
+        transition: transform var(--t) var(--ease), visibility var(--t);
         overflow-y: auto;
         overscroll-behavior: contain;
     }
-    .nav-links.open { transform: translateX(0); }
+    .nav-links.open { transform: translateX(0); visibility: visible; }
     .nav-links > li > a {
         padding: 18px 0; font-size: 1rem;
         border-bottom: 1px solid var(--line);
