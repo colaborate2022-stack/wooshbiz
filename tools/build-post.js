@@ -163,6 +163,45 @@ function headings(body) {
     return out;
 }
 
+/* An <h3> question followed by its <p> answer, anywhere after a heading that
+   announces an FAQ, is a Question/Answer pair. Google will only consider a
+   page for the FAQ rich result if the answer text is in the markup — which it
+   never was while the body arrived from the CMS after load. Returns [] for the
+   posts that have no FAQ, and those pages then carry no FAQPage node. */
+function faqEntries(body) {
+    const start = body.search(/<h[23][^>]*>[^<]*(Frequently Asked Questions|FAQs?)\b/i);
+    if (start === -1) return [];
+    const re = /<h3(?:\s[^>]*)?>([\s\S]*?)<\/h3>\s*<p>([\s\S]*?)<\/p>/g;
+    const out = [];
+    let m;
+    while ((m = re.exec(body.slice(start)))) {
+        out.push({
+            '@type': 'Question',
+            name: stripHtml(m[1]),
+            acceptedAnswer: { '@type': 'Answer', text: stripHtml(m[2]) },
+        });
+    }
+    return out;
+}
+
+/* A listicle numbers its <h2>s ("1. Treasure Hunt or Amazing Race"). Declaring
+   those as an ItemList is what lets a result carry the list of items rather
+   than one snippet, and the per-item #anchor is what Google links them to. */
+function listItems(body, canonical) {
+    const out = [];
+    for (const h of headings(body)) {
+        const m = h.label.match(/^(\d+)\.\s*(.+)$/);
+        if (!m) continue;
+        out.push({
+            '@type': 'ListItem',
+            position: Number(m[1]),
+            name: m[2].trim(),
+            url: `${canonical}#${h.id}`,
+        });
+    }
+    return out;
+}
+
 /* Body images come out of the CMS as bare <img src alt>. Without intrinsic
    dimensions the browser reserves no space, so every image that loads shoves
    the article down — the layout shift half of Core Web Vitals. The files are
@@ -234,9 +273,15 @@ function buildPage(template, post, slug) {
     let out = template;
 
     /* --- head --- */
+    /* An explicit robots line rather than relying on the indexable default:
+       max-image-preview:large is what lets a result carry the cover image at
+       full width instead of a thumbnail, and max-snippet:-1 lifts the cap on
+       the description Google may quote. Neither is on by default. */
     out = out.replace(
         '<title>Blog | Woosh Biz</title>',
-        `<title>${escapeHtml(title)} | Woosh Biz</title>\n    <link rel="canonical" href="${canonical}">`
+        `<title>${escapeHtml(title)} | Woosh Biz</title>\n` +
+        `    <link rel="canonical" href="${canonical}">\n` +
+        '    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">'
     );
     const setContent = (id, value) => {
         const re = new RegExp(`(id="${id}"[^>]*content=")[^"]*(")`);
@@ -298,6 +343,31 @@ function buildPage(template, post, slug) {
             ],
         },
     ];
+
+    /* Only for the posts that earn them: a numbered listicle gets an ItemList,
+       an article with an FAQ section gets a FAQPage. Emitting either one empty
+       is a structured-data error in Search Console, so both are conditional. */
+    const items = listItems(body, canonical);
+    if (items.length) {
+        ld.push({
+            '@context': 'https://schema.org',
+            '@type': 'ItemList',
+            name: title,
+            itemListOrder: 'https://schema.org/ItemListOrderAscending',
+            numberOfItems: items.length,
+            itemListElement: items,
+        });
+    }
+
+    const faq = faqEntries(body);
+    if (faq.length) {
+        ld.push({
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: faq,
+        });
+    }
+
     out = out.replace(
         /<script type="application\/ld\+json" id="ldJson">[\s\S]*?<\/script>/,
         `<script type="application/ld+json" id="ldJson">${JSON.stringify(ld, null, 2)}</script>`
