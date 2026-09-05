@@ -150,8 +150,10 @@
    Back to top
    -------------------------------------------------------------------------- */
 
+/* Bottom-right belongs to the WhatsApp CTA now — that one earns money, this
+   one is a convenience — so back-to-top stacks above it. 22 + 52 + 14. */
 .scroll-to-top {
-    position: fixed; right: 22px; bottom: 22px; z-index: var(--z-top);
+    position: fixed; right: 22px; bottom: 88px; z-index: var(--z-top);
     width: 46px; height: 46px; border-radius: 50%;
     border: 1px solid var(--line); background: var(--deep); color: var(--paper);
     font-size: 1.1rem; cursor: pointer;
@@ -160,6 +162,60 @@
 }
 .scroll-to-top.visible { opacity: 1; visibility: visible; }
 .scroll-to-top:hover { background: var(--plum); }
+
+/* --------------------------------------------------------------------------
+   Floating WhatsApp CTA
+
+   Injected by woosh-ui.js on every page, so there is no markup for it in any
+   of the HTML files. Deliberately shaped like the hero's .cta-button rather
+   than like the plain green bubble every other site uses: plum pill, white
+   label, and the green reserved for the icon chip so the WhatsApp cue is
+   still unmistakable at a glance.
+
+   It fades in past 500px, the same threshold as back-to-top above, so the
+   corner fills in one movement instead of two.
+   -------------------------------------------------------------------------- */
+
+.cta-float {
+    position: fixed; right: 22px; bottom: 22px; z-index: var(--z-top);
+    display: inline-flex; align-items: center; gap: 9px;
+    height: 52px; padding: 0 20px 0 8px;
+    border-radius: var(--r-pill);
+    background: linear-gradient(120deg, var(--plum), var(--plum-l));
+    color: #fff; font-family: var(--body); font-weight: 600; font-size: .9rem;
+    text-decoration: none; white-space: nowrap;
+    box-shadow: 0 14px 34px -12px rgba(0, 0, 0, .55);
+    opacity: 0; visibility: hidden;
+    transform: translateY(10px);
+    transition: opacity var(--t), visibility var(--t),
+                transform var(--t) var(--ease), box-shadow var(--t);
+}
+
+.cta-float.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+
+.cta-float:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 20px 40px -12px rgba(0, 0, 0, .65);
+}
+
+.cta-float svg {
+    width: 36px; height: 36px; padding: 8px; flex-shrink: 0;
+    background: #25D366; border-radius: 50%; color: #fff;
+    box-sizing: border-box;
+}
+
+/* Under 420px the label would push the pill most of the way across a phone,
+   so it drops to the icon alone. The aria-label on the anchor is what names
+   it either way, so nothing is lost when the text goes. */
+@media (max-width: 420px) {
+    .cta-float { padding: 0 8px; height: 52px; }
+    .cta-float span { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cta-float { transform: none; transition: opacity var(--t), visibility var(--t); }
+    .cta-float.visible, .cta-float:hover { transform: none; }
+}
 
 /* --------------------------------------------------------------------------
    Mobile

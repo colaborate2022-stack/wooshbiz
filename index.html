@@ -354,16 +354,79 @@
     .durations .panel.link-panel .go { margin-top: auto; padding-top: 14px; }
     </style>
 
+    <!-- The one canonical description of the business.
+
+         It used to be a bare Organization here and a SEPARATE, unlinked
+         LocalBusiness on contact.html, which reads to a search engine as two
+         different companies that happen to share a phone number — neither one
+         carrying enough detail to earn a knowledge panel.
+
+         Now every page names the same entity by the same @id, and this is the
+         full version of it — the only place carrying the rating, the contact
+         point and knowsAbout.
+
+         The other pages repeat an identifying subset (type, @id, name, url,
+         logo) rather than pointing at the @id and nothing else. That looks
+         like pointless duplication and isn't: Google does not reliably follow
+         an @id across page boundaries, so a bare reference here would leave
+         about.html and contact.html describing an entity the crawler cannot
+         resolve, and would strip the provider name off the two Service blocks
+         that need one. Each page has to stand alone; the shared @id is what
+         tells anything that DOES follow it that all five are one company.
+
+         So: change an identifying field and it needs changing in all five.
+         Change the rating or the contact point and it only lives here.
+
+         LocalBusiness rather than Organization because it is the more specific
+         type and inherits everything Organization has. -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Organization",
+      "@type": "LocalBusiness",
+      "@id": "https://wooshbiz.com/#organization",
       "name": "Woosh Biz",
-      "url": "https://wooshbiz.com",
-      "description": "Corporate team building programs across India",
-      "telephone": "+91 9210804078",
+      "legalName": "Woosh Biz by HTI India Pvt Ltd",
+      "alternateName": "Woosh Biz by HTI",
+      "slogan": "No gyaan. Just fun with learning.",
+      "url": "https://wooshbiz.com/",
+      "logo": "https://wooshbiz.com/images/wix/wix-2f36ed41.png",
+      "image": "https://wooshbiz.com/images/og-default.png",
+      "description": "Woosh Biz designs high-energy corporate team building programmes across India — in-office, outdoor and virtual. 30+ unique events built to make teams happier, not to lecture them.",
+      "telephone": "+91-92108-04078",
       "email": "javed@hti-india.com",
-      "areaServed": "India"
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Mumbai",
+        "addressRegion": "Maharashtra",
+        "addressCountry": "IN"
+      },
+      "areaServed": { "@type": "Country", "name": "India" },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+91-92108-04078",
+        "email": "javed@hti-india.com",
+        "contactType": "sales",
+        "areaServed": "IN",
+        "availableLanguage": ["en", "hi"]
+      },
+      "knowsAbout": [
+        "Corporate team building",
+        "Employee engagement",
+        "Corporate offsites",
+        "Virtual team building"
+      ],
+      "sameAs": [
+        "https://www.facebook.com/people/Woosh-Biz-by-HTI/100083456102229/",
+        "https://www.instagram.com/wooshbiz/",
+        "https://www.linkedin.com/company/woosh-biz-by-hti/",
+        "https://www.youtube.com/channel/UC9BdT9tzf4841P1B-R7P-Qg"
+      ],
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.5",
+        "ratingCount": "150",
+        "bestRating": "5"
+      }
     }
     </script>
 </head>

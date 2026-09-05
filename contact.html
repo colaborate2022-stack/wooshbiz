@@ -90,21 +90,25 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "name": "Woosh Biz by HTI India Pvt Ltd",
+      "@type": "ContactPage",
       "url": "https://wooshbiz.com/contact.html",
-      "telephone": "+91-92108-04078",
-      "email": "javed@hti-india.com",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Mumbai",
-        "addressRegion": "Maharashtra",
-        "addressCountry": "IN"
-      },
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.5",
-        "ratingCount": "150"
+      "name": "Contact Woosh Biz",
+      "mainEntity": {
+        "@type": "LocalBusiness",
+        "@id": "https://wooshbiz.com/#organization",
+        "name": "Woosh Biz",
+        "legalName": "Woosh Biz by HTI India Pvt Ltd",
+        "url": "https://wooshbiz.com/",
+        "logo": "https://wooshbiz.com/images/wix/wix-2f36ed41.png",
+        "telephone": "+91-92108-04078",
+        "email": "javed@hti-india.com",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Mumbai",
+          "addressRegion": "Maharashtra",
+          "addressCountry": "IN"
+        },
+        "areaServed": { "@type": "Country", "name": "India" }
       }
     }
     </script>
@@ -514,11 +518,21 @@
                 '<h3>Thanks, ' + escapeHtml(first) + ' — that reached us.</h3>' +
                 '<p class="dim">Someone from the team will reply within 24 hours, usually sooner. ' +
                 'If you would rather not wait, WhatsApp gets you an answer in minutes.</p>' +
-                '<a class="act" data-magnetic href="' + WHATSAPP + '" target="_blank" rel="noopener">' +
+                '<a class="act" data-magnetic href="' + WHATSAPP + '" target="_blank" rel="noopener" ' +
+                    'data-cta-note="After enquiry form">' +
                     '<span>Continue on WhatsApp</span>' +
                 '</a>' +
             '</div>';
         panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        // This link did not exist when woosh-ui.js ran its pass, so it would
+        // otherwise open an empty WhatsApp box — the one place on the site
+        // where we already know exactly who is writing.
+        if (window.wooshFillWhatsApp) window.wooshFillWhatsApp(panel);
+
+        // The only hard conversion on the site. Fired here rather than on
+        // submit so a failed insert is never counted as a lead.
+        if (window.wooshTrack) window.wooshTrack('enquiry_submit');
     }
 
     function escapeHtml(str) {
