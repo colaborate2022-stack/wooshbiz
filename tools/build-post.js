@@ -340,11 +340,35 @@ function buildPage(template, post, slug, allPosts) {
 
     let out = template;
 
+    /* Every substitution below is a string this generator expects to find in
+       blog-post.html. String.replace() answers a miss by returning the input
+       untouched, so a template edit does not break the build — it ships 44
+       pages with the placeholder still in place, which is precisely the empty
+       "Blog | Woosh Biz" shell this tool exists to eliminate. The header
+       invites restyling the template, so that edit will happen.
+
+       sub() makes a miss fatal. Use it for anything whose absence would ship a
+       broken page; plain .replace() stays fine for the global URL rewrites
+       below, where zero matches is a legitimate outcome for some posts. */
+    const sub = (haystack, pattern, replacement, what) => {
+        const next = haystack.replace(pattern, replacement);
+        if (next === haystack) {
+            throw new Error(
+                `build-post: could not find the ${what} placeholder in blog-post.html.\n` +
+                `  Expected: ${String(pattern).slice(0, 90)}\n` +
+                `  The template changed. Update the matching rule in tools/build-post.js — ` +
+                `without this the page would have shipped with the placeholder intact.`
+            );
+        }
+        return next;
+    };
+
     /* --- head --- */
-    out = out.replace(
+    out = sub(out,
         '<title>Blog | Woosh Biz</title>',
         `<title>${escapeHtml(title)} | Woosh Biz</title>\n` +
-        `    <link rel="canonical" href="${canonical}">`
+        `    <link rel="canonical" href="${canonical}">`,
+        'title'
     );
 
     /* The shell defaults to noindex because an empty article with a generic
@@ -448,17 +472,19 @@ function buildPage(template, post, slug, allPosts) {
         });
     }
 
-    out = out.replace(
+    out = sub(out,
         /<script type="application\/ld\+json" id="ldJson">[\s\S]*?<\/script>/,
-        `<script type="application/ld+json" id="ldJson">${JSON.stringify(ld, null, 2)}</script>`
+        `<script type="application/ld+json" id="ldJson">${JSON.stringify(ld, null, 2)}</script>`,
+        'JSON-LD block'
     );
 
     /* --- article --- */
-    out = out.replace(
+    out = sub(out,
         /\s*<!-- Loading \/ error state[\s\S]*?<div class="article-status" id="pageStatus">Loading…<\/div>/,
-        ''
+        '',
+        'loading placeholder'
     );
-    out = out.replace('<article id="post" hidden>', '<article id="post">');
+    out = sub(out, '<article id="post" hidden>', '<article id="post">', 'article reveal');
     out = out.replace(
         '<header class="article-hero" id="articleHero">',
         cover
@@ -469,8 +495,8 @@ function buildPage(template, post, slug, allPosts) {
         `<span class="current" id="crumbCat">${escapeHtml(category)}</span>`);
     out = out.replace('<span class="article-tag" id="artTag">General</span>',
         `<span class="article-tag" id="artTag">${escapeHtml(category)}</span>`);
-    out = out.replace('<h1 id="artTitle">Untitled</h1>',
-        `<h1 id="artTitle">${escapeHtml(title)}</h1>`);
+    out = sub(out, '<h1 id="artTitle">Untitled</h1>',
+        `<h1 id="artTitle">${escapeHtml(title)}</h1>`, 'article h1');
 
     const published = formatDate(post.created_at) || '—';
     out = out.replace(
@@ -502,9 +528,10 @@ function buildPage(template, post, slug, allPosts) {
             : '<img class="cover-image" id="artCover" alt="" hidden>'
     );
 
-    out = out.replace(
+    out = sub(out,
         '<div class="article-body" id="artBody"></div>',
-        `<div class="article-body" id="artBody">${body}</div>`
+        `<div class="article-body" id="artBody">${body}</div>`,
+        'article body'
     );
 
     /* TOC, baked. blog-post.html hides it below two headings; match that. */
@@ -557,7 +584,7 @@ function buildPage(template, post, slug, allPosts) {
        failed fetch it would blank a page that was serving fine. Everything it
        does beyond rendering — share buttons, scroll-spy, motion, suggestions —
        still has to happen, so call those directly against the baked post. */
-    out = out.replace(
+    out = sub(out,
         '        loadPost();',
         `        /* Pre-rendered by tools/build-post.js — the markup above is the
            source of truth. Wire up the interactive parts only. */
@@ -575,7 +602,8 @@ function buildPage(template, post, slug, allPosts) {
             if (window.wooshMotion && window.wooshMotion.scan) {
                 window.wooshMotion.scan(document.getElementById('moreSection'));
             }
-        })();`
+        })();`,
+        'loadPost() call site'
     );
 
     return out;
