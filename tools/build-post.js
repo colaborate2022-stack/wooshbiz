@@ -20,7 +20,12 @@
    This generator bakes a post into a standalone page at its slug:
 
        node tools/build-post.js 46          build post 46 into <slug>/index.html
-       node tools/build-post.js --check     rebuild all and exit 1 on drift
+       node tools/build-post.js             build every published post
+       node tools/build-post.js --check     check every published post, exit 1 on drift
+       node tools/build-post.js 46 --check  check just post 46
+
+   Every run prints how many pages it covered. A --check over a subset is
+   green about that subset only, so the count is the number to read.
 
    It is a compiler, not a linter — the opposite of sync-partials.js. The
    generated file is committed (GitHub Pages has no build step) and is
@@ -662,16 +667,32 @@ async function build(id, { check = false } = {}) {
 async function main() {
     const args = process.argv.slice(2);
     const check = args.includes('--check');
-    const ids = args.filter(a => /^\d+$/.test(a));
+    let ids = args.filter(a => /^\d+$/.test(a));
 
+    /* The header has always documented `--check` on its own as "rebuild all",
+       but the code demanded explicit ids and exited 2 without them, so that
+       mode did not exist and every caller hand-assembled an id list instead.
+       A --check over a partial list is worse than no check: it goes green
+       while saying nothing about the posts left off it, which is how a
+       template edit rebuilt for one post leaves the other 43 stale and still
+       reports ok. No ids now means every published post. */
     if (!ids.length) {
-        console.error("usage: node tools/build-post.js <id> [<id>...] [--check]");
-        process.exitCode = 2;
-        return;
+        ids = (await fetchAllPosts()).map(p => p.id);
+        if (!ids.length) {
+            console.error('build-post: no published posts found.');
+            process.exitCode = 2;
+            return;
+        }
     }
 
     let bad = 0;
     for (const id of ids) bad += await build(id, { check });
+
+    /* Scope is the one thing this tool cannot check about itself, so the count
+       is always printed: a run that silently covered 3 pages instead of 44 is
+       only visible here. */
+    console.log(`${check ? 'checked' : 'built'} ${ids.length} page(s)` +
+        (bad ? ` — ${bad} drifted` : check ? ' — no drift' : ''));
     // Set the code rather than calling process.exit(): undici's keep-alive
     // socket from fetch() is still closing, and tearing the loop down under it
     // trips a libuv assertion on Windows. Letting the process end on its own
