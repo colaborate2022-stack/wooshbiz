@@ -545,14 +545,32 @@
         '404.html':         'Page not found'
     };
 
+    /* Landing pages sit at legacy Wix URLs, so they are folders like the blog
+       posts and cannot be told apart from one by their shape. Keyed by slug,
+       and checked before the blog fallback below — otherwise a full-day
+       programme enquiry files itself under "Blog: One day is enough…" and the
+       highest-intent leads on the site land in the wrong bucket. */
+    var LANDING_LABELS = {
+        'epic-1-day-team-building': '1-Day programme',
+        'thrilling-2-day-team-building-retreat': '2-Day retreat'
+    };
+
     var pageLabel = (function () {
-        var path = W.location.pathname;
-        // A trailing slash leaves an empty last segment. Only the site root
-        // means the home page — every blog post is served from its own folder
-        // as /slug/, and those must fall through to the heading below rather
-        // than all reporting themselves as Home.
-        var file = path.split('/').pop() || (path === '/' ? 'index.html' : '');
-        if (file && PAGE_LABELS[file]) return PAGE_LABELS[file];
+        var parts = W.location.pathname.split('/').filter(Boolean);
+        var file = parts[parts.length - 1] || 'index.html';
+
+        // PAGE_LABELS is keyed by ROOT-LEVEL filenames, so it may only answer
+        // for root-level paths: the site root (no segments) or a single
+        // 'about.html' segment. Consulting it for /slug/index.html is what
+        // made every folder-served page report itself as Home — the last
+        // segment there is literally 'index.html', so it matched and returned
+        // before the two lookups below could run.
+        if (parts.length <= 1 && PAGE_LABELS[file]) return PAGE_LABELS[file];
+
+        // The folder a page is served from, for both URL shapes it has:
+        // /slug/ and /slug/index.html.
+        var slug = file === 'index.html' ? parts[parts.length - 2] : file;
+        if (slug && LANDING_LABELS[slug]) return LANDING_LABELS[slug];
         // Everything else that carries a CTA is a blog post in its own folder.
         var h1 = D.querySelector('h1');
         var name = ((h1 && h1.textContent) || D.title || '')

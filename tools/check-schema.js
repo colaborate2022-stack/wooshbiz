@@ -230,39 +230,11 @@ if (!entityNodes.length) {
    Pass 3 — hand-maintained FAQPage blocks must match the visible FAQ
    ------------------------------------------------------------------------- */
 
-const FAQ_ITEM_RE =
-    /<div class="faq-question">([\s\S]*?)<\/div>\s*<div class="faq-answer">([\s\S]*?)<\/div>/g;
-
-/* A hardcoded list of four named entities was the same trap in miniature: the
-   day an answer gains an &eacute; or a &#8217;, the decode misses it, the text
-   stops matching the schema and the tool reports drift that isn't there. A
-   checker that cries wolf gets switched off, so decode generically — numeric
-   first, then the named entities that actually occur in HTML prose. */
-const NAMED_ENTITIES = {
-    amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ',
-    mdash: '—', ndash: '–', hellip: '…',
-    lsquo: '‘', rsquo: '’', ldquo: '“', rdquo: '”',
-    eacute: 'é', egrave: 'è', uuml: 'ü', ouml: 'ö', auml: 'ä',
-    deg: '°', times: '×', middot: '·', bull: '•',
-    rarr: '→', larr: '←', trade: '™', copy: '©', reg: '®'
-};
-
-function decodeEntities(s) {
-    return s
-        .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
-        .replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(parseInt(d, 10)))
-        .replace(/&([a-z]+);/gi, (m, name) => {
-            const hit = NAMED_ENTITIES[name.toLowerCase()];
-            return hit === undefined ? m : hit;
-        });
-}
-
-/** Visible answer text, as a crawler would read it. */
-function visibleText(html) {
-    return decodeEntities(html.replace(/<[^>]+>/g, ''))
-        .replace(/\s+/g, ' ')
-        .trim();
-}
+/* Entity decoding and tag stripping live in tools/lib/faq-text.js, because
+   gen-faq-schema.js writes the schema this pass then judges and the two have
+   to agree character for character. Two copies would disagree at the first
+   &mdash; a page gained, and this tool would report drift that isn't there. */
+const { FAQ_ITEM_RE, visibleText } = require('./lib/faq-text');
 
 /* The floor, plus every page the scan found carrying visible FAQ markup. The
    generated posts emit their listicle FAQPage from build-post.js and use

@@ -59,7 +59,25 @@ function indent(block, pad) {
     return block.split('\n').map(l => (l.trim() ? pad + l : l)).join('\n');
 }
 
-const files = fs.readdirSync(ROOT).filter(f => f.endsWith('.html'));
+/* Landing pages live one directory down, at the legacy Wix URLs they inherited,
+   so a readdir of ROOT alone would miss them and let their nav rot — which is
+   the exact drift this tool exists to stop. Listed explicitly rather than found
+   by a recursive walk: every pre-rendered blog post also carries these
+   sentinels, but build-post.js owns those and writes them with a base this tool
+   would not infer. A walk would "fix" them into relative hrefs and break every
+   post. Add a line here when a landing page is added.
+
+   Each one must declare base="/" on its sentinel, because it is served from a
+   subdirectory and relative hrefs would resolve inside it. */
+const LANDING_PAGES = [
+    'epic-1-day-team-building/index.html',
+    'thrilling-2-day-team-building-retreat/index.html'
+];
+
+const files = [
+    ...fs.readdirSync(ROOT).filter(f => f.endsWith('.html')),
+    ...LANDING_PAGES.filter(f => fs.existsSync(path.join(ROOT, f)))
+];
 let changed = [];
 let touched = 0;
 

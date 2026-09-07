@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!--
-    Regenerated 2026-08-24. Lists the seven real pages plus one entry per
-    published post in wooshbiz_blogs.
+    Regenerated 2026-08-24, extended 2026-09-07. Lists the seven real pages,
+    the programme landing pages, and one entry per published post in
+    wooshbiz_blogs.
 
     Deliberately absent: admin.html, tier-test.html, virtual.html,
     outbound.html, 404.html, and every legacy redirect stub under /post/,
     /timeline-blogs/ and /timeline-blog-posts/. The stubs must stay
     crawlable so they can pass their ranking on, but advertising a
     redirect in the sitemap invites Google to index the stub itself.
+
+    /epic-1-day-team-building/ and
+    /thrilling-2-day-team-building-retreat/ are the exceptions that prove that
+    rule: both were stubs and are now real pages, so they belong here. The
+    other four duration stubs are still redirects and still absent.
   -->
   <url>
     <loc>https://wooshbiz.com/</loc>
@@ -23,6 +29,16 @@
   <url>
     <loc>https://wooshbiz.com/outdoors.html</loc>
     <lastmod>2026-08-24</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://wooshbiz.com/epic-1-day-team-building/</loc>
+    <lastmod>2026-09-07</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://wooshbiz.com/thrilling-2-day-team-building-retreat/</loc>
+    <lastmod>2026-09-07</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
