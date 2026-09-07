@@ -260,7 +260,12 @@
            Plum band carrying the same slow gradient drift as the homepage
            strips. The cover image sits behind it, heavily darkened, so every
            post gets its own tint without ever fighting the brand colour.
-           The cover card below then overlaps this band — the magazine look.
+           This wash is the only place the cover artwork is shown at size. It
+           is 315x150 — a thumbnail — so at any foreground size it upscales and
+           blurs, worst on a 3x phone where a full-width slot is ~1050 device
+           pixels. Behind blur(26px) at .34 opacity that softness is invisible
+           and intentional, so the artwork still tints every post while the
+           sharp text above carries the meaning.
            ================================================================== */
         .article-hero {
             position: relative;
@@ -271,7 +276,9 @@
             color: #fff;
             /* Clears the shared woosh-chrome navbar, which is position:fixed
                and so sits over the top of this hero rather than above it. */
-            padding: calc(var(--nav-h) + 40px) 24px 130px;
+            /* Was 130px to leave room for the cover card to overlap; without
+               it the band just needs its own breathing room. */
+            padding: calc(var(--nav-h) + 40px) 24px 58px;
             overflow: hidden;
         }
         /* Cover image as an atmospheric wash behind the headline. */
@@ -380,32 +387,13 @@
         .post-layout {
             max-width: 1180px;
             margin: 0 auto;
-            padding: 0 24px 10px;
+            padding: 40px 24px 10px;
             display: grid;
             grid-template-columns: 66px minmax(0, 1fr) 232px;
             gap: 34px;
             align-items: start;
         }
         .post-main { min-width: 0; max-width: 760px; margin: 0 auto; width: 100%; }
-
-        /* Cover card lifts out of the hero band. */
-        .cover-image {
-            width: 100%;
-            /* Covers are 2.1:1 artwork with the article title baked in — any
-               other ratio makes object-fit crop the text off. Depends on the
-               `img { height: auto }` reset above to apply at all — with the
-               baked height attribute standing, this box is 100% x 150px (~5:1)
-               and object-fit:cover crops the title away. */
-            aspect-ratio: 2.1 / 1;
-            object-fit: cover;
-            border-radius: 18px;
-            margin-top: -96px;
-            margin-bottom: 34px;
-            border: 6px solid #fff;
-            box-shadow: 0 26px 60px -26px rgba(92, 19, 73, .55);
-            background: linear-gradient(135deg, #871e6c, #8E2158);
-        }
-        .cover-image.is-placeholder { border-color: #fff; }
 
         /* ---------- Sticky share rail (desktop) ----------
            The top margin keeps the rail clear of the hero's bottom edge on
@@ -818,8 +806,8 @@
             .post-layout { grid-template-columns: 1fr; padding-left: 20px; padding-right: 20px; }
             .share-rail { display: none; }
             .share-bar { display: flex; }
-            .article-hero { padding: calc(var(--nav-h) + 28px) 22px 110px; }
-            .cover-image { margin-top: -84px; border-width: 5px; border-radius: 15px; }
+            .article-hero { padding: calc(var(--nav-h) + 28px) 22px 46px; }
+            .post-layout { padding-top: 30px; }
             .article-body { font-size: 17px; }
             .article-body > p:first-of-type::first-letter { font-size: 3.4rem; }
             .author-card { flex-direction: column; align-items: flex-start; text-align: left; }
@@ -837,7 +825,6 @@
            :hover rules above — the engine adds .w3d-focus to whatever is
            crossing the middle of the viewport.
            ================================================================== */
-        .cover-image.w3d-focus { box-shadow: 0 34px 70px -26px rgba(92, 19, 73, 0.62); }
         .blog-card.w3d-focus { box-shadow: 0 16px 34px rgba(0, 0, 0, 0.12); }
         .blog-card.w3d-focus .blog-cat { background: var(--wb-primary); color: #fff; }
 </style>
@@ -938,7 +925,6 @@
             </aside>
 
             <div class="post-main">
-                <img class="cover-image" id="artCover" src="/images/blog/blog-0fc91fb5.png" alt="Leadership Development Programs for College Students | Student Leadership Program" width="315" height="150" fetchpriority="high" decoding="async">
                 <nav class="toc-inline has-items" id="tocInline" aria-label="In this article">
                     <h4>In this article</h4>
                     <div id="tocInlineList"><a href="#1-builds-self-confidence-1">1. 🧠 Builds Self Confidence</a><a href="#2-improves-teamwork-skills-2">2. 🤝 Improves Teamwork Skills</a><a href="#3-strengthens-communication-skills-3">3. 💬 Strengthens Communication Skills</a><a href="#4-teaches-responsibility-4">4. 🎯 Teaches Responsibility</a><a href="#5-enhances-problem-solving-skills-5">5. 🧩 Enhances Problem-Solving Skills</a><a href="#6-develops-emotional-intelligence-6">6. 🌱 Develops Emotional Intelligence</a><a href="#7-prepares-students-for-the-future-7">7. 🚀 Prepares Students For The Future</a><a href="#8-inspires-future-leaders-8">8. 🌟 Inspires Future Leaders</a><a href="#why-leadership-development-matters-9">Why Leadership Development Matters</a><a href="#looking-to-organize-leadership-workshops-for-college-student-10">📢 Looking to Organize Leadership Workshops for College Students?</a></div>
@@ -1420,16 +1406,8 @@
                 </div>`;
 
             const hero = document.getElementById('articleHero');
-            const coverEl = document.getElementById('artCover');
             if (b.cover_image) {
                 hero.style.setProperty('--hero-img', `url("${encodeURI(b.cover_image)}")`);
-                coverEl.src = b.cover_image;
-                coverEl.alt = title;
-                coverEl.hidden = false;
-            } else {
-                coverEl.classList.add('is-placeholder');
-                coverEl.removeAttribute('src');
-                coverEl.hidden = false;
             }
 
             document.getElementById('artBody').innerHTML = b.body || '';

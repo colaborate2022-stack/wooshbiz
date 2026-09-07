@@ -525,13 +525,11 @@ function buildPage(template, post, slug, allPosts) {
                 </div>`
     );
 
-    const coverSize = post.cover_image ? imageSize(post.cover_image) : null;
-    out = out.replace(
-        '<img class="cover-image" id="artCover" alt="" hidden>',
-        cover
-            ? `<img class="cover-image" id="artCover" src="${cover}" alt="${escapeHtml(title)}"${coverSize ? ` width="${coverSize.w}" height="${coverSize.h}"` : ''} fetchpriority="high" decoding="async">`
-            : '<img class="cover-image" id="artCover" alt="" hidden>'
-    );
+    /* No cover card any more. The artwork is 315x150 — Wix never stored a
+       larger original — so shown at column width it upscaled 2.4x on desktop
+       and ~3.3x on a 3x phone. It now appears only as the hero wash (blurred
+       by design), on listing cards and as the og:image, all of which it has
+       the pixels for. `cover` still feeds those. */
 
     out = sub(out,
         '<div class="article-body" id="artBody"></div>',
