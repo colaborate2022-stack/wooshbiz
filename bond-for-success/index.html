@@ -164,7 +164,14 @@
         }
 
         a { text-decoration: none; color: inherit; }
-        img { display: block; max-width: 100%; }
+        /* height:auto is load-bearing, and is the half of woosh-base.css's
+           reset this page had dropped. Images carry width/height attributes so
+           the browser can reserve their space before the file lands, but those
+           are presentational hints — a definite height that beats a bare
+           `aspect-ratio` and leaves object-fit cropping or stretching the
+           photo. This page cannot link woosh-base.css (it is dark-themed; see
+           the light-page guard below), so the rule is restored here. */
+        img { display: block; max-width: 100%; height: auto; }
 
         /* ============ NAV (matches index.html) ============ */
         .navbar {
@@ -373,7 +380,10 @@
         .cover-image {
             width: 100%;
             /* Covers are 2.1:1 artwork with the article title baked in — any
-               other ratio makes object-fit crop the text off. */
+               other ratio makes object-fit crop the text off. Depends on the
+               `img { height: auto }` reset above to apply at all — with the
+               baked height attribute standing, this box is 100% x 150px (~5:1)
+               and object-fit:cover crops the title away. */
             aspect-ratio: 2.1 / 1;
             object-fit: cover;
             border-radius: 18px;

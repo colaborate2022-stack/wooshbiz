@@ -119,7 +119,14 @@
         }
 
         a { text-decoration: none; color: inherit; }
-        img { display: block; max-width: 100%; }
+        /* height:auto is load-bearing, and is the half of woosh-base.css's
+           reset this page had dropped. Images carry width/height attributes so
+           the browser can reserve their space before the file lands, but those
+           are presentational hints — a definite height that beats a bare
+           `aspect-ratio` and leaves object-fit cropping or stretching the
+           photo. This page cannot link woosh-base.css (it is dark-themed; see
+           the light-page guard below), so the rule is restored here. */
+        img { display: block; max-width: 100%; height: auto; }
 
         /* ============ NAV (matches index.html) ============ */
         .navbar {
@@ -328,7 +335,10 @@
         .cover-image {
             width: 100%;
             /* Covers are 2.1:1 artwork with the article title baked in — any
-               other ratio makes object-fit crop the text off. */
+               other ratio makes object-fit crop the text off. Depends on the
+               `img { height: auto }` reset above to apply at all — with the
+               baked height attribute standing, this box is 100% x 150px (~5:1)
+               and object-fit:cover crops the title away. */
             aspect-ratio: 2.1 / 1;
             object-fit: cover;
             border-radius: 18px;
@@ -926,7 +936,7 @@
                             <h3 class="blog-card-title">Team Outing vs Team Building: Which Is Better For Your Company?</h3>
                             <p class="blog-excerpt">Team outing vs team building: discover the key differences, the benefits of each and how to choose the right experience…</p>
                             <div class="blog-author">Andrea Costabir</div>
-                            <div class="blog-meta">02 Sept 2026<span class="dot">&bull;</span>3 min read</div>
+                            <div class="blog-meta">31 Aug 2026<span class="dot">&bull;</span>3 min read</div>
                         </div>
                     </a>
                     <a class="blog-card" href="/5-best-team-building-activities-for-work/">
@@ -936,7 +946,7 @@
                             <h3 class="blog-card-title">5 Best Team Building Activities For Work That Employees Will Actually Enjoy</h3>
                             <p class="blog-excerpt">Discover 5 fun team building activities for work that improve communication, collaboration, trust and employee engagemen…</p>
                             <div class="blog-author">Andrea Costabir</div>
-                            <div class="blog-meta">02 Sept 2026<span class="dot">&bull;</span>4 min read</div>
+                            <div class="blog-meta">28 Aug 2026<span class="dot">&bull;</span>4 min read</div>
                         </div>
                     </a>
                 </div>
