@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!--
-    Regenerated 2026-08-24, extended 2026-09-07. Lists the seven real pages,
-    the programme landing pages, and one entry per published post in
-    wooshbiz_blogs.
+    Regenerated 2026-08-24, extended 2026-09-07 and 2026-09-09. Lists the
+    eight real pages, the programme landing pages, and one entry per
+    published post in wooshbiz_blogs.
 
     Deliberately absent: admin.html, tier-test.html, virtual.html,
     outbound.html, 404.html, and every legacy redirect stub under /post/,
@@ -54,6 +54,11 @@
   <url>
     <loc>https://wooshbiz.com/resorts.html</loc>
     <lastmod>2026-09-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://wooshbiz.com/office.html</loc>
+    <lastmod>2026-09-09</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
