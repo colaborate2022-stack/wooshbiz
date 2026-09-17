@@ -655,8 +655,22 @@
    `.lit .dim` inversion does not reach them — they need their own pass. */
 .lit .venue-where { background: rgba(135, 30, 108, .1); color: var(--plum); }
 .lit .venue-body p { color: var(--ink-2); }
-/* Pushes every button to the same baseline no matter how long the copy runs. */
+/* Pushes every button to the same baseline no matter how long the copy runs.
+   The site link sits below it, so the auto margin lifts the pair as one block. */
 .venue-body .act { margin-top: auto; width: 100%; }
+/* Link out to the venue's own website. Shown as the bare domain rather than
+   "Visit site" so it is obvious the click leaves wooshbiz.com. */
+.venue-site {
+    align-self: center; margin-top: 12px;
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: .8rem; font-weight: 600; color: var(--dim);
+    text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px;
+    transition: color var(--t);
+}
+.venue-site .ext { font-size: .95em; }
+.venue-site:hover { color: var(--gold); }
+.lit .venue-site { color: var(--ink-2); }
+.lit .venue-site:hover { color: var(--plum); }
 
 .no-results { text-align: center; color: var(--dim); padding: 40px 0 10px; }
 .lit .no-results { color: var(--ink-2); }
